@@ -27,6 +27,11 @@ sqlalchemy = "==1.4.46"
 werkzeug = "==2.2.2"
 wtforms = "==3.0.1"
 zipp = "==3.17.0"
+email-validator = "*"
+psycopg2-binary = "*"
+pylint = "*"
+pycodestyle = "*"
+rope = "*"
 
 [dev-packages]
 
