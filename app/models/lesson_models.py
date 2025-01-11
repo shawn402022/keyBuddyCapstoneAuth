@@ -1,8 +1,14 @@
-from . import db
+from .db import db
 from datetime import datetime
+from .db import environment, SCHEMA
+
+
 
 class Lesson(db.Model):
     __tablename__ = 'lessons'
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
     course_id = db.Column(db.Integer,)

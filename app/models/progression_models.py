@@ -1,8 +1,14 @@
-from . import db
+from .db import db
 from datetime import datetime
+from .db import environment, SCHEMA
+
+
 
 class Progression(db.Model):
     __tablename__ = 'progressions'
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
     progression_name = db.Column(db.String(50), unique=True, nullable=False)

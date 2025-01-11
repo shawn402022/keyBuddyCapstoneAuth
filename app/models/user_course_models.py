@@ -1,13 +1,18 @@
-from . import db
+from .db import add_prefix_for_prod
 from datetime import datetime
+from .db import db, environment, SCHEMA
+
+
 
 class UserCourse(db.Model):
     __tablename__ = 'user_courses'
 
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"),  nullable=False)
-    course_id = db.Column( db.Integer, db.ForeignKey('courses.id', ondelete="CASCADE"),  nullable=False)
-    published = db.Column(db.Boolean, default=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id"), ondelete="CASCADE"),  nullable=False)
+    course_id = db.Column( db.Integer, db.ForeignKey(add_prefix_for_prod("courses.id"), ondelete="CASCADE"),  nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
 
@@ -26,7 +31,6 @@ class UserCourse(db.Model):
             "id": self.id,
             "user_id": self.user_id,
             "course_id": self.course_id,
-            "published": self.published,
             "users": [user.to_dict() for user in self.users],
             "courses": [course.to_dict() for course in self.courses]
         }

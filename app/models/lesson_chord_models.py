@@ -1,12 +1,18 @@
-from . import db
+from .db import add_prefix_for_prod
 from datetime import datetime
+from .db import db, environment, SCHEMA
+
+
 
 class LessonChord(db.Model):
     __tablename__ = 'lesson_chords'
 
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
-    chord_id = db.Column(db.Integer, db.ForeignKey('chords.id', ondelete="CASCADE"),   nullable=False)
-    lesson_id = db.Column(db.Integer, db.ForeignKey('lessons.id', ondelete="CASCADE"),   nullable=False)
+    chord_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("chords.id"), ondelete="CASCADE"),   nullable=False)
+    lesson_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("lessons.id"), ondelete="CASCADE"),   nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
 
