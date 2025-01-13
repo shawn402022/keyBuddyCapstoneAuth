@@ -13,10 +13,12 @@ from .db import add_prefix_for_prod
 
 
 
+
+
 class CourseLesson(db.Model):
     __tablename__ = "course_lessons"
-    lesson_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("lessons.id")), primary_key=True)
-    course_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("courses.id")), primary_key=True)
+    lesson_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("lessons.id")), nullable=False, primary_key=True)
+    course_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("courses.id")), nullable=False, primary_key=True)
     extra_data = db.Column(db.String)
     lesson = db.relationship('Lesson', back_populates="courses")
     course = db.relationship('Course',back_populates="lessons")
@@ -24,11 +26,11 @@ class CourseLesson(db.Model):
 
 class Course(db.Model):
     __tablename__ = "courses"
-    id = db.Column(primary_key=True)
+    id = db.Column(db.Integer,primary_key=True)
     lessons = (db.relationship( 'CourseLesson',back_populates="course"))
 
 
 class Lesson(db.Model):
     __tablename__ = "lessons"
-    id = db.Column(primary_key=True)
+    id = db.Column(db.Integer,primary_key=True)
     courses = (db.relationship('CourseLesson', back_populates="lesson"))

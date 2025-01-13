@@ -4,6 +4,13 @@ from .db import db, environment, SCHEMA
 
 
 
+
+
+
+
+
+"""
+
 class UserCourse(db.Model):
     __tablename__ = 'user_courses'
 
@@ -34,3 +41,4 @@ class UserCourse(db.Model):
             "users": [user.to_dict() for user in self.users],
             "courses": [course.to_dict() for course in self.courses]
         }
+"""

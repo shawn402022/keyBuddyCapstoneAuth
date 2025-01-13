@@ -31,7 +31,7 @@ class User(db.Model):
             "user_courses": [uc.to_dict() for uc in self.user_courses]
 
 
-        }
+    }
 
 
 # Add the relationships between models here

@@ -1,8 +1,47 @@
+from __future__ import annotations
+from typing import List
+from sqlalchemy import Column
+from sqlalchemy import Table
+from sqlalchemy import ForeignKey
+from sqlalchemy import Integer
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import relationship
 from .db import add_prefix_for_prod
 from datetime import datetime
 from .db import db, environment, SCHEMA
 
 
+
+class LessonChord(db.Model):
+    __tablename__ = 'lesson_chords'
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
+    chord_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("chords.id")),   nullable=False)
+    lesson_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("lessons.id")),   nullable=False)
+    extra_data = db.Column(db.String)
+    chord = db.relationship('Chord', back_populates='lessons')
+    lessons = db.relationship('Lesson', back_populates='lessons')
+
+class Lesson(db.Model):
+    __tablename__ = 'lessons'
+    id = db.Column(db.Integer, primary_key=True)
+    chords = (db.relationship('LessonChord', back_populates="lesson"))
+
+class Chord(db.Model):
+    __tablename__ = 'chords'
+    id = db.Column(db.Integer, primary_key=True)
+    lessons = (db.relationship('LessonChord', back_populates="chord"))
+
+
+
+
+
+
+
+
+"""
 
 class LessonChord(db.Model):
     __tablename__ = 'lesson_chords'
@@ -30,3 +69,4 @@ class LessonChord(db.Model):
             "lessons": [lesson.to_dict() for lesson in self.lessons]
 
         }
+"""
