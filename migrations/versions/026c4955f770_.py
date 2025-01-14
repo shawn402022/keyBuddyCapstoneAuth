@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 971f701cf532
+Revision ID: 026c4955f770
 Revises: 
-Create Date: 2025-01-13 22:09:45.199112
+Create Date: 2025-01-14 11:45:44.839109
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '971f701cf532'
+revision = '026c4955f770'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -103,7 +103,6 @@ def upgrade():
     op.create_table('course_lessons',
     sa.Column('lesson_id', sa.Integer(), nullable=False),
     sa.Column('course_id', sa.Integer(), nullable=False),
-    sa.Column('extra_data', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['course_id'], ['courses.id'], ),
     sa.ForeignKeyConstraint(['lesson_id'], ['lessons.id'], ),
     sa.PrimaryKeyConstraint('lesson_id', 'course_id')
@@ -111,7 +110,6 @@ def upgrade():
     op.create_table('course_reviews',
     sa.Column('review_id', sa.Integer(), nullable=False),
     sa.Column('course_id', sa.Integer(), nullable=False),
-    sa.Column('extra_data', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['course_id'], ['courses.id'], ),
     sa.ForeignKeyConstraint(['review_id'], ['reviews.id'], ),
     sa.PrimaryKeyConstraint('review_id', 'course_id')
@@ -119,7 +117,6 @@ def upgrade():
     op.create_table('lesson_chords',
     sa.Column('chord_id', sa.Integer(), nullable=False),
     sa.Column('lesson_id', sa.Integer(), nullable=False),
-    sa.Column('except_data', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['chord_id'], ['chords.id'], ),
     sa.ForeignKeyConstraint(['lesson_id'], ['lessons.id'], ),
     sa.PrimaryKeyConstraint('chord_id', 'lesson_id')
@@ -127,7 +124,6 @@ def upgrade():
     op.create_table('lesson_keys',
     sa.Column('key_id', sa.Integer(), nullable=False),
     sa.Column('lesson_id', sa.Integer(), nullable=False),
-    sa.Column('extra_data', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['key_id'], ['keys.id'], ),
     sa.ForeignKeyConstraint(['lesson_id'], ['lessons.id'], ),
     sa.PrimaryKeyConstraint('key_id', 'lesson_id')
@@ -135,7 +131,6 @@ def upgrade():
     op.create_table('lesson_progressions',
     sa.Column('progression_id', sa.Integer(), nullable=False),
     sa.Column('lesson_id', sa.Integer(), nullable=False),
-    sa.Column('extra_data', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['lesson_id'], ['lessons.id'], ),
     sa.ForeignKeyConstraint(['progression_id'], ['progressions.id'], ),
     sa.PrimaryKeyConstraint('progression_id', 'lesson_id')
@@ -143,7 +138,6 @@ def upgrade():
     op.create_table('lesson_songs',
     sa.Column('song_id', sa.Integer(), nullable=False),
     sa.Column('lesson_id', sa.Integer(), nullable=False),
-    sa.Column('except_data', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['lesson_id'], ['lessons.id'], ),
     sa.ForeignKeyConstraint(['song_id'], ['songs.id'], ),
     sa.PrimaryKeyConstraint('song_id', 'lesson_id')
@@ -151,7 +145,6 @@ def upgrade():
     op.create_table('song_chords',
     sa.Column('chord_id', sa.Integer(), nullable=False),
     sa.Column('song_id', sa.Integer(), nullable=False),
-    sa.Column('extra_data', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['chord_id'], ['chords.id'], ),
     sa.ForeignKeyConstraint(['song_id'], ['songs.id'], ),
     sa.PrimaryKeyConstraint('chord_id', 'song_id')
@@ -159,7 +152,6 @@ def upgrade():
     op.create_table('song_keys',
     sa.Column('key_id', sa.Integer(), nullable=False),
     sa.Column('song_id', sa.Integer(), nullable=False),
-    sa.Column('extra_data', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['key_id'], ['keys.id'], ),
     sa.ForeignKeyConstraint(['song_id'], ['songs.id'], ),
     sa.PrimaryKeyConstraint('key_id', 'song_id')
@@ -167,18 +159,16 @@ def upgrade():
     op.create_table('song_progressions',
     sa.Column('progression_id', sa.Integer(), nullable=False),
     sa.Column('song_id', sa.Integer(), nullable=False),
-    sa.Column('except_data', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['progression_id'], ['progressions.id'], ),
     sa.ForeignKeyConstraint(['song_id'], ['songs.id'], ),
     sa.PrimaryKeyConstraint('progression_id', 'song_id')
     )
     op.create_table('user_courses',
-    sa.Column('course_id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('extra_data', sa.String(), nullable=True),
-    sa.ForeignKeyConstraint(['course_id'], ['courses.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('course_id', 'user_id')
+    sa.Column('courses_id', sa.Integer(), nullable=False),
+    sa.Column('users_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['courses_id'], ['courses.id'], ),
+    sa.ForeignKeyConstraint(['users_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('courses_id', 'users_id')
     )
     # ### end Alembic commands ###
 

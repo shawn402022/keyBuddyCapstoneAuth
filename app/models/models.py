@@ -57,26 +57,26 @@ lesson_songs = db.Table(
 
 lesson_chords = db.Table(
     "lesson_chords",
-    db.column("chord_id", db.Integer, db.ForeignKey(add_prefix_for_prod("chords.id")), nullable=False, primary_key=True),
-    db.column("lesson_id", db.Integer, db.ForeignKey(add_prefix_for_prod("lessons.id")),  primary_key=True)
+    db.Column("chord_id", db.Integer, db.ForeignKey(add_prefix_for_prod("chords.id")), nullable=False, primary_key=True),
+    db.Column("lesson_id", db.Integer, db.ForeignKey(add_prefix_for_prod("lessons.id")),  primary_key=True)
 )
 
 lesson_progressions = db.Table(
     "lesson_progressions",
-    db.column("progression_id", db.Integer, db.ForeignKey(add_prefix_for_prod("progressions.id")), primary_key=True),
-    db.column("lesson_id", db.Integer, db.ForeignKey(add_prefix_for_prod("lessons.id")), primary_key=True)
+    db.Column("progression_id", db.Integer, db.ForeignKey(add_prefix_for_prod("progressions.id")), primary_key=True),
+    db.Column("lesson_id", db.Integer, db.ForeignKey(add_prefix_for_prod("lessons.id")), primary_key=True)
 )
 
 song_chords = db.Table(
     "song_chords",
-    db.column("chord_id", db.Integer, db.ForeignKey(add_prefix_for_prod("chords.id")),  primary_key=True),
-    db.column("song_id", db.Integer, db.ForeignKey(add_prefix_for_prod("songs.id")),  primary_key=True)
+    db.Column("chord_id", db.Integer, db.ForeignKey(add_prefix_for_prod("chords.id")),  primary_key=True),
+    db.Column("song_id", db.Integer, db.ForeignKey(add_prefix_for_prod("songs.id")),  primary_key=True)
 )
 
 song_progressions = db.Table(
     "song_progressions",
-    db.column("progression_id", db.Integer, db.ForeignKey(add_prefix_for_prod("progressions.id")), primary_key=True),
-    db.column("song_id", db.Integer, db.ForeignKey(add_prefix_for_prod("songs.id")), primary_key=True)
+    db.Column("progression_id", db.Integer, db.ForeignKey(add_prefix_for_prod("progressions.id")), primary_key=True),
+    db.Column("song_id", db.Integer, db.ForeignKey(add_prefix_for_prod("songs.id")), primary_key=True)
 )
 
 
@@ -96,9 +96,9 @@ class Course(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
 
     #relationships
-    lessons = db.relationship('Lesson', secondary = course_lessons, back_populates="courses")
-    reviews = db.relationship('Review', secondary = course_reviews, back_populates="courses")
-    users = db.relationship('User', secondary = user_courses, back_populates="courses")
+    lessons = db.relationship('Lesson', secondary=course_lessons, back_populates="courses")
+    reviews = db.relationship('Review', secondary=course_reviews, back_populates="courses")
+    users = db.relationship('User', secondary=user_courses, back_populates="courses")
 
     def to_dict(self):
         return {
@@ -125,7 +125,7 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
 
-    courses = db.relationship('Course', secondary = user_courses, back_populates="users")
+    courses = db.relationship('Course', secondary=user_courses, back_populates="users")
 
     def to_dict(self):
         return {
@@ -151,7 +151,7 @@ class Review(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
 
     # relationships
-    courses = (db.relationship('Course', secondary = course_reviews, back_populates="review"))
+    courses = (db.relationship('Course', secondary=course_reviews, back_populates="reviews"))
 
     def to_dict(self):
         return {
@@ -178,11 +178,11 @@ class Lesson(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
 
     #relationships
-    chords = db.relationship('Chord',secondary = lesson_chords, back_populates="lesson")
-    courses = db.relationship('Course',secondary = course_lessons, back_populates="lesson")
-    keys = db.relationship('Key',secondary = lesson_keys, back_populates="lesson")
-    progressions = db.relationship('Progression',secondary = lesson_progressions, back_populates="lesson")
-    songs = db.relationship('Song',secondary = lesson_songs, back_populates="lesson")
+    chords = db.relationship('Chord',secondary=lesson_chords, back_populates="lessons")
+    courses = db.relationship('Course',secondary=course_lessons, back_populates="lessons")
+    keys = db.relationship('Key',secondary=lesson_keys, back_populates="lessons")
+    progressions = db.relationship('Progression',secondary=lesson_progressions, back_populates="lessons")
+    songs = db.relationship('Song',secondary=lesson_songs, back_populates="lessons")
 
     def to_dict(self):
         return {
@@ -215,8 +215,8 @@ class Chord(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
 
     #relationships
-    songs = db.relationship('Song', secondary = song_chords, back_populates="chord")
-    lessons = db.relationship('Lesson', secondary = lesson_songs,  back_populates="chord")
+    songs = db.relationship('Song', secondary=song_chords, back_populates="chords")
+    lessons = db.relationship('Lesson', secondary=lesson_chords,  back_populates="chords")
 
     def to_dict(self):
         return {
@@ -241,8 +241,8 @@ class Progression(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     #relationships
-    lessons = db.relationship('Lesson',secondary = lesson_progressions,  back_populates="progression")
-    songs = db.relationship('Song', secondary = song_progressions, back_populates="progression")
+    lessons = db.relationship('Lesson',secondary=lesson_progressions,  back_populates="progressions")
+    songs = db.relationship('Song', secondary=song_progressions, back_populates="progressions")
 
 
     def to_dict(self):
@@ -267,8 +267,8 @@ class Key(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     #relationships
-    lessons = db.relationship('Lesson', secondary = lesson_keys, back_populates="key")
-    songs = db.relationship('Song', secondary = song_keys, back_populates="key")
+    lessons = db.relationship('Lesson', secondary=lesson_keys, back_populates="keys")
+    songs = db.relationship('Song', secondary=song_keys, back_populates="keys")
 
     def to_dict(self):
         return {
@@ -294,10 +294,10 @@ class Song(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
 
     #relationships
-    keys = db.relationship('SKey', secondary = song_keys, back_populates="song")
-    progressions = db.relationship('Progression', secondary = song_progressions,  back_populates="song")
-    chords = db.relationship('Chord', secondary = song_chords,  back_populates="song")
-    lessons = db.relationship('Lesson', secondary = lesson_songs,  back_populates="song")
+    keys = db.relationship('Key', secondary = song_keys, back_populates="songs")
+    progressions = db.relationship('Progression', secondary=song_progressions,  back_populates="songs")
+    chords = db.relationship('Chord', secondary=song_chords,  back_populates="songs")
+    lessons = db.relationship('Lesson', secondary=lesson_songs,  back_populates="songs")
 
     def to_dict(self):
         return {
