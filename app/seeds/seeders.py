@@ -1,4 +1,4 @@
-from app.models import db, User, UserCourse, CourseReview, CourseLesson, LessonKey, LessonSong, LessonChord, LessonProgression, SongKey, SongChord, SongProgression, Course, User,Review, Lesson, Chord, Progression, Key, Song, environment, SCHEMA
+from app.models import db, User,  Course, User,Review, Lesson, Chord, Progression, Key, Song, environment, SCHEMA
 from sqlalchemy.sql import text
 
 
@@ -314,7 +314,7 @@ def undo_keys():
 
 
 ## ADMIN Song seeding function
-def seed_keys():
+def seed_songs():
     #create a bunch of users in an array
 
     seed_data = [

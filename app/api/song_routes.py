@@ -1,4 +1,5 @@
 from flask import Blueprint
+from app.models import db
 
 bp = Blueprint("song", __name__, url_prefix="/song")
 
