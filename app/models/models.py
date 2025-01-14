@@ -10,12 +10,18 @@ from .db import db, environment, SCHEMA
 from datetime import datetime
 from .db import add_prefix_for_prod
 
+user_course = db.Table(
+    'users',
+    db.Model.metadata,
+    db.Column("courses_id", db.Integer,db.ForeignKey(add_prefix_for_prod("courses.id")), primary_key=True),
+    db.Column("users_id", db.Integer,db.ForeignKey(add_prefix_for_prod("users.id")), primary_key=True)
+)
+
+
 ##JOIN TABLES
 class UserCourse(db.Model):
     __tablename__ = 'user_courses'
 
-    if environment == "production":
-        __table_args__ = {'schema': SCHEMA}
 
     course_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("courses.id")), primary_key=True,  nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), primary_key=True,  nullable=False)
@@ -154,7 +160,8 @@ class Course(db.Model):
     #relationships
     lessons = (db.relationship( 'CourseLesson',back_populates="course"))
     reviews = (db.relationship( 'CourseReview', back_populates="course"))
-    users = (db.relationship( 'UserCourse', back_populates="course"))
+    #users = (db.relationship( 'UserCourse', back_populates="course"))
+    users = db.relationship('User', secondary= user_course, back_populates="courses")
 
     def to_dict(self):
         return {
@@ -182,7 +189,8 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
 
     #relationships
-    courses = (db.relationship('UserCourse', back_populates="user"))
+    #courses = (db.relationship('UserCourse', back_populates="user"))
+    courses = db.relationship('Course', secondary=user_course, back_populates="users")
 
     def to_dict(self):
         return {
@@ -352,3 +360,18 @@ class Song(db.Model):
     keys = (db.relationship('SongKey', back_populates="song"))
     progressions = (db.relationship('SongProgression', back_populates="song"))
     chords = (db.relationship('SongChord', back_populates="song"))
+    lessons = (db.relationship('LessonSong', back_populates="song"))
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "song_key": self.song_key,
+            "song": self.song,
+            "artist": self.artist,
+            "chords_used": self.chords_used,
+            "progression_used": self.progression_used,
+            "keys": [sk.to_dict() for sk in self.keys],
+            "progressions": [sp.to_dict() for sp in self.progressions],
+            "chords": [sc.to_dict() for sc in self.chords],
+            "lessons": self.lesson.to_dict() if self.lesson else None
+        }

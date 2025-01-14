@@ -4,9 +4,8 @@ from app.models import User, db
 from app.forms import LoginForm, SignUpForm
 
 
-auth_routes = Blueprint('auth', __name__)
+
 user_routes = Blueprint("user", __name__, url_prefix="/user")
-users_routes = Blueprint('users', __name__, url_prefix="/users")
 song_routes = Blueprint("song", __name__, url_prefix="/song")
 lesson_routes = Blueprint("lesson", __name__, url_prefix="/lesson")
 review_routes = Blueprint("review", __name__, url_prefix="/review")
@@ -18,93 +17,9 @@ key_routes = Blueprint("key", __name__, url_prefix="/key")
 
 
 
-## AUTHENTICATION ENDPOINT
-
-@auth_routes.route('/')
-def authenticate():
-    """
-    Authenticates a user.
-    """
-    if current_user.is_authenticated:
-        return current_user.to_dict()
-    return {'errors': {'message': 'Unauthorized'}}, 401
-
-
-@auth_routes.route('/login', methods=['POST'])
-def login():
-    """
-    Logs a user in
-    """
-    form = LoginForm()
-    # Get the csrf_token from the request cookie and put it into the
-    # form manually to validate_on_submit can be used
-    form['csrf_token'].data = request.cookies['csrf_token']
-    if form.validate_on_submit():
-        # Add the user to the session, we are logged in!
-        user = User.query.filter(User.email == form.data['email']).first()
-        login_user(user)
-        return user.to_dict()
-    return form.errors, 401
-
-
-@auth_routes.route('/logout')
-def logout():
-    """
-    Logs a user out
-    """
-    logout_user()
-    return {'message': 'User logged out'}
-
-
-@auth_routes.route('/signup', methods=['POST'])
-def sign_up():
-    """
-    Creates a new user and logs them in
-    """
-    form = SignUpForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
-    if form.validate_on_submit():
-        user = User(
-            username=form.data['username'],
-            email=form.data['email'],
-            password=form.data['password']
-        )
-        db.session.add(user)
-        db.session.commit()
-        login_user(user)
-        return user.to_dict()
-    return form.errors, 401
-
-
-@auth_routes.route('/unauthorized')
-def unauthorized():
-    """
-    Returns unauthorized JSON when flask-login authentication fails
-    """
-    return {'errors': {'message': 'Unauthorized'}}, 401
 
 
 ## USERS ENDPOINT
-
-# login Users
-@users_routes.route('/')
-@login_required
-def users():
-    """
-    Query for all users and returns them in a list of user dictionaries
-    """
-    users = User.query.all()
-    return {'users': [user.to_dict() for user in users]}
-
-# Read Users by ID
-@users_routes.route('/<int:id>')
-@login_required
-def user(id):
-    """
-    Query for a user by id and returns that user in a dictionary
-    """
-    user = User.query.get(id)
-    return user.to_dict()
 
 # Read User
 @user_routes.route("/")

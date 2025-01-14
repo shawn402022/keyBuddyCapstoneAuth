@@ -126,26 +126,37 @@ def seed_lessons():
 
     seed_data = [
         Lesson(
-            name='A Major,',
+            name='A major',
             type ='chord',
             pulls_to='D',
             pulls_from='E',
-            chords=[ Chord.query.filter_by(chord_name='A maj').first()],
-            progressions=[Progression.query.filter_by(progression_type='major').first()],
-            songs=[ Song.query.filter_by(key='A').first()],
+            chords=Chord.query.filter_by(chord_name='A maj').first(),
+            progressions=Progression.query.filter_by(progression_type='major').first(),
+            songs=Song.query.filter_by(song_key='A').first(),
             courses = [ ],
-            key = [Key.query.filter_by(key_name ='A').first()],
+            key = Key.query.filter_by(key_name ='A').first(),
         ),
         Lesson(
-            name='Ab Major,',
+            name='Ab major',
             type ='chord',
             pulls_to='Db',
             pulls_from='Eb',
-            chords=[Chord.query.filter_by(chord_name='Ab maj').first()],
-            progressions=[Progression.query.filter_by(progression_type='major').first()],
-            songs=[ Song.query.filter_by(key='Ab').first()],
+            chords=Chord.query.filter_by(chord_name='Ab maj').all(),
+            progressions=Progression.query.filter_by(progression_type='major').all(),
+            songs= Song.query.filter_by(song_key='Ab').all(),
             courses = [ ],
-            key = [Key.query.filter_by(key_name ='Ab').first()],
+            key = Key.query.filter_by(key_name ='Ab').all(),
+        ),
+        Lesson(
+            name='C major',
+            type ='chord',
+            pulls_to='F',
+            pulls_from='G',
+            chords=Chord.query.filter_by(chord_name='C major').all(),
+            progressions=Progression.query.filter_by(progression_type='major').all(),
+            songs= Song.query.filter_by(song_key='C major').all(),
+            courses = [ ],
+            key = Key.query.filter_by(key_name ='C Major').all(),
         ),
 
     ]
@@ -178,19 +189,19 @@ def seed_chords():
     #create a bunch of users in an array
 
     seed_data = [
-        Chord(chord_name='A maj', chord_key='A', notes = ['B', 'C', 'D', 'E', 'F', 'G'], songs = [Song.query.filter_by_(song_name = 'A maj') ], lessons = []),
-        Chord(chord_name='A dim', chord_key='A', notes = ['B', 'C', 'D', 'E', 'F', 'G'], songs = [Song.query.filter_by_(song_name = 'A dim') ], lessons = []),
-        Chord(chord_name='Ab maj', chord_key='A', notes = ['B', 'C', 'D', 'E', 'F', 'G'], songs = [Song.query.filter_by_(song_name = 'Ab maj')    ], lessons = []),
-        Chord(chord_name='A aug', chord_key='A', notes = ['B', 'C', 'D', 'E', 'F', 'G'], songs = [Song.query.filter_by_(song_name = 'A aug') ], lessons = []),
-        Chord(chord_name='A min', chord_key='A', notes = ['B', 'C', 'D', 'E', 'F', 'G'], songs = [Song.query.filter_by_(song_name = 'A min') ], lessons = [] ),
-        Chord(chord_name='A# dim', chord_key='A', notes = ['B', 'C', 'D', 'E', 'F', 'G'], songs = [Song.query.filter_by_(song_name = 'A# dim')    ], lessons = []),
-        Chord(chord_name='B maj', chord_key='B', notes = ['B', 'C', 'D', 'E', 'F', 'G'], songs = [Song.query.filter_by_(song_name = 'B maj') ], lessons = []),
-        Chord(chord_name='B dim', chord_key='B', notes = ['B', 'C', 'D', 'E', 'F', 'G'], songs = [Song.query.filter_by_(song_name = 'B dim') ], lessons = []),
-        Chord(chord_name='Bb maj', chord_key='B', notes = ['B', 'C', 'D', 'E', 'F', 'G'], songs = [Song.query.filter_by_(song_name = 'Bb maj')    ], lessons = []),
-        Chord(chord_name='Bb aug', chord_key='B', notes = ['B', 'C', 'D', 'E', 'F', 'G'], songs = [Song.query.filter_by_(song_name = 'Bb aug')    ], lessons = []),
-        Chord(chord_name='B aug', chord_key='B', notes = ['B', 'C', 'D', 'E', 'F', 'G'], songs = [Song.query.filter_by_(song_name = 'B aug') ], lessons = []),
-        Chord(chord_name='B min', chord_key='B', notes = ['B', 'C', 'D', 'E', 'F', 'G'], songs = [Song.query.filter_by_(song_name = 'B min') ], lessons = [] ),
-        Chord(chord_name='Bb min', chord_key='B', notes = ['B', 'C', 'D', 'E', 'F', 'G'], songs = [Song.query.filter_by_(song_name = 'Bb min')    ], lessons = []),
+        Chord(chord_name='A maj', chord_key='A', notes =','.join (['B', 'C', 'E', 'F', 'G']), songs = Song.query.filter_by(song_key = 'A major').all() , lessons = []),
+        Chord(chord_name='A dim', chord_key='A', notes =','.join([ 'D', 'E', 'F', 'G']), songs = Song.query.filter_by(song_key = 'A diminished').all() , lessons = []),
+        Chord(chord_name='Ab maj', chord_key='A', notes =','.join (['B', 'C', 'D', 'E', 'F', 'G']), songs = Song.query.filter_by(song_key = 'Ab major').all()    , lessons = []),
+        Chord(chord_name='A aug', chord_key='A', notes =','.join (['B', 'C', 'D', 'E', ]), songs = Song.query.filter_by(song_key = 'A augmented').all() , lessons = []),
+        Chord(chord_name='A min', chord_key='A', notes =','.join (['B', 'C','F', 'G']), songs = Song.query.filter_by(song_key = 'A minor').all() , lessons = [] ),
+        Chord(chord_name='A# dim', chord_key='A', notes =','.join (['B', 'C', 'D', 'E',  'G']), songs = Song.query.filter_by(song_key = 'A# diminished').all()    , lessons = []),
+        Chord(chord_name='B maj', chord_key='B', notes =','.join (['B', 'D', 'E', 'F', 'G']), songs = Song.query.filter_by(song_key = 'B major').all() , lessons = []),
+        Chord(chord_name='B dim', chord_key='B', notes =','.join([ 'C', 'D', 'E', 'F', ]), songs = Song.query.filter_by(song_key = 'B diminished').all() , lessons = []),
+        Chord(chord_name='Bb maj', chord_key='B', notes =','.join (['B', 'C', 'D', 'E', 'F', 'G']), songs = Song.query.filter_by(song_key = 'Bb major').all()    , lessons = []),
+        Chord(chord_name='Bb aug', chord_key='B', notes =','.join (['B', 'C',  'G']), songs = Song.query.filter_by(song_key = 'Bb augmented').all()    , lessons = []),
+        Chord(chord_name='B aug', chord_key='B', notes =','.join (['E', 'F', 'G']), songs = Song.query.filter_by(song_key = 'B augmented').all() , lessons = []),
+        Chord(chord_name='B min', chord_key='B', notes =','.join (['D',  'F', 'G']), songs = Song.query.filter_by(song_key = 'B minor').all() , lessons = [] ),
+        Chord(chord_name='Bb min', chord_key='B', notes =','.join (['B',  'D', 'E',]), songs = Song.query.filter_by(song_key = 'Bb minor').all()    , lessons = []),
 
 
     ]
@@ -318,8 +329,21 @@ def seed_songs():
     #create a bunch of users in an array
 
     seed_data = [
-        Song(song_title = '', artist = '',song_key='C', progressions = [], chords = []),
-        Song(song_title = '', artist = '',song_key='C#', progressions =[], chords = []),
+        Song(song_title = 'Let it Be', artist = 'Beatles',song_key='C major', progressions = '1-4-5-6', chords = ['C', 'G', 'Am', 'Fmaj7', 'F', 'C','E','Dm7',], lessons = Lesson.query.filter_by(lesson_name = 'C major').all()),
+        Song(song_title = 'Dreams', artist = 'Fleetwood Mac',song_key='C major', progressions = '1-3-5-6', chords = ['C',   'Fmaj7', 'F', 'Dm7',], lessons = Lesson.query.filter_by(lesson_name = 'C major').all()),
+        Song(song_title = 'Aint No Sunshine', artist = 'Bill Withers',song_key='C major', progressions = '1-4-5-2', chords =  ['C',  'Am', 'Fmaj7', 'F', 'C','E',], lessons = Lesson.query.filter_by(lesson_name = 'C major').all()),
+        Song(song_title = 'Tiny Dancer', artist = 'Elton Jogn',song_key='C major', progressions = '2-4-5-6', chords =  ['C',  'Am', 'F', 'C'], lessons = Lesson.query.filter_by(lesson_name = 'C major').all()),
+        Song(song_title = 'Thriller', artist = 'Micheal Jackson',song_key='C major', progressions = '1-5-4-6', chords =  [ 'Am', 'Fmaj7', 'F', 'E','Dm7'], lessons =Lesson.query.filter_by(lesson_name = 'C major').all()),
+        Song(song_title = 'Imagine', artist = 'John Lennon',song_key='C major', progressions = '1-4-2-6', chords =  ['C', 'G', 'Am',  'F', 'C','E','Dm7'], lessons = Lesson.query.filter_by(lesson_name = 'C major').all()),
+        Song(song_title = 'Californication', artist = 'Red Hot Chili Peppers',song_key='C', progressions = '1-5-3-4', chords =  ['C',  'Am', 'Fmaj7', 'F', 'C','E','Dm7'], lessons = Lesson.query.filter_by(lesson_name = 'C major').all()),
+        ## A major
+        Song(song_title = 'Take On Me', artist = 'Ah- Ha',song_key='A major', progressions = '1-5-6', chords = ['C',   'Fmaj7', 'F', 'Dm7',], lessons = Lesson.query.filter_by(lesson_name = 'A major').all()),
+        Song(song_title = 'Jimi Hendrix', artist = 'Hey Jo',song_key='A major', progressions = '1-4-5', chords =  ['C',  'Am', 'F', 'C','E',], lessons = Lesson.query.filter_by(lesson_name = 'A major').all()),
+        Song(song_title = 'White Christmas', artist = 'Bing Crosby',song_key='A major', progressions = '2-4-6', chords =  ['C',  'Am', 'F', 'C'], lessons = Lesson.query.filter_by(lesson_name = 'A major').all()),
+        ## Ab major
+        Song(song_title = 'Fire Works', artist = 'Katie Perry',song_key='Ab major', progressions = '5-4-6', chords =  [  'F', 'E','Dm7'], lessons =Lesson.query.filter_by(lesson_name = 'Ab major').all()),
+        Song(song_title = 'Every Breath You Take', artist = 'The Police',song_key='Ab major', progressions = '4-2-6', chords =  [  'F', 'C','E','Dm7'], lessons = Lesson.query.filter_by(lesson_name = 'Ab major').all()),
+        Song(song_title = 'All Of Me', artist = 'John Legend',song_key='Ab major', progressions = '5-3-4', chords =  ['C',  'Am', 'Fmaj7'], lessons = Lesson.query.filter_by(lesson_name = 'Ab major').all()),
 
 
 
