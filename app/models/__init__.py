@@ -11,17 +11,8 @@ from .db import environment, SCHEMA
 
 
 
-from .course_lesson_models import CourseLesson,Course,Lesson
-from .course_reviews_models import CourseReview,Review, Course
-from .lesson_chord_models import LessonChord,Lesson,Chord
-from .lesson_song_models import LessonSong, Lesson, Song
-from .lesson_progression_models import LessonProgression, Progression, Lesson
-from .user_models import User
+from .models import UserCourse, CourseReview, CourseLesson, LessonKey, LessonSong, LessonChord, LessonProgression, SongKey, SongChord, SongProgression, Course, User,Review, Lesson, Chord, Progression, Key, Song
 
 
-"""
-from .song_progression_models import SongProgression
-from .song_key_models import SongKey
-from .song_chord_models import SongChord
-from .user_course_models import UserCourse
-"""
+
+
