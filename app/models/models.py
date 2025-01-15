@@ -17,7 +17,8 @@ from .db import add_prefix_for_prod
 user_courses = db.Table(
     'user_courses',
     db.Model.metadata,
-    db.Column("courses_id", db.Integer,db.ForeignKey(add_prefix_for_prod("courses.id")), primary_key=True),
+    db.Column("courses_id",
+    db.Integer,db.ForeignKey(add_prefix_for_prod("courses.id")), primary_key=True),
     db.Column("users_id", db.Integer,db.ForeignKey(add_prefix_for_prod("users.id")), primary_key=True)
 )
 
@@ -79,6 +80,12 @@ song_progressions = db.Table(
     db.Column("song_id", db.Integer, db.ForeignKey(add_prefix_for_prod("songs.id")), primary_key=True)
 )
 
+user_reviews = db.Table(
+    "user_reviews",
+    db.Column("review_id", db.Integer, db.ForeignKey(add_prefix_for_prod("reviews.id")), primary_key=True),
+    db.Column("user_id", db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), primary_key=True)
+)
+
 
 ##REGULAR TABLES
 # Course Model
@@ -90,8 +97,8 @@ class Course(db.Model):
 
 
     id = db.Column(db.Integer, primary_key=True)
-    course_name = db.Column(db.String(50), unique=True, nullable=False)
-    details_of_course = db.Column(db.String(1000), unique=True, nullable=False)
+    course_key = db.Column(db.String(50), nullable=False, unique=False)
+    details_of_course = db.Column(db.String(1000),  nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
 
@@ -103,13 +110,13 @@ class Course(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
-            "course_name": self.course_name,
+            "course_key": self.course_key,
             "details_of_course": self.details_of_course,
             "lessons": [l.to_dict() for l in self.lessons],
             "reviews": [r.to_dict() for r in self.reviews],
             "users": [u.to_dict() for u in self.users]
-
         }
+
 # User Model
 class User(db.Model):
     __tablename__ = 'users'
@@ -126,6 +133,7 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
 
     courses = db.relationship('Course', secondary=user_courses, back_populates="users")
+    reviews = db.relationship('Review', secondary=user_reviews, back_populates="users")
 
     def to_dict(self):
         return {
@@ -133,7 +141,8 @@ class User(db.Model):
             "username": self.username,
             "full_name": self.full_name,
             "email": self.email,
-            "courses": [c.to_dict() for c in self.courses]
+            "courses": [c.to_dict() for c in self.courses],
+            "reviews": [r.to_dict() for r in self.reviews]
 
         }
 
@@ -144,22 +153,24 @@ class Review(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    review_title = db.Column(db.String(40), nullable=False)
-    review = db.Column(db.String(500), nullable=False)
-    published = db.Column(db.Boolean, default=False)
+    reviewer_name = db.Column(db.String(40),  nullable=True)
+    course_reviewed = db.Column(db.String(500), nullable=True)
+    review_content = db.Column(db.String(1000), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
 
     # relationships
     courses = (db.relationship('Course', secondary=course_reviews, back_populates="reviews"))
+    users= db.relationship('User', secondary=user_reviews, back_populates="reviews")
 
     def to_dict(self):
         return {
             'id': self.id,
-            'title': self.review_title,
-            'content': self.review,
-            'published': self.published,
-            'courses': [cr.to_dict() for cr in self.courses]
+            'name': self.reviewer_name,
+            'course_reviewed': self.course_reviewed,
+            'review_content': self.review_content,
+            'courses': [cr.to_dict() for cr in self.courses],
+            "user" : [u.to_dict() for u in self.users]
         }
 
 class Lesson(db.Model):
@@ -169,11 +180,11 @@ class Lesson(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), unique=True, nullable=False)
-    type = db.Column(db.String(255), nullable=False)
-    key = db.Column(db.String(255), unique=True, nullable=False)
+    name = db.Column(db.String(255), nullable=True)
+    type = db.Column(db.String(20), nullable=True)
     pulls_to = db.Column(db.String(100), nullable=True)
-    pulls_from = db.Column(db.String(40), nullable=False)
+    pulls_from = db.Column(db.String(40), nullable=True)
+    notes = db.Column(db.String(1000), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
 
@@ -189,9 +200,11 @@ class Lesson(db.Model):
             "id": self.id,
             "name": self.name,
             "type": self.type,
+            "type": self.type,
             "key": self.key,
             "pulls_to": self.pulls_to,
             "pulls_from": self.pulls_from,
+            "notes": self.notes,
             "songs_used": self.songs_used,
             "chords": [lc.to_dict() for lc in self.chords],
             "courses": [cl.to_dict() for cl in self.courses],
@@ -208,9 +221,8 @@ class Chord(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    chord_name = db.Column(db.String(50), unique=True, nullable=False)
-    chord_key = db.Column(db.String(50), nullable=False)
-    notes = db.Column(db.String(50), nullable=False)
+    chord_name = db.Column(db.String(50), unique=True, nullable=True)
+    notes = db.Column(db.String(50), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
 
@@ -222,7 +234,6 @@ class Chord(db.Model):
         return {
             "id": self.id,
             "chord_name": self.chord_name,
-            "chord_key": self.chord_key,
             "notes": self.notes,
             "songs": [sc.to_dict() for sc in self.songs],
             "lessons": [ll.to_dict() for ll in self.lessons]
@@ -235,8 +246,8 @@ class Progression(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    progression_name = db.Column(db.String(50), unique=True, nullable=False)
-    progression_type = db.Column(db.String(50), nullable=False)
+    progression_name = db.Column(db.String(50), unique=True, nullable=True)
+    progression_type = db.Column(db.String(50), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -285,11 +296,11 @@ class Song(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    song_key = db.Column(db.String(40), nullable=False)
-    song = db.Column(db.String(100), nullable=False)
-    artist = db.Column(db.String(40), nullable=False)
-    chords_used = db.Column(db.String(40), nullable=False)
-    progression_used = db.Column(db.String(40), nullable=False)
+    song_key = db.Column(db.String(40), nullable=True)
+    song = db.Column(db.String(100), nullable=True)
+    artist = db.Column(db.String(40), nullable=True)
+    chords_used = db.Column(db.String(40), nullable=True)
+    progression_used = db.Column(db.String(40), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
 
