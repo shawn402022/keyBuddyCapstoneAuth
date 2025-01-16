@@ -241,6 +241,8 @@ def undo_courses():
         db.session.execute(text("DELETE FROM courses"))
 
     db.session.commit()
+
+
 ## Admin lesson seeding function
 def seed_lessons():
     first_course = Course.query.first()
@@ -261,12 +263,25 @@ def seed_lessons():
                 progressions=[first_progression],
                 keys=[first_key],
                 chords=list(set([first_chord])),
-                courses=[first_course]
+                courses=[first_course],
+            )
+            Lesson(
+                name="A maj",
+                type="chord",
+                pulls_to="D",
+                pulls_from="E",
+                notes=",".join(["A", "Db", "E"]),
+                progressions=[first_progression],
+                keys=[first_key],
+                chords=list(set([first_chord])),
+                courses=[first_course],
             )
         ]
         db.session.bulk_save_objects(seed_data)
         db.session.commit()
         print("Seeded lessons")
+
+
 def undo_lessons():
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.lessons RESTART IDENTITY CASCADE;")
@@ -421,8 +436,8 @@ def seed_songs():
                         "Dm7",
                     ]
                 ),
-                chords= Chord.query.filter(Chord.chord_name == Song.song_key).all(),
-                lessons=Lesson.query.filter(Lesson.name == Song.song_key).all()
+                chords=Chord.query.filter(Chord.chord_name == Song.song_key).all(),
+                lessons=Lesson.query.filter(Lesson.name == Song.song_key).all(),
             ),
             Song(
                 song="Dreams",
@@ -437,8 +452,8 @@ def seed_songs():
                         "Dm7",
                     ]
                 ),
-                chords= Chord.query.filter(Chord.chord_name == Song.song_key).all(),
-                lessons=Lesson.query.filter(Lesson.name == Song.song_key).all()
+                chords=Chord.query.filter(Chord.chord_name == Song.song_key).all(),
+                lessons=Lesson.query.filter(Lesson.name == Song.song_key).all(),
             ),
             Song(
                 song="Aint No Sunshine",
@@ -455,8 +470,8 @@ def seed_songs():
                         "E",
                     ]
                 ),
-                chords= Chord.query.filter(Chord.chord_name == Song.song_key).all(),
-                lessons=Lesson.query.filter(Lesson.name == Song.song_key).all()
+                chords=Chord.query.filter(Chord.chord_name == Song.song_key).all(),
+                lessons=Lesson.query.filter(Lesson.name == Song.song_key).all(),
             ),
         ]
         # buIld insert seeds into db
@@ -473,5 +488,115 @@ def undo_songs():
         db.session.execute(f"TRUNCATE table {SCHEMA}.songs RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM songs"))
+
+    db.session.commit()
+
+## JOIN User Courses Seeding function
+def seed_user_courses():
+    course_id_1 = Course.query.filter_by(course_key="Ab maj").first().id
+    user_id_1 = User.query.filter_by(username="user1").first().id
+
+    course_id_2 = Course.query.filter_by(course_key="Ab maj").first().id
+    user_id_2 = User.query.filter_by(username="user2").first().id
+
+    associations = [
+        {"review_id": user_id_1, "course_id": course_id_1},
+        {"review_id": user_id_2, "course_id": course_id_2},
+    ]
+
+    db.session.execute(course_reviews.insert(), associations)
+
+    db.session.commit()
+    print("Seeded user_courses")
+
+def undo_user_courses():
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.user_courses RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute(text("DELETE FROM user_courses"))
+
+    db.session.commit()
+
+
+## JOIN Course Reviews Seeding function
+def seed_course_reviews():
+    review_id_1 = Review.query.filter_by(reviewer_name="Shawn Norbert").first().id
+    course_id_1 = Course.query.filter_by(course_key="Ab maj").first().id
+
+    review_id_2 = Review.query.filter_by(reviewer_name="Shawn Norbert").first().id
+    course_id_2 = Course.query.filter_by(course_key="A maj").first().id
+
+    associations = [
+        {"review_id": review_id_1, "course_id": course_id_1},
+        {"review_id": review_id_2, "course_id": course_id_2},
+    ]
+
+    db.session.execute(course_reviews.insert(), associations)
+
+    db.session.commit()
+    print("Seeded course_reviews")
+
+def undo_course_reviews():
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.course_reviews RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute(text("DELETE FROM course_reviews"))
+
+    db.session.commit()
+
+
+## JOIN Course lessons Seeding function
+def seed_course_lessons():
+    lesson_id_1 = Lesson.query.filter_by(type="scale").first().id
+    course_id_1 = Course.query.filter_by(course_key="A maj").first().id
+
+    lesson_id_2 = Lesson.query.filter_by(type="chord").first().id
+    course_id_2 = Course.query.filter_by(course_key="A maj").first().id
+
+
+
+    associations = [
+        {"review_id": lesson_id_1, "course_id": course_id_1},
+        {"review_id": lesson_id_2, "course_id": course_id_2},
+    ]
+
+    db.session.execute(course_lessons.insert(), associations)
+
+    db.session.commit()
+    print("Seeded course_lessons")
+
+def undo_course_lessons():
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.course_lessons RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute(text("DELETE FROM course_lessons"))
+
+    db.session.commit()
+
+## JOIN Lesson Keys Seeding function
+def seed_lesson_keys():
+    lesson_id_1 = Lesson.query.filter_by(type="scale").first().id
+    key_id_1 = Key.query.filter_by(key_name="A").first().id
+
+    lesson_id_2 = Lesson.query.filter_by(type="chord").first().id
+    key_id_2 = Key.query.filter_by(key_name="A").first().id
+
+
+
+    associations = [
+        {"review_id": lesson_id_1, "course_id": key_id_1},
+        {"review_id": lesson_id_2, "course_id": key_id_2},
+    ]
+
+    db.session.execute(lesson_keys.insert(), associations)
+
+    db.session.commit()
+    print("Seeded lesson_keys")
+
+def undo_lesson_keys():
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.lesson_keys RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute(text("DELETE FROM lesson_keys"))
 
     db.session.commit()
