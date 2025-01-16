@@ -45,6 +45,7 @@ lesson_keys = db.Table(
 
 song_keys = db.Table(
     "song_keys",
+    db.Model.metadata,
     db.Column("key_id", db.Integer, db.ForeignKey(add_prefix_for_prod("keys.id")), primary_key=True),
     db.Column("song_id", db.Integer, db.ForeignKey(add_prefix_for_prod("songs.id")), primary_key=True)
 )
@@ -52,39 +53,41 @@ song_keys = db.Table(
 
 lesson_songs = db.Table(
     "lesson_songs",
+    db.Model.metadata,
     db.Column("song_id", db.Integer, db.ForeignKey(add_prefix_for_prod("songs.id")), nullable=False, primary_key=True),
     db.Column("lesson_id", db.Integer, db.ForeignKey(add_prefix_for_prod("lessons.id")), primary_key=True)
 )
 
 lesson_chords = db.Table(
     "lesson_chords",
-    db.Column("chord_id", db.Integer, db.ForeignKey(add_prefix_for_prod("chords.id")), nullable=False, primary_key=True),
-    db.Column("lesson_id", db.Integer, db.ForeignKey(add_prefix_for_prod("lessons.id")),  primary_key=True)
+    db.Model.metadata,
+    db.Column("chord_id", db.Integer, db.ForeignKey(add_prefix_for_prod("chords.id")), primary_key=True),
+    db.Column("lesson_id", db.Integer, db.ForeignKey(add_prefix_for_prod("lessons.id")), primary_key=True),
+    db.UniqueConstraint('chord_id', 'lesson_id', name='unique_lesson_chord')
 )
 
 lesson_progressions = db.Table(
     "lesson_progressions",
+    db.Model.metadata,
     db.Column("progression_id", db.Integer, db.ForeignKey(add_prefix_for_prod("progressions.id")), primary_key=True),
     db.Column("lesson_id", db.Integer, db.ForeignKey(add_prefix_for_prod("lessons.id")), primary_key=True)
 )
 
 song_chords = db.Table(
     "song_chords",
+    db.Model.metadata,
     db.Column("chord_id", db.Integer, db.ForeignKey(add_prefix_for_prod("chords.id")),  primary_key=True),
     db.Column("song_id", db.Integer, db.ForeignKey(add_prefix_for_prod("songs.id")),  primary_key=True)
 )
 
 song_progressions = db.Table(
     "song_progressions",
+    db.Model.metadata,
     db.Column("progression_id", db.Integer, db.ForeignKey(add_prefix_for_prod("progressions.id")), primary_key=True),
     db.Column("song_id", db.Integer, db.ForeignKey(add_prefix_for_prod("songs.id")), primary_key=True)
 )
 
-user_reviews = db.Table(
-    "user_reviews",
-    db.Column("review_id", db.Integer, db.ForeignKey(add_prefix_for_prod("reviews.id")), primary_key=True),
-    db.Column("user_id", db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), primary_key=True)
-)
+
 
 
 ##REGULAR TABLES
@@ -133,7 +136,7 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
 
     courses = db.relationship('Course', secondary=user_courses, back_populates="users")
-    reviews = db.relationship('Review', secondary=user_reviews, back_populates="users")
+
 
     def to_dict(self):
         return {
@@ -161,7 +164,7 @@ class Review(db.Model):
 
     # relationships
     courses = (db.relationship('Course', secondary=course_reviews, back_populates="reviews"))
-    users= db.relationship('User', secondary=user_reviews, back_populates="reviews")
+
 
     def to_dict(self):
         return {
@@ -221,7 +224,7 @@ class Chord(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    chord_name = db.Column(db.String(50), unique=True, nullable=True)
+    chord_name = db.Column(db.String(50), unique=False, nullable=True)
     notes = db.Column(db.String(50), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
@@ -246,7 +249,7 @@ class Progression(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    progression_name = db.Column(db.String(50), unique=True, nullable=True)
+    progression_name = db.Column(db.String(50), unique=False, nullable=True)
     progression_type = db.Column(db.String(50), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -273,7 +276,7 @@ class Key(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    key_name = db.Column(db.String(50), unique=True, nullable=False)
+    key_name = db.Column(db.String(50), unique=False, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
