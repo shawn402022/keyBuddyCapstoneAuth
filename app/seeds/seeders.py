@@ -4,7 +4,7 @@ from app.models import (
     Course,
     User,
     Review,
-    Lesson,
+    Scale,
     Chord,
     Progression,
     Key,
@@ -14,16 +14,9 @@ from app.models import (
 )
 from app.models import (
     user_courses,
-    course_reviews,
-    course_lessons,
-    lesson_keys,
-    lesson_songs,
-    lesson_chords,
-    lesson_progressions,
     song_keys,
     song_chords,
     song_progressions,
-
 )
 from sqlalchemy.sql import text
 
@@ -110,7 +103,7 @@ def seed_reviews():
         Review(
             reviewer_name="Shawn Norbert",
             course_reviewed="A maj",
-            review_content=" good lessons in this course for beginners",
+            review_content=" good scales in this course for beginners",
         ),
         Review(
             reviewer_name="Shawn Norbert",
@@ -120,7 +113,7 @@ def seed_reviews():
         Review(
             reviewer_name="Shahid Alexander",
             course_reviewed="Ab maj",
-            review_content="excellent lessons in this course especially for intermediates",
+            review_content="excellent scales in this course especially for intermediates",
         ),
         Review(
             reviewer_name="Shirley Kay",
@@ -130,7 +123,7 @@ def seed_reviews():
         Review(
             reviewer_name="Trevor Khan",
             course_reviewed="C maj",
-            review_content="this course is not good at all. simple lessons",
+            review_content="this course is not good at all. simple scales",
         ),
         Review(
             reviewer_name="Trevor Khan",
@@ -171,60 +164,34 @@ def seed_courses():
 
     seed_data = [
         Course(
-            course_key="Ab maj",
-            details_of_course=" chords, A maj, A min, C maj D maj",
-            reviews=Review.query.filter(
-                Review.course_reviewed == Course.course_key
-            ).all(),
+            course_name="C course",
+            details_of_course=" All Chords in C",
+
         ),
         Course(
-            course_key="Ab maj",
-            details_of_course="chords,  D maj",
-            reviews=Review.query.filter(
-                Review.course_reviewed == Course.course_key
-            ).all(),
+            course_name="D course",
+            details_of_course=" All Chords in D",
+
         ),
         Course(
-            course_key="Ab maj",
-            details_of_course="chords-scales,  C maj D maj",
-            reviews=Review.query.filter(
-                Review.course_reviewed == Course.course_key
-            ).all(),
+            course_name="E course",
+            details_of_course=" All Chords in E",
+
         ),
         Course(
-            course_key="C maj",
-            details_of_course="chords,  D maj",
-            reviews=Review.query.filter(
-                Review.course_reviewed == Course.course_key
-            ).all(),
+            course_name="maj",
+            details_of_course=" All major chords",
+
         ),
         Course(
-            course_key="C maj",
-            details_of_course="chords, A maj",
-            reviews=Review.query.filter(
-                Review.course_reviewed == Course.course_key
-            ).all(),
+            course_name="min",
+            details_of_course=" All minor chords",
+
         ),
         Course(
-            course_key="C maj",
-            details_of_course="scales, A min, C maj D maj",
-            reviews=Review.query.filter(
-                Review.course_reviewed == Course.course_key
-            ).all(),
-        ),
-        Course(
-            course_key="A maj",
-            details_of_course="chords-scales, A maj, A min",
-            reviews=Review.query.filter(
-                Review.course_reviewed == Course.course_key
-            ).all(),
-        ),
-        Course(
-            course_key="A maj",
-            details_of_course="scales, A maj, A min, ",
-            reviews=Review.query.filter(
-                Review.course_reviewed == Course.course_key
-            ).all(),
+            course_name="dim",
+            details_of_course=" All diminished chords",
+
         ),
     ]
     # buIld insert seeds into db
@@ -245,61 +212,85 @@ def undo_courses():
     db.session.commit()
 
 
-## Admin lesson seeding function
-def seed_lessons():
-    first_course = Course.query.first()
-    first_progression = Progression.query.first()
-    first_key = Key.query.first()
-    first_chord = Chord.query.first()
+## Admin scale seeding function
+def seed_scales():
+
 
     # Add a check to ensure this combination doesn't already exist
-    existing_lesson = Lesson.query.filter_by(name="A maj").first()
-    if not existing_lesson:
+    existing_scale = Scale.query.filter_by(name="A maj").first()
+    if not existing_scale:
         seed_data = [
-            Lesson(
-                name="A maj",
-                type="scale",
+            Scale(
+                name="C maj",
+                type="maj",
+                signature="natural",
+                root="C",
                 pulls_to="D",
                 pulls_from="E",
-                notes=",".join(["A", "Db", "E", "F", "G", "Ab", "Bb"]),
-                progressions=[first_progression],
-                keys=[first_key],
-                chords=[first_chord],
-                courses=[first_course],
+                notes=",".join(["C", "D", "E", "F", "G", "A", "B", "C"]),
+
             ),
-            Lesson(
-                name="A maj",
-                type="chord",
-                pulls_to="D",
-                pulls_from="E",
-                notes=",".join(["A", "Db", "E"]),
-                progressions=[first_progression],
-                keys=[first_key],
-                chords=[first_chord],
-                courses=[first_course],
+            Scale(
+                name="Db maj",
+                type="maj",
+                signature="6 flat",
+                root="A",
+                pulls_to="Gb",
+                pulls_from="Ab",
+                notes=",".join(["Db", "Eb", "F", "Gb", "Ab", "Bb", "C", "Db"]),
+
             ),
-            Lesson(
+            Scale(
+                name="D maj",
+                type="maj",
+                signature="2 sharp",
+                root="D",
+                pulls_to="G",
+                pulls_from="A",
+                notes=",".join(["D", "E", "F#", "G", "A", "B", "C#", "D"]),
+
+            ),
+            Scale(
+                name="Eb maj",
+                type="maj",
+                signature="4 flat",
+                root="Eb",
+                pulls_to="Ab",
+                pulls_from="Bb",
+                notes=",".join(["Eb", "F", "G", "Ab", "Bb", "C", "D", "Eb"]),
+
+            ),
+            Scale(
+                name="Ab min",
+                type="min",
+                signature="7 flat",
+                root="Ab",
+                pulls_to="Db",
+                pulls_from="Eb",
+                notes=",".join(["Ab", "Bb", "Cb", "Db", "Eb", "Fb", "Gb", "Ab"]),
+
+            ),
+            Scale(
                 name="A min",
-                type="chord",
+                type="min",
+                signature="natural",
+                root="A",
                 pulls_to="D",
                 pulls_from="E",
-                notes=",".join(["A", "Db", "F"]),
-                progressions=[first_progression],
-                keys=[first_key],
-                chords=[first_chord],
-                courses=[first_course],
+                notes=",".join(["A", "B", "C", "D", "E", "F", "G", "A"]),
+
             ),
         ]
         db.session.bulk_save_objects(seed_data)
         db.session.commit()
-        print("Seeded lessons")
+        print("Seeded scales")
 
 
-def undo_lessons():
+def undo_scales():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.lessons RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.scales RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM lessons"))
+        db.session.execute(text("DELETE FROM scales"))
 
     db.session.commit()
 
@@ -310,28 +301,124 @@ def seed_chords():
 
     seed_data = [
         Chord(
-            chord_name="A maj",
-            notes=",".join(["B", "C", "E", "F", "G"]),
-            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
-            lessons=Lesson.query.filter(Lesson.name == Chord.chord_name).all(),
-        ),
-        Chord(
-            chord_name="A dim",
-            notes=",".join(["D", "E", "F", "G"]),
-            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
-            lessons=Lesson.query.filter(Lesson.name == Chord.chord_name).all(),
-        ),
-        Chord(
-            chord_name="Ab maj",
-            notes=",".join(["B", "C", "D", "E", "F", "G"]),
-            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
-            lessons=Lesson.query.filter(Lesson.name == Chord.chord_name).all(),
-        ),
-        Chord(
+            chord_family="C",
             chord_name="C maj",
-            notes=",".join([ "C",  "E",  "G"]),
+            notes=",".join(["C", "E", "G"]),
             songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
-            lessons=Lesson.query.filter(Lesson.name == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="C",
+            chord_name="C min",
+            notes=",".join(["C", "D#", "G"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="C",
+            chord_name="C# min",
+            notes=",".join(["C#", "E", "G#"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="C",
+            chord_name="C# dim",
+            notes=",".join(["C#", "E", "G"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="C",
+            chord_name="C dim",
+            notes=",".join(["C", "D#", "F#"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="C",
+            chord_name="C aug",
+            notes=",".join(["C", "E", "G#"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="D",
+            chord_name="Db maj",
+            notes=",".join(["Db", "F", "Ab"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="D",
+            chord_name="D maj",
+            notes=",".join(["D", "F#", "A"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="D",
+            chord_name="D#",
+            notes=",".join(["D", "G", "A#"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="D",
+            chord_name="D# dim",
+            notes=",".join(["C#", "F#", "A#"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="D",
+            chord_name="D dim",
+            notes=",".join(["D", "F", "G#"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="D",
+            chord_name="D min",
+            notes=",".join(["D", "F", "A"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="D",
+            chord_name="Db aug",
+            notes=",".join(["Db", "F", "A"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="E",
+            chord_name="E maj",
+            notes=",".join(["E", "G#", "B"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="E",
+            chord_name="Eb maj",
+            notes=",".join(["Eb", "G", "Fb"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="E",
+            chord_name="Eb min",
+            notes=",".join(["Eb", "Gb", "Fb"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="E",
+            chord_name="E dim",
+            notes=",".join(["E", "G", "A#"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="E",
+            chord_name="E min",
+            notes=",".join(["E", "G", "A"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="E ",
+            chord_name="E aug",
+            notes=",".join(["E", "G#", "C"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
+        ),
+        Chord(
+            chord_family="E ",
+            chord_name="Eb aug",
+            notes=",".join(["Eb", "G", "F"]),
+            songs=Song.query.filter(Song.song_key == Chord.chord_name).all(),
         ),
     ]
     # buIld insert seeds into db
@@ -456,7 +543,6 @@ def seed_songs():
                     ]
                 ),
                 chords=Chord.query.filter(Chord.chord_name == Song.song_key).all(),
-                lessons=Lesson.query.filter(Lesson.name == Song.song_key).all(),
             ),
             Song(
                 song="Dreams",
@@ -472,7 +558,6 @@ def seed_songs():
                     ]
                 ),
                 chords=Chord.query.filter(Chord.chord_name == Song.song_key).all(),
-                lessons=Lesson.query.filter(Lesson.name == Song.song_key).all(),
             ),
             Song(
                 song="Aint No Sunshine",
@@ -490,7 +575,6 @@ def seed_songs():
                     ]
                 ),
                 chords=Chord.query.filter(Chord.chord_name == Song.song_key).all(),
-                lessons=Lesson.query.filter(Lesson.name == Song.song_key).all(),
             ),
         ]
         # buIld insert seeds into db
@@ -510,17 +594,22 @@ def undo_songs():
 
     db.session.commit()
 
+
 ## JOIN User Courses Seeding function
 def seed_user_courses():
-    course_id_1 = Course.query.filter_by(course_key="Ab maj").first().id
+    course_id_1 = Course.query.filter_by(course_name="C course").first().id
     user_id_1 = User.query.filter_by(username="user1").first().id
 
-    course_id_2 = Course.query.filter_by(course_key="Ab maj").first().id
+    course_id_2 = Course.query.filter_by(course_name="C course").first().id
     user_id_2 = User.query.filter_by(username="user2").first().id
+
+    course_id_3 = Course.query.filter_by(course_name="D course").first().id
+    user_id_3 = User.query.filter_by(username="user1").first().id
 
     associations = [
         {"courses_id": course_id_1, "users_id": user_id_1},
-        {"courses_id": course_id_2, "users_id": user_id_2}
+        {"courses_id": course_id_2, "users_id": user_id_2},
+        {"courses_id": course_id_3, "users_id": user_id_3},
     ]
 
     db.session.execute(user_courses.insert(), associations)
@@ -528,154 +617,17 @@ def seed_user_courses():
     db.session.commit()
     print("Seeded user_courses")
 
+
 def undo_user_courses():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.user_courses RESTART IDENTITY CASCADE;")
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.user_courses RESTART IDENTITY CASCADE;"
+        )
     else:
         db.session.execute(text("DELETE FROM user_courses"))
 
     db.session.commit()
 
-
-## JOIN Course Reviews Seeding function
-def seed_course_reviews():
-    review_id_1 = Review.query.filter_by(reviewer_name="Shawn Norbert").first().id
-    course_id_1 = Course.query.filter_by(course_key="Ab maj").first().id
-
-    review_id_2 = Review.query.filter_by(reviewer_name="Shawn Norbert").first().id
-    course_id_2 = Course.query.filter_by(course_key="A maj").first().id
-
-    associations = [
-        {"review_id": review_id_1, "course_id": course_id_1},
-        {"review_id": review_id_2, "course_id": course_id_2},
-    ]
-
-    db.session.execute(course_reviews.insert(), associations)
-
-    db.session.commit()
-    print("Seeded course_reviews")
-
-def undo_course_reviews():
-    if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.course_reviews RESTART IDENTITY CASCADE;")
-    else:
-        db.session.execute(text("DELETE FROM course_reviews"))
-
-    db.session.commit()
-
-
-
-## JOIN Course lessons Seeding function
-def seed_course_lessons():
-    lesson_id_1 = Lesson.query.filter_by(type="scale").first().id
-    course_id_1 = Course.query.filter_by(course_key="A maj").first().id
-
-    lesson_id_2 = Lesson.query.filter_by(type="chord").first().id
-    course_id_2 = Course.query.filter_by(course_key="A maj").first().id
-
-
-
-    associations = [
-        {"lesson_id": lesson_id_1, "course_id": course_id_1},
-        {"lesson_id": lesson_id_2, "course_id": course_id_2},
-    ]
-
-    db.session.execute(course_lessons.insert(), associations)
-
-    db.session.commit()
-    print("Seeded course_lessons")
-
-def undo_course_lessons():
-    if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.course_lessons RESTART IDENTITY CASCADE;")
-    else:
-        db.session.execute(text("DELETE FROM course_lessons"))
-
-    db.session.commit()
-
-## JOIN Lesson Keys Seeding function
-def seed_lesson_keys():
-    lesson_id_1 = Lesson.query.filter_by(type="scale").first().id
-    key_id_1 = Key.query.filter_by(key_name="A").first().id
-
-    lesson_id_2 = Lesson.query.filter_by(type="chord").first().id
-    key_id_2 = Key.query.filter_by(key_name="A").first().id
-
-
-
-    associations = [
-        {"lesson_id": lesson_id_1, "key_id": key_id_1},
-        {"lesson_id": lesson_id_2, "key_id": key_id_2},
-    ]
-
-    db.session.execute(lesson_keys.insert(), associations)
-
-    db.session.commit()
-    print("Seeded lesson_keys")
-
-def undo_lesson_keys():
-    if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.lesson_keys RESTART IDENTITY CASCADE;")
-    else:
-        db.session.execute(text("DELETE FROM lesson_keys"))
-
-    db.session.commit()
-
-## JOIN Lesson Songs Seeding function
-def seed_lesson_songs():
-    lesson_id_1 = Lesson.query.filter_by(name="A maj").first().id
-    song_id_1 = Song.query.filter_by(song_key="A maj").first().id
-
-    lesson_id_2 = Lesson.query.filter_by(name="A maj").first().id
-    song_id_2 = Song.query.filter_by(song_key="A maj").first().id
-
-
-
-    associations = [
-        {"lesson_id": lesson_id_1, "song_id": song_id_1},
-        {"lesson_id": lesson_id_2, "song_id": song_id_2},
-    ]
-
-    db.session.execute(lesson_songs.insert(), associations)
-
-    db.session.commit()
-    print("Seeded lesson_keys")
-
-def undo_lesson_songs():
-    if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.lesson_songs RESTART IDENTITY CASCADE;")
-    else:
-        db.session.execute(text("DELETE FROM lesson_songs"))
-
-    db.session.commit()
-
-## JOIN Lesson Chords Seeding function
-def seed_lesson_chords():
-    lesson_id_1 = Lesson.query.filter_by(type="scale").first().id
-    chord_id_1 = Chord.query.filter_by(key_name="A").first().id
-
-    lesson_id_2 = Lesson.query.filter_by(type="chord").first().id
-    chord_id_2 = Chord.query.filter_by(key_name="A").first().id
-
-
-
-    associations = [
-        {"lesson_id": lesson_id_1, "chord_id": chord_id_1},
-        {"lesson_id": lesson_id_2, "chord_id": chord_id_2},
-    ]
-
-    db.session.execute(lesson_chords.insert(), associations)
-
-    db.session.commit()
-    print("Seeded lesson_chords")
-
-def undo_lesson_chords():
-    if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.lesson_chords RESTART IDENTITY CASCADE;")
-    else:
-        db.session.execute(text("DELETE FROM lesson_chords"))
-
-    db.session.commit()
 
 ## JOIN Song Keys Seeding function
 def seed_song_keys():
@@ -684,8 +636,6 @@ def seed_song_keys():
 
     song_id_2 = Song.query.filter_by(song_key="C maj").first().id
     key_id_2 = Key.query.filter_by(key_name="C").first().id
-
-
 
     associations = [
         {"song_id": song_id_1, "key_id": key_id_1},
@@ -697,51 +647,31 @@ def seed_song_keys():
     db.session.commit()
     print("Seeded song_keys")
 
+
 def undo_song_keys():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.song_keys RESTART IDENTITY CASCADE;")
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.song_keys RESTART IDENTITY CASCADE;"
+        )
     else:
         db.session.execute(text("DELETE FROM song_keys"))
 
     db.session.commit()
 
-## JOIN Lesson Progressions Seeding function
-def seed_lesson_progressions():
-    lesson_id_1 = Lesson.query.filter_by(name="A maj").first().id
-    progression_id_1 = Progression.query.filter_by(progression_type="maj").first().id
-
-    lesson_id_2 = Lesson.query.filter_by(name="A min").first().id
-    progression_id_2 = Progression.query.filter_by(progression_type="min").first().id
 
 
-
-    associations = [
-        {"lesson_id": lesson_id_1, "progression_id": progression_id_1},
-        {"lesson_id": lesson_id_2, "progression_id": progression_id_2},
-    ]
-
-    db.session.execute(lesson_progressions.insert(), associations)
-
-    db.session.commit()
-    print("Seeded lesson_progressions")
-
-def undo_lesson_chords():
-    if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.lesson_progressions RESTART IDENTITY CASCADE;")
-    else:
-        db.session.execute(text("DELETE FROM lesson_progressions"))
-
-    db.session.commit()
 
 ## JOIN Song Progressions Seeding function
 def seed_song_progressions():
     song_id_1 = Song.query.filter_by(song="Let it Be").first().id
-    progression_id_1 = Progression.query.filter_by(progression_name="1-4-5-6").first().id
+    progression_id_1 = (
+        Progression.query.filter_by(progression_name="1-4-5-6").first().id
+    )
 
     song_id_2 = Song.query.filter_by(song="Dreams").first().id
-    progression_id_2 = Progression.query.filter_by(progression_name="1-3-5-6").first().id
-
-
+    progression_id_2 = (
+        Progression.query.filter_by(progression_name="1-3-5-6").first().id
+    )
 
     associations = [
         {"song_id": song_id_1, "progression_id": progression_id_1},
@@ -753,13 +683,17 @@ def seed_song_progressions():
     db.session.commit()
     print("Seeded song_progressions")
 
+
 def undo_song_progressions():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.song_progressions RESTART IDENTITY CASCADE;")
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.song_progressions RESTART IDENTITY CASCADE;"
+        )
     else:
         db.session.execute(text("DELETE FROM song_progressions"))
 
     db.session.commit()
+
 
 ## JOIN Song Chords Seeding function
 def seed_song_chords():
@@ -768,8 +702,6 @@ def seed_song_chords():
 
     song_id_2 = Song.query.filter_by(song="Aint No Sunshine").first().id
     chord_id_2 = Chord.query.filter_by(chord_name="C maj").first().id
-
-
 
     associations = [
         {"song_id": song_id_1, "chord_id": chord_id_1},
@@ -781,9 +713,12 @@ def seed_song_chords():
     db.session.commit()
     print("Seeded song_chords")
 
+
 def undo_song_chords():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.song_chords RESTART IDENTITY CASCADE;")
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.song_chords RESTART IDENTITY CASCADE;"
+        )
     else:
         db.session.execute(text("DELETE FROM song_chords"))
 

@@ -4,8 +4,8 @@ from .seeders import (
     undo_users,
     seed_chords,
     undo_chords,
-    seed_lessons,
-    undo_lessons,
+    seed_scales,
+    undo_scales,
     seed_courses,
     undo_courses,
     seed_progressions,
@@ -18,18 +18,13 @@ from .seeders import (
     undo_reviews,
     seed_user_courses,
     undo_user_courses,
-    seed_course_lessons,
-    undo_course_lessons,
-    seed_course_reviews,
-    undo_course_reviews,
     seed_song_keys,
     undo_song_keys,
     seed_song_progressions,
     undo_song_progressions,
     seed_song_chords,
     undo_song_chords,
-    seed_lesson_keys,
-    undo_lesson_keys,
+
 )
 
 from app.models.db import db, environment, SCHEMA
@@ -52,7 +47,7 @@ def seed():
     seed_courses()
     ## Reviews Seeding
     if environment == "production":
-        undo_courses()
+        undo_reviews()
     seed_reviews()
     ## Progressions Seeding
     if environment == "production":
@@ -66,20 +61,11 @@ def seed():
     if environment == "production":
         undo_chords()
     seed_chords()
-    ## Lesson Seeding
+    ## Scale Seeding
     if environment == "production":
-        undo_lessons()
-    seed_lessons()
+        undo_scales()
+    seed_scales()
     ## Song Seeding
-    if environment == "production":
-        undo_songs()
-    seed_songs()
-
-    ## Course Reviews Seeding
-    if environment == "production":
-        undo_songs()
-    seed_songs()
-    ## Course lessons Seeding
     if environment == "production":
         undo_songs()
     seed_songs()
@@ -89,22 +75,12 @@ def seed():
         undo_user_courses()
     seed_user_courses()
 
-    ## Course Reviews Seeding
-    if environment == "production":
-        undo_course_reviews()
-    seed_course_reviews()
-
     ## Song Keys Seeding
     if environment == "production":
         undo_song_keys()
     seed_song_keys()
 
-    ## Course Lessons Seeding
-    if environment == "production":
-        undo_course_lessons()
-    seed_course_lessons()
 
-    ## Song Progressions Seeding
     if environment == "production":
         undo_song_progressions()
     seed_song_progressions()
@@ -114,31 +90,25 @@ def seed():
         undo_song_chords()
     seed_song_chords()
 
-    ## Lesson Keys Seeding
-    if environment == "production":
-        undo_lesson_keys()
-    seed_lesson_keys()
-
 
     print("All seeds have been executed.")
     # Add other seed functions here
 
 
-
-
-
-
 # Creates the `flask seed undo` command
 @seed_commands.command("undo")
 def undo():
-    undo_users()
-    undo_courses()
-    undo_reviews()
-    undo_progressions()
-    undo_keys()
-    undo_chords()
-    undo_lessons()
-    undo_songs()
+    undo_song_chords()
+    undo_song_progressions()
     undo_song_keys()
+    undo_user_courses()
+    undo_songs()
+    undo_scales()
+    undo_chords()
+    undo_keys()
+    undo_progressions()
+    undo_reviews()
+    undo_courses()
+    undo_users()
 
     # Add other undo functions here

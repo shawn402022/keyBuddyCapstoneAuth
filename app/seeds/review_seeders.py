@@ -1,6 +1,7 @@
 from app.models import db, Review, Course, User, environment, SCHEMA
-#from app.seeds.user_seeders import user_data
-#from app.seeds.course_seeders import course_data
+
+# from app.seeds.user_seeders import user_data
+# from app.seeds.course_seeders import course_data
 from sqlalchemy.sql import text
 
 
@@ -12,8 +13,7 @@ review_data = [
         "id": 1,
         "course_id": 1,
         "review_title": "good course",
-        "review": "good lessons in this course for beginners",
-
+        "review": "good scales in this course for beginners",
     },
     {
         "id": 2,
@@ -25,20 +25,19 @@ review_data = [
         "id": 3,
         "course_id": 2,
         "review_title": "excellent course",
-        "review": "excellent lessons in this course especially for intermediates",
+        "review": "excellent scales in this course especially for intermediates",
     },
     {
         "id": 4,
         "course_id": 2,
         "review_title": "ok course",
         "review": "its ok  its kind of regular",
-
     },
     {
         "id": 5,
         "course_id": 5,
         "review_title": "bad course",
-        "review": "this course is not good at all. simple lessons",
+        "review": "this course is not good at all. simple scales",
     },
     {
         "id": 6,
@@ -56,8 +55,8 @@ review_data = [
         "id": 8,
         "course_id": 7,
         "review_title": "fire course",
-        "review": "hands down the best course ever created on this site.  "
-    }
+        "review": "hands down the best course ever created on this site.  ",
+    },
 ]
 
 
@@ -79,6 +78,7 @@ def seed_reviews():
 
     db.session.commit()
     print("Seeded reviews")
+
 
 def undo_reviews():
     if environment == "production":

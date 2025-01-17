@@ -225,16 +225,16 @@ user's information.
     }
     ```
 
-## Lessons
+## Scales
 
-### Get all Lessons
+### Get all Scales
 
-Returns all available the Lessons.
+Returns all available the Scales.
 
 * Require Authentication: false
 * Request
   * Method: GET
-  * Route path: '/lessons'
+  * Route path: '/scales'
   * Body: none
 
 * Successful Response
@@ -245,7 +245,7 @@ Returns all available the Lessons.
 
     ```json
     {
-      "Lessons": [
+      "Scales": [
         {
           "id": 1,
           "name":"C Major",
@@ -261,7 +261,7 @@ Returns all available the Lessons.
           "id": 2,
           "name": "C Major Chords",
           "key":"C",
-          "lessonType":"Chords",
+          "scaleType":"Chords",
           "description": "Practice common chords and Songs in the key of C",
           "createdAt": "2021-11-19 20:39:36",
           "updatedAt": "2021-11-19 20:39:36",
@@ -283,14 +283,14 @@ Returns all available the Lessons.
     }
     ```
 
-### Get all Lessons completed by the Current User
+### Get all Scales completed by the Current User
 
-Returns all the lessons completed by the current user.
+Returns all the courses completed by the current user.
 
 * Require Authentication: true
 * Request
   * Method: GET
-  * Route path: '/:userId/lessons'
+  * Route path: '/course/userId'
   * Body: none
 
 * Successful Response
@@ -335,14 +335,14 @@ Returns all the lessons completed by the current user.
         },
     ```
 
-### Get details of a lesson from an id
+### Get details of a scale from an id
 
-Returns the details of a lesson specified by its id.
+Returns the details of a scale specified by its id.
 
 * Require Authentication: false
 * Request
   * Method: GET
-  * Route path:'/lesson/:lessonId'
+  * Route path:'/scale/:scaleId'
   * Body: none
 
 * Successful Response
@@ -400,7 +400,7 @@ Returns the details of a lesson specified by its id.
 
 ### Design a course
 
-Creates and returns a new course, comprised of 1 - 4 different lessons.
+Creates and returns a new course, comprised of 1 - 4 different scales.
 
 * Require Authentication: true
 * Request
@@ -413,9 +413,9 @@ Creates and returns a new course, comprised of 1 - 4 different lessons.
     ```json
     {
       "name":"Course Name",
-      "lesson1": "C Major",
-      "lesson2": "C Minor",
-      "lesson3": "D Minor",
+      "scale1": "C Major",
+      "scale2": "C Minor",
+      "scale3": "D Minor",
     }
     ```
 
@@ -429,9 +429,9 @@ Creates and returns a new course, comprised of 1 - 4 different lessons.
 
     {
       "name":"Course Name",
-      "lesson1": "C Major",
-      "lesson2": "C Minor",
-      "lesson3": "D Minor",
+      "scale1": "C Major",
+      "scale2": "C Minor",
+      "scale3": "D Minor",
       "createdAt": "2021-11-19 20:39:36",
       "updatedAt": "2021-11-20 10:06:40"
     }
@@ -448,7 +448,7 @@ Creates and returns a new course, comprised of 1 - 4 different lessons.
       "message": "Bad Request",
       "errors": {
           "name": "Choose name for Course",
-          "lesson 1": " Must have at least 1 lesson",
+          "scale 1": " Must have at least 1 scale",
 
       }
     }
@@ -456,7 +456,7 @@ Creates and returns a new course, comprised of 1 - 4 different lessons.
 
 ### Get Course Details by id
 
-Creates and returns a new course, comprised of 1 - 4 different lessons.
+Creates and returns a new course, comprised of 1 - 4 different scales.
 
 * Require Authentication: true
 * Request
@@ -478,19 +478,19 @@ Creates and returns a new course, comprised of 1 - 4 different lessons.
     {
       "id":"1",
       "name":"Course Name",
-      "lesson1": {
+      "scale1": {
           "name":"C Major",
           "key":"C",
           "type":"Scales",
           "style":"",
       },
-      "lesson2": {
+      "scale2": {
           "name":"C Minor",
           "key":"Cm",
           "type":"Chords",
           "style":"modern",
       },
-      "lesson3": {
+      "scale3": {
           "name":"D Minor",
           "key":"Dm",
           "type":"Chord Progression",
@@ -519,10 +519,10 @@ Updates and returns an existing course.
     ```json
     {
       "name":"Course Name",
-      "lesson 1": "C major",
-      "lesson 2": "C minor",
-      "lesson 3": "Jazz Chord Progression",
-      "lesson 4": "Rock Chord Progression",
+      "scale 1": "C major",
+      "scale 2": "C minor",
+      "scale 3": "Jazz Chord Progression",
+      "scale 4": "Rock Chord Progression",
     }
     ```
 
@@ -537,7 +537,7 @@ Updates and returns an existing course.
       "id": 1,
       "ownerId": 1,
       "name":"Course Name",
-      "lesson 1": "C major",
+      "scale 1": "C major",
       "createdAt": "2021-11-19 20:39:36",
       "updatedAt": "2021-11-20 10:06:40"
     }
@@ -553,7 +553,7 @@ Updates and returns an existing course.
     {
       "message": "Bad Request",
       "errors": {
-        "lesson": "You must have at least 1 lesson",
+        "scale": "You must have at least 1 scale",
 
       }
     }
@@ -648,10 +648,10 @@ Publishes an existing course for other Users to try.
   * Body:
     ```json
     { "name": "course name",
-      "lesson 1": "C major",
-      "lesson 2": "C minor",
-      "lesson 3": "Jazz Chord Progression",
-      "lesson 4": "Rock Chord Progression",
+      "scale 1": "C major",
+      "scale 2": "C minor",
+      "scale 3": "Jazz Chord Progression",
+      "scale 4": "Rock Chord Progression",
     }
     ```
 
@@ -667,10 +667,10 @@ Publishes an existing course for other Users to try.
       "ownerId": 1,
       "name":"Course Name",
       "created by":" owner name",
-      "lesson 1": "C major",
-      "lesson 2": "C minor",
-      "lesson 3": "Jazz Chord Progression",
-      "lesson 4": "Rock Chord Progression",
+      "scale 1": "C major",
+      "scale 2": "C minor",
+      "scale 3": "Jazz Chord Progression",
+      "scale 4": "Rock Chord Progression",
       "createdAt": "2021-11-19 20:39:36",
       "updatedAt": "2021-11-20 10:06:40"
     }
@@ -954,7 +954,7 @@ Delete an existing review.
 
 ## Add Query Filters to Get All Courses
 
-Return Lessons filtered by query parameters.
+Return Scales filtered by query parameters.
 
 * Require Authentication: false
 * Request
@@ -978,11 +978,11 @@ Return Lessons filtered by query parameters.
 
     ```json
     {
-      "Lessons": [
+      "Scales": [
         {
           "id": 1,
-          "lessonId": 1,
-          "name": "Lesson name",
+          "scaleId": 1,
+          "name": "Scale name",
           "key": "123 Disney Lane",
           "scale": "San Francisco",
           "chord": "California",
