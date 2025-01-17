@@ -6,10 +6,13 @@ from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import relationship
-from .db import db, environment, SCHEMA
+from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
-from .db import add_prefix_for_prod
-
+from flask_login import UserMixin
+from werkzeug.security import (
+    generate_password_hash,
+    check_password_hash,
+)
 
 
 
@@ -114,14 +117,12 @@ class Course(db.Model):
         return {
             "id": self.id,
             "course_key": self.course_key,
-            "details_of_course": self.details_of_course,
-            "lessons": [l.to_dict() for l in self.lessons],
-            "reviews": [r.to_dict() for r in self.reviews],
-            "users": [u.to_dict() for u in self.users]
+            "details_of_course": self.details_of_course
+
         }
 
 # User Model
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
     if environment == "production":
@@ -130,24 +131,37 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
     full_name = db.Column(db.String(255), nullable=False)
-    password = db.Column(db.String(255), nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,onupdate=datetime.utcnow)
 
     courses = db.relationship('Course', secondary=user_courses, back_populates="users")
 
+    @property
+    def password(self):
+        return self.password_hash
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
 
     def to_dict(self):
         return {
             "id": self.id,
             "username": self.username,
             "full_name": self.full_name,
-            "email": self.email,
-            "courses": [c.to_dict() for c in self.courses],
-            "reviews": [r.to_dict() for r in self.reviews]
+            "email": self.email
+
+
 
         }
+    def check_password(self, password):
+        """Check hashed password against provided password"""
+        return check_password_hash(self.password_hash, password)
 
 class Review(db.Model):
     __tablename__ = 'reviews'
@@ -171,9 +185,9 @@ class Review(db.Model):
             'id': self.id,
             'name': self.reviewer_name,
             'course_reviewed': self.course_reviewed,
-            'review_content': self.review_content,
-            'courses': [cr.to_dict() for cr in self.courses],
-            "user" : [u.to_dict() for u in self.users]
+            'review_content': self.review_content
+
+
         }
 
 class Lesson(db.Model):
@@ -203,17 +217,9 @@ class Lesson(db.Model):
             "id": self.id,
             "name": self.name,
             "type": self.type,
-            "type": self.type,
-            "key": self.key,
             "pulls_to": self.pulls_to,
             "pulls_from": self.pulls_from,
-            "notes": self.notes,
-            "songs_used": self.songs_used,
-            "chords": [lc.to_dict() for lc in self.chords],
-            "courses": [cl.to_dict() for cl in self.courses],
-            "keys": [lk.to_dict() for lk in self.keys],
-            "progressions": [lp.to_dict() for lp in self.progressions],
-            "songs": [ls.to_dict() for ls in self.songs]
+            "notes": self.notes
 
         }
 
@@ -237,9 +243,8 @@ class Chord(db.Model):
         return {
             "id": self.id,
             "chord_name": self.chord_name,
-            "notes": self.notes,
-            "songs": [sc.to_dict() for sc in self.songs],
-            "lessons": [ll.to_dict() for ll in self.lessons]
+            "notes": self.notes
+
         }
 
 class Progression(db.Model):
@@ -263,9 +268,7 @@ class Progression(db.Model):
         return {
             "id": self.id,
             "progression_name": self.progression_name,
-            "lessons": [lp.to_dict() for lp in self.lessons],
-            "songs": [sp.to_dict() for sp in self.songs],
-            "progression_type": self.progression_type,
+            "progression_type": self.progression_type
 
         }
 
@@ -287,9 +290,8 @@ class Key(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
-            "key_name": self.key_name,
-            "lessons": [lk.to_dict() for lk in self.lessons],
-            "songs": [sk.to_dict() for sk in self.songs]
+            "key_name": self.key_name
+
         }
 
 class Song(db.Model):
@@ -320,9 +322,6 @@ class Song(db.Model):
             "song": self.song,
             "artist": self.artist,
             "chords_used": self.chords_used,
-            "progression_used": self.progression_used,
-            "keys": [sk.to_dict() for sk in self.keys],
-            "progressions": [sp.to_dict() for sp in self.progressions],
-            "chords": [sc.to_dict() for sc in self.chords],
-            "lessons": self.lesson.to_dict() if self.lesson else None
+            "progression_used": self.progression_used
+
         }
