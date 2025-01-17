@@ -135,15 +135,3 @@ def progressions():
 @key_routes.route("/")
 def keys():
     return "This is the key endpoint"
-
-
-## PROGRESSION ENDPOINT
-@progression_routes.route("/")
-def progressions():
-    return "This is the progression endpoint"
-
-
-## KEY ENDPOINT
-@key_routes.route("/")
-def keys():
-    return "This is the key endpoint"
