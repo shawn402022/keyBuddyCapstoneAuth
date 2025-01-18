@@ -858,14 +858,14 @@ Returns all the courses published by other users.
 
 ## Reviews
 
-### Get all Reviews by a Course's id
+### Get all Reviews
 
-Returns all the reviews that belong to a course specified by id.
+Returns all the reviewss
 
 * Require Authentication: false
 * Request
   * Method: GET
-  * Route path: '/course/:courseId/reviews'
+  * Route path: '/course/review
   * Body: none
 
 * Successful Response
@@ -876,54 +876,41 @@ Returns all the reviews that belong to a course specified by id.
 
     ```json
     {
-      "Reviews": [
-        {
-          "id": 1,
-          "userId": 1,
-          "courseId": 1,
-          "review": "This was an awesome course!",
-          "stars": 5,
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36" ,
-          "User": {
-            "id": 1,
-            "firstName": "John",
-            "lastName": "Smith"
-          },
-        }
-      ]
-    }
-    ```
-
-* Error response: Couldn't find a Course with the specified id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
+        "id": 1,
+        "review_content": "great app, my boo did his thing",
+        "reviewer_name": "Bouchra Norbert"
+    },
     {
-      "message": "Course couldn't be found"
-    }
+        "id": 2,
+        "review_content": "this app is fire, he said he would, we thought we could and he did",
+        "reviewer_name": "Shahid Alexander"
+    },
+    {
+        "id": 3,
+        "review_content": "Very Proud of the homie.  He gets it done ",
+        "reviewer_name": "Shirley Kay"
+    },
     ```
 
-### Create a Review for a Course based on the Course's id
 
-Create and return a new review for a spot specified by id.
+
+### Create a Review
+
+Create a review for the application
 
 * Require Authentication: true
 * Request
   * Method: POST
-  * Route path:'/course/:courseId/reviews'
+  * Route path:'/review'
   * Headers:
     * Content-Type: application/json
   * Body:
 
     ```json
     {
-      "review": "This was an awesome course!",
-      "stars": 5,
-    }
+        "review_content": "THIS APP SUCKS!!",
+        "reviewer_name": "Shamir Roberts"
+    },
     ```
 
 * Successful Response
@@ -934,54 +921,10 @@ Create and return a new review for a spot specified by id.
 
     ```json
     {
-      "id": 1,
-      "userId": 1,
-      "spotId": 1,
-      "review": "This was an awesome course!",
-      "stars": 5,
-      "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-19 20:39:36"
-    }
-    ```
-
-* Error Response: Body validation errors
-  * Status Code: 400
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Bad Request",
-      "errors": {
-        "review": "Review text is required",
-        "stars": "Stars must be an integer from 1 to 5",
-      }
-    }
-    ```
-
-* Error response: Couldn't find a Spot with the specified id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Course couldn't be found"
-    }
-    ```
-
-* Error response: Review from the current user already exists for the Course
-  * Status Code: 500
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "User already has a review for this course"
-    }
+        "id": 5,
+        "review_content": "THIS APP SUCKS!!",
+        "reviewer_name": "Shamir Roberts"
+    },
     ```
 
 
@@ -993,16 +936,15 @@ Update and return an existing review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: PATCH
-  * Route path: /reviews/:reviewId
+  * Route path: /review/:reviewId
   * Headers:
     * Content-Type: application/json
   * Body:
 
     ```json
     {
-      "review": "This was an awesome course!",
-      "stars": 4,
-    }
+        "review_content": "This is actually a pretty cool App",
+    },
     ```
 
 * Successful Response
@@ -1013,14 +955,10 @@ Update and return an existing review.
 
     ```json
     {
-      "id": 1,
-      "userId": 1,
-      "spotId": 1,
-      "review": "This was an awesome course, cant wait for another !",
-      "stars": 4,
-      "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-20 10:06:40"
-    }
+        "id": 4,
+        "review_content": "This is actually a pretty cool App",
+        "reviewer_name": "Trevor Khan"
+    },
     ```
 
 * Error Response: Body validation errors
@@ -1033,21 +971,9 @@ Update and return an existing review.
     {
       "message": "Bad Request",
       "errors": {
-        "review": "Review text is required",
-        "stars": "Stars must be an integer from 1 to 5",
+        "msg": "Unaurthorized - you cna only update your own reviews",
+
       }
-    }
-    ```
-
-* Error response: Couldn't find a Review with the specified id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Review couldn't be found"
     }
     ```
 
@@ -1059,7 +985,7 @@ Delete an existing review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: DELETE
-  * Route path: reviews/:reviewId
+  * Route path: review/:reviewId
   * Body: none
 
 * Successful Response
@@ -1087,22 +1013,16 @@ Delete an existing review.
     ```
 
 
-## Add Query Filters to Get All Courses
+## Chords
 
-Return Scales filtered by query parameters.
+### Get all Chords
 
-* Require Authentication: false
+Returns all the chords
+
+* Require Authentication: True
 * Request
   * Method: GET
-  * Route path: '/courses'
-  * Query Parameters
-    * page: integer, minimum: 1, default: 1
-    * size: integer, minimum: 1, maximum: 20, default: 20
-    * key: string, optional
-    * scale: string, optional
-    * chord: string, optional
-
-
+  * Route path: '/chord'
   * Body: none
 
 * Successful Response
@@ -1113,26 +1033,103 @@ Return Scales filtered by query parameters.
 
     ```json
     {
-      "Scales": [
-        {
-          "id": 1,
-          "scaleId": 1,
-          "name": "Scale name",
-          "key": "123 Disney Lane",
-          "scale": "San Francisco",
-          "chord": "California",
-          "description": "Place where web developers are created",
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36",
-          "previewImage": "image url"
-        }
-      ],
-      "page": 2,
-      "size": 20
+        "chord_family": "C",
+        "chord_name": "C maj",
+        "id": 1,
+        "notes": "C,E,G"
+    },
+    {
+        "chord_family": "C",
+        "chord_name": "C min",
+        "id": 2,
+        "notes": "C,D#,G"
+    },
+    {
+        "chord_family": "C",
+        "chord_name": "C# min",
+        "id": 3,
+        "notes": "C#,E,G#"
+    },
+    ```
+
+
+
+### Get chord by root/chord family
+
+Get all chords with a certain root /chord family
+
+* Require Authentication: true
+* Request
+  * Method: GET
+  * Route path:'/chord/root/:chord_family'
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+* Successful Response
+  * Status Code: 201
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "chord_family": "D",
+        "chord_name": "Db maj",
+        "id": 7,
+        "notes": "Db,F,Ab"
+    },
+    {
+        "chord_family": "D",
+        "chord_name": "D maj",
+        "id": 8,
+        "notes": "D,F#,A"
+    },
+    {
+        "chord_family": "D",
+        "chord_name": "D#",
+        "id": 9,
+        "notes": "D,G,A#"
+    },
+    ```
+
+
+### ADMIN add chord to database
+
+Update and return an existing review.
+
+* Require Authentication: true
+* Require proper authorization: Review must be admin
+  * Method: POST
+  * Route path: /admin
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "chord_family": "D",
+        "chord_name": "Db aug",
+        "notes": "Db,F,A"
     }
     ```
 
-* Error Response: Query parameter validation errors
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "chord_family": "D",
+        "chord_name": "Db aug",
+        "id": 13,
+        "notes": "Db,F,A"
+    }
+    ```
+
+* Error Response: Body validation errors
   * Status Code: 400
   * Headers:
     * Content-Type: application/json
@@ -1142,8 +1139,347 @@ Return Scales filtered by query parameters.
     {
       "message": "Bad Request",
       "errors": {
-        "page": "Page must be greater than or equal to 1",
-        "size": "Size must be between 1 and 20",
+        "msg": "Unaurthorized - only admin can add chords",
+
       }
+    }
+    ```
+
+### ADMIN update chord in database
+
+update a chord
+
+* Require Authentication: true
+* Require proper authorization: Admin must be logged on
+* Request
+  * Method: PUT
+  * Route path: chord/admin/:chordId
+  * Body:
+    ```json
+    {
+
+        "notes": "C,D#,F#,E,A,G,"
+    },
+    ```
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "chord_family": "C",
+        "chord_name": "C dim",
+        "id": 5,
+        "notes": "C,D#,F#,E,A,G"
+    },
+    ```
+
+* Error response: Unauthorized - only admin can update chords
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Review couldn't be found"
+    }
+    ```
+
+### ADMIN delete chord in database
+
+update a chord
+
+* Require Authentication: true
+* Require proper authorization: Admin must be logged on
+* Request
+  * Method: DELETE
+  * Route path: chord/admin/:chordId
+  * Body:
+
+    ```
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Chord deleted successfully "
+    }
+    ```
+
+* Error response: Unauthorized - only admin can update chords
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+
+## Progressions
+
+### Get all Progressions
+
+Returns all the progressions
+
+* Require Authentication: True
+* Request
+  * Method: GET
+  * Route path: '/progression'
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "id": 1,
+        "progression_name": "1-4-5-6",
+        "progression_type": "maj",
+        "progression_style":" jazz"
+
+    },
+    {
+        "id": 2,
+        "progression_name": "1-4-6-5",
+        "progression_type": "maj",
+         "progression_style":" rock"
+    },
+    ```
+
+
+
+### Get progression by type
+
+Get all chords with a certain root /chord family
+
+* Require Authentication: true
+* Request
+  * Method: GET
+  * Route path:'/chord/root/:chord_family'
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+* Successful Response
+  * Status Code: 201
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "chord_family": "D",
+        "chord_name": "Db maj",
+        "id": 7,
+        "notes": "Db,F,Ab"
+    },
+    {
+        "chord_family": "D",
+        "chord_name": "D maj",
+        "id": 8,
+        "notes": "D,F#,A"
+    },
+    {
+        "chord_family": "D",
+        "chord_name": "D#",
+        "id": 9,
+        "notes": "D,G,A#"
+    },
+    ```
+
+
+### ADMIN add progression to database
+
+    add a progression to the database
+
+* Require Authentication: true
+* Require proper authorization: Review must be admin
+  * Method: POST
+  * Route path: /admin
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "progression_name": "1-4-6-5",
+        "progression_style": "rock",
+        "progression_type": "maj"
+    },
+    ```
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "id": 1,
+        "progression_name": "1-4-5-6",
+        "progression_style": "rock",
+        "progression_type": "maj"
+    },
+    {
+        "id": 2,
+        "progression_name": "1-4-6-5",
+        "progression_style": "rock",
+        "progression_type": "maj"
+    },
+    ```
+
+* Error Response:  errors
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Bad Request",
+      "errors": {
+        "msg": "Unauthorized - only admin can add progressions",
+
+      }
+    }
+    ```
+
+### ADMIN update progression in database
+
+update a progression
+
+* Require Authentication: true
+* Require proper authorization: Admin must be logged on
+* Request
+  * Method: PUT
+  * Route path: progression/admin/:progressionId
+  * Body:
+    ```json
+    {
+
+        "progression_name": "1-4-6-5-7",
+
+    },
+    ```
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "id":"2",
+        "progression_name": "1-4-6-5-7",
+        "progression_style": "rock",
+        "progression_type": "min"
+    },
+    ```
+
+* Error response: Unauthorized - only admin can update chords
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "unauthorized - Only admin can update progressions"
+    }
+    ```
+## Keys
+
+### get all keys
+
+    get all keys
+
+* Require Authentication: true
+* Require proper authorization:  must be admin
+  * Method: GET
+  * Route path: /key
+  * Headers:
+    * Content-Type: application/json
+  * Body: None
+
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "id": 1,
+        "key_description": "alskdfja;sldkfjasfdsasdf",
+        "key_name": "C"
+    },
+    {
+        "id": 2,
+        "key_description": "alskdfja;sldkfjasfdsasdf",
+        "key_name": "C#"
+    },
+    {
+        "id": 3,
+        "key_description": "alskdfja;sldkfjasfdsasdf",
+        "key_name": "Db"
+    },
+    ```
+
+
+
+### ADMIN update a key in database
+
+update a key
+
+* Require Authentication: true
+* Require proper authorization: Admin must be logged on
+* Request
+  * Method: PUT
+  * Route path: key/admin/:keyId
+  * Body:
+    ```json
+    {
+
+        "key_description": "very natural key ",
+
+    },
+    ```
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "id": 1,
+        "key_description": "alskdfja;sldkfjasfdsasdf",
+        "key_name": "C"
+    },
+    {
+        "id": 2,
+        "key_description": "very natural key",
+        "key_name": "C#"
+    },
+    ```
+
+* Error response: Unauthorized - only admin can update chords
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "unauthorized - Only admin can update progressions"
     }
     ```

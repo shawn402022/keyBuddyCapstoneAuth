@@ -260,6 +260,7 @@ class Progression(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     progression_name = db.Column(db.String(50), unique=False, nullable=True)
     progression_type = db.Column(db.String(50), nullable=True)
+    progression_style = db.Column(db.String(50), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
@@ -276,6 +277,7 @@ class Progression(db.Model):
             "id": self.id,
             "progression_name": self.progression_name,
             "progression_type": self.progression_type,
+            "progression_style": self.progression_style,
         }
 
 

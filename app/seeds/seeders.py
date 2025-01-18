@@ -440,19 +440,19 @@ def seed_progressions():
     # create a bunch of users in an array
 
     seed_data = [
-        Progression(progression_name="1-4-5-6", progression_type="maj"),
-        Progression(progression_name="1-4-6-5", progression_type="maj"),
-        Progression(progression_name="1-5-6-4", progression_type="maj"),
-        Progression(progression_name="1-6-4-5", progression_type="min"),
-        Progression(progression_name="1-6-2-5", progression_type="maj"),
-        Progression(progression_name="6-4-1-5", progression_type="maj"),
-        Progression(progression_name="1-4-2-5", progression_type="min"),
-        Progression(progression_name="1-6-5-4", progression_type="maj"),
-        Progression(progression_name="1-4-1-5", progression_type="maj"),
-        Progression(progression_name="6-4-2-5", progression_type="min"),
-        Progression(progression_name="1-5-4-1", progression_type="maj"),
-        Progression(progression_name="1-4-7-3", progression_type="maj"),
-        Progression(progression_name="1-3-5-6", progression_type="maj"),
+        Progression(progression_name="1-4-5-6", progression_type="maj", progression_style="rock"),
+        Progression(progression_name="1-4-6-5", progression_type="maj", progression_style="rock"),
+        Progression(progression_name="1-5-6-4", progression_type="maj", progression_style="rock"),
+        Progression(progression_name="1-6-4-5", progression_type="min", progression_style="rock"),
+        Progression(progression_name="1-6-2-5", progression_type="maj", progression_style="jazz"),
+        Progression(progression_name="6-4-1-5", progression_type="maj", progression_style="jazz"),
+        Progression(progression_name="1-4-2-5", progression_type="min", progression_style="jazz"),
+        Progression(progression_name="1-6-5-4", progression_type="maj", progression_style="country"),
+        Progression(progression_name="1-4-1-5", progression_type="maj", progression_style="country"),
+        Progression(progression_name="6-4-2-5", progression_type="min", progression_style="country"),
+        Progression(progression_name="1-5-4-1", progression_type="maj", progression_style="blues"),
+        Progression(progression_name="1-4-7-3", progression_type="maj", progression_style="blues"),
+        Progression(progression_name="1-3-5-6", progression_type="maj", progression_style="blues"),
     ]
     # buIld insert seeds into db
 

@@ -588,11 +588,28 @@ def progressions():
     return jsonify(result_list)
 
 #get  progression by type
-@progression_routes.route("/<type>")
+@progression_routes.route("/type/<type>")
 @login_required
 def get_progression_by_type(type):
+    print('BEFORE IF')
     if type:
         all_progressions = db.session.query(Progression).filter_by(progression_type=type).all()
+        print('AFTER IF')
+        result_list = []
+
+        for progression in all_progressions:
+            new_progression = progression.to_dict()
+            result_list.append(new_progression)
+
+        return jsonify(result_list)
+    return jsonify({"msg": "No progressions found with that type"}), 404
+
+#get  progression by style
+@progression_routes.route("/style/<style>")
+@login_required
+def get_progression_by_style(style):
+    if style:
+        all_progressions = db.session.query(Progression).filter_by(progression_style=style).all()
 
         result_list = []
 
@@ -642,7 +659,7 @@ def update_progression_in_database(progression_id):
 ## KEY ENDPOINT
 
 
-# get all key routes
+# get all key keys
 @key_routes.route("/")
 @login_required
 def keys():
