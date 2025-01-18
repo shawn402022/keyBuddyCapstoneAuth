@@ -213,7 +213,7 @@ def seed_scales():
                 root="C",
                 pulls_to="D",
                 pulls_from="E",
-                notes=",".join(["C", "D", "E", "F", "G", "A", "B", "C"]),
+                notes= ",".join(["C", "D", "E", "F", "G", "A", "B", "C"]),
 
             ),
             Scale(
@@ -479,22 +479,70 @@ def seed_keys():
     # create a bunch of users in an array
 
     seed_data = [
-        Key(key_name="C"),
-        Key(key_name="C#"),
-        # Key(key_name='Db'),
-        Key(key_name="D"),
-        # Key(key_name='Eb'),
-        Key(key_name="E"),
-        Key(key_name="F"),
-        Key(key_name="F#"),
-        # Key(key_name='Gb'),
-        Key(key_name="G"),
-        Key(key_name="G#"),
-        # Key(key_name='Gb'),
-        Key(key_name="A"),
-        Key(key_name="A#"),
-        # Key(key_name='Fb'),
-        Key(key_name="B"),
+        Key(
+            key_name="C",
+            key_description = 'alskdfja;sldkfjasfdsasdf'
+            ),
+        Key(
+            key_name="C#",
+            key_description = 'alskdfja;sldkfjasfdsasdf'
+            ),
+        Key(
+            key_name='Db',
+            key_description = 'alskdfja;sldkfjasfdsasdf'
+            ),
+        Key(
+            key_name="D",
+            key_description = 'alskdfja;sldkfjasfdsasdf'
+            ),
+        Key(
+            key_name='Eb',
+            key_description = 'alskdfja;sldkfjasfdsasdf'
+            ),
+        Key(
+            key_name="E",
+            key_description = 'alskdfja;sldkfjasfdsasdf'
+            ),
+        Key(
+            key_name="F",
+            key_description = 'alskdfja;sldkfjasfdsasdf'
+            ),
+        Key(
+            key_name="F#",
+        key_description = 'alskdfja;sldkfjasfdsasdf'
+            ),
+        Key(
+            key_name='Gb',
+            key_description = 'alskdfja;sldkfjasfdsasdf'
+            ),
+        Key(
+            key_name="G",
+        key_description = 'alskdfja;sldkfjasfdsasdf'
+            ),
+        Key(
+            key_name="G#",
+            key_description = 'alskdfja;sldkfjasfdsasdf'
+            ),
+        Key(
+            key_name='Gb',
+            key_description = 'alskdfja;sldkfjasfdsasdf'
+            ),
+        Key(
+            key_name="A",
+        key_description = 'alskdfja;sldkfjasfdsasdf'
+            ),
+        Key(
+            key_name="A#",
+            key_description = 'alskdfja;sldkfjasfdsasdf'
+            ),
+        Key(
+            key_name='Fb',
+            key_description = 'alskdfja;sldkfjasfdsasdf'
+            ),
+        Key(
+            key_name="B",
+            key_description = 'alskdfja;sldkfjasfdsasdf'
+            ),
     ]
     # buIld insert seeds into db
 

@@ -231,10 +231,10 @@ user's information.
 
 Returns all available the Scales.
 
-* Require Authentication: false
+* Require Authentication: true
 * Request
   * Method: GET
-  * Route path: '/scales'
+  * Route path: '/scale'
   * Body: none
 
 * Successful Response
@@ -244,53 +244,43 @@ Returns all available the Scales.
   * Body:
 
     ```json
+   [
     {
-      "Scales": [
-        {
-          "id": 1,
-          "name":"C Major",
-          "key":"C",
-          "LessonType":"Scale",
-          "description": "Practice common note in the scale of C major",
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36",
-          "Difficulty": "beginner",
-          "previewImage": "image url"
-        },
-        {
-          "id": 2,
-          "name": "C Major Chords",
-          "key":"C",
-          "scaleType":"Chords",
-          "description": "Practice common chords and Songs in the key of C",
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36",
-          "Difficulty": "intermediate",
-          "previewImage": "image url"
-        },
-        {
-          "id": 3,
-          "name": "Progressions",
-          "key":"Cm",
-          "LessonType":"Progression",
-          "description": "Practice commonly used Chord Progressions",
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36",
-          "Difficulty": "challenging",
-          "previewImage": "image url"
-        },
-      ]
+        "flats": 7,
+        "id": 5,
+        "name": "Ab min",
+        "notes": "Ab,Bb,Cb,Db,Eb,Fb,Gb,Ab",
+        "pulls_from": "Eb",
+        "pulls_to": "Db",
+        "root": "Ab",
+        "sharps": 0,
+        "signature": "flat",
+        "type": "min"
+    },
+    {
+        "flats": 0,
+        "id": 6,
+        "name": "A min",
+        "notes": "A,B,C,D,E,F,G,A",
+        "pulls_from": "E",
+        "pulls_to": "D",
+        "root": "A",
+        "sharps": 0,
+        "signature": "natural",
+        "type": "min"
     }
+    ]
+
     ```
 
-### Get all Scales completed by the Current User
+### Get all Scales by signature
 
-Returns all the courses completed by the current user.
+Returns all scales in a specific key signature ie  flat, natural sharp.
 
 * Require Authentication: true
 * Request
   * Method: GET
-  * Route path: '/course/userId'
+  * Route path: '/scale/:signature'
   * Body: none
 
 * Successful Response
@@ -300,49 +290,58 @@ Returns all the courses completed by the current user.
   * Body:
 
     ```json
-           {
-          "id": 1,
-          "name":"C Major",
-          "key":"C",
-          "LessonType":"Scale",
-          "description": "Practice common note in the scale of C major",
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36",
-          "Difficulty": "beginner",
-          "previewImage": "image url"
-        },
-        {
-          "id": 2,
-          "name": "C Chords",
-          "key":"C",
-          "LessonType":"Chords",
-          "description": "Practice common chords in the key of C",
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36",
-          "Difficulty": "intermediate",
-          "previewImage": "image url"
-        },
-        {
-          "id": 3,
-          "name": "C Chord Progressions",
-          "key":"C",
-          "LessonType":"Chord Progression",
-          "description": "Practice commonly used Chord Progressions",
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36",
-          "Difficulty": "challenging",
-          "previewImage": "image url"
-        },
+    [
+    {
+        "flats": 7,
+        "id": 5,
+        "name": "Ab min",
+        "notes": "Ab,Bb,Cb,Db,Eb,Fb,Gb,Ab",
+        "pulls_from": "Eb",
+        "pulls_to": "Db",
+        "root": "Ab",
+        "sharps": 0,
+        "signature": "flat",
+        "type": "min"
+    },
+    {
+        "flats": 0,
+        "id": 6,
+        "name": "A min",
+        "notes": "A,B,C,D,E,F,G,A",
+        "pulls_from": "E",
+        "pulls_to": "D",
+        "root": "A",
+        "sharps": 0,
+        "signature": "natural",
+        "type": "min"
+    }
+    ]
     ```
 
-### Get details of a scale from an id
+* Error Response: Not found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
 
-Returns the details of a scale specified by its id.
+    ```json
+    {
+      "message": "Bad Request",
+      "errors": {
+          "msg": "No scales found with that signature",
+
+      }
+    }
+    ```
+
+### Get scale by root
+
+Returns all scales in a specific root.
 
 * Require Authentication: false
 * Request
   * Method: GET
-  * Route path:'/scale/:scaleId'
+  * Route path:'/scale/root/:root'
   * Body: none
 
 * Successful Response
@@ -353,71 +352,208 @@ Returns the details of a scale specified by its id.
 
     ```json
     {
-      "id": 1,
-      "details": {
-          "Name": "C major",
-          "Pulls to":" 'C' pulls to 'F'",
-          "Pulls from":" 'C' pulls from 'G'",
-          "Long Description": "C major is scale is a major scale based on C, consisting of the keys.
-            C,D,E,F,G,A and B. C major is one of the most common keys used in music. Its key signature has no flats or sharps, and it's relative minor is A minor, and its parallel minor is C minor.
-          ",
-          "SongsInKey":
-          {
-          "Beatles":"Let it Be",
-          "Fleetwood Mac":"Dreams",
-          "Bill Withers":"Ain't No Sunshine",
-          "BrunoMars":"if I was your man"
-          },
-          "ChordsInKey":
-          {
-          "I":"C", "II":"Dm","III":"Em",
-          "IV":"F","V":"G","VI":"Am",
-          "VII":"Bdim",
-          },
-          "KeysInScale": {
-            "I":"C",
-            "II":"D",
-            "III":"E",
-            "IV":"F",
-            "V":"G",
-            "VI":"A",
-            "VII":"B",
-          },
-          "progression": [
-            {
-            "progressionId": 1,
-            "type":"Jazz",
-            "ii": "Dm7B5",
-            "V": "G7b9",
-            "I": "Cm7"
-            }
-          ],
+        "flats": 0,
+        "id": 1,
+        "name": "C maj",
+        "notes": "C,D,E,F,G,A,B,C",
+        "pulls_from": "E",
+        "pulls_to": "D",
+        "root": "C",
+        "sharps": 0,
+        "signature": "natural",
+        "type": "maj"
+    },
+    {
+        "flats": 6,
+        "id": 2,
+        "name": "Db maj",
+        "notes": "Db,Eb,F,Gb,Ab,Bb,C,Db",
+        "pulls_from": "Ab",
+        "pulls_to": "Gb",
+        "root": "A",
+        "sharps": 0,
+        "signature": "flat",
+        "type": "maj"
+    },
 
-      },
+    ```
+* Error Response: Not found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Bad Request",
+      "errors": {
+          "msg": "No scales found with that root",
+
+      }
     }
+    ```
+
+### Get scale by type
+
+Returns all scales in a specific type ie major, mine.
+
+* Require Authentication: true
+* Request
+  * Method: GET
+  * Route path:'/scale/type/:type'
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+```json
+    {
+        "flats": 7,
+        "id": 5,
+        "name": "Ab min",
+        "notes": "Ab,Bb,Cb,Db,Eb,Fb,Gb,Ab",
+        "pulls_from": "Eb",
+        "pulls_to": "Db",
+        "root": "Ab",
+        "sharps": 0,
+        "signature": "flat",
+        "type": "min"
+    },
+    {
+        "flats": 0,
+        "id": 6,
+        "name": "A min",
+        "notes": "A,B,C,D,E,F,G,A",
+        "pulls_from": "E",
+        "pulls_to": "D",
+        "root": "A",
+        "sharps": 0,
+        "signature": "natural",
+        "type": "min"
+    }
+```
+
+* Error Response: Not found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Bad Request",
+      "errors": {
+          "msg": "No scales found with that type
+      }
+    }
+    ```
+### ADMIN create scale
+Creates scale and adds to database
+
+* Require Authentication: true
+* Request
+  * Method: POST
+  * Route path:'/scale/admin
+  * Body:
+    ```json
+       {
+        "flats": 7,
+        "name": "Ab min",
+        "notes": "Ab,Bb,Cb,Db,Eb,Fb,Gb,Ab",
+        "pulls_from": "Eb",
+        "pulls_to": "Db",
+        "root": "Ab",
+        "sharps": 0,
+        "signature": "flat",
+        "type": "min"
+    },
+    ```
+
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+       {
+        "flats": 7,
+        "id": 5,
+        "name": "Ab min",
+        "notes": "Ab,Bb,Cb,Db,Eb,Fb,Gb,Ab",
+        "pulls_from": "Eb",
+        "pulls_to": "Db",
+        "root": "Ab",
+        "sharps": 0,
+        "signature": "flat",
+        "type": "min"
+    },
+    ```
+
+### ADMIN udpate scale
+Creates scale and adds to database
+
+* Require Authentication: true
+* Request
+  * Method: PUT
+  * Route path:'/scale/admin
+  * Body:
+    ```json
+       {
+        "flats": 7,
+        "name": "Ab min",
+        "notes": "Ab,Bb,Cb,Db,Eb,Fb,Gb,Ab",
+        "pulls_from": "Eb",
+        "pulls_to": "Db",
+        "root": "Ab",
+        "sharps": 0,
+        "signature": "flat",
+        "type": "min"
+    },
+    ```
+
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+       {
+        "flats": 7,
+        "id": 5,
+        "name": "Ab min",
+        "notes": "Ab,Bb,Cb,Db,Eb,Fb,Gb,Ab",
+        "pulls_from": "Eb",
+        "pulls_to": "Db",
+        "root": "Ab",
+        "sharps": 0,
+        "signature": "flat",
+        "type": "min"
+    },
+    ```
+
+
+
 
 ## Courses
 
-### Design a course
+### Get All Courses
 
-Creates and returns a new course, comprised of 1 - 4 different scales.
+returns all courses available
 
 * Require Authentication: true
 * Request
-  * Method: POST
-  * Route path: /:userId/courses
+  * Method: GET
+  * Route path: /course
   * Headers:
     * Content-Type: application/json
-  * Body:
+  * Body: None
 
-    ```json
-    {
-      "name":"Course Name",
-      "scale1": "C Major",
-      "scale2": "C Minor",
-      "scale3": "D Minor",
-    }
-    ```
 
 * Successful Response
   * Status Code: 201
@@ -428,17 +564,61 @@ Creates and returns a new course, comprised of 1 - 4 different scales.
     ```json
 
     {
-      "name":"Course Name",
-      "scale1": "C Major",
-      "scale2": "C Minor",
-      "scale3": "D Minor",
-      "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-20 10:06:40"
-    }
+        "course_name": "C course",
+        "details_of_course": " All Chords in C",
+        "id": 1
+    },
+    {
+        "course_name": "D course",
+        "details_of_course": " All Chords in D",
+        "id": 2
+    },
+    {
+        "course_name": "E course",
+        "details_of_course": " All Chords in E",
+        "id": 3
+    },
     ```
 
-* Error Response: Body validation errors
-  * Status Code: 400
+
+### Get User courses
+
+returns all the users courses
+
+* Require Authentication: true
+* Require proper authorization: Course must belong to the current user
+* Request
+  * Method: GET
+  * Route path: /course/:userId
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+
+
+* Successful Response
+  * Status Code: 201
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    "courses": [
+        {
+            "course_name": "C course",
+            "details_of_course": " All Chords in C",
+            "id": 1
+        },
+        {
+            "course_name": "D course",
+            "details_of_course": " All Chords in D",
+            "id": 2
+        }
+    ],
+    "full_name": "Shawn Norbert"
+    ```
+* Error Response: Not found
+  * Status Code: 404
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -447,83 +627,31 @@ Creates and returns a new course, comprised of 1 - 4 different scales.
     {
       "message": "Bad Request",
       "errors": {
-          "name": "Choose name for Course",
-          "scale 1": " Must have at least 1 scale",
+          "msg": "Unauthorized- you can only view your own courses",
 
       }
     }
     ```
 
-### Get Course Details by id
 
-Creates and returns a new course, comprised of 1 - 4 different scales.
+### Admin add a course to database
 
-* Require Authentication: true
-* Request
-  * Method: GET
-  * Route path: /:userId/course/:courseId
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-
-
-* Successful Response
-  * Status Code: 201
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "id":"1",
-      "name":"Course Name",
-      "scale1": {
-          "name":"C Major",
-          "key":"C",
-          "type":"Scales",
-          "style":"",
-      },
-      "scale2": {
-          "name":"C Minor",
-          "key":"Cm",
-          "type":"Chords",
-          "style":"modern",
-      },
-      "scale3": {
-          "name":"D Minor",
-          "key":"Dm",
-          "type":"Chord Progression",
-          "style":"jazz",
-      },
-      "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-20 10:06:40"
-    }
-    ```
-
-
-
-### Edit a Course
-
-Updates and returns an existing course.
+Allows Admin to add courses to database for users to use.
 
 * Require Authentication: true
-* Require proper authorization: Spot must belong to the current user
+* Require proper authorization: Course must belong to the current user
 * Request
   * Method: POST
-  * Route path: '/:userId/course/:courseId/edit'
+  * Route path: '/course/admin'
   * Headers:
     * Content-Type: application/json
   * Body:
 
     ```json
     {
-      "name":"Course Name",
-      "scale 1": "C major",
-      "scale 2": "C minor",
-      "scale 3": "Jazz Chord Progression",
-      "scale 4": "Rock Chord Progression",
-    }
+        "course_name": "C course",
+        "details_of_course": " All Chords in C",
+    },
     ```
 
 * Successful Response
@@ -534,13 +662,10 @@ Updates and returns an existing course.
 
     ```json
     {
-      "id": 1,
-      "ownerId": 1,
-      "name":"Course Name",
-      "scale 1": "C major",
-      "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-20 10:06:40"
-    }
+        "course_name": "C course",
+        "details_of_course": " All Chords in C",
+        "id": 8
+    },
     ```
 
 * Error Response: Body validation errors
@@ -553,24 +678,39 @@ Updates and returns an existing course.
     {
       "message": "Bad Request",
       "errors": {
-        "scale": "You must have at least 1 scale",
+        "msg": "Unauthorized- Only admin can add courses",
 
       }
     }
     ```
 
-### Get current user courses
+### users add course to use
 
 returns the current users courses.
 
 * Require Authentication: true
 * Require proper authorization: course must belong to the current user
 * Request
-  * Method: GET
-  * Route path: '/:userId/course'
+  * Method: POST
+  * Route path: '/course/:userId'
   * Headers:
     * Content-Type: application/json
-  * Body: None
+  * Body:
+     ```json
+    {
+    {
+        "course_name": "C course",
+        "details_of_course": " All Chords in C",
+    },
+    {
+        "course_name": "D course",
+        "details_of_course": " All Chords in D",
+    },
+
+    }
+
+    ```
+
 
 * Successful Response
   * Status Code: 200
@@ -580,36 +720,31 @@ returns the current users courses.
 
     ```json
     {
-      "Courses": [
-        {
-          "id": 1,
-          "name":"Coarse Name",
-          "description": "Course Description",
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36",
-        },
-        {
-          "id": 2,
-          "name": "Course Name",
-          "description": "Course Description",
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36",
-        },
-      ]
+    {
+        "course_name": "C course",
+        "details_of_course": " All Chords in C",
+        "id": 1
+    },
+    {
+        "course_name": "D course",
+        "details_of_course": " All Chords in D",
+        "id": 2
+    },
+
     }
 
     ```
 
 
-### Delete a Course
+### user Delete a Course
 
 Deletes The current User's existing course.
 
 * Require Authentication: true
 * Require proper authorization: course must belong to the current user
 * Request
-  * Method: POST
-  * Route path: '/:userId/course/:courseId/delete'
+  * Method: DELETE
+  * Route path: 'course/:userId/:courseId'
   * Body: none
 
 * Successful Response

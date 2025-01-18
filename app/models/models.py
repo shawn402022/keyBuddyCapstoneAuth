@@ -287,6 +287,7 @@ class Key(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     key_name = db.Column(db.String(50), unique=False, nullable=False)
+    key_description = db.Column(db.String(255), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
@@ -297,7 +298,11 @@ class Key(db.Model):
     songs = db.relationship("Song", secondary=song_keys, back_populates="keys")
 
     def to_dict(self):
-        return {"id": self.id, "key_name": self.key_name}
+        return {
+            "id": self.id,
+            "key_name": self.key_name,
+            "key_description": self.key_description,
+}
 
 
 class Song(db.Model):
