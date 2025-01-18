@@ -166,7 +166,6 @@ class Review(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     reviewer_name = db.Column(db.String(40), nullable=True)
-    course_reviewed = db.Column(db.String(500), nullable=True)
     review_content = db.Column(db.String(1000), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
@@ -179,8 +178,7 @@ class Review(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
-            "name": self.reviewer_name,
-            "course_reviewed": self.course_reviewed,
+            "reviewer_name": self.reviewer_name,
             "review_content": self.review_content,
         }
 
@@ -196,6 +194,8 @@ class Scale(db.Model):
     type = db.Column(db.String(255), unique=False, nullable=True)
     signature = db.Column(db.String(255), nullable=True)
     root = db.Column(db.String(5), nullable=True)
+    flats = db.Column(db.Integer, nullable=True)
+    sharps = db.Column(db.Integer, nullable=True)
     pulls_to = db.Column(db.String(255), nullable=True)
     pulls_from = db.Column(db.String(255), nullable=True)
     notes = db.Column(db.String(255), nullable=True)
@@ -216,6 +216,8 @@ class Scale(db.Model):
             "type": self.type,
             "signature": self.signature,
             "root": self.root,
+            "flats": self.flats,
+            "sharps": self.sharps,
             "pulls_to": self.pulls_to,
             "pulls_from": self.pulls_from,
         }

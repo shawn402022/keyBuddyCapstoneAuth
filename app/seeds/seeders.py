@@ -101,44 +101,28 @@ def seed_reviews():
 
     seed_data = [
         Review(
-            reviewer_name="Shawn Norbert",
-            course_reviewed="A maj",
-            review_content=" good scales in this course for beginners",
-        ),
-        Review(
-            reviewer_name="Shawn Norbert",
-            course_reviewed="Ab maj",
-            review_content="great progressions in this course",
+            reviewer_name="Bouchra Norbert",
+            review_content="great app, my boo did his thing",
         ),
         Review(
             reviewer_name="Shahid Alexander",
-            course_reviewed="Ab maj",
-            review_content="excellent scales in this course especially for intermediates",
+            review_content="this app is fire, he said he would, we thought we could and he did",
         ),
         Review(
             reviewer_name="Shirley Kay",
-            course_reviewed="A maj",
-            review_content="its ok  its kind of regular",
+            review_content="Very Proud of the homie.  He gets it done ",
         ),
         Review(
             reviewer_name="Trevor Khan",
-            course_reviewed="C maj",
-            review_content="this course is not good at all. simple scales",
-        ),
-        Review(
-            reviewer_name="Trevor Khan",
-            course_reviewed="A maj",
-            review_content="this is a terrible course i would not recommend it",
+            review_content="This is actually a pretty cool App",
         ),
         Review(
             reviewer_name="Shamir Roberts",
-            course_reviewed="C maj",
-            review_content="very helpful course for people with no experience",
+            review_content="THIS APP SUCKS!!",
         ),
         Review(
             reviewer_name="Allison Nutley",
-            course_reviewed="C maj",
-            review_content="hands down the best course ever created on this site.",
+            review_content="Im actually impressed, and it takes a lot to impress me.",
         ),
     ]
 
@@ -224,6 +208,8 @@ def seed_scales():
                 name="C maj",
                 type="maj",
                 signature="natural",
+                flats = 0,
+                sharps = 0,
                 root="C",
                 pulls_to="D",
                 pulls_from="E",
@@ -233,7 +219,9 @@ def seed_scales():
             Scale(
                 name="Db maj",
                 type="maj",
-                signature="6 flat",
+                signature="flat",
+                flats = 6,
+                sharps = 0,
                 root="A",
                 pulls_to="Gb",
                 pulls_from="Ab",
@@ -243,7 +231,9 @@ def seed_scales():
             Scale(
                 name="D maj",
                 type="maj",
-                signature="2 sharp",
+                signature="sharp",
+                flats = 0,
+                sharps = 2,
                 root="D",
                 pulls_to="G",
                 pulls_from="A",
@@ -253,7 +243,9 @@ def seed_scales():
             Scale(
                 name="Eb maj",
                 type="maj",
-                signature="4 flat",
+                signature="flat",
+                flats = 4,
+                sharps = 0,
                 root="Eb",
                 pulls_to="Ab",
                 pulls_from="Bb",
@@ -263,7 +255,9 @@ def seed_scales():
             Scale(
                 name="Ab min",
                 type="min",
-                signature="7 flat",
+                signature="flat",
+                flats = 7,
+                sharps = 0,
                 root="Ab",
                 pulls_to="Db",
                 pulls_from="Eb",
@@ -274,6 +268,8 @@ def seed_scales():
                 name="A min",
                 type="min",
                 signature="natural",
+                flats = 0,
+                sharps = 0,
                 root="A",
                 pulls_to="D",
                 pulls_from="E",
