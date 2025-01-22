@@ -31,10 +31,12 @@ function LoginFormModal() {
   return (
     <>
 
-      
+
       <form  className='login-modal' onSubmit={handleSubmit}>
         <label>
-          Email
+        {<img className="email-word"
+          src="../dist/images/email-word.png"
+          alt="Home" />}
           <input
             type="text"
             value={email}
@@ -44,7 +46,9 @@ function LoginFormModal() {
         </label>
         {errors.email && <p>{errors.email}</p>}
         <label>
-          Password
+        {<img className="password-word"
+          src="../dist/images/password-word.png"
+          alt="Home" />}
           <input
             type="password"
             value={password}

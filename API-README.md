@@ -1,4 +1,7 @@
 # KEY BUDDY
+## how to install
+npm install tonal --save
+npm install webmidi
 
 ## Database Schema Design
 

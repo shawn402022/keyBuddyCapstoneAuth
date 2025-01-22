@@ -17,7 +17,9 @@
     "react-redux": "^8.1.1",
     "react-router-dom": "^6.15.0",
     "redux": "^4.2.1",
-    "redux-thunk": "^2.4.2"
+    "redux-thunk": "^2.4.2",
+    "tonal": "^6.4.0",
+    "webmidi": "^3.1.12"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

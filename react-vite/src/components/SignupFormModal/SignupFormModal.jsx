@@ -40,11 +40,13 @@ function SignupFormModal() {
 
   return (
     <>
-      <h1>Sign Up</h1>
+
       {errors.server && <p>{errors.server}</p>}
-      <form onSubmit={handleSubmit}>
+      <form className='signup-modal' onSubmit={handleSubmit}>
         <label>
-          Email
+        {<img className="email-word"
+          src="../dist/images/email-word.png"
+          alt="Home" />}
           <input
             type="text"
             value={email}
@@ -54,7 +56,9 @@ function SignupFormModal() {
         </label>
         {errors.email && <p>{errors.email}</p>}
         <label>
-          Username
+        {<img className="username-word"
+          src="../dist/images/username-word.png"
+          alt="Home" />}
           <input
             type="text"
             value={username}
@@ -64,7 +68,9 @@ function SignupFormModal() {
         </label>
         {errors.username && <p>{errors.username}</p>}
         <label>
-          Password
+        {<img className="password-word"
+          src="../dist/images/password-word.png"
+          alt="Home" />}
           <input
             type="password"
             value={password}
@@ -74,7 +80,9 @@ function SignupFormModal() {
         </label>
         {errors.password && <p>{errors.password}</p>}
         <label>
-          Confirm Password
+        {<img className="confirm-password-word"
+          src="../dist/images/confirmPassword-word.png"
+          alt="Home" />}
           <input
             type="password"
             value={confirmPassword}
