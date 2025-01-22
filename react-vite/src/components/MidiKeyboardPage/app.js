@@ -25,8 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const app ={
 
-
-
         setUpPiano(){
             console.log('setup piano working')
             const whiteKeyWidth = 80;
