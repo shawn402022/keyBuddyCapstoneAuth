@@ -1,5 +1,10 @@
 {
   "dependencies": {
+    "react-redux": "^9.2.0",
+    "redux": "^5.0.1",
     "tonal": "^6.4.0"
+  },
+  "devDependencies": {
+    "redux-logger": "^3.0.6"
   }
 }

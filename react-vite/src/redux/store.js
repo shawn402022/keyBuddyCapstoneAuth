@@ -6,9 +6,21 @@ import {
 } from "redux";
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
+import courseReducer from "./course";
+import scalesReducer from "./scale";
+import reviewReducer from "./review";
+import chordsReducer from "./chord";
+import progressionsReducer from "./progression";
+import keysReducer from "./key";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
+  courseState: courseReducer,
+  scaleState: scalesReducer,
+  reviewState: reviewReducer,
+  chordState: chordsReducer,
+  progressionState: progressionsReducer,
+  keyState: keysReducer,
 });
 
 let enhancer;

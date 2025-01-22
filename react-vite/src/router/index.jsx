@@ -3,6 +3,7 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 import LandingPage from '../components/LandingPage';
+import CoursePage from '../components/CoursePage/CoursePage';
 
 
 export const router = createBrowserRouter([
@@ -12,6 +13,10 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <LandingPage />,
+      },
+      {
+        path: "courses",
+        element: <CoursePage/>,
       },
       {
         path: "login",
