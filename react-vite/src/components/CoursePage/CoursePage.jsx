@@ -5,6 +5,7 @@ import { getCourses } from '../../redux/course';
 const CoursePage = () => {
     const dispatch = useDispatch();
     const courses = useSelector(state => state.course ? Object.values(state.course): []);
+    console.log("FULL REDUX STATE: ", courses);
 
     useEffect(() => {
         dispatch(getCourses());
