@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { getSongs } from '../../redux/song'
 import './CourseInfoPage.css'
 import { Link } from'react-router-dom'
+import { deleteSongThunk } from '../../redux/song'
 
 const SongInfoPage = () => {
     const dispatch = useDispatch()
@@ -18,6 +19,14 @@ const SongInfoPage = () => {
             dispatch({ type: 'song/CLEAR_SONGS' })
         }
     }, [dispatch, firstChar])
+
+    const handleDeleteSong = async (songId) => {
+        const success = await dispatch(deleteSongThunk(songId));
+        if (success) {
+            // Optionally refresh songs list or handle UI update
+        }
+    }
+
 
     return (
         <div className="song-details-grid">
@@ -44,7 +53,7 @@ const SongInfoPage = () => {
                         </div>
                         <div className='song-button'>
                             <button>Update</button>
-                            <button>Delete</button>
+                            <button onClick={() => handleDeleteSong(song.id)}>Delete Song</button>
                         </div>
 
                     </div>

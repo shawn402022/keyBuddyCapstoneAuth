@@ -79,21 +79,15 @@ export const createSongsFetch = (song_id, song, artist, chords_used, progression
     }
 }
 //delete songs
-export const deleteCourseThunk = (song_id) => async (dispatch) => {
-    const response = await fetch(`/api/song/admin/${song_id}`, {
+export const deleteSongThunk = (songId) => async (dispatch) => {
+    const response = await fetch(`/api/song/admin/${songId}`, {
         method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        credentials: 'include'
     });
-    if (response.ok) {
-        dispatch(deleteSongs(song_id));
-    } else {
-        console.error('Error deleting songs');
-    }
-}
 
+    if (response.ok) {
+        dispatch(deleteSongs(songId));
+    }
+};
 //update songs
 export const updateCourseThunk = (song_id, song, artist, chords_used, progression_used, song_key) => async (dispatch) => {
     const response = await fetch(`/api/song/admin/${song_id}`, {
