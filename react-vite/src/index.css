@@ -108,16 +108,14 @@ a{
 .home-icon{
     border-color:black;
     border-style: solid;
-    border-width: 5px;
+    border-width: 4px;
     border-radius:5px;
-    padding-top: 1px;
-    padding-left: 5px;
-    padding-left: 5px;
+    padding:4px;
     background-color: rgb(243, 154, 90);
 
 
-    height: 30px;
-    width: 70px;
+    height: 25px;
+    width: 59px;
 }
 
 .profile-dropdown li{
@@ -134,5 +132,3 @@ a{
     width: 50px;
 
 }
-
-

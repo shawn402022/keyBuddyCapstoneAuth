@@ -1,10 +1,27 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate} from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import CourseButton from "./CourseButton";
+import { useDispatch } from "react-redux";
+import { thunkLogout } from "../../redux/session";
+
+
 
 import "./Navigation.css";
 
 function Navigation() {
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(thunkLogout()).then(() => {
+      navigate('/');
+    });
+  };
+
+
+
+
   return (
     <div>
       <ul className="nav">
@@ -18,7 +35,7 @@ function Navigation() {
         </li>
 
         <li>
-          <ProfileButton />
+          <ProfileButton onLogout={handleLogout}/>
 
         </li>
       </ul>

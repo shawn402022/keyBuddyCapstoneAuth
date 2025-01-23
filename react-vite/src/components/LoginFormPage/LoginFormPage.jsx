@@ -33,13 +33,14 @@ function LoginFormPage() {
   };
 
   return (
-    <div>
-      <h1>Log In</h1>
+    <div className='login-page-div'>
       {errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
-      <form   onSubmit={handleSubmit}>
+      <form className='login-page'  onSubmit={handleSubmit}>
         <label>
-          Email
+        {<img className="email-word"
+          src="../dist/images/email-word.png"
+          alt="Home" />}
           <input
             type="text"
             value={email}
@@ -49,7 +50,9 @@ function LoginFormPage() {
         </label>
         {errors.email && <p>{errors.email}</p>}
         <label>
-          Password
+        {<img className="password-word"
+          src="../dist/images/password-word.png"
+          alt="Home" />}
           <input
             type="password"
             value={password}
@@ -58,7 +61,11 @@ function LoginFormPage() {
           />
         </label>
         {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+        <button type="submit">
+        {<img className="login-word"
+          src="../dist/images/login-word.png"
+          alt="Home" />}
+        </button>
       </form>
     </div>
   );
