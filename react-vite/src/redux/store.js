@@ -12,6 +12,8 @@ import reviewReducer from "./review";
 import chordsReducer from "./chord";
 import progressionsReducer from "./progression";
 import keysReducer from "./key";
+import songReducer from "./song";
+
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -21,6 +23,7 @@ const rootReducer = combineReducers({
   chord: chordsReducer,
   progression: progressionsReducer,
   key: keysReducer,
+  song: songReducer,
 });
 
 let enhancer;

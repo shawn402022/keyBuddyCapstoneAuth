@@ -20,7 +20,6 @@ const CoursePage = () => {
             dispatch(getCourses());
         }
     }, [dispatch, user]);
-
     if (!user) {
         return <Navigate to="/login" />;
     }
@@ -51,7 +50,7 @@ const CoursePage = () => {
     return (
         <div className="courses-container">
             <Link to="/createCourse">
-                createCourse
+                create course
             </Link>
             <div className="courses-grid">
                 {courses.map(course => (
@@ -59,8 +58,10 @@ const CoursePage = () => {
                         <h2 className='course-name'>{course.course_name}</h2>
                         <p className='course-detail'>{course.details_of_course}</p>
                         <div>
-                            <button>songs</button>
-                            <button>progressions</button>
+                            <button>
+                            <Link to={`/songs/${course.course_name[0]}`}>Songs</Link>
+                            </button>
+                            <button><Link to="/create-song">Add Song</Link></button>
                             <button>scales</button>
                             <button>chords</button>
                             <button>keys</button>

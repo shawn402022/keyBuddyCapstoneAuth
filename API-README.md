@@ -686,6 +686,54 @@ Allows Admin to add courses to database for users to use.
       }
     }
     ```
+### Admin Edit/update  course on database
+
+Allows Admin to update courses to database for users to use.
+
+* Require Authentication: true
+* Require proper authorization: Course must belong to the current user
+* Request
+  * Method: POST
+  * Route path: '/course/admin'
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "details_of_course": " Best chords you will ever use ",
+    },
+    ```
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "course_name": "C course",
+        "details_of_course": " Best chords you will ever use ",
+        "id": 8
+    },
+    ```
+
+* Error Response: Body validation errors
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Bad Request",
+      "errors": {
+        "msg": "Unauthorized- Only admin can update courses",
+
+      }
+    }
+    ```
 
 ### users add course to use
 

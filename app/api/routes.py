@@ -131,19 +131,20 @@ def songs():
 @song_routes.route("/<song_key>")
 def songs_by_key(song_key):
     if song_key:
-        all_songs = db.session.query(Song).filter_by(song_key=song_key)
+        all_songs = db.session.query(Song).filter(Song.song_key.startswith(song_key))
         result_list = []
+        print("Backend song_key:", song_key)  # Debug log
 
         for song in all_songs:
             new_song = song.to_dict()
             result_list.append(new_song)
-
+        print("Backend results:", result_list)  # Debug log
         return jsonify(result_list)
     return jsonify({"msg": "No songs in this key"})
 
 
 # ADMIN create a song
-@song_routes.route("/", methods=["POST"])
+@song_routes.route("/admin", methods=["POST"])
 @login_required
 def create_song():
     # Check if the current user is authorized
@@ -151,14 +152,24 @@ def create_song():
         return jsonify({"msg": "Unauthorized - Only Shawn Norbert can add songs"}), 403
 
     song_data = request.json
-    new_song = Song(**song_data)
+
+    new_song = Song(
+        song_key=song_data.get('song_key'),
+        song=song_data.get('song'),
+        artist=song_data.get('artist'),
+        chords_used=song_data.get('chords_used'),
+        progression_used=song_data.get('progression_used'),
+        description=song_data.get('description')
+    )
+
+
     db.session.add(new_song)
     db.session.commit()
     return jsonify(new_song.to_dict())
 
 
 # ADMIN update a song
-@song_routes.route("/<song_id>", methods=["PATCH"])
+@song_routes.route("/admin/<song_id>", methods=["PATCH"])
 @login_required
 def update_song(song_id):
 
@@ -187,7 +198,7 @@ def update_song(song_id):
 
 
 # ADMIN delete a song
-@song_routes.route("/<song_id>", methods=["DELETE"])
+@song_routes.route("/admin/<song_id>", methods=["DELETE"])
 @login_required
 def delete_song(song_id):
 

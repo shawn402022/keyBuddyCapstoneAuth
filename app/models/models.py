@@ -319,6 +319,7 @@ class Song(db.Model):
     artist = db.Column(db.String(40), nullable=True)
     chords_used = db.Column(db.String(40), nullable=True)
     progression_used = db.Column(db.String(40), nullable=True)
+    description = db.Column(db.String(1000), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
@@ -340,4 +341,5 @@ class Song(db.Model):
             "artist": self.artist,
             "chords_used": self.chords_used,
             "progression_used": self.progression_used,
+            "description": self.description
         }

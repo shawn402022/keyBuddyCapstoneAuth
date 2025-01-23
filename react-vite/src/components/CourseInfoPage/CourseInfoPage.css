@@ -1,0 +1,56 @@
+/*Song info Styles*/
+
+.song-details-grid{
+    display:flex;
+    flex-direction: column;
+    gap: 20px;
+
+
+
+}
+
+.song-key-details{
+    display:flex;
+
+    gap: 1px;
+    border: 6px solid black;
+    border-radius: 10px;
+    margin:1px 50px;
+    padding: 15px;
+    background-color:antiquewhite
+}
+.song-button{
+    display:flex;
+    flex-direction: column;
+    border: 2px solid black;
+    border-radius: 6px;
+    margin-left:auto;
+    background-color: rgb(238, 215, 187);
+}
+.song-general-details{
+
+    border: 2px solid black;
+    border-radius: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: rgb(238, 215, 187);
+}
+.song-description{
+    border: 2px solid black;
+    border-radius: 6px;
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: rgb(238, 215, 187);
+}
+.song-details-title{
+    display:flex;
+    justify-content: center;
+}
+
+/*Chord info Styles*/
+
+/*Key info Styles*/
+
+/*Scale info Styles*/
+
+/*Progression info Styles*/

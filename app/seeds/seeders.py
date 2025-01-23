@@ -169,6 +169,11 @@ def seed_courses():
 
         ),
         Course(
+            course_name="A course",
+            details_of_course=" All Chords in A",
+
+        ),
+        Course(
             course_name="maj course",
             details_of_course=" All major chords",
 
@@ -589,10 +594,11 @@ def seed_songs():
                         "F",
                         "C",
                         "E",
-                        "Dm7",
+                        "Dm7"
                     ]
                 ),
                 chords=Chord.query.filter(Chord.chord_name == Song.song_key).all(),
+                description="The Beatles' used one of the most famous chord progressions, and the song is known for its melodic phrases."
             ),
             Song(
                 song="Dreams",
@@ -601,13 +607,14 @@ def seed_songs():
                 progression_used="1-3-5-6",
                 chords_used=",".join(
                     [
-                        "C",
+                        "C" ,
                         "Fmaj7",
                         "F",
-                        "Dm7",
+                        "Dm7"
                     ]
                 ),
                 chords=Chord.query.filter(Chord.chord_name == Song.song_key).all(),
+                description="Fleetwood Mad', uses chord progressions from a mj dmaj and cmaj in most of thier songs, including Aint No Sunshine."
             ),
             Song(
                 song="Aint No Sunshine",
@@ -621,10 +628,11 @@ def seed_songs():
                         "Fmaj7",
                         "F",
                         "C",
-                        "E",
+                        "E"
                     ]
                 ),
                 chords=Chord.query.filter(Chord.chord_name == Song.song_key).all(),
+                description="Bill Withers' song is known for its use of chord progressions from a mj and c major."
             ),
         ]
         # buIld insert seeds into db
