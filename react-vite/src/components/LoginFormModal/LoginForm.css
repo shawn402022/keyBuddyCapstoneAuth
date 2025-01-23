@@ -44,3 +44,24 @@
     margin-right: 10px;
 
 }
+
+.login-word{
+    height: 20px;  /* Reduced from 30px */
+    width: 50px;
+
+
+}
+
+.demoUser-word{
+    height: 20px;  /* Reduced from 30px */
+    width: 90px;
+}
+
+.login-modal
+button {
+    border-color:black;
+    border-style : solid;
+    border-width: 4px;
+    background-color: rgb(246, 199, 143);
+    border-radius: 5px;
+}

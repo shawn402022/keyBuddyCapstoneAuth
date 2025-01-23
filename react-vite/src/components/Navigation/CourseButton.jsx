@@ -13,7 +13,9 @@ const CourseButton = () => {
                 onClick={handleCourseClick}
                 className="course-button"
             >
-                View All Courses
+            {<img className="allCourses-word"
+                src="../dist/images/ViewAllCourses -word.png"
+                alt="Home" />}
             </button>
         </div>
     );

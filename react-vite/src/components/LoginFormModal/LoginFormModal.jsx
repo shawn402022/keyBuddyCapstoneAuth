@@ -20,7 +20,7 @@ function LoginFormModal() {
     const serverResponse = await dispatch(thunkLogin(demoUser));
     if (!serverResponse) closeModal();
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -68,8 +68,16 @@ function LoginFormModal() {
           />
         </label>
         {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
-        <button type="button" onClick={demoLogin}>Demo User</button>
+        <button type="submit">
+        {<img className="login-word"
+          src="../dist/images/login-word.png"
+          alt="Home" />}
+        </button>
+        <button type="button" onClick={demoLogin}>
+        {<img className="demoUser-word"
+          src="../dist/images/DemoUser -word.png"
+          alt="Home" />}
+        </button>
       </form>
     </>
   );

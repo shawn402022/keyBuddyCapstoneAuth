@@ -1,0 +1,16 @@
+img.allCourses-word{
+    height: 30px;  /* Reduced from 30px */
+    width: 180px;
+}
+
+button.course-button{
+    background-color: rgb(244, 165, 109);
+    border-color:black;
+    border-style: solid;
+    border-width: 4px;
+    border-radius: 5px;
+
+
+
+}
+
