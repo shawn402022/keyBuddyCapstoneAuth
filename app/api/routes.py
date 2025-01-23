@@ -321,21 +321,16 @@ def get_user_courses(user_id):
 # ADMIN add a course to database
 @course_routes.route("/admin", methods=["POST"])
 @login_required
-def add_course_to_database(user_id):
+def add_course_to_database():
     # Check if the current user is the admin
     if current_user.full_name != "Shawn Norbert":
         return jsonify({"msg": "Unauthorized - Only admin can add courses"}), 403
 
-    course_name = request.json.get("course_name")
-    course = Course.query.filter_by(course_name=course_name).first()
-
-    if course:
-        user = User.query.get(user_id)
-        user.courses.append(course)
-        db.session.commit()
-        return jsonify(course.to_dict())
-
-    return jsonify({"msg": "Course not found"}), 404
+    course_data = request.json
+    new_course = Course(**course_data)
+    db.session.add(new_course)
+    db.session.commit()
+    return jsonify(new_course.to_dict())
 
 
 # user add course to user

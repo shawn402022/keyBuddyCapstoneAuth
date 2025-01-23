@@ -4,6 +4,7 @@ import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 import LandingPage from '../components/LandingPage';
 import CoursePage from '../components/CoursePage/CoursePage';
+import CreateCourse from '../components/CoursePage/CreateCourse';
 
 
 
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
       {
         path: "courses",
         element: <CoursePage/>,
+      },
+      {
+        path: "createCourse",
+        element: <CreateCourse/>
       },
       {
         path: "login",

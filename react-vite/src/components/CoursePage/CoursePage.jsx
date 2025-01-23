@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCourses } from '../../redux/course';
-import { Navigate } from'react-router-dom';
+import { Navigate , Link} from'react-router-dom';
+
 
 const CoursePage = () => {
     const dispatch = useDispatch();
@@ -19,9 +20,14 @@ const CoursePage = () => {
         return <Navigate to="/login" />;
     }
 
+
+
     return (
         <div className="courses-container">
             <h1>Available Courses</h1>
+            <Link to="/createCourse">
+                createCourse
+            </Link>
             <div className="courses-grid">
                 {courses.map(course => (
                     <div key={course.id} className="course-card">
