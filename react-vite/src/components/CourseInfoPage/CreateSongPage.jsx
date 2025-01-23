@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createSongsFetch, getSongs } from '../../redux/song';
 import { useNavigate } from 'react-router-dom';
-
+import './CourseInfoPage.css';
 const CreateSongPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -41,8 +41,8 @@ const CreateSongPage = () => {
 
     return (
         <div className="create-song-container">
-            <h1>Add New Song</h1>
-            <form onSubmit={handleSubmit}>
+            <h1 className="create-song-title">Add New Song</h1>
+            <form  className='create-song-form'onSubmit={handleSubmit}>
                 <div>
                     <label>Song Name:</label>
                     <input
@@ -99,6 +99,9 @@ const CreateSongPage = () => {
                 </div>
                 <button type="submit">Add Song</button>
             </form>
+            <img className="scales"
+            src="../dist/images/background-scales-lighter.png"
+            alt="KBuddy logo" />
         </div>
     );
 };

@@ -226,7 +226,7 @@ def reviews():
 
 
 # create a review
-@review_routes.route("/", methods=["POST"])
+@review_routes.route("/create", methods=["POST"])
 @login_required
 def create_review():
     review_data = request.json

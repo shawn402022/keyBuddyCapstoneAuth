@@ -32,9 +32,7 @@ const SongInfoPage = () => {
 
     return (
         <div className="song-details-grid">
-            <Link to="/addSong">
-                Add Song
-            </Link>
+
             <div className='song-details-title'>
                 <h2 >Songs in Key of {firstChar}</h2>
             </div>
@@ -62,6 +60,9 @@ const SongInfoPage = () => {
             ) : (
                 <h3>Currently no songs in the key of {firstChar} available in this database</h3>
             )}
+            <img className="scales"
+            src="../dist/images/background-scales-lighter.png"
+            alt="KBuddy logo" />
         </div>
     )
 }

@@ -5,14 +5,63 @@ img.allCourses-word{
     margin:0px;
 }
 
+.review-word{
+    height: 25px;  /* Reduced from 30px */
+    width: 80px;
+    padding: 0px;
+    margin:0px;
+}
+
+.create-review-word{
+    height: 25px;  /* Reduced from 30px */
+    width: 120x;
+    padding: 0px;
+    margin:0px;
+}
+
 button.course-button{
-    background-color: rgb(244, 165, 109);
+
     border-color:black;
     border-style: solid;
     border-width: 4px;
     border-radius: 5px;
     padding: 4px;
-
-
-
 }
+
+button.review-button{
+
+    border-color:black;
+    border-style: solid;
+    border-width: 4px;
+    border-radius: 5px;
+    padding: 4px;
+}
+
+button.create-review-button{
+
+    border-color:black;
+    border-style: solid;
+    border-width: 4px;
+    border-radius: 5px;
+    padding: 4px;
+}
+
+.profile-dropdown {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+
+    right: 0;
+    top: 100%;
+    margin-top: 5px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+  }
+
+  .nav li:last-child {
+    position: relative;
+  }

@@ -7,6 +7,9 @@ import CoursePage from '../components/CoursePage/CoursePage';
 import CreateCourse from '../components/CoursePage/CreateCourse';
 import SongInfoPage from '../components/CourseInfoPage/SongInfoPage';
 import CreateSongPage from '../components/CourseInfoPage/CreateSongPage';
+import ReviewsPage from '../components/ReviewsPage/ReviewsPage';
+import CreateReviewPage from '../components/ReviewsPage/CreateReviewPage';
+
 
 
 
@@ -36,6 +39,14 @@ export const router = createBrowserRouter([
       {
         path: ":songs/:song_key",
         element: <SongInfoPage />,
+      },
+      {
+        path:"/review",
+        element: <ReviewsPage />
+      },
+      {
+        path:"/review/create",
+        element: <CreateReviewPage />
       },
 
       {

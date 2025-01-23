@@ -145,7 +145,6 @@ export default function songReducer(state = {}, action) {
                     artist: action.payload.artist,
                     chords_used: action.payload.chords_used,
                     progression_used: action.payload.progression_used,
-
                     description: action.payload.description
                 };
                 return newState;

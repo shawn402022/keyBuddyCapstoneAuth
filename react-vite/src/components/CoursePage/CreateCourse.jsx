@@ -43,6 +43,9 @@ const CreateCourse = () => {
                 create
                 </button>
             </form>
+            <img className="scales"
+            src="../dist/images/background-scales-lighter.png"
+            alt="KBuddy logo" />
 
         </div>
     )

@@ -18,7 +18,7 @@ const MidiKeyboardPage = () => {
         setUpPiano(){
 
             if (document.getElementById('piano')) return; // Prevent multiple pianos
-            
+
             console.log('setup piano working')
             const whiteKeyWidth = 80;
             //const blackKeyWidth =  40
@@ -175,7 +175,11 @@ const MidiKeyboardPage = () => {
     return (
         <div id="piano-container">
             {/* The piano will be rendered here by the JavaScript code */}
+            <img className="scales"
+            src="../dist/images/background-scales-lighter.png"
+            alt="KBuddy logo" />
         </div>
+
     );
 }
 

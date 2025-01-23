@@ -14,28 +14,35 @@ function UpdateCourseForm({ course, onClose }) {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label htmlFor="courseName">Course Name:</label>
-                <input
-                    type="text"
-                    id="courseName"
-                    value={courseName}
-                    onChange={(e) => setCourseName(e.target.value)}
-                    required
-                />
-            </div>
-            <div>
-                <label htmlFor="courseDetails">Course Details:</label>
-                <textarea
-                    id="courseDetails"
-                    value={courseDetails}
-                    onChange={(e) => setCourseDetails(e.target.value)}
-                    required
-                />
-            </div>
-            <button type="submit">Update Course</button>
-        </form>
+        <div>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="courseName">Course Name:</label>
+                    <input
+                        type="text"
+                        id="courseName"
+                        value={courseName}
+                        onChange={(e) => setCourseName(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="courseDetails">Course Details:</label>
+                    <textarea
+                        id="courseDetails"
+                        value={courseDetails}
+                        onChange={(e) => setCourseDetails(e.target.value)}
+                        required
+                    />
+                </div>
+                <button type="submit">Update Course</button>
+            </form>
+            <img className="scales"
+            src="../dist/images/background-scales-lighter.png"
+            alt="KBuddy logo" />
+
+        </div>
+
     );
 }
 

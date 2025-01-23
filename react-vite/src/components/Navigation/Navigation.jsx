@@ -3,6 +3,8 @@ import ProfileButton from "./ProfileButton";
 import CourseButton from "./CourseButton";
 import { useDispatch } from "react-redux";
 import { thunkLogout } from "../../redux/session";
+import ReviewButton from "./ReviewButton";
+import CreateReviewButton from "./CreateReviewButton";
 
 
 
@@ -20,8 +22,6 @@ function Navigation() {
   };
 
 
-
-
   return (
     <div>
       <ul className="nav">
@@ -32,6 +32,12 @@ function Navigation() {
         </li>
         <li>
           <CourseButton />
+        </li>
+        <li>
+          <ReviewButton />
+        </li>
+        <li>
+          <CreateReviewButton />
         </li>
 
         <li>

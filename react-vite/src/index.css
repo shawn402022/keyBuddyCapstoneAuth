@@ -35,6 +35,7 @@
   transform: translateX(3%) scale(1);
 }
 
+
 .scales {
   width: 100%;
   height:100vh;
@@ -45,6 +46,7 @@
   background-position: center;
   z-index: 0;
   transform: scaleY(1.6);
+  pointer-events:none;
 }
 
 /* Navigation Styles */
@@ -145,4 +147,28 @@ body,
   min-height: 100vh;
   margin: 0;
   padding: 0;
+}
+
+
+.reviews-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+.review-list{
+  display: flex;
+  justify-content: center;
+}
+.review-card{
+    border:1px solid black;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: antiquewhite;
+}
+
+.profile-dropdown{
+  border: 3px solid black;
+  background-color:antiquewhite
 }
