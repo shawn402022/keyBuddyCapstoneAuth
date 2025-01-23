@@ -1,15 +1,23 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCourses } from '../../redux/course';
+import { Navigate } from'react-router-dom';
 
 const CoursePage = () => {
     const dispatch = useDispatch();
+    const user = useSelector(state => state.session.user);
     const courses = useSelector(state => state.course ? Object.values(state.course): []);
-    console.log("FULL REDUX STATE: ", courses);
 
     useEffect(() => {
-        dispatch(getCourses());
-    }, [dispatch]);
+        if (user) {
+            console.log('DISPATCHING GET COURSES:')
+            dispatch(getCourses());
+        }
+    }, [dispatch, user]);
+
+    if (!user) {
+        return <Navigate to="/login" />;
+    }
 
     return (
         <div className="courses-container">
@@ -17,8 +25,8 @@ const CoursePage = () => {
             <div className="courses-grid">
                 {courses.map(course => (
                     <div key={course.id} className="course-card">
-                        <h2>{course.title}</h2>
-                        <p>{course.description}</p>
+                        <h2>{course.course_name}</h2>
+                        <p>{course.details_of_course}</p>
                     </div>
                 ))}
             </div>

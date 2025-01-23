@@ -9,7 +9,13 @@ export const loadCourses = (courses) => ({
 
 //## THUNK ACTION CREATORS
 export const getCourses = () => async (dispatch) => {
-    const response = await fetch('/api/course');
+    const response = await fetch('/api/course/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+    });
     if (response.ok) {
         const data = await response.json();
         dispatch(loadCourses(data));
@@ -17,7 +23,6 @@ export const getCourses = () => async (dispatch) => {
         console.error('Error fetching courses');
     }
 }
-
 
 //##REDUCER
 export default function courseReducer(state = {}, action) {

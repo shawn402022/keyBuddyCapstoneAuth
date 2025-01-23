@@ -6,6 +6,7 @@ import LandingPage from '../components/LandingPage';
 import CoursePage from '../components/CoursePage/CoursePage';
 
 
+
 export const router = createBrowserRouter([
   {
     element: <Layout />,

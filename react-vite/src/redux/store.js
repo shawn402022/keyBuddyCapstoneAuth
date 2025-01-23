@@ -15,12 +15,12 @@ import keysReducer from "./key";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
-  courseState: courseReducer,
-  scaleState: scalesReducer,
-  reviewState: reviewReducer,
-  chordState: chordsReducer,
-  progressionState: progressionsReducer,
-  keyState: keysReducer,
+  course: courseReducer,
+  scale: scalesReducer,
+  review: reviewReducer,
+  chord: chordsReducer,
+  progression: progressionsReducer,
+  key: keysReducer,
 });
 
 let enhancer;
