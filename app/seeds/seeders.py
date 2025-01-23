@@ -169,17 +169,17 @@ def seed_courses():
 
         ),
         Course(
-            course_name="maj",
+            course_name="maj course",
             details_of_course=" All major chords",
 
         ),
         Course(
-            course_name="min",
+            course_name="min course",
             details_of_course=" All minor chords",
 
         ),
         Course(
-            course_name="dim",
+            course_name="dim course",
             details_of_course=" All diminished chords",
 
         ),

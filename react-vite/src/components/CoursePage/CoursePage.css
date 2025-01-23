@@ -11,3 +11,6 @@
 .course-button:hover {
     background-color: #45a049;
 }
+.courses-grid{
+    display:flex;
+}

@@ -381,7 +381,29 @@ def delete_course_from_user(user_id, course_id):
     return (
         jsonify({"msg": "Course not found or user does not have this course"}),
         404,
-    )  ## SCALE ENDPOINT
+    )
+
+
+# ADMIN delete a course from admin
+@course_routes.route("/admin/<course_id>", methods=["DELETE"])
+@login_required
+def delete_course_from_admin(course_id):
+    # Verify the logged-in user matches the requested user_id
+    if current_user.full_name != "Shawn Norbert":
+        return jsonify({"msg": "Unauthorized - Only admin can add courses"}), 403
+
+
+    course = Course.query.get(course_id)
+
+    if course:
+        db.session.delete(course)
+        db.session.commit()
+        return jsonify({"msg": "Course successfully deleted"})
+
+    return (
+        jsonify({"msg": "Course not found or user does not have this course"}),
+        404,
+    )
 
 
 ## SCALE ENDPOINT

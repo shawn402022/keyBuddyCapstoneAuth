@@ -1,6 +1,7 @@
 //## ACTION TYPES
 const LOAD_COURSES = 'course/LOAD_COURSES';
 const CREATE_COURSES = 'course/CREATE_COURSES'
+const DELETE_COURSES = 'course/DELETE_COURSES'
 
 //## ACTION CREATORS
 export const loadCourses = (courses) => ({
@@ -12,6 +13,11 @@ export const createCourses = (course) => ({
     type: CREATE_COURSES,
     payload: { course },
 })
+
+export const deleteCourses = (course_id) => ({
+    type: DELETE_COURSES,
+    payload: course_id
+ })
 
 
 
@@ -55,6 +61,22 @@ export const createCoursesFetch = (course_name, details_of_course) => async (dis
 
 }
 
+//delete courses
+export const deleteCourseThunk = (course_id) => async (dispatch) => {
+    const response = await fetch(`/api/course/admin/${course_id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+    });
+    if (response.ok) {
+        dispatch(deleteCourses(course_id));
+    } else {
+        console.error('Error deleting courses');
+    }
+}
+
 //##REDUCER
 export default function courseReducer(state = {}, action) {
     switch (action.type) {
@@ -70,6 +92,12 @@ export default function courseReducer(state = {}, action) {
             {
                 const newState = { ...state }
                 newState[action.payload.course.id] = action.payload.course
+                return newState;
+            }
+        case DELETE_COURSES:
+            {
+                const newState = {...state }
+                delete newState[action.payload]
                 return newState;
             }
         default:
