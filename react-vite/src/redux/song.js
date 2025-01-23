@@ -21,7 +21,7 @@ export const deleteSongs = (song_id) => ({
     payload: song_id
 })
 
-export const updateSongs = (song_id, song, artist, chords_used, progression_used, song_key) => ({
+export const updateSongs = (song_id, song, artist, chords_used, progression_used, song_key, description) => ({
     type: UPDATE_SONGS,
     payload: {
         song_id,
@@ -29,7 +29,8 @@ export const updateSongs = (song_id, song, artist, chords_used, progression_used
         song,
         artist,
         chords_used,
-        progression_used
+        progression_used,
+        description
     }
 })
 
@@ -89,30 +90,30 @@ export const deleteSongThunk = (songId) => async (dispatch) => {
     }
 };
 //update songs
-export const updateCourseThunk = (song_id, song, artist, chords_used, progression_used, song_key) => async (dispatch) => {
-    const response = await fetch(`/api/song/admin/${song_id}`, {
-        method: 'PUT',
-        body: JSON.stringify({
-            song_id,
-            song_key,
-            song,
-            artist,
-            chords_used,
-            progression_used
-        }),
+export const updateSongThunk = (songId, songData) => async (dispatch) => {
+    const response = await fetch(`/api/song/admin/${songId}`, {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
         },
-        credentials: 'include'
+        body: JSON.stringify(songData)
     });
 
     if (response.ok) {
-        const updatedCourse = await response.json();
-        dispatch(updateSongs(song_id, song, artist, chords_used, progression_used, song_key));
-        return updatedCourse;
+        const updatedSong = await response.json();
+        dispatch(updateSongs(
+            updatedSong.id,
+            updatedSong.song,
+            updatedSong.artist,
+            updatedSong.chords_used,
+            updatedSong.progression_used,
+            updatedSong.song_key,
+            updatedSong.description
+        ));
+        return true;
     }
-};
-//##REDUCER
+    return false;
+};//##REDUCER
 export default function songReducer(state = {}, action) {
     switch (action.type) {
         case LOAD_SONGS:
@@ -145,6 +146,7 @@ export default function songReducer(state = {}, action) {
                     chords_used: action.payload.chords_used,
                     progression_used: action.payload.progression_used,
 
+                    description: action.payload.description
                 };
                 return newState;
             }

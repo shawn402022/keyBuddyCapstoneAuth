@@ -172,30 +172,24 @@ def create_song():
 @song_routes.route("/admin/<song_id>", methods=["PATCH"])
 @login_required
 def update_song(song_id):
-
     if current_user.full_name != "Shawn Norbert":
-        return jsonify({"msg": "Unauthorized - Only Shawn Norbert can add songs"}), 403
+        return jsonify({"msg": "Unauthorized - Only Shawn Norbert can update songs"}), 403
 
     song = db.session.query(Song).get(song_id)
+    data = request.json
 
     if song:
-        if "song_key" in request.json:
-            song.song_key = request.json["song_key"]
-        if "song" in request.json:
-            song.song = request.json["song"]
-        if "artist" in request.json:
-            song.artist = request.json["artist"]
-        if "chords_used" in request.json:
-            song.chords_used = request.json["chords_used"]
-        if "progression_used" in request.json:
-            song.progression_used = request.json["progression_used"]
+        song.song_key = data.get('song_key', song.song_key)
+        song.song = data.get('song', song.song)
+        song.artist = data.get('artist', song.artist)
+        song.chords_used = data.get('chords_used', song.chords_used)
+        song.progression_used = data.get('progression_used', song.progression_used)
+        song.description = data.get('description', song.description)
 
-        print(song)
         db.session.commit()
         return jsonify(song.to_dict())
 
-    return jsonify({"msg": "Song not found"})
-
+    return jsonify({"msg": "Song not found"}), 404
 
 # ADMIN delete a song
 @song_routes.route("/admin/<song_id>", methods=["DELETE"])

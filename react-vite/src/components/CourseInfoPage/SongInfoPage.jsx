@@ -2,9 +2,11 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { getSongs } from '../../redux/song'
+import UpdateSongPage from './UpdateSongPage'
 import './CourseInfoPage.css'
 import { Link } from'react-router-dom'
 import { deleteSongThunk } from '../../redux/song'
+
 
 const SongInfoPage = () => {
     const dispatch = useDispatch()
@@ -52,10 +54,9 @@ const SongInfoPage = () => {
                             <p> {song.description}</p>
                         </div>
                         <div className='song-button'>
-                            <button>Update</button>
+                            <UpdateSongPage song={song} />
                             <button onClick={() => handleDeleteSong(song.id)}>Delete Song</button>
                         </div>
-
                     </div>
                 ))
             ) : (
