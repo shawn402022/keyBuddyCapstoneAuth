@@ -312,7 +312,7 @@ const MidiKeyboardPage = () => {
         <div id="piano-container">
             {/* The piano will be rendered here by the JavaScript code */}
             <img className="scales"
-                src="/dist/images/background-scales-lighter.png"
+                src="/images/background-scales-lighter.png"
                 alt="KBuddy logo" />
         </div>
 

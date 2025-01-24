@@ -1,4 +1,4 @@
-import { NavLink, useNavigate} from "react-router-dom";
+import { NavLink, useNavigate, Link} from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import CourseButton from "./CourseButton";
 import { useDispatch } from "react-redux";
@@ -26,10 +26,16 @@ function Navigation() {
     <div>
       <ul className="nav">
         <li>
-          <NavLink  to="/"><p className="home-icon">Home</p></NavLink>
+          <NavLink   to="/"><p className="home-icon">Home</p></NavLink>
         </li>
         <li>
           <CourseButton />
+        </li>
+        <li>
+          <p className="create-course-button">
+            <NavLink  to="/createCourse">Create Course</NavLink>
+          </p>
+
         </li>
         <li>
           <ReviewButton />
@@ -37,7 +43,6 @@ function Navigation() {
         <li>
           <CreateReviewButton />
         </li>
-
         <li>
           <ProfileButton onLogout={handleLogout}/>
 

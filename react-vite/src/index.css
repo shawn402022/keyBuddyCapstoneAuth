@@ -108,16 +108,17 @@ a{
 }
 
 .home-icon{
+    height: 20px;  /* Reduced from 30px */
     border-color:black;
+    display:flex;
+    justify-content: center;
     border-style: solid;
     border-width: 4px;
     border-radius:5px;
     padding:4px;
     background-color: rgb(243, 154, 90);
-
-
     height: 25px;
-    width: 59px;
+    padding:3px 5px
 }
 
 .profile-dropdown li{
@@ -172,5 +173,3 @@ body,
   border: 3px solid black;
   background-color:antiquewhite
 }
-
-

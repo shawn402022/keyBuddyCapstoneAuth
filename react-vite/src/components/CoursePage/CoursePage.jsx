@@ -49,9 +49,7 @@ const CoursePage = () => {
 
     return (
         <div className="courses-container">
-            <Link to="/createCourse">
-                Create Course
-            </Link>
+
             <div className="courses-grid">
                 {courses.map(course => (
                     <div key={course.id} className="course-card">
