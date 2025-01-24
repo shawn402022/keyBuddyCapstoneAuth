@@ -133,58 +133,63 @@ const MidiKeyboardPage = () => {
             });
 // For white keys
 piano.querySelectorAll('.white-key').forEach(key => {
-    const pressedKey = key.nextElementSibling
-    const noteId = pressedKey.getAttribute('data-id')
+    const keyImage = key.querySelector('img')
+    const noteId = keyImage.getAttribute('data-id')
+    const elements = [key, keyImage]
 
-    key.addEventListener('mousedown', () => {
-        // Use the same ID format as MIDI events
-        let showPressed = document.getElementById(`${noteId}-pressed`)
-        showPressed.style.visibility = 'visible'
+    elements.forEach(element => {
+        element.addEventListener('mousedown', () => {
+            let showPressed = document.getElementById(`${noteId}-pressed`)
+            showPressed.style.visibility = 'visible'
 
-        // Create note label using the same format as MIDI events
-        let noteLabel = document.getElementById(`note-label-${noteId}`)
-        if (!noteLabel) {
-            noteLabel = document.createElement('div')
-            noteLabel.id = `note-label-${noteId}`
-            noteLabel.style.position = 'fixed'
-            noteLabel.style.textAlign = 'center'
-            noteLabel.style.width = '25px'
-            noteLabel.style.height = '25px'
-            noteLabel.style.color = 'white'
-            noteLabel.style.fontSize = '14px'
-            noteLabel.style.backgroundColor = 'black'
-            noteLabel.style.padding = '0'
-            noteLabel.style.margin = '0'
-            noteLabel.style.lineHeight = '25px'
-            noteLabel.style.borderRadius = '3px'
+            let noteLabel = document.getElementById(`note-label-${noteId}`)
+            if (!noteLabel) {
+                noteLabel = document.createElement('div')
+                noteLabel.id = `note-label-${noteId}`
+                noteLabel.style.position = 'fixed'
+                noteLabel.style.textAlign = 'center'
+                noteLabel.style.width = '25px'
+                noteLabel.style.height = '25px'
+                noteLabel.style.color = 'white'
+                noteLabel.style.fontSize = '14px'
+                noteLabel.style.backgroundColor = 'black'
+                noteLabel.style.padding = '0'
+                noteLabel.style.margin = '0'
+                noteLabel.style.lineHeight = '25px'
+                noteLabel.style.borderRadius = '3px'
 
-            const rect = showPressed.getBoundingClientRect()
-            noteLabel.style.left = `${rect.left + (rect.width/2) - 12.5}px`
-            noteLabel.style.top = `${rect.bottom + 2}px`
+                const keyElement = document.getElementById(`${noteId}-pressed`)
+                const rect = keyElement.getBoundingClientRect()
+                noteLabel.style.left = `${rect.left + (rect.width/2) - 12.5}px`
+                noteLabel.style.top = `${rect.bottom + 2}px`
 
-            document.body.appendChild(noteLabel)
-        }
+                document.body.appendChild(noteLabel)
+            }
 
-        const letter = noteId[0]
-        const number = noteId[noteId.length - 1]
-        noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">${number}</span>`
-    })
+            const letter = noteId[0]
+            const number = noteId[noteId.length - 1]
+            noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">${number}</span>`
+        })
 
-    key.addEventListener('mouseup', () => {
-        pressedKey.style.visibility = 'hidden'
-        let noteLabel = document.getElementById(`note-label-${noteId}`)
-        if (noteLabel) {
-            noteLabel.remove()
-        }
-    })
+        element.addEventListener('mouseup', () => {
+            let showHidden = document.getElementById(`${noteId}-pressed`)
+            showHidden.style.visibility = 'hidden'
 
-    // Add mouse leave handler for better UX
-    key.addEventListener('mouseleave', () => {
-        pressedKey.style.visibility = 'hidden'
-        let noteLabel = document.getElementById(`note-label-${noteId}`)
-        if (noteLabel) {
-            noteLabel.remove()
-        }
+            let noteLabel = document.getElementById(`note-label-${noteId}`)
+            if (noteLabel) {
+                noteLabel.remove()
+            }
+        })
+
+        element.addEventListener('mouseleave', () => {
+            let showHidden = document.getElementById(`${noteId}-pressed`)
+            showHidden.style.visibility = 'hidden'
+
+            let noteLabel = document.getElementById(`note-label-${noteId}`)
+            if (noteLabel) {
+                noteLabel.remove()
+            }
+        })
     })
 })
 
