@@ -24,7 +24,9 @@ from sqlalchemy.sql import text
 ## USER user seeding function
 # Adds a demo user, you can add other users here if you want
 def seed_users():
-    # create a bunch of users in an array
+    if environment == "production":
+        db.session.execute(f'SET search_path TO {SCHEMA}')
+
 
     seed_data = [
         User(
@@ -103,7 +105,8 @@ def undo_users():
 
 ## USER review seeding function
 def seed_reviews():
-    # create a bunch of users in an array
+    if environment == "production":
+        db.session.execute(f'SET search_path TO {SCHEMA}')
 
     seed_data = [
         Review(
@@ -150,7 +153,9 @@ def undo_reviews():
 
 ## USER course seeding function
 def seed_courses():
-    # create a bunch of users in an array
+    if environment == "production":
+        db.session.execute(f'SET search_path TO {SCHEMA}')
+
 
     seed_data = [
         Course(
@@ -209,6 +214,8 @@ def undo_courses():
 
 ## Admin scale seeding function
 def seed_scales():
+    if environment == "production":
+        db.session.execute(f'SET search_path TO {SCHEMA}')
 
 
     # Add a check to ensure this combination doesn't already exist
@@ -304,7 +311,8 @@ def undo_scales():
 
 ## ADMIN chord seeding function
 def seed_chords():
-    # create a bunch of users in an array
+    if environment == "production":
+        db.session.execute(f'SET search_path TO {SCHEMA}')
 
     seed_data = [
         Chord(
@@ -448,7 +456,8 @@ def undo_chords():
 
 ## ADMIN Progression seeding function
 def seed_progressions():
-    # create a bunch of users in an array
+    if environment == "production":
+        db.session.execute(f'SET search_path TO {SCHEMA}')
 
     seed_data = [
         Progression(progression_name="1-4-5-6", progression_type="maj", progression_style="rock"),
@@ -487,7 +496,8 @@ def undo_progressions():
 
 ## ADMIN Keys seeding function
 def seed_keys():
-    # create a bunch of users in an array
+    if environment == "production":
+        db.session.execute(f'SET search_path TO {SCHEMA}')
 
     seed_data = [
         Key(
@@ -520,7 +530,7 @@ def seed_keys():
             ),
         Key(
             key_name="F#",
-        key_description = 'alskdfja;sldkfjasfdsasdf'
+            key_description = 'alskdfja;sldkfjasfdsasdf'
             ),
         Key(
             key_name='Gb',
@@ -528,7 +538,7 @@ def seed_keys():
             ),
         Key(
             key_name="G",
-        key_description = 'alskdfja;sldkfjasfdsasdf'
+            key_description = 'alskdfja;sldkfjasfdsasdf'
             ),
         Key(
             key_name="G#",
@@ -540,7 +550,7 @@ def seed_keys():
             ),
         Key(
             key_name="A",
-        key_description = 'alskdfja;sldkfjasfdsasdf'
+            key_description = 'alskdfja;sldkfjasfdsasdf'
             ),
         Key(
             key_name="A#",
@@ -575,6 +585,9 @@ def undo_keys():
 
 ## ADMIN Song seeding function
 def seed_songs():
+    if environment == "production":
+        db.session.execute(f'SET search_path TO {SCHEMA}')
+
     first_chord = Chord.query.first()
 
     if first_chord:
@@ -655,6 +668,9 @@ def undo_songs():
 
 ## JOIN User Courses Seeding function
 def seed_user_courses():
+    if environment == "production":
+        db.session.execute(f'SET search_path TO {SCHEMA}')
+
     course_id_1 = Course.query.filter_by(course_name="C course").first().id
     user_id_1 = User.query.filter_by(username="user1").first().id
 
@@ -689,6 +705,9 @@ def undo_user_courses():
 
 ## JOIN Song Keys Seeding function
 def seed_song_keys():
+    if environment == "production":
+        db.session.execute(f'SET search_path TO {SCHEMA}')
+
     song_id_1 = Song.query.filter_by(song_key="A maj").first().id
     key_id_1 = Key.query.filter_by(key_name="A").first().id
 
@@ -721,6 +740,9 @@ def undo_song_keys():
 
 ## JOIN Song Progressions Seeding function
 def seed_song_progressions():
+    if environment == "production":
+        db.session.execute(f'SET search_path TO {SCHEMA}')
+
     song_id_1 = Song.query.filter_by(song="Let it Be").first().id
     progression_id_1 = (
         Progression.query.filter_by(progression_name="1-4-5-6").first().id
@@ -755,6 +777,9 @@ def undo_song_progressions():
 
 ## JOIN Song Chords Seeding function
 def seed_song_chords():
+    if environment == "production":
+        db.session.execute(f'SET search_path TO {SCHEMA}')
+        
     song_id_1 = Song.query.filter_by(song="Dreams").first().id
     chord_id_1 = Chord.query.filter_by(chord_name="C maj").first().id
 
