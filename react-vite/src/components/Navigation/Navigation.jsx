@@ -1,4 +1,4 @@
-import { NavLink, useNavigate, Link} from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import CourseButton from "./CourseButton";
 import { useDispatch } from "react-redux";
@@ -35,7 +35,6 @@ function Navigation() {
           <p className="create-course-button">
             <NavLink  to="/createCourse">Create Course</NavLink>
           </p>
-
         </li>
         <li>
           <ReviewButton />
