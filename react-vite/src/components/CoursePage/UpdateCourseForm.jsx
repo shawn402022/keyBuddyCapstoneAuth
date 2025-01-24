@@ -38,7 +38,7 @@ function UpdateCourseForm({ course, onClose }) {
                 <button type="submit">Update Course</button>
             </form>
             <img className="scales"
-            src="../dist/assets/images/background-scales-lighter.png"
+            src="/images/background-scales-lighter.png"
             alt="KBuddy logo" />
 
         </div>

@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --watch",
+    "build": "vite build --watch && cp -R public/* dist/",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "CI":"false"
+    "preview": "vite preview"
+
   },
   "dependencies": {
     "js-cookie": "^3.0.5",

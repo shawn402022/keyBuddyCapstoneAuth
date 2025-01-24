@@ -19,15 +19,15 @@ const LandingPage = () => {
     return (
         <div className="landing-logo">
             <img className="keyboard-logo"
-            src="../dist/assets/images/landing_keyboard.png"
+            src="/images/landing_keyboard.png"
             alt="KBuddy logo" />
 
             <img className="title"
-            src="../dist/assets/images/key-buddy-title-font.png"
+            src="/images/key-buddy-title-font.png"
             alt="KBuddy logo" />
 
             <img className="scales"
-            src="../dist/assets/images/background-scales-lighter.png"
+            src="/images/background-scales-lighter.png"
             alt="KBuddy logo" />
         </div>
     )
