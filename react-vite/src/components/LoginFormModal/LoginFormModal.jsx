@@ -45,9 +45,7 @@ function LoginFormModal() {
 
       <form  className='login-modal' onSubmit={handleSubmit}>
         <label>
-        {<img className="email-word"
-          src="../dist/images/email-word.png"
-          alt="Home" />}
+        {<p className="email-word">Email</p>}
           <input
             type="text"
             value={email}
@@ -57,9 +55,7 @@ function LoginFormModal() {
         </label>
         {errors.email && <p>{errors.email}</p>}
         <label>
-        {<img className="password-word"
-          src="../dist/images/password-word.png"
-          alt="Home" />}
+        {<p>Password</p>}
           <input
             type="password"
             value={password}
@@ -69,14 +65,10 @@ function LoginFormModal() {
         </label>
         {errors.password && <p>{errors.password}</p>}
         <button type="submit">
-        {<img className="login-word"
-          src="../dist/images/login-word.png"
-          alt="Home" />}
+        {<p className="login-word">Log In</p>}
         </button>
         <button type="button" onClick={demoLogin}>
-        {<img className="demoUser-word"
-          src="../dist/images/DemoUser -word.png"
-          alt="Home" />}
+        {<p className="demoUser-word">Demo User</p>}
         </button>
       </form>
     </>

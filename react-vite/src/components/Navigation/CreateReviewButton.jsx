@@ -14,9 +14,7 @@ const CreateReviewButton = () => {
                 onClick={handleCreateReviewClick}
                 className="create-review-button"
             >
-            {<img className="create-review-word"
-                src="../dist/images/createreview-word.png"
-                alt="Home" />}
+            {<p className="create-review-word">Create Review</p>}
             </button>
         </div>
     );

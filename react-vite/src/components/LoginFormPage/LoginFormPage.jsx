@@ -38,9 +38,7 @@ function LoginFormPage() {
         errors.map((message) => <p key={message}>{message}</p>)}
       <form className='login-page'  onSubmit={handleSubmit}>
         <label>
-        {<img className="email-word"
-          src="../dist/images/email-word.png"
-          alt="Home" />}
+        {<p className="email-word">Email</p>}
           <input
             type="text"
             value={email}
@@ -50,9 +48,7 @@ function LoginFormPage() {
         </label>
         {errors.email && <p>{errors.email}</p>}
         <label>
-        {<img className="password-word"
-          src="../dist/images/password-word.png"
-          alt="Home" />}
+        {<p className="password-word">Password</p>}
           <input
             type="password"
             value={password}
@@ -62,13 +58,11 @@ function LoginFormPage() {
         </label>
         {errors.password && <p>{errors.password}</p>}
         <button type="submit">
-        {<img className="login-word"
-          src="../dist/images/login-word.png"
-          alt="Home" />}
+        {<p className="login-word">Log In</p>}
         </button>
       </form>
       <img className="scales"
-      src="../dist/images/background-scales-lighter.png"
+      src="../dist/assets/images/background-scales-lighter.png"
       alt="KBuddy logo" />
     </div>
   );

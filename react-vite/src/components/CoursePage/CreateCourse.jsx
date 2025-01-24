@@ -32,7 +32,7 @@ const CreateCourse = () => {
                     />
                 </label>
                 <label>
-                    details_of_course
+                    Details of Course
                     <input
                     type="text"
                     value={form.details_of_course}
@@ -44,7 +44,7 @@ const CreateCourse = () => {
                 </button>
             </form>
             <img className="scales"
-            src="../dist/images/background-scales-lighter.png"
+            src="../dist/assets/images/background-scales-lighter.png"
             alt="KBuddy logo" />
 
         </div>

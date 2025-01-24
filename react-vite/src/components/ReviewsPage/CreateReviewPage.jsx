@@ -31,7 +31,7 @@ const CreateReviewPage = () => {
                 <button type="submit">Post Review</button>
             </form>
             <img className="scales"
-            src="../dist/images/background-scales-lighter.png"
+            src="../dist/assets/images/background-scales-lighter.png"
             alt="KBuddy logo" />
         </div>
     )

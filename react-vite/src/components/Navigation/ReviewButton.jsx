@@ -13,9 +13,7 @@ const ReviewButton = () => {
                 onClick={handleReviewClick}
                 className="review-button"
             >
-            {<img className="review-word"
-                src="../dist/images/review-word.png"
-                alt="Home" />}
+            <p className="review-word">Review</p>
             </button>
         </div>
     );

@@ -26,9 +26,7 @@ function Navigation() {
     <div>
       <ul className="nav">
         <li>
-          <NavLink  to="/"><img className="home-icon"
-          src="../dist/images/home-word.png"
-          alt="Home" /></NavLink>
+          <NavLink  to="/"><p className="home-icon">Home</p></NavLink>
         </li>
         <li>
           <CourseButton />

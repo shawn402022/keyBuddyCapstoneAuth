@@ -100,7 +100,7 @@ const CreateSongPage = () => {
                 <button type="submit">Add Song</button>
             </form>
             <img className="scales"
-            src="../dist/images/background-scales-lighter.png"
+            src="../dist/assets/images/background-scales-lighter.png"
             alt="KBuddy logo" />
         </div>
     );

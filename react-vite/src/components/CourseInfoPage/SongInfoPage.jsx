@@ -61,7 +61,7 @@ const SongInfoPage = () => {
                 <h3>Currently no songs in the key of {firstChar} available in this database</h3>
             )}
             <img className="scales"
-            src="../dist/images/background-scales-lighter.png"
+            src="../dist/assets/images/background-scales-lighter.png"
             alt="KBuddy logo" />
         </div>
     )

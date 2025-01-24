@@ -58,16 +58,12 @@ function ProfileButton() {
           ) : (
             <>
               <OpenModalMenuItem
-                itemText={<img className="login-word"
-                  src="../dist/images/login-word.png"
-                  alt="Home" />}
+                itemText={<p className="login-word">Login</p>}
                 onItemClick={closeMenu}
                 modalComponent={<LoginFormModal />}
               />
               <OpenModalMenuItem
-                itemText={<img className="signin-word"
-                  src="../dist/images/Signin-word.png"
-                  alt="Home" />}
+                itemText={<p className="signin-word">Sign Up</p>}
                 onItemClick={closeMenu}
                 modalComponent={<SignupFormModal />}
               />

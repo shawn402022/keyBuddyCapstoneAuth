@@ -109,7 +109,7 @@ function UpdateSongPage({ song }) {
                 </div>
             )}
             <img className="scales"
-            src="../dist/images/background-scales-lighter.png"
+            src="../dist/assets/images/background-scales-lighter.png"
             alt="KBuddy logo" />
         </div>
     );

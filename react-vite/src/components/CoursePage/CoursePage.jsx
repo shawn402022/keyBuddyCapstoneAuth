@@ -50,7 +50,7 @@ const CoursePage = () => {
     return (
         <div className="courses-container">
             <Link to="/createCourse">
-                create course
+                Create Course
             </Link>
             <div className="courses-grid">
                 {courses.map(course => (
@@ -62,14 +62,14 @@ const CoursePage = () => {
                             <Link to={`/songs/${course.course_name[0]}`}>Songs</Link>
                             </button>
                             <button><Link to="/create-song">Add Song</Link></button>
-                            <button>scales</button>
-                            <button>chords</button>
-                            <button>keys</button>
+                            <button>Scales</button>
+                            <button>Chords</button>
+                            <button>Keys</button>
                             <button onClick={() => handleUpdateClick(course)}>
-                                update
+                                Update
                             </button>
                             <button onClick={() => handleDelete(course.id)}>
-                                delete
+                                Delete
                             </button>
                         </div>
                     </div>
@@ -104,7 +104,7 @@ const CoursePage = () => {
                 </div>
             )}
             <img className="scales"
-            src="../dist/images/background-scales-lighter.png"
+            src="../dist/assets/images/background-scales-lighter.png"
             alt="KBuddy logo" />
         </div>
     );

@@ -13,9 +13,7 @@ const CourseButton = () => {
                 onClick={handleCourseClick}
                 className="course-button"
             >
-            {<img className="allCourses-word"
-                src="../dist/images/ViewAllCourses -word.png"
-                alt="Home" />}
+            {<p className="allCourses-word">All Courses</p>}
             </button>
         </div>
     );
