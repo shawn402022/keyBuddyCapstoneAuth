@@ -3,6 +3,7 @@ import KeyImages from './images.js';
 import { useEffect } from 'react';
 import * as Tonal from 'tonal'
 import {WebMidi} from "webmidi";
+import './MidiKeyboardPage.css'
 
 const chromaticNotes = Tonal.Range.chromatic(['C2', 'B7'], {sharps: true}).filter((note)=> note.length === 2)
 const sharpNotes = Tonal.Range.chromatic(['C2', 'B7'], {sharps: true}).filter((note)=> note.length > 2)
@@ -43,19 +44,18 @@ const MidiKeyboardPage = () => {
                 const whiteKeyImage = utils.createKeyImage(keyImages.releasedNatural[i])
                 const whiteKeyImagePressed = utils.createKeyImage(keyImages.pressedNatural[i])
                 const imgNoteText = chromaticNotes[i]
-
-
-                utils.setAttributes(whiteKeyObject, {
-                    "class":"white-key",
-                    "width":whiteKeyWidth,
-                    "height":pianoHeight,
-                    "x": whiteKeyWidth * i
-                })
-                utils.setAttributes(whiteKeyObjectPressed, {
-                    "class":"white-key-pressed",
-                    "width":whiteKeyWidth,
-                    "height":pianoHeight,
-                    "x": whiteKeyWidth * i,
+                  utils.setAttributes(whiteKeyObject, {
+                      "class":"white-key",
+                      "width":whiteKeyWidth,
+                      "height":pianoHeight,
+                      "x": whiteKeyWidth * i,
+                      "style": "cursor: pointer"
+                  })
+                  utils.setAttributes(whiteKeyObjectPressed, {
+                      "class":"white-key-pressed",
+                      "width":whiteKeyWidth,
+                      "height":pianoHeight,
+                      "x": whiteKeyWidth * i,
                     "data-id":imgNoteText,
                     "id":`${imgNoteText}-pressed-white`
                 })
@@ -129,43 +129,183 @@ const MidiKeyboardPage = () => {
                 blackKeyGroup.appendChild(blackKeyObjectPressed)
                 blackKeyObject.appendChild(blackKeyImage)
                 blackKeyObjectPressed.appendChild(blackKeyImagePressed)
-
                 blackKeyImagePressed.style.visibility = 'hidden'
-
             });
+// For white keys
+piano.querySelectorAll('.white-key').forEach(key => {
+    const pressedKey = key.nextElementSibling
+    const noteId = pressedKey.getAttribute('data-id')
 
+    key.addEventListener('mousedown', () => {
+        // Use the same ID format as MIDI events
+        let showPressed = document.getElementById(`${noteId}-pressed`)
+        showPressed.style.visibility = 'visible'
+
+        // Create note label using the same format as MIDI events
+        let noteLabel = document.getElementById(`note-label-${noteId}`)
+        if (!noteLabel) {
+            noteLabel = document.createElement('div')
+            noteLabel.id = `note-label-${noteId}`
+            noteLabel.style.position = 'fixed'
+            noteLabel.style.textAlign = 'center'
+            noteLabel.style.width = '25px'
+            noteLabel.style.height = '25px'
+            noteLabel.style.color = 'white'
+            noteLabel.style.fontSize = '14px'
+            noteLabel.style.backgroundColor = 'black'
+            noteLabel.style.padding = '0'
+            noteLabel.style.margin = '0'
+            noteLabel.style.lineHeight = '25px'
+            noteLabel.style.borderRadius = '3px'
+
+            const rect = showPressed.getBoundingClientRect()
+            noteLabel.style.left = `${rect.left + (rect.width/2) - 12.5}px`
+            noteLabel.style.top = `${rect.bottom + 2}px`
+
+            document.body.appendChild(noteLabel)
+        }
+
+        const letter = noteId[0]
+        const number = noteId[noteId.length - 1]
+        noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">${number}</span>`
+    })
+
+    key.addEventListener('mouseup', () => {
+        pressedKey.style.visibility = 'hidden'
+        let noteLabel = document.getElementById(`note-label-${noteId}`)
+        if (noteLabel) {
+            noteLabel.remove()
+        }
+    })
+
+    // Add mouse leave handler for better UX
+    key.addEventListener('mouseleave', () => {
+        pressedKey.style.visibility = 'hidden'
+        let noteLabel = document.getElementById(`note-label-${noteId}`)
+        if (noteLabel) {
+            noteLabel.remove()
+        }
+    })
+})
+
+// Similar updates for black keys
+piano.querySelectorAll('.black-key').forEach(key => {
+    const pressedKey = key.nextElementSibling
+    const noteId = pressedKey.getAttribute('id').replace('-pressed-black', '')
+
+    key.addEventListener('mousedown', () => {
+        pressedKey.style.visibility = 'visible'
+
+        let noteLabel = document.getElementById(`note-label-${noteId}`)
+        if (!noteLabel) {
+            noteLabel = document.createElement('div')
+            noteLabel.id = `note-label-${noteId}`
+            noteLabel.style.position = 'fixed'
+            noteLabel.style.textAlign = 'center'
+            noteLabel.style.width = '25px'
+            noteLabel.style.height = '25px'
+            noteLabel.style.color = 'white'
+            noteLabel.style.fontSize = '14px'
+            noteLabel.style.backgroundColor = 'black'
+            noteLabel.style.padding = '0'
+            noteLabel.style.margin = '0'
+            noteLabel.style.lineHeight = '25px'
+            noteLabel.style.borderRadius = '3px'
+
+            const rect = pressedKey.getBoundingClientRect()
+            noteLabel.style.left = `${rect.left + (rect.width/2) - 12.5}px`
+            noteLabel.style.top = `${rect.bottom + 2}px`
+
+            document.body.appendChild(noteLabel)
+        }
+
+        const letter = noteId[0]
+        const number = noteId[noteId.length - 1]
+        if (noteId.includes('#')) {
+            noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">#</span><span style="font-size: 10px">${number}</span>`
+        }
+    })
+
+    key.addEventListener('mouseup', () => {
+        pressedKey.style.visibility = 'hidden'
+        let noteLabel = document.getElementById(`note-label-${noteId}`)
+        if (noteLabel) {
+            noteLabel.remove()
+        }
+    })
+
+    // Add mouse leave handler for better UX
+    key.addEventListener('mouseleave', () => {
+        pressedKey.style.visibility = 'hidden'
+        let noteLabel = document.getElementById(`note-label-${noteId}`)
+        if (noteLabel) {
+            noteLabel.remove()
+        }
+    })
+})
             //setUp the WEBMIDI
-            WebMidi
-                .enable({sysex: true})
+            WebMidi.enable({sysex: true})
                 .then(onEnabled)
                 .catch(err => alert(err))
             console.log('webMidi enabled')
             function onEnabled() {
 
                 const myInput = WebMidi.getInputByName("KOMPLETE KONTROL A25 MIDI");
-
-                myInput.addListener("noteon", (e) =>{
+                myInput.addListener("noteon", (e) => {
                     console.log(`${e.note.identifier} is on `)
                     let showPressed = document.getElementById(`${e.note.identifier}-pressed`)
-                    //let showBlackPressed = document.getElementById
-
                     showPressed.style.visibility = 'visible'
 
+                    // Create or update note label
+                    let noteLabel = document.getElementById(`note-label-${e.note.identifier}`)
+                    if (!noteLabel) {
+                        noteLabel = document.createElement('div')
+                        noteLabel.id = `note-label-${e.note.identifier}`
+                        noteLabel.style.position = 'fixed'
+                        noteLabel.style.textAlign = 'center'
+                        noteLabel.style.width = '25px'
+                        noteLabel.style.height = '25px'
+                        noteLabel.style.color = 'white'
+                        noteLabel.style.fontSize = '14px'
+                        noteLabel.style.backgroundColor = 'black'
+                        noteLabel.style.padding = '0'
+                        noteLabel.style.margin = '0'
+                        noteLabel.style.lineHeight = '25px'
+                        noteLabel.style.borderRadius = '3px'
 
+                        const keyElement = document.getElementById(`${e.note.identifier}-pressed`)
+                        const rect = keyElement.getBoundingClientRect()
+                        noteLabel.style.left = `${rect.left + (rect.width/2) - 12.5}px`
+                        noteLabel.style.top = `${rect.bottom + 2}px`
+
+                        document.body.appendChild(noteLabel)
+                    }
+
+                    // Format the note text with colored letter, scaled sharp symbol and number
+                    const noteText = e.note.identifier
+                    const letter = noteText[0]
+                    const number = noteText[noteText.length - 1]
+                    if (noteText.includes('#')) {
+                        noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">#</span><span style="font-size: 10px">${number}</span>`
+                    } else {
+                        noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">${number}</span>`
+                    }
                 })
 
-                myInput.addListener("noteoff", (e) =>{
+                myInput.addListener("noteoff", (e) => {
                     console.log(`${e.note.identifier} is off `)
-
                     let showHidden = document.getElementById(`${e.note.identifier}-pressed`)
-
                     showHidden.style.visibility = 'hidden'
+
+                    // Remove note label
+                    let noteLabel = document.getElementById(`note-label-${e.note.identifier}`)
+                    if (noteLabel) {
+                        noteLabel.remove()
+                    }
                 })
-                //console.log(myInput)
                 console.log('setup midi working')
             }
         },
-
 
     }
 
@@ -176,7 +316,7 @@ const MidiKeyboardPage = () => {
         <div id="piano-container">
             {/* The piano will be rendered here by the JavaScript code */}
             <img className="scales"
-            src="../dist/images/background-scales-lighter.png"
+            src="/dist/images/background-scales-lighter.png"
             alt="KBuddy logo" />
         </div>
 
