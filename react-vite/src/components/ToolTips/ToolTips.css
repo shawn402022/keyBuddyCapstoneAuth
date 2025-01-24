@@ -1,0 +1,22 @@
+.tooltip {
+    position: absolute;
+    width: max-content;
+    top: -40px; /* Position above the button */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.tooltip-text {
+    visibility: hidden;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 8px;
+    border-radius: 6px;
+    position: relative;
+    white-space: nowrap;
+}
+
+li:hover .tooltip-text {
+    visibility: visible;
+}
