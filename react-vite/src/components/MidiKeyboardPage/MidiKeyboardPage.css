@@ -21,8 +21,12 @@
     pointer-events: none;
 }
 
-
-
+/*
+piano-container {
+    position: relative;
+    z-index: 1;
+}
+*/
 /* Background */
 .scales {
     position: absolute;
