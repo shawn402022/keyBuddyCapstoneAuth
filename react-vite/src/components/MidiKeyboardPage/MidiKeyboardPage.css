@@ -1,5 +1,6 @@
 /* Piano keys base styles */
 .white-key, .black-key {
+<<<<<<< HEAD
     position: relative;
     cursor: pointer;
     pointer-events: auto;
@@ -25,6 +26,35 @@
 
 
 
+=======
+    position: relative;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+/* White keys specific */
+.white-key {
+    z-index: 1;
+}
+
+/* Black keys specific */
+.black-key {
+    z-index: 3;  /* Higher z-index to ensure black keys are above white keys */
+}
+
+/* Pressed states */
+.white-key-pressed, .black-key-pressed {
+    position: relative;
+    pointer-events: none;
+}
+
+/* Container positioning */
+#piano-container {
+    position: relative;
+    z-index: 1;
+}
+
+>>>>>>> origin/dev
 /* Background */
 .scales {
     position: absolute;
