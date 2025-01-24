@@ -13,45 +13,11 @@ const MidiKeyboardPage = () => {
         const keyImages = new KeyImages();
         const utils = new Utilities();
 
-        const handleNoteOn = (noteId) => {
-            let showPressed = document.getElementById(`${noteId}-pressed`)
-            showPressed.style.visibility = 'visible'
+        // Move the app object and setup logic here
+    const app ={
 
-            let noteLabel = document.getElementById(`note-label-${noteId}`)
-            if (!noteLabel) {
-                noteLabel = document.createElement('div')
-                noteLabel.id = `note-label-${noteId}`
-                noteLabel.style.position = 'fixed'
-                noteLabel.style.textAlign = 'center'
-                noteLabel.style.width = '25px'
-                noteLabel.style.height = '25px'
-                noteLabel.style.color = 'white'
-                noteLabel.style.fontSize = '14px'
-                noteLabel.style.backgroundColor = 'black'
-                noteLabel.style.padding = '0'
-                noteLabel.style.margin = '0'
-                noteLabel.style.lineHeight = '25px'
-                noteLabel.style.borderRadius = '3px'
+        setUpPiano(){
 
-                const keyElement = document.getElementById(`${noteId}-pressed`)
-                const rect = keyElement.getBoundingClientRect()
-                noteLabel.style.left = `${rect.left + (rect.width/2) - 12.5}px`
-                noteLabel.style.top = `${rect.bottom + 2}px`
-
-                document.body.appendChild(noteLabel)
-            }
-
-            const letter = noteId[0]
-            const number = noteId[noteId.length - 1]
-            if (noteId.includes('#')) {
-                noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">#</span><span style="font-size: 10px">${number}</span>`
-            } else {
-                noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">${number}</span>`
-            }
-        }
-
-        const app = {
-            setUpPiano(){
             if (document.getElementById('piano')) return; // Prevent multiple pianos
 
             console.log('setup piano working')
@@ -167,8 +133,13 @@ const MidiKeyboardPage = () => {
             });
 // For white keys
 piano.querySelectorAll('.white-key').forEach(key => {
+
     const keyImage = key.querySelector('img')
     const noteId = keyImage.getAttribute('data-id')
+
+
+
+
     const elements = [key, keyImage]
 
     elements.forEach(element => {
@@ -209,6 +180,7 @@ piano.querySelectorAll('.white-key').forEach(key => {
             let showHidden = document.getElementById(`${noteId}-pressed`)
             showHidden.style.visibility = 'hidden'
 
+
             let noteLabel = document.getElementById(`note-label-${noteId}`)
             if (noteLabel) {
                 noteLabel.remove()
@@ -218,6 +190,7 @@ piano.querySelectorAll('.white-key').forEach(key => {
         element.addEventListener('mouseleave', () => {
             let showHidden = document.getElementById(`${noteId}-pressed`)
             showHidden.style.visibility = 'hidden'
+
 
             let noteLabel = document.getElementById(`note-label-${noteId}`)
             if (noteLabel) {
