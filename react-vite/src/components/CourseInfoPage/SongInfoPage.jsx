@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom'
 import { getSongs } from '../../redux/song'
 import UpdateSongPage from './UpdateSongPage'
 import './CourseInfoPage.css'
-import { Link } from'react-router-dom'
 import { deleteSongThunk } from '../../redux/song'
 
 

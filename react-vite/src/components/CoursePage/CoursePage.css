@@ -1,7 +1,7 @@
 .course-button {
     padding: 10px 20px;
 
-    color: white;
+
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -9,7 +9,7 @@
 }
 
 .course-button:hover {
-
+    text-shadow: black;
 }
 .courses-grid{
     display:flex;

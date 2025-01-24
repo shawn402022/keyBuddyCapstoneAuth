@@ -1,13 +1,7 @@
-import { useEffect } from 'react';
-import { useDispatch} from 'react-redux';
-import { getCourses, deleteCourseThunk } from '../../redux/course';
-import { Navigate , Link} from'react-router-dom';
+
 import './CoursePage.css';
 
 const CourseDetail = () => {
-    const dispatch = useDispatch();
-
-
 
     return (
         <div>

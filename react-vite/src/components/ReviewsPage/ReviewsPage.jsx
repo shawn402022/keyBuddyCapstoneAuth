@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getReviews, createReview } from '../../redux/review'
+import { getReviews } from '../../redux/review'
 
 const ReviewsPage = () => {
     const dispatch = useDispatch()

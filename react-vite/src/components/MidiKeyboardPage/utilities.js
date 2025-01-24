@@ -30,7 +30,7 @@ export default class Utilities  {
     createOctave(octaveNumber){
         const octave = this.createSVGElement('g');
         octave.classList.add("octave");
-        octave.setAttribute("transform", `translate(${octaveNumber * octaveWidth},0)`)
+        octave.setAttribute("transform", `translate(${octaveNumber * 560},0)`)
         return octave
     }
 
