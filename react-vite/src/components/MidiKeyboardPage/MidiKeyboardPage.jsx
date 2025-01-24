@@ -188,14 +188,14 @@ const MidiKeyboardPage = () => {
 
                 // Similar updates for black keys
                 piano.querySelectorAll('.black-key').forEach(key => {
-                    const pressedKey = key.nextElementSibling
                     const keyImage = key.querySelector('img')
-                    const noteId = pressedKey.getAttribute('id').replace('-pressed-black', '')
+                    const noteId = keyImage.getAttribute('data-id')
                     const elements = [key, keyImage]
 
                     elements.forEach(element => {
                         element.addEventListener('mousedown', () => {
-                            pressedKey.style.visibility = 'visible'
+                            const showPressed = document.getElementById(`${noteId}-pressed`)
+                            showPressed.style.visibility = 'visible'
                             let noteLabel = document.getElementById(`note-label-${noteId}`)
 
                             if (!noteLabel) {
@@ -213,7 +213,7 @@ const MidiKeyboardPage = () => {
                                 noteLabel.style.lineHeight = '25px'
                                 noteLabel.style.borderRadius = '3px'
 
-                                const rect = pressedKey.getBoundingClientRect()
+                                const rect = showPressed.getBoundingClientRect()
                                 noteLabel.style.left = `${rect.left + (rect.width / 2) - 12.5}px`
                                 noteLabel.style.top = `${rect.bottom + 2}px`
                                 document.body.appendChild(noteLabel)
@@ -227,13 +227,15 @@ const MidiKeyboardPage = () => {
                         })
 
                         element.addEventListener('mouseup', () => {
-                            pressedKey.style.visibility = 'hidden'
+                            const showHidden = document.getElementById(`${noteId}-pressed`)
+                            showHidden.style.visibility = 'hidden'
                             let noteLabel = document.getElementById(`note-label-${noteId}`)
                             if (noteLabel) noteLabel.remove()
                         })
 
                         element.addEventListener('mouseleave', () => {
-                            pressedKey.style.visibility = 'hidden'
+                            const showHidden = document.getElementById(`${noteId}-pressed`)
+                            showHidden.style.visibility = 'hidden'
                             let noteLabel = document.getElementById(`note-label-${noteId}`)
                             if (noteLabel) noteLabel.remove()
                         })

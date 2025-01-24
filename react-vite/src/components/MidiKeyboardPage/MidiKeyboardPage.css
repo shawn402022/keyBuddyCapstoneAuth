@@ -33,3 +33,18 @@ piano-container {
     z-index: -1;
     pointer-events: none;
 }
+
+.white-key, .black-key {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+}

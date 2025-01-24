@@ -47,7 +47,8 @@ export default class Utilities  {
 
     createKeyImage(src){
         const keyImage = this.createRegularElement("img");
-        keyImage.setAttribute('src', src)
+        keyImage.setAttribute('src', src);
+        keyImage.setAttribute('draggable', false);
         return keyImage
     }
 
