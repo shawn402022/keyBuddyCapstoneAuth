@@ -11,8 +11,9 @@ const DeleteCourse = () => {
 
     const handleDelete = async () => {
         try {
+            console.log('Deleting course:', courseId);
             await dispatch(deleteCourseThunk(courseId));
-            // Add a small delay to ensure state updates complete
+            console.log('Delete completed');
             setTimeout(() => navigate('/course'), 100);
         } catch (error) {
             setError("Failed to delete course");
