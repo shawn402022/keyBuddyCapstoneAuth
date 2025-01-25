@@ -34,9 +34,6 @@ else:
     )
 
 
-
-
-
 if environment == "production":
     song_keys = db.Table(
         "song_keys",
@@ -54,42 +51,38 @@ else:
     )
 
 
-    
+if environment == "production":
+    song_chords = db.Table(
+        "song_chords",
+        db.Model.metadata,
+        db.Column("chord_id", db.Integer, db.ForeignKey(f"{SCHEMA}.chords.id"), primary_key=True),
+        db.Column("song_id", db.Integer, db.ForeignKey(f"{SCHEMA}.songs.id"), primary_key=True),
+        schema=SCHEMA
+    )
+else:
+    song_chords = db.Table(
+        "song_chords",
+        db.Model.metadata,
+        db.Column("chord_id", db.Integer, db.ForeignKey("chords.id"), primary_key=True),
+        db.Column("song_id", db.Integer, db.ForeignKey("songs.id"), primary_key=True),
+    )
 
-song_chords = db.Table(
-    "song_chords",
-    db.Model.metadata,
-    db.Column(
-        "chord_id",
-        db.Integer,
-        db.ForeignKey(add_prefix_for_prod("chords.id")),
-        primary_key=True,
-    ),
-    db.Column(
-        "song_id",
-        db.Integer,
-        db.ForeignKey(add_prefix_for_prod("songs.id")),
-        primary_key=True,
-    ),
-)
 
-song_progressions = db.Table(
-    "song_progressions",
-    db.Model.metadata,
-    db.Column(
-        "progression_id",
-        db.Integer,
-        db.ForeignKey(add_prefix_for_prod("progressions.id")),
-        primary_key=True,
-    ),
-    db.Column(
-        "song_id",
-        db.Integer,
-        db.ForeignKey(add_prefix_for_prod("songs.id")),
-        primary_key=True,
-    ),
-)
-
+if environment == "production":
+    song_progressions = db.Table(
+        "song_progressions",
+        db.Model.metadata,
+        db.Column("progression_id", db.Integer, db.ForeignKey(f"{SCHEMA}.progressions.id"), primary_key=True),
+        db.Column("song_id", db.Integer, db.ForeignKey(f"{SCHEMA}.songs.id"), primary_key=True),
+        schema=SCHEMA
+    )
+else:
+    song_progressions = db.Table(
+        "song_progressions",
+        db.Model.metadata,
+        db.Column("progression_id", db.Integer, db.ForeignKey("progressions.id"), primary_key=True),
+        db.Column("song_id", db.Integer, db.ForeignKey("songs.id"), primary_key=True),
+    )
 
 ##REGULAR TABLES
 # Course Model
