@@ -72,20 +72,57 @@ export const createCoursesFetch = (course_name, details_of_course) => async (dis
 }
 
 //delete courses
-export const deleteCourseThunk = (course_id) => async (dispatch) => {
-    const response = await fetch(`/api/course/admin/${course_id}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        credentials: 'include'
-    });
-    if (response.ok) {
-        dispatch(deleteCourses(course_id));
-    } else {
-        console.error('Error deleting courses');
+
+
+
+
+
+
+
+
+
+
+
+
+// Action creator for delete
+const deleteCourse = (courseId) => ({
+    type: 'course/DELETE_COURSE',
+    courseId
+});
+
+export const deleteCourseThunk = (courseId) => async (dispatch) => {
+    console.log('Delete thunk started for course:', courseId);
+    try {
+        const response = await fetch(`/api/courses/${courseId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        });
+
+        console.log('Delete response status:', response.status);
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log('Delete error response:', errorData);
+            throw new Error(`Delete failed: ${errorData.message || response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('Delete success data:', data);
+        dispatch(deleteCourse(courseId));
+        return data;
+    } catch (error) {
+        console.log('Delete thunk error:', {
+            name: error.name,
+            message: error.message,
+            stack: error.stack
+        });
+        throw error;
     }
-}
+
+};
 
 //update courses
 export const updateCourseThunk = (course_id, course_name, details_of_course) => async (dispatch) => {
