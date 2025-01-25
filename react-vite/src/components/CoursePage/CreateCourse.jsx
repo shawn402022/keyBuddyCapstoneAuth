@@ -15,7 +15,7 @@ const CreateCourse = () => {
     const handleSubmit = async(e) => {
         e.preventDefault()
         dispatch(createCoursesFetch(form.course_name, form.details_of_course))
-        navigate('/courses')
+        navigate('/course')
     }
 
     return (
