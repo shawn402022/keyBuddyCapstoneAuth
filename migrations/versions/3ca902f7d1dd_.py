@@ -134,6 +134,7 @@ def upgrade():
     sa.PrimaryKeyConstraint('courses_id', 'users_id')
     )
 
+
     if environment == "production":
         op.execute(f"ALTER TABLE chords SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE courses SET SCHEMA {SCHEMA};")
