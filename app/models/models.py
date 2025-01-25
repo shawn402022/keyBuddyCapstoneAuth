@@ -17,22 +17,25 @@ from werkzeug.security import (
 
 
 ##JOIN TABLES
-user_courses = db.Table(
-    "user_courses",
-    db.Model.metadata,
-    db.Column(
-        "courses_id",
-        db.Integer,
-        db.ForeignKey(add_prefix_for_prod("courses.id")),
-        primary_key=True,
-    ),
-    db.Column(
-        "users_id",
-        db.Integer,
-        db.ForeignKey(add_prefix_for_prod("users.id")),
-        primary_key=True,
-    ),
-)
+if environment == "production":
+    user_courses = db.Table(
+        "user_courses",
+        db.Model.metadata,
+        db.Column("courses_id", db.Integer, db.ForeignKey(f"{SCHEMA}.courses.id"), primary_key=True),
+        db.Column("users_id", db.Integer, db.ForeignKey(f"{SCHEMA}.users.id"), primary_key=True),
+        schema=SCHEMA
+    )
+else:
+    user_courses = db.Table(
+        "user_courses",
+        db.Model.metadata,
+        db.Column("courses_id", db.Integer, db.ForeignKey("courses.id"), primary_key=True),
+        db.Column("users_id", db.Integer, db.ForeignKey("users.id"), primary_key=True),
+    )
+
+
+
+
 
 song_keys = db.Table(
     "song_keys",
