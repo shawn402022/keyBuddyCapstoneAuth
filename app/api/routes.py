@@ -409,7 +409,6 @@ def delete_course_from_admin(course_id):
         jsonify({"msg": "Course not found or user does not have this course"}),
         404,
     )
-
 # ADMIN edit a course from admin
 @course_routes.route("/admin/<course_id>", methods=["PUT"])
 @login_required
