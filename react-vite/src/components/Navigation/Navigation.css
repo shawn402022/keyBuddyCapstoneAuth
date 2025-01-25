@@ -87,3 +87,24 @@ button.create-review-button {
 .create-course-button a.active {
   color: black;
 }
+
+.nav li div {
+  cursor: pointer;
+}
+
+/* Add visual indication for unauthorized state */
+.unauthorized {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.disabled-link {
+  color: #999;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.disabled-button {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

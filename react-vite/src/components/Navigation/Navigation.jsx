@@ -1,8 +1,8 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import CourseButton from "./CourseButton";
-import { useDispatch } from "react-redux";
 import { thunkLogout } from "../../redux/session";
 import ReviewButton from "./ReviewButton";
 import CreateReviewButton from "./CreateReviewButton";
@@ -11,6 +11,7 @@ import { WebMidi } from "webmidi";
 import "./Navigation.css";
 
 function Navigation() {
+  const sessionUser = useSelector(state => state.session.user);
   const [message, setMessage] = useState("");
   const [targetKey, setTargetKey] = useState("");
   const [isGameActive, setIsGameActive] = useState(false);
@@ -108,33 +109,77 @@ function Navigation() {
     });
   };
 
+  const handleProtectedAction = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!sessionUser) {
+      alert("Please login to access this feature");
+      return false;
+    }
+    return true;
+  };
+
   return (
     <div>
       <ul className="nav">
         <li>
           <NavLink to="/"><p className="home-icon">Home</p></NavLink>
         </li>
-        <li>
-          <CourseButton />
-        </li>
-        <li>
-          <p className="create-course-button">
-            <NavLink to="/createCourse">Create Course</NavLink>
-          </p>
-        </li>
-        <li>
-          <ReviewButton />
-        </li>
-        <li>
-          <CreateReviewButton />
-        </li>
-        <li>
-          {!isGameActive ? (
-            <button onClick={startKeyChallenge}>Start Key Challenge</button>
-          ) : (
-            <button onClick={stopKeyChallenge}>Stop Key Challenge</button>
-          )}
-        </li>
+        {sessionUser ? (
+          <>
+            <li>
+              <CourseButton />
+            </li>
+            <li>
+              <NavLink to="/createCourse" className="create-course-button">
+                Create Course
+              </NavLink>
+            </li>
+            <li>
+              <ReviewButton />
+            </li>
+            <li>
+              <CreateReviewButton />
+            </li>
+            <li>
+              {!isGameActive ? (
+                <button onClick={startKeyChallenge}>
+                  Start Key Challenge
+                </button>
+              ) : (
+                <button onClick={stopKeyChallenge}>Stop Key Challenge</button>
+              )}
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <div onClick={handleProtectedAction} className="disabled-link">
+                <span>Courses</span>
+              </div>
+            </li>
+            <li>
+              <div onClick={handleProtectedAction} className="disabled-link">
+                <span>Create Course</span>
+              </div>
+            </li>
+            <li>
+              <div onClick={handleProtectedAction} className="disabled-link">
+                <span>Reviews</span>
+              </div>
+            </li>
+            <li>
+              <div onClick={handleProtectedAction} className="disabled-link">
+                <span>Create Review</span>
+              </div>
+            </li>
+            <li>
+              <button onClick={handleProtectedAction} className="disabled-button">
+                Start Key Challenge
+              </button>
+            </li>
+          </>
+        )}
         <li>
           <ProfileButton onLogout={handleLogout}/>
         </li>
