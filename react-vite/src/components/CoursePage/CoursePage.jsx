@@ -16,22 +16,24 @@ const CoursePage = () => {
     });
 
     useEffect(() => {
-        if (user) {
-            console.log("Current user state:", user);
-            dispatch(getCourses());
-        }
-    }, [dispatch, user]);
+        console.log('Current Redux state:', {
+            user: user,
+            courses: courses
+        });
+    }, [user, courses]);
     if (!user) {
         return <Navigate to="/login" />;
     }
 
-    const handleDelete = (courseId) => {
-        // Add verification of user authentication state
-        if (user && user.id) {
-            console.log("User authenticated:", user);
-            dispatch(deleteCourseThunk(courseId));
-        } else {
-            console.log("User not authenticated or missing user ID");
+    const handleDelete = async (courseId) => {
+        console.log('Delete initiated for course:', courseId);
+        console.log('Current user state:', user);
+
+        try {
+            const response = await dispatch(deleteCourseThunk(courseId));
+            console.log('Delete response:', response);
+        } catch (error) {
+            console.error('Delete error:', error);
         }
     }
 
