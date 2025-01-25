@@ -67,35 +67,30 @@ export const createCoursesFetch = (course_name, details_of_course) => async (dis
         console.error('Error creating courses');
     }
 }
-
 export const deleteCourseThunk = (courseId) => async (dispatch) => {
     try {
         const response = await fetch(`/api/course/admin/${courseId}`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             credentials: 'include'
         });
 
-        console.log('Server response:', response);
-
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Delete response data:', data);
-            dispatch(deleteCourses(courseId));
-            dispatch(getCourses());  // Refresh the courses list
-            return data;
-        } else {
-            const errorData = await response.json();
-            console.log('Server error:', errorData);
-            throw new Error(errorData.msg || 'Delete failed');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+
+        dispatch(deleteCourses(courseId));
+        dispatch(getCourses());
+        return { success: true };
     } catch (error) {
         console.log('Delete operation failed:', error);
         throw error;
     }
-};//update courses
+};
+//update courses
 export const updateCourseThunk = (course_id, course_name, details_of_course) => async (dispatch) => {
     const response = await fetch(`/api/course/admin/${course_id}`, {
         method: 'PUT',
