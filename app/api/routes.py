@@ -216,27 +216,29 @@ def delete_review(review_id):
 
 
 ## COURSE ENDPOINT
+@course_routes.before_request
+def ensure_json():
+    if not request.is_json:
+        return jsonify({"msg": "Invalid content type"}), 400
 
 
 # ADMIN delete a course from admin
 @course_routes.route("/admin/delete/<course_id>", methods=["DELETE"])
 @login_required
 def delete_course_from_admin(course_id):
-    if current_user.full_name != "Demo User":
-        return jsonify({"msg": "Unauthorized - Only admin can delete courses"}), 403
-
-    course = Course.query.get(course_id)
-    if course:
-        # Remove all user associations first
-        stmt = user_courses.delete().where(user_courses.c.courses_id == course_id)
-        db.session.execute(stmt)
-        # Then delete the course
-        db.session.delete(course)
-        db.session.commit()
-        return jsonify({"msg": "Course successfully deleted"})
-
-    return jsonify({"msg": "Course not found"}), 404
-
+    try:
+        if current_user.full_name != "Demo User":
+            return jsonify({"msg": "Unauthorized"}), 403
+        course = Course.query.get(course_id)
+        if course:
+            stmt = user_courses.delete().where(user_courses.c.courses_id == course_id)
+            db.session.execute(stmt)
+            db.session.delete(course)
+            db.session.commit()
+            return jsonify({"msg": "Success"})
+        return jsonify({"msg": "Not found"}), 404
+    except Exception as e:
+        return jsonify({"msg": str(e)}), 500
 
 
 # get all courses
