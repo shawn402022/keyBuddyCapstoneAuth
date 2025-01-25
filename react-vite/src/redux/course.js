@@ -68,29 +68,29 @@ export const createCoursesFetch = (course_name, details_of_course) => async (dis
     }
 }
 export const deleteCourseThunk = (courseId) => async (dispatch) => {
+    console.log('Delete request starting for course:', courseId);
     try {
         const response = await fetch(`/api/course/admin/${courseId}`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Content-Type': 'application/json'
             },
             credentials: 'include'
         });
 
-        const data = await response.text();
-        console.log('Raw response:', data);
-
         if (response.ok) {
-            dispatch(deleteCourses(courseId));
+            dispatch({
+                type: DELETE_COURSES,
+                payload: courseId
+            });
             dispatch(getCourses());
-            return true;
+            return { success: true };
         }
     } catch (error) {
         console.log('Delete operation failed:', error);
-        throw error;
+        return error;
     }
-};//update courses
+}//update courses
 export const updateCourseThunk = (course_id, course_name, details_of_course) => async (dispatch) => {
     const response = await fetch(`/api/course/admin/${course_id}`, {
         method: 'PUT',
