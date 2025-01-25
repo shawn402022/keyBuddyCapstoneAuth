@@ -252,6 +252,46 @@ def get_all_courses():
 
     return jsonify(result_list)
 
+# ADMIN add a course to database
+@course_routes.route("/admin", methods=["POST"])
+@login_required
+def add_course_to_database():
+    # Check if the current user is the admin
+    if current_user.full_name != "Demo User":
+        return jsonify({"msg": "Unauthorized - Only admin can add courses"}), 403
+
+    course_data = request.json
+    new_course = Course(**course_data)
+    db.session.add(new_course)
+    db.session.commit()
+    return jsonify(new_course.to_dict())
+
+# ADMIN edit a course from admin
+@course_routes.route("/admin/<course_id>", methods=["PUT"])
+@login_required
+def edit_course_from_admin(course_id):
+    # Verify admin user
+    if current_user.full_name != "Demo User":
+        return jsonify({"msg": "Unauthorized - Only admin can edit courses"}), 403
+
+    course = Course.query.get(course_id)
+
+    if course:
+        # Get data from request
+        course_data = request.json
+
+        # Update course fields
+        if "course_name" in course_data:
+            course.course_name = course_data["course_name"]
+        if "details_of_course" in course_data:
+            course.details_of_course = course_data["details_of_course"]
+
+        db.session.commit()
+        return jsonify(course.to_dict())
+
+    return jsonify({"msg": "Course not found"}), 404
+
+
 
 # get user courses
 @course_routes.route("/<user_id>")
@@ -272,19 +312,6 @@ def get_user_courses(user_id):
     })
 
 
-# ADMIN add a course to database
-@course_routes.route("/admin", methods=["POST"])
-@login_required
-def add_course_to_database():
-    # Check if the current user is the admin
-    if current_user.full_name != "Demo User":
-        return jsonify({"msg": "Unauthorized - Only admin can add courses"}), 403
-
-    course_data = request.json
-    new_course = Course(**course_data)
-    db.session.add(new_course)
-    db.session.commit()
-    return jsonify(new_course.to_dict())
 
 
 # user add course to user
@@ -340,30 +367,7 @@ def delete_course_from_user(user_id, course_id):
 
 
 
-# ADMIN edit a course from admin
-@course_routes.route("/admin/<course_id>", methods=["PUT"])
-@login_required
-def edit_course_from_admin(course_id):
-    # Verify admin user
-    if current_user.full_name != "Demo User":
-        return jsonify({"msg": "Unauthorized - Only admin can edit courses"}), 403
 
-    course = Course.query.get(course_id)
-
-    if course:
-        # Get data from request
-        course_data = request.json
-
-        # Update course fields
-        if "course_name" in course_data:
-            course.course_name = course_data["course_name"]
-        if "details_of_course" in course_data:
-            course.details_of_course = course_data["details_of_course"]
-
-        db.session.commit()
-        return jsonify(course.to_dict())
-
-    return jsonify({"msg": "Course not found"}), 404
 ## SCALE ENDPOINT
 
 
