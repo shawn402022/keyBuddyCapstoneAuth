@@ -11,12 +11,14 @@ const DeleteCourse = () => {
 
     const handleDelete = async () => {
         try {
-            await dispatch(deleteCourseThunk(courseId))
-            navigate('/course')
+            await dispatch(deleteCourseThunk(courseId));
+            // Add a small delay to ensure state updates complete
+            setTimeout(() => navigate('/course'), 100);
         } catch (error) {
-            setError("Failed to delete course")
+            setError("Failed to delete course");
         }
-    }
+    };
+
 
     return (
         <div>
