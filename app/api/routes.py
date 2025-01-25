@@ -319,21 +319,20 @@ def delete_course_from_user(user_id, course_id):
 @course_routes.route("/admin/<course_id>", methods=["DELETE"])
 @login_required
 def delete_course_from_admin(course_id):
-    # Verify the logged-in user matches the requested user_id
     if current_user.full_name != "Demo User":
-        return jsonify({"msg": "Unauthorized - Only admin can add courses"}), 403
+        return jsonify({"msg": "Unauthorized - Only admin can delete courses"}), 403
 
     course = Course.query.get(course_id)
-
     if course:
+        # Remove all user associations first
+        stmt = user_courses.delete().where(user_courses.c.courses_id == course_id)
+        db.session.execute(stmt)
+        # Then delete the course
         db.session.delete(course)
         db.session.commit()
         return jsonify({"msg": "Course successfully deleted"})
 
-    return (
-        jsonify({"msg": "Course not found or user does not have this course"}),
-        404,
-    )
+    return jsonify({"msg": "Course not found"}), 404
 # ADMIN edit a course from admin
 @course_routes.route("/admin/<course_id>", methods=["PUT"])
 @login_required
