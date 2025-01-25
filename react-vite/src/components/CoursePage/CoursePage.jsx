@@ -16,24 +16,26 @@ const CoursePage = () => {
     });
 
     useEffect(() => {
-        console.log('Current Redux state:', {
-            user: user,
-            courses: courses
-        });
-    }, [user, courses]);
+        if (user) {
+            console.log("Current user state:", user);
+            dispatch(getCourses());
+        }
+    }, [dispatch, user]);
     if (!user) {
         return <Navigate to="/login" />;
     }
 
     const handleDelete = async (courseId) => {
-        console.log('Delete initiated for course:', courseId);
-        console.log('Current user state:', user);
-
+        console.log('Starting delete operation for course:', courseId);
         try {
-            const response = await dispatch(deleteCourseThunk(courseId));
-            console.log('Delete response:', response);
+            const response = await dispatch(deleteCourseThunk(courseId)).unwrap();
+            console.log('Delete successful:', response);
         } catch (error) {
-            console.error('Delete error:', error);
+            console.log('Delete failed with error:', {
+                message: error.message,
+                status: error.status,
+                fullError: error
+            });
         }
     }
 
