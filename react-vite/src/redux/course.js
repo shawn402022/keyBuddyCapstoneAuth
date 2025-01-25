@@ -67,10 +67,11 @@ export const createCoursesFetch = (course_name, details_of_course) => async (dis
         console.error('Error creating courses');
     }
 }
+//## delete courses
 export const deleteCourseThunk = (courseId) => async (dispatch) => {
     console.log('Delete request starting for course:', courseId);
     try {
-        const response = await fetch(`/api/course/admin/${courseId}`, {
+        const response = await fetch(`/api/course/admin/delete/${courseId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

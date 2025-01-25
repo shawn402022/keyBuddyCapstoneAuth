@@ -316,7 +316,7 @@ def delete_course_from_user(user_id, course_id):
 
 
 # ADMIN delete a course from admin
-@course_routes.route("/admin/<course_id>", methods=["DELETE"])
+@course_routes.route("/admin/delete/<course_id>", methods=["DELETE"])
 @login_required
 def delete_course_from_admin(course_id):
     if current_user.full_name != "Demo User":

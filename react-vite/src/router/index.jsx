@@ -9,6 +9,7 @@ import SongInfoPage from '../components/CourseInfoPage/SongInfoPage';
 import CreateSongPage from '../components/CourseInfoPage/CreateSongPage';
 import ReviewsPage from '../components/ReviewsPage/ReviewsPage';
 import CreateReviewPage from '../components/ReviewsPage/CreateReviewPage';
+import DeleteCourse from '../components/CoursePage/DeleteCourse';
 
 
 
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
       {
         path: "createCourse",
         element: <CreateCourse/>
+      },
+      {
+        path: "course/admin/delete/:courseId",
+        element: <DeleteCourse />
       },
       {
         path: '/create-song',
