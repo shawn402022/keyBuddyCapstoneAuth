@@ -91,9 +91,8 @@ export const deleteCourseThunk = (courseId) => async (dispatch) => {
         });
 
         if (response.ok) {
-            const data = await response.json();
             dispatch(deleteCourse(courseId));
-            return data;
+            return { success: true };
         }
     } catch (error) {
         console.log('Delete operation failed:', error);
@@ -137,12 +136,11 @@ export default function courseReducer(state = {}, action) {
                 newState[action.payload.course.id] = action.payload.course
                 return newState;
             }
-        case DELETE_COURSES:
-            {
-                const newState = { ...state }
-                delete newState[action.payload]
-                return newState;
-            }
+        case DELETE_COURSE: {
+            const newState = { ...state };
+            delete newState[action.courseId];
+            return newState;
+        }
         case UPDATE_COURSES: {
                 const newState = { ...state };
                 newState[action.payload.course_id] = {
