@@ -35,6 +35,8 @@ def load_user(id):
 app.cli.add_command(seed_commands)
 
 app.config.from_object(Config)
+app.config['DEBUG'] = True
+app.config['PROPAGATE_EXCEPTIONS'] = True
 app.register_blueprint(user_routes, url_prefix="/api/user")
 app.register_blueprint(auth_routes, url_prefix="/api/auth")
 app.register_blueprint(song_routes, url_prefix="/api/song")

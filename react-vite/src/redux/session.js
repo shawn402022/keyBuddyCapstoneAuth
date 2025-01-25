@@ -41,23 +41,28 @@ export const thunkLogin = (credentials) => async dispatch => {
 };
 
 export const thunkSignup = (user) => async (dispatch) => {
+  console.log('Signup Request Data:', user);
+
   const response = await fetch("/api/auth/signup", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(user)
   });
 
+  console.log('Signup Response Status:', response.status);
+
   if(response.ok) {
     const data = await response.json();
     dispatch(setUser(data));
   } else if (response.status < 500) {
     const errorMessages = await response.json();
+    console.log('Validation Errors:', errorMessages);
     return errorMessages
   } else {
+    console.log('Server Error Response:', await response.text());
     return { server: "Something went wrong. Please try again" }
   }
 };
-
 export const thunkLogout = () => async (dispatch) => {
   await fetch("/api/auth/logout");
   dispatch(removeUser());

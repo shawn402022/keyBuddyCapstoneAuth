@@ -25,6 +25,8 @@ function SignupFormPage() {
       });
     }
 
+    console.log('Signup Data:', { email, username, password });
+
     const serverResponse = await dispatch(
       thunkSignup({
         email,
@@ -32,6 +34,8 @@ function SignupFormPage() {
         password,
       })
     );
+
+    console.log('Server Response:', serverResponse);
 
     if (serverResponse) {
       setErrors(serverResponse);
