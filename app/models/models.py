@@ -37,24 +37,24 @@ else:
 
 
 
-song_keys = db.Table(
-    "song_keys",
-    db.Model.metadata,
-    db.Column(
-        "key_id",
-        db.Integer,
-        db.ForeignKey(add_prefix_for_prod("keys.id")),
-        primary_key=True,
-    ),
-    db.Column(
-        "song_id",
-        db.Integer,
-        db.ForeignKey(add_prefix_for_prod("songs.id")),
-        primary_key=True,
-    ),
-)
+if environment == "production":
+    song_keys = db.Table(
+        "song_keys",
+        db.Model.metadata,
+        db.Column("key_id", db.Integer, db.ForeignKey(f"{SCHEMA}.keys.id"), primary_key=True),
+        db.Column("song_id", db.Integer, db.ForeignKey(f"{SCHEMA}.songs.id"), primary_key=True),
+        schema=SCHEMA
+    )
+else:
+    song_keys = db.Table(
+        "song_keys",
+        db.Model.metadata,
+        db.Column("key_id", db.Integer, db.ForeignKey("keys.id"), primary_key=True),
+        db.Column("song_id", db.Integer, db.ForeignKey("songs.id"), primary_key=True),
+    )
 
 
+    
 
 song_chords = db.Table(
     "song_chords",
