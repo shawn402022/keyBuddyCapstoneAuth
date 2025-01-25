@@ -323,7 +323,6 @@ def delete_course_from_admin(course_id):
     if current_user.full_name != "Demo User":
         return jsonify({"msg": "Unauthorized - Only admin can add courses"}), 403
 
-
     course = Course.query.get(course_id)
 
     if course:

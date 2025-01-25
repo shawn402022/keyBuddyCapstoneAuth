@@ -78,19 +78,19 @@ export const deleteCourseThunk = (courseId) => async (dispatch) => {
             credentials: 'include'
         });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const data = await response.text();
+        console.log('Raw response:', data);
 
-        dispatch(deleteCourses(courseId));
-        dispatch(getCourses());
-        return { success: true };
+        if (response.ok) {
+            dispatch(deleteCourses(courseId));
+            dispatch(getCourses());
+            return true;
+        }
     } catch (error) {
         console.log('Delete operation failed:', error);
         throw error;
     }
-};
-//update courses
+};//update courses
 export const updateCourseThunk = (course_id, course_name, details_of_course) => async (dispatch) => {
     const response = await fetch(`/api/course/admin/${course_id}`, {
         method: 'PUT',
