@@ -78,16 +78,24 @@ export const deleteCourseThunk = (courseId) => async (dispatch) => {
             credentials: 'include'
         });
 
+        console.log('Server response:', response);
+
         if (response.ok) {
+            const data = await response.json();
+            console.log('Delete response data:', data);
             dispatch(deleteCourses(courseId));
-            return { success: true };
+            dispatch(getCourses());  // Refresh the courses list
+            return data;
+        } else {
+            const errorData = await response.json();
+            console.log('Server error:', errorData);
+            throw new Error(errorData.msg || 'Delete failed');
         }
     } catch (error) {
         console.log('Delete operation failed:', error);
         throw error;
     }
-};
-//update courses
+};//update courses
 export const updateCourseThunk = (course_id, course_name, details_of_course) => async (dispatch) => {
     const response = await fetch(`/api/course/admin/${course_id}`, {
         method: 'PUT',
