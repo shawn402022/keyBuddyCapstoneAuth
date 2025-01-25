@@ -87,11 +87,18 @@ export const deleteCourseThunk = (courseId) => async (dispatch) => {
             dispatch(getCourses());
             return { success: true };
         }
+        const errorData = await response.json();
+        console.log('Server error:', errorData);
+        return { success: false, error: errorData.msg };
     } catch (error) {
         console.log('Delete operation failed:', error);
-        return error;
+        return { success: false, error: error.message };
     }
-}//update courses
+}
+
+
+
+//update courses
 export const updateCourseThunk = (course_id, course_name, details_of_course) => async (dispatch) => {
     const response = await fetch(`/api/course/admin/${course_id}`, {
         method: 'PUT',
