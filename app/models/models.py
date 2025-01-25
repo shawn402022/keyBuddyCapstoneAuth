@@ -15,6 +15,7 @@ from werkzeug.security import (
 )
 
 
+
 ##JOIN TABLES
 user_courses = db.Table(
     "user_courses",
