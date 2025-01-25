@@ -29,9 +29,7 @@ const CoursePage = () => {
         console.log('Starting delete operation for course:', courseId);
         try {
             await dispatch(deleteCourseThunk(courseId));
-            console.log('Delete successful, current courses:', courses);
-            // Force a refresh of courses
-            dispatch(getCourses());
+            dispatch(getCourses()); // Refresh the courses list
         } catch (error) {
             console.log('Delete failed with error:', error);
         }

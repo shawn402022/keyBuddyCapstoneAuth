@@ -1,24 +1,24 @@
 //## ACTION TYPES
 const LOAD_COURSES = 'course/LOAD_COURSES';
-const CREATE_COURSES = 'course/CREATE_COURSES'
-const DELETE_COURSES = 'course/DELETE_COURSES'
-const UPDATE_COURSES = 'course/UPDATE_COURSES'
+const CREATE_COURSES = 'course/CREATE_COURSES';
+const DELETE_COURSES = 'course/DELETE_COURSES';
+const UPDATE_COURSES = 'course/UPDATE_COURSES';
 
 //## ACTION CREATORS
 export const loadCourses = (courses) => ({
     type: LOAD_COURSES,
     payload: courses,
-})
+});
 
 export const createCourses = (course) => ({
     type: CREATE_COURSES,
     payload: { course },
-})
+});
 
-export const deleteCourses = (course_id) => ({
+export const deleteCourses = (courseId) => ({
     type: DELETE_COURSES,
-    payload: course_id
-})
+    payload: courseId
+});
 
 export const updateCourses = (course_id, course_name, details_of_course) => ({
     type: UPDATE_COURSES,
@@ -28,8 +28,6 @@ export const updateCourses = (course_id, course_name, details_of_course) => ({
         details_of_course
     }
 })
-
-
 
 //## THUNK ACTION CREATORS
 //get courses
@@ -68,21 +66,11 @@ export const createCoursesFetch = (course_name, details_of_course) => async (dis
     } else {
         console.error('Error creating courses');
     }
-
 }
-// Action Types
-const DELETE_COURSE = 'course/DELETE_COURSE';
 
-// Action Creators
-export const deleteCourse = (courseId) => ({
-    type: DELETE_COURSE,
-    courseId
-});
-
-// Thunk
 export const deleteCourseThunk = (courseId) => async (dispatch) => {
     try {
-        const response = await fetch(`/api/course/${courseId}`, {  // Updated to match your API endpoint pattern
+        const response = await fetch(`/api/course/admin/${courseId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -91,10 +79,7 @@ export const deleteCourseThunk = (courseId) => async (dispatch) => {
         });
 
         if (response.ok) {
-            dispatch({
-                type: DELETE_COURSES,  // Using your existing action type
-                payload: courseId
-            });
+            dispatch(deleteCourses(courseId));
             return { success: true };
         }
     } catch (error) {
@@ -102,6 +87,7 @@ export const deleteCourseThunk = (courseId) => async (dispatch) => {
         throw error;
     }
 };
+
 //update courses
 export const updateCourseThunk = (course_id, course_name, details_of_course) => async (dispatch) => {
     const response = await fetch(`/api/course/admin/${course_id}`, {
@@ -122,37 +108,36 @@ export const updateCourseThunk = (course_id, course_name, details_of_course) => 
         return updatedCourse;
     }
 };
+
 //##REDUCER
 export default function courseReducer(state = {}, action) {
     switch (action.type) {
-        case LOAD_COURSES:
-            {
-                const newState = { ...state }
-                action.payload.forEach(course => {
-                    newState[course.id] = course;
-                });
-                return newState;
-            }
-        case CREATE_COURSES:
-            {
-                const newState = { ...state }
-                newState[action.payload.course.id] = action.payload.course
-                return newState;
-            }
-        case DELETE_COURSE: {
+        case LOAD_COURSES: {
             const newState = { ...state };
-            delete newState[action.courseId];
+            action.payload.forEach(course => {
+                newState[course.id] = course;
+            });
+            return newState;
+        }
+        case CREATE_COURSES: {
+            const newState = { ...state };
+            newState[action.payload.course.id] = action.payload.course;
+            return newState;
+        }
+        case DELETE_COURSES: {
+            const newState = { ...state };
+            delete newState[action.payload];
             return newState;
         }
         case UPDATE_COURSES: {
-                const newState = { ...state };
-                newState[action.payload.course_id] = {
-                    id: action.payload.course_id,
-                    course_name: action.payload.course_name,
-                    details_of_course: action.payload.details_of_course
-                };
-                return newState;
-            }
+            const newState = { ...state };
+            newState[action.payload.course_id] = {
+                id: action.payload.course_id,
+                course_name: action.payload.course_name,
+                details_of_course: action.payload.details_of_course
+            };
+            return newState;
+        }
         default:
             return state;
     }
