@@ -28,16 +28,14 @@ const CoursePage = () => {
     const handleDelete = async (courseId) => {
         console.log('Starting delete operation for course:', courseId);
         try {
-            const response = await dispatch(deleteCourseThunk(courseId));
-            console.log('Delete successful:', response);
+            await dispatch(deleteCourseThunk(courseId));
+            console.log('Delete successful, current courses:', courses);
+            // Force a refresh of courses
+            dispatch(getCourses());
         } catch (error) {
-            console.log('Delete failed with error:', {
-                message: error.message,
-                status: error.status,
-                fullError: error
-            });
+            console.log('Delete failed with error:', error);
         }
-    }
+    };
 
     const handleUpdateClick = (course) => {
         setSelectedCourse(course);
