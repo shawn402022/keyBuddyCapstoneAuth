@@ -1,21 +1,22 @@
 import Utilities from './utilities.js';
 import KeyImages from './images.js';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import * as Tonal from 'tonal'
 import { WebMidi } from "webmidi";
 import './MidiKeyboardPage.css'
 
 const chromaticNotes = Tonal.Range.chromatic(['C2', 'B7'], { sharps: true }).filter((note) => note.length === 2)
 const sharpNotes = Tonal.Range.chromatic(['C2', 'B7'], { sharps: true }).filter((note) => note.length > 2)
+
 const MidiKeyboardPage = () => {
-    let isMouseDown = false;
+    const isMouseDown = useRef(false);
 
     useEffect(() => {
         const keyImages = new KeyImages();
         const utils = new Utilities();
 
-        document.addEventListener('mousedown', () => isMouseDown = true);
-        document.addEventListener('mouseup', () => isMouseDown = false);
+        document.addEventListener('mousedown', () => isMouseDown.current = true);
+        document.addEventListener('mouseup', () => isMouseDown.current = false);
 
         // Move the app object and setup logic here
         const app = {
@@ -180,12 +181,12 @@ const MidiKeyboardPage = () => {
 
                     elements.forEach(element => {
                         element.addEventListener('mousedown', () => {
-                            isMouseDown = true;
+                            isMouseDown.current = true;
                             activateKey(noteId);
                         });
 
                         element.addEventListener('mouseenter', () => {
-                            if (isMouseDown) {
+                            if (isMouseDown.current) {
                                 activateKey(noteId);
                             }
                         });
@@ -214,12 +215,12 @@ const MidiKeyboardPage = () => {
 
                     elements.forEach(element => {
                         element.addEventListener('mousedown', () => {
-                            isMouseDown = true;
+                            isMouseDown.current = true;
                             activateKey(noteId);
                         });
 
                         element.addEventListener('mouseenter', () => {
-                            if (isMouseDown) {
+                            if (isMouseDown.current) {
                                 activateKey(noteId);
                             }
                         });
@@ -318,5 +319,4 @@ const MidiKeyboardPage = () => {
 
     );
 }
-
 export default MidiKeyboardPage
