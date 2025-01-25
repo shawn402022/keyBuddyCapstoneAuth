@@ -17,6 +17,7 @@ const CoursePage = () => {
 
     useEffect(() => {
         if (user) {
+            console.log("Current user state:", user);
             dispatch(getCourses());
         }
     }, [dispatch, user]);
@@ -25,7 +26,13 @@ const CoursePage = () => {
     }
 
     const handleDelete = (courseId) => {
-        dispatch(deleteCourseThunk(courseId));
+        // Add verification of user authentication state
+        if (user && user.id) {
+            console.log("User authenticated:", user);
+            dispatch(deleteCourseThunk(courseId));
+        } else {
+            console.log("User not authenticated or missing user ID");
+        }
     }
 
     const handleUpdateClick = (course) => {
@@ -60,9 +67,9 @@ const CoursePage = () => {
                             <Link to={`/songs/${course.course_name[0]}`}>Songs</Link>
                             </button>
                             <button><Link to="/create-song">Add Song</Link></button>
-                            <button>Scales</button>
-                            <button>Chords</button>
-                            <button>Keys</button>
+                            <button onClick={() => alert("Feature to be implemented soon")}>Scales</button>
+                            <button onClick={() => alert("Feature to be implemented soon")}>Chords</button>
+                            <button onClick={() => alert("Feature to be implemented soon")}>Keys</button>
                             <button onClick={() => handleUpdateClick(course)}>
                                 Update
                             </button>

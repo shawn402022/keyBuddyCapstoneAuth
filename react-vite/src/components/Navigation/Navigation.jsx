@@ -143,11 +143,11 @@ function Navigation() {
             </li>
             <li>
               {!isGameActive ? (
-                <button onClick={startKeyChallenge}>
+                <button className='start-challenge' onClick={startKeyChallenge}>
                   Start Key Challenge
                 </button>
               ) : (
-                <button onClick={stopKeyChallenge}>Stop Key Challenge</button>
+                <button className='stop-challenge' onClick={stopKeyChallenge}>Stop Key Challenge</button>
               )}
             </li>
           </>
