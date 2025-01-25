@@ -87,7 +87,6 @@ export const deleteCourseThunk = (courseId) => async (dispatch) => {
         throw error;
     }
 };
-
 //update courses
 export const updateCourseThunk = (course_id, course_name, details_of_course) => async (dispatch) => {
     const response = await fetch(`/api/course/admin/${course_id}`, {
