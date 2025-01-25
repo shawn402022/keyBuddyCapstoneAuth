@@ -82,7 +82,7 @@ export const deleteCourse = (courseId) => ({
 // Thunk
 export const deleteCourseThunk = (courseId) => async (dispatch) => {
     try {
-        const response = await fetch(`/api/courses/${courseId}`, {
+        const response = await fetch(`/api/course/${courseId}`, {  // Updated to match your API endpoint pattern
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -91,12 +91,15 @@ export const deleteCourseThunk = (courseId) => async (dispatch) => {
         });
 
         if (response.ok) {
-            dispatch(deleteCourse(courseId));
+            dispatch({
+                type: DELETE_COURSES,  // Using your existing action type
+                payload: courseId
+            });
             return { success: true };
         }
     } catch (error) {
         console.log('Delete operation failed:', error);
-        return error;
+        throw error;
     }
 };
 //update courses
