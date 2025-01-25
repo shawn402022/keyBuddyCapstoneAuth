@@ -10,10 +10,10 @@ const DeleteCourse = () => {
     const [error, setError] = useState(null)
 
     const handleDelete = async () => {
-        const result = await dispatch(deleteCourseThunk(courseId))
-        if (result.success) {
+        try {
+            await dispatch(deleteCourseThunk(courseId))
             navigate('/course')
-        } else {
+        } catch (error) {
             setError("Failed to delete course")
         }
     }
