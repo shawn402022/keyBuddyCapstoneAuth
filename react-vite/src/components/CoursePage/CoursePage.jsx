@@ -7,7 +7,7 @@ import './CoursePage.css';
 const CoursePage = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
-    const courses = useSelector(state => state.course ? Object.values(state.course) : []);
+    const course = useSelector(state => state.course ? Object.values(state.course) : []);
     const [showUpdateForm, setShowUpdateForm] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [updateFormData, setUpdateFormData] = useState({
@@ -55,7 +55,7 @@ const CoursePage = () => {
         <div className="courses-container">
 
             <div className="courses-grid">
-                {courses.map(course => (
+                {course.map(course => (
                     <div key={course.id} className="course-card">
                         <h2 className='course-name'>{course.course_name}</h2>
                         <p className='course-detail'>{course.details_of_course}</p>
@@ -113,4 +113,3 @@ const CoursePage = () => {
 };
 
 export default CoursePage;
-
