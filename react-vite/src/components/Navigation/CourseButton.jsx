@@ -4,7 +4,7 @@ const CourseButton = () => {
     const navigate = useNavigate();
 
     const handleCourseClick = () => {
-        navigate('/courses');
+        navigate('/course');
     };
 
     return (
