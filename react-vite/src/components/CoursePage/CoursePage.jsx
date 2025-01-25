@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCourses, deleteCourseThunk, updateCourseThunk } from '../../redux/course';
-import { Navigate, Link } from 'react-router-dom';
+import { getCourses,  updateCourseThunk } from '../../redux/course';
+import { Navigate, Link, useNavigate } from 'react-router-dom';
 import './CoursePage.css';
 
 const CoursePage = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const user = useSelector(state => state.session.user);
     const course = useSelector(state => state.course ? Object.values(state.course) : []);
     const [showUpdateForm, setShowUpdateForm] = useState(false);
@@ -24,14 +25,14 @@ const CoursePage = () => {
     if (!user) {
         return <Navigate to="/login" />;
     }
-
+/*
     const handleDelete = async (courseId) => {
         console.log('Delete request starting for course:', courseId);
         const result = await dispatch(deleteCourseThunk(courseId));
         console.log('Delete request completed:', result);
         dispatch(getCourses());
     }
-
+*/
     const handleUpdateClick = (course) => {
         setSelectedCourse(course);
         setUpdateFormData({
@@ -70,7 +71,7 @@ const CoursePage = () => {
                             <button onClick={() => handleUpdateClick(course)}>
                                 Update
                             </button>
-                            <button onClick={() => handleDelete(course.id)}>
+                            <button onClick={() => navigate(`/course/admin/delete/${course.id}`)}>
                                 Delete
                             </button>
                         </div>

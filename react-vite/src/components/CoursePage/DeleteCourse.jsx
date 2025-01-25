@@ -1,24 +1,20 @@
+import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
+import { deleteCourseThunk } from '../../redux/course'
 
 const DeleteCourse = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const { courseId } = useParams()
     const [error, setError] = useState(null)
 
     const handleDelete = async () => {
-        const response = await fetch(`/api/course/admin/delete/${courseId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-
-        if (response.ok) {
+        const result = await dispatch(deleteCourseThunk(courseId))
+        if (result.success) {
             navigate('/course')
         } else {
-            const data = await response.json()
-            setError(data.msg)
+            setError("Failed to delete course")
         }
     }
 
