@@ -28,7 +28,7 @@ const CoursePage = () => {
     const handleDelete = async (courseId) => {
         console.log('Starting delete operation for course:', courseId);
         try {
-            const response = await dispatch(deleteCourseThunk(courseId)).unwrap();
+            const response = await dispatch(deleteCourseThunk(courseId));
             console.log('Delete successful:', response);
         } catch (error) {
             console.log('Delete failed with error:', {
