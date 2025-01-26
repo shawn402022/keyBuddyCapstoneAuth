@@ -1,6 +1,6 @@
 import Utilities from './utilities.js';
 import KeyImages from './images.js';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef , useCallback} from 'react';
 import * as Tonal from 'tonal'
 import { WebMidi } from "webmidi";
 import './MidiKeyboardPage.css';
@@ -75,13 +75,19 @@ const MidiKeyboardPage = () => {
         }
     };
 
-    const setupMIDI = async () => {
+    const setupMIDI = useCallback(async () => {
         try {
             await WebMidi.enable({ sysex: true });
             const input = WebMidi.getInputByName("KOMPLETE KONTROL A25 MIDI");
 
+            if (!input) {
+                console.log("Using mouse-based keyboard interaction");
+                return;
+            }
+
             if (midiInputRef.current) {
-                midiInputRef.current.removeListener();
+                midiInputRef.current.removeListener("noteon");
+                midiInputRef.current.removeListener("noteoff");
             }
 
             midiInputRef.current = input;
@@ -137,13 +143,13 @@ const MidiKeyboardPage = () => {
                 }
             });
         } catch (err) {
-            console.error("MIDI setup error:", err);
+            console.log("Using mouse-based keyboard interaction");
         }
-    };
+    }, []);
 
     useEffect(() => {
         setupMIDI();
-    }, [message]);
+    }, [message, setupMIDI]);
 
     useEffect(() => {
         const initSounds = async () => {
