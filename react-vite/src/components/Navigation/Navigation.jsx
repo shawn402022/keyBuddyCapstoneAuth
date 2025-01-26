@@ -7,15 +7,16 @@ import { thunkLogout } from "../../redux/session";
 import ReviewButton from "./ReviewButton";
 import CreateReviewButton from "./CreateReviewButton";
 import { WebMidi } from "webmidi";
+import { setGameStatus, setMessage, setTargetKey, setFeedback } from "../../redux/keyChallenge";
 
 import "./Navigation.css";
 
 function Navigation() {
   const sessionUser = useSelector(state => state.session.user);
-  const [message, setMessage] = useState("");
-  const [targetKey, setTargetKey] = useState("");
-  const [isGameActive, setIsGameActive] = useState(false);
-  const [feedback, setFeedback] = useState("");
+  const isGameActive = useSelector(state => state.keyChallenge.isGameActive);
+  const message = useSelector(state => state.keyChallenge.message);
+  const targetKey = useSelector(state => state.keyChallenge.targetKey);
+  const feedback = useSelector(state => state.keyChallenge.feedback);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMouseDownRef = useRef(false);
@@ -26,22 +27,33 @@ function Navigation() {
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
     const randomOctave = octaves[Math.floor(Math.random() * octaves.length)];
     const fullNote = `${randomKey}${randomOctave}`;
-    setTargetKey(fullNote);
-    setMessage(`Please play ${fullNote} on the piano`);
-    setFeedback("");
-  }, []);
+    dispatch(setTargetKey(fullNote));
+    dispatch(setMessage(`Please play ${fullNote} on the piano`));
+    dispatch(setFeedback(""));
+  }, [dispatch]);
 
   const checkNote = useCallback((playedNote) => {
     if (!isGameActive) return;
 
     if (playedNote === targetKey) {
-      setFeedback("Correct! Here's your next challenge!");
+      dispatch(setFeedback("Correct! Here's your next challenge!"));
       setTimeout(generateNewChallenge, 1000);
     } else {
-      setFeedback(`Incorrect! Try again. You played ${playedNote}`);
+      dispatch(setFeedback(`Incorrect! Try again. You played ${playedNote}`));
     }
-  }, [isGameActive, targetKey, generateNewChallenge]);
+  }, [isGameActive, targetKey, generateNewChallenge, dispatch]);
 
+  const startKeyChallenge = () => {
+    dispatch(setGameStatus(true));
+    generateNewChallenge();
+  };
+
+  const stopKeyChallenge = () => {
+    dispatch(setGameStatus(false));
+    dispatch(setMessage(""));
+    dispatch(setFeedback(""));
+    dispatch(setTargetKey(""));
+  };
   useEffect(() => {
     if (!isGameActive) return;
 
@@ -91,17 +103,7 @@ function Navigation() {
     };
   }, [isGameActive, checkNote]);
 
-  const startKeyChallenge = () => {
-    setIsGameActive(true);
-    generateNewChallenge();
-  };
 
-  const stopKeyChallenge = () => {
-    setIsGameActive(false);
-    setMessage("");
-    setFeedback("");
-    setTargetKey("");
-  };
 
   const handleLogout = () => {
     dispatch(thunkLogout()).then(() => {
@@ -184,8 +186,6 @@ function Navigation() {
           <ProfileButton onLogout={handleLogout}/>
         </li>
       </ul>
-      {message && <div className="key-message">{message}</div>}
-      {feedback && <div className="key-feedback">{feedback}</div>}
     </div>
   );
 }

@@ -48,3 +48,32 @@ img {
     -o-user-drag: none;
     user-drag: none;
 }
+
+.training-container{
+    display:grid;
+    grid-template-columns: 3% 50% auto 25% 3%;
+    grid-template-rows: 100%;
+    border-top: 5px solid green;
+    margin-top:23px;
+    grid-template-areas:
+    "header question space answer footer"
+
+     ;
+
+
+}
+
+
+
+
+
+.question{
+    grid-area: question;
+    border: 5px dotted black;
+
+}
+.answer{
+    grid-area: answer;
+    border: 5px dotted black;
+
+}
