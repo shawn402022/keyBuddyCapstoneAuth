@@ -1,0 +1,22 @@
+.prompt-container {
+    margin-top:25px;
+    border: 2px solid green;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: auto;  /* Set fixed width */
+    height: 50px; /* Set fixed height */
+     /* Handles content overflow with scrolling */
+}
+
+.question {
+    border: 1px solid red;
+    max-width: 20%; /* Constrain child width */
+    min-height: 40px; /* Set minimum height */
+}
+
+.answer {
+    border: 1px solid blue;
+    max-width: 45%; /* Constrain child width */
+    min-height: 40px; /* Set minimum height */
+}
