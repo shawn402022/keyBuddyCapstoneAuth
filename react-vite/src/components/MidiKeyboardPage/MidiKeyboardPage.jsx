@@ -11,40 +11,61 @@ const sharpNotes = Tonal.Range.chromatic(['C2', 'B7'], { sharps: true }).filter(
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 //Load all the piano notes, sharp Notes and flatNotes
+const CACHE_NAME = 'piano-sounds-cache-v1';
+
 const loadPianoSounds = async () => {
     const soundsCache = {};
-    // Load natural notes
-    for (const note of chromaticNotes) {
-        console.log('Loading natural note:', note);
-        const response = await fetch(`/piano-sounds-with-sharps/${note}.mp3`);
-        const arrayBuffer = await response.arrayBuffer();
-        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-        soundsCache[note] = audioBuffer;
+
+    // Try to get from Cache API first
+    try {
+        const cache = await caches.open(CACHE_NAME);
+
+        // Load natural notes
+        for (const note of chromaticNotes) {
+            const url = `/piano-sounds-with-sharps/${note}.mp3`;
+            let response = await cache.match(url);
+
+            if (!response) {
+                response = await fetch(url);
+                cache.put(url, response.clone());
+            }
+
+            const arrayBuffer = await response.arrayBuffer();
+            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+            soundsCache[note] = audioBuffer;
+        }
+
+        // Load sharp notes
+        for (const note of sharpNotes) {
+            const noteForPath = note.replace('#', 'sharp');
+            const url = `/piano-sounds-with-sharps/${noteForPath}.mp3`;
+            let response = await cache.match(url);
+
+            if (!response) {
+                response = await fetch(url);
+                cache.put(url, response.clone());
+            }
+
+            const arrayBuffer = await response.arrayBuffer();
+            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+            soundsCache[note] = audioBuffer;
+        }
+    } catch (error) {
+        console.error('Caching failed:', error);
     }
-    // Load sharp notes
-    for (const note of sharpNotes) {
-        console.log('Loading sharp note:', note);
-        const noteForPath = note.replace('#', 'sharp');
-        console.log('Requesting file:', `/piano-sounds-with-sharps/${noteForPath}.mp3`);
-        const response = await fetch(`/piano-sounds-with-sharps/${noteForPath}.mp3`);
-        const arrayBuffer = await response.arrayBuffer();
-        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-        soundsCache[note] = audioBuffer;
-    }
+
     return soundsCache;
 };
 
 const MidiKeyboardPage = () => {
-    const message = useSelector(state => state.keyChallenge.message);
     const isMouseDown = useRef(false);
-    
     const soundsCacheRef = useRef(null);
 
     useEffect(() => {
-
-
-
-
+        const initSounds = async () => {
+            soundsCacheRef.current = await loadPianoSounds();
+        };
+        initSounds();
 
         const keyImages = new KeyImages();
         const utils = new Utilities();
@@ -52,12 +73,12 @@ const MidiKeyboardPage = () => {
         document.addEventListener('mousedown', () => isMouseDown.current = true);
         document.addEventListener('mouseup', () => isMouseDown.current = false);
 
-
-
-
-
-
-
+        const playNote = (note) => {
+            const source = audioContext.createBufferSource();
+            source.buffer = soundsCacheRef.current[note];
+            source.connect(audioContext.destination);
+            source.start(0);
+        };
 
         const activateKey = (noteId) => {
             const showPressed = document.getElementById(`${noteId}-pressed`);
@@ -273,135 +294,70 @@ const MidiKeyboardPage = () => {
                 })
 
                 WebMidi.enable({ sysex: true })
+                    .then(onEnabled)
+                    .catch(err => alert(err))
 
+                async function onEnabled() {
+                    const myInput = WebMidi.getInputByName("KOMPLETE KONTROL A25 MIDI");
 
-                    .then(async () => {
-                        let soundsCache = await loadPianoSounds();
+                    myInput.addListener("noteon", (e) => {
+                        console.log(`${e.note.identifier} is on `);
+                        let showPressed = document.getElementById(`${e.note.identifier}-pressed`);
+                        showPressed.style.visibility = 'visible';
+                        playNote(e.note.identifier);
 
-                        const playNote = (note) => {
-                            const source = audioContext.createBufferSource();
-                            source.buffer = soundsCache[note];
-                            source.connect(audioContext.destination);
-                            source.start(0);
-                        };
+                        let noteLabel = document.getElementById(`note-label-${e.note.identifier}`)
+                        if (!noteLabel) {
+                            noteLabel = document.createElement('div')
+                            noteLabel.id = `note-label-${e.note.identifier}`
+                            noteLabel.style.position = 'fixed'
+                            noteLabel.style.textAlign = 'center'
+                            noteLabel.style.width = '25px'
+                            noteLabel.style.height = '25px'
+                            noteLabel.style.color = 'white'
+                            noteLabel.style.fontSize = '14px'
+                            noteLabel.style.backgroundColor = 'black'
+                            noteLabel.style.padding = '0'
+                            noteLabel.style.margin = '0'
+                            noteLabel.style.lineHeight = '25px'
+                            noteLabel.style.borderRadius = '3px'
 
+                            const keyElement = document.getElementById(`${e.note.identifier}-pressed`)
+                            const rect = keyElement.getBoundingClientRect()
+                            noteLabel.style.left = `${rect.left + (rect.width / 2) - 12.5}px`
+                            noteLabel.style.top = `${rect.bottom + 2}px`
 
-
-                        // Add this message effect inside onEnabled
-                        if (message) {
-                            const noteMatch = message.match(/play the ([A-G]#?\d)/i);
-                            if (noteMatch) {
-                                const noteToPlay = noteMatch[1];
-                                playNote(noteToPlay);
-                            }
+                            document.body.appendChild(noteLabel)
                         }
 
+                        const noteText = e.note.identifier
+                        const letter = noteText[0]
+                        const number = noteText[noteText.length - 1]
+                        if (noteText.includes('#')) {
+                            noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">#</span><span style="font-size: 10px">${number}</span>`
+                        } else {
+                            noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">${number}</span>`
+                        }
+                    });
 
+                    myInput.addListener("noteoff", (e) => {
+                        console.log(`${e.note.identifier} is off `)
+                        let showHidden = document.getElementById(`${e.note.identifier}-pressed`)
+                        showHidden.style.visibility = 'hidden'
 
-
-
-
-                        const myInput = WebMidi.getInputByName("KOMPLETE KONTROL A25 MIDI");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        myInput.addListener("noteon", (e) => {
-                            console.log(`${e.note.identifier} is on `);
-                            let showPressed = document.getElementById(`${e.note.identifier}-pressed`);
-                            showPressed.style.visibility = 'visible';
-                            playNote(e.note.identifier);
-
-
-
-
-
-                            let noteLabel = document.getElementById(`note-label-${e.note.identifier}`)
-                            if (!noteLabel) {
-                                noteLabel = document.createElement('div')
-                                noteLabel.id = `note-label-${e.note.identifier}`
-                                noteLabel.style.position = 'fixed'
-                                noteLabel.style.textAlign = 'center'
-                                noteLabel.style.width = '25px'
-                                noteLabel.style.height = '25px'
-                                noteLabel.style.color = 'white'
-                                noteLabel.style.fontSize = '14px'
-                                noteLabel.style.backgroundColor = 'black'
-                                noteLabel.style.padding = '0'
-                                noteLabel.style.margin = '0'
-                                noteLabel.style.lineHeight = '25px'
-                                noteLabel.style.borderRadius = '3px'
-
-
-
-                                const keyElement = document.getElementById(`${e.note.identifier}-pressed`)
-                                const rect = keyElement.getBoundingClientRect()
-                                noteLabel.style.left = `${rect.left + (rect.width / 2) - 12.5}px`
-                                noteLabel.style.top = `${rect.bottom + 2}px`
-
-
-
-
-
-
-
-
-
-
-                                document.body.appendChild(noteLabel)
-                            }
-
-
-
-
-
-                            const noteText = e.note.identifier
-                            const letter = noteText[0]
-                            const number = noteText[noteText.length - 1]
-                            if (noteText.includes('#')) {
-                                noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">#</span><span style="font-size: 10px">${number}</span>`
-                            } else {
-                                noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">${number}</span>`
-                            }
-                        });
-
-
-
-
-
-                        myInput.addListener("noteoff", (e) => {
-                            console.log(`${e.note.identifier} is off `)
-                            let showHidden = document.getElementById(`${e.note.identifier}-pressed`)
-                            showHidden.style.visibility = 'hidden'
-
-                            let noteLabel = document.getElementById(`note-label-${e.note.identifier}`)
-                            if (noteLabel) {
-                                noteLabel.remove()
-                            }
-                        })
+                        let noteLabel = document.getElementById(`note-label-${e.note.identifier}`)
+                        if (noteLabel) {
+                            noteLabel.remove()
+                        }
                     })
-
-                    .catch(err => alert(err));
+                }
             },
         }
 
         app.setUpPiano();
+    }, []);
 
-    }, [message]);
-
-
+    const message = useSelector(state => state.keyChallenge.message);
     const feedback = useSelector(state => state.keyChallenge.feedback);
 
     return (
