@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useEffect, useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import CourseButton from "./CourseButton";
@@ -14,9 +14,9 @@ import "./Navigation.css";
 function Navigation() {
   const sessionUser = useSelector(state => state.session.user);
   const isGameActive = useSelector(state => state.keyChallenge.isGameActive);
-  const message = useSelector(state => state.keyChallenge.message);
+
   const targetKey = useSelector(state => state.keyChallenge.targetKey);
-  const feedback = useSelector(state => state.keyChallenge.feedback);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMouseDownRef = useRef(false);
