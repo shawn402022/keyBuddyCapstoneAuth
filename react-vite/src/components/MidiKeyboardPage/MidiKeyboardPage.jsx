@@ -149,13 +149,14 @@ const MidiKeyboardPage = () => {
                         noteLabel.style.textAlign = 'center';
                         noteLabel.style.width = '25px';
                         noteLabel.style.height = '25px';
-                        noteLabel.style.color = 'white';
-                        noteLabel.style.fontSize = '14px';
-                        noteLabel.style.backgroundColor = 'black';
+                        noteLabel.style.color = 'maroon';
+                        noteLabel.style.fontSize = '15px';
+                        noteLabel.style.backgroundColor = 'aliceblue';
                         noteLabel.style.padding = '0';
                         noteLabel.style.margin = '0';
                         noteLabel.style.lineHeight = '25px';
                         noteLabel.style.borderRadius = '3px';
+                        noteLabel.style.border = '1px solid black';
 
                         const keyElement = document.getElementById(`${noteId}-pressed`);
                         const rect = keyElement.getBoundingClientRect();
@@ -167,9 +168,9 @@ const MidiKeyboardPage = () => {
                     const letter = noteId[0];
                     const number = noteId[noteId.length - 1];
                     if (noteId.includes('#')) {
-                        noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">#</span><span style="font-size: 10px">${number}</span>`;
+                        noteLabel.innerHTML = `<span style="color:black">${letter}</span><span style="font-size: 10px">#</span><span style="font-size: 10px">${number}</span>`;
                     } else {
-                        noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">${number}</span>`;
+                        noteLabel.innerHTML = `<span style="color:black">${letter}</span><span style="font-size: 10px">${number}</span>`;
                     }
                 };
 
@@ -262,13 +263,14 @@ const MidiKeyboardPage = () => {
                             noteLabel.style.textAlign = 'center'
                             noteLabel.style.width = '25px'
                             noteLabel.style.height = '25px'
-                            noteLabel.style.color = 'white'
-                            noteLabel.style.fontSize = '14px'
-                            noteLabel.style.backgroundColor = 'black'
+                            noteLabel.style.color = 'maroon'
+                            noteLabel.style.fontSize = '15px'
+                            noteLabel.style.backgroundColor = 'white'
                             noteLabel.style.padding = '0'
                             noteLabel.style.margin = '0'
                             noteLabel.style.lineHeight = '25px'
                             noteLabel.style.borderRadius = '3px'
+                            noteLabel.style.border = '1px solid black'
 
                             const keyElement = document.getElementById(`${e.note.identifier}-pressed`)
                             const rect = keyElement.getBoundingClientRect()
@@ -283,9 +285,9 @@ const MidiKeyboardPage = () => {
                         const letter = noteText[0]
                         const number = noteText[noteText.length - 1]
                         if (noteText.includes('#')) {
-                            noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">#</span><span style="font-size: 10px">${number}</span>`
+                            noteLabel.innerHTML = `<span style="color:black">${letter}</span><span style="font-size: 10px">#</span><span style="font-size: 10px">${number}</span>`
                         } else {
-                            noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">${number}</span>`
+                            noteLabel.innerHTML = `<span style="color: black">${letter}</span><span style="font-size: 10px">${number}</span>`
                         }
                     })
 
@@ -310,12 +312,17 @@ const MidiKeyboardPage = () => {
     }, []); // Empty dependency array means this runs once on mount
 
     return (
-        <div id="piano-container">
-            {/* The piano will be rendered here by the JavaScript code */}
-            <img className="scales"
+        <>
+            <div id="piano-container">
+                {/* The piano will be rendered here by the JavaScript code */}
+                <img className="scales"
                 src="/images/background-scales-lighter.png"
                 alt="KBuddy logo" />
-        </div>
+            </div>
+            <div className="pbottom"></div>
+
+        </>
+
 
     );
 }

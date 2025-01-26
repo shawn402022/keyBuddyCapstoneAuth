@@ -184,8 +184,11 @@ function Navigation() {
           <ProfileButton onLogout={handleLogout}/>
         </li>
       </ul>
-      {message && <div className="key-message">{message}</div>}
-      {feedback && <div className="key-feedback">{feedback}</div>}
+      <div className="q-container">
+        {message && <p className="key-message">{message}</p>}
+        {feedback && <p className="key-feedback">{feedback}</p>}
+      </div>
+
     </div>
   );
 }
