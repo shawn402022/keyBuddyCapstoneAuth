@@ -60,6 +60,90 @@ const loadPianoSounds = async () => {
 const MidiKeyboardPage = () => {
     const isMouseDown = useRef(false);
     const soundsCacheRef = useRef(null);
+    const midiInputRef = useRef(null);
+
+
+    const message = useSelector(state => state.keyChallenge.message);
+    const feedback = useSelector(state => state.keyChallenge.feedback);
+
+        const playNote = (note) => {
+        if (soundsCacheRef.current && soundsCacheRef.current[note]) {
+            const source = audioContext.createBufferSource();
+            source.buffer = soundsCacheRef.current[note];
+            source.connect(audioContext.destination);
+            source.start(0);
+        }
+    };
+
+    const setupMIDI = async () => {
+        try {
+            await WebMidi.enable({ sysex: true });
+            const input = WebMidi.getInputByName("KOMPLETE KONTROL A25 MIDI");
+
+            if (midiInputRef.current) {
+                midiInputRef.current.removeListener();
+            }
+
+            midiInputRef.current = input;
+
+            input.addListener("noteon", (e) => {
+                const showPressed = document.getElementById(`${e.note.identifier}-pressed`);
+                if (showPressed) {
+                    showPressed.style.visibility = 'visible';
+                    playNote(e.note.identifier);
+                }
+                let noteLabel = document.getElementById(`note-label-${e.note.identifier}`)
+                if (!noteLabel) {
+                    noteLabel = document.createElement('div')
+                    noteLabel.id = `note-label-${e.note.identifier}`
+                    noteLabel.style.position = 'fixed'
+                    noteLabel.style.textAlign = 'center'
+                    noteLabel.style.width = '25px'
+                    noteLabel.style.height = '25px'
+                    noteLabel.style.color = 'white'
+                    noteLabel.style.fontSize = '14px'
+                    noteLabel.style.backgroundColor = 'black'
+                    noteLabel.style.padding = '0'
+                    noteLabel.style.margin = '0'
+                    noteLabel.style.lineHeight = '25px'
+                    noteLabel.style.borderRadius = '3px'
+
+                    const keyElement = document.getElementById(`${e.note.identifier}-pressed`)
+                    const rect = keyElement.getBoundingClientRect()
+                    noteLabel.style.left = `${rect.left + (rect.width / 2) - 12.5}px`
+                    noteLabel.style.top = `${rect.bottom + 2}px`
+
+                    document.body.appendChild(noteLabel)
+                }
+
+                const noteText = e.note.identifier
+                const letter = noteText[0]
+                const number = noteText[noteText.length - 1]
+                if (noteText.includes('#')) {
+                    noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">#</span><span style="font-size: 10px">${number}</span>`
+                } else {
+                    noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">${number}</span>`
+                }
+            });
+
+            input.addListener("noteoff", (e) => {
+                const showHidden = document.getElementById(`${e.note.identifier}-pressed`);
+                if (showHidden) {
+                    showHidden.style.visibility = 'hidden';
+                }
+                let noteLabel = document.getElementById(`note-label-${e.note.identifier}`)
+                if (noteLabel) {
+                    noteLabel.remove()
+                }
+            });
+        } catch (err) {
+            console.error("MIDI setup error:", err);
+        }
+    };
+
+    useEffect(() => {
+        setupMIDI();
+    }, [message]);
 
     useEffect(() => {
         const initSounds = async () => {
@@ -292,73 +376,13 @@ const MidiKeyboardPage = () => {
                         })
                     })
                 })
-
-                WebMidi.enable({ sysex: true })
-                    .then(onEnabled)
-                    .catch(err => alert(err))
-
-                async function onEnabled() {
-                    const myInput = WebMidi.getInputByName("KOMPLETE KONTROL A25 MIDI");
-
-                    myInput.addListener("noteon", (e) => {
-                        console.log(`${e.note.identifier} is on `);
-                        let showPressed = document.getElementById(`${e.note.identifier}-pressed`);
-                        showPressed.style.visibility = 'visible';
-                        playNote(e.note.identifier);
-
-                        let noteLabel = document.getElementById(`note-label-${e.note.identifier}`)
-                        if (!noteLabel) {
-                            noteLabel = document.createElement('div')
-                            noteLabel.id = `note-label-${e.note.identifier}`
-                            noteLabel.style.position = 'fixed'
-                            noteLabel.style.textAlign = 'center'
-                            noteLabel.style.width = '25px'
-                            noteLabel.style.height = '25px'
-                            noteLabel.style.color = 'white'
-                            noteLabel.style.fontSize = '14px'
-                            noteLabel.style.backgroundColor = 'black'
-                            noteLabel.style.padding = '0'
-                            noteLabel.style.margin = '0'
-                            noteLabel.style.lineHeight = '25px'
-                            noteLabel.style.borderRadius = '3px'
-
-                            const keyElement = document.getElementById(`${e.note.identifier}-pressed`)
-                            const rect = keyElement.getBoundingClientRect()
-                            noteLabel.style.left = `${rect.left + (rect.width / 2) - 12.5}px`
-                            noteLabel.style.top = `${rect.bottom + 2}px`
-
-                            document.body.appendChild(noteLabel)
-                        }
-
-                        const noteText = e.note.identifier
-                        const letter = noteText[0]
-                        const number = noteText[noteText.length - 1]
-                        if (noteText.includes('#')) {
-                            noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">#</span><span style="font-size: 10px">${number}</span>`
-                        } else {
-                            noteLabel.innerHTML = `<span style="color: #00ff00">${letter}</span><span style="font-size: 10px">${number}</span>`
-                        }
-                    });
-
-                    myInput.addListener("noteoff", (e) => {
-                        console.log(`${e.note.identifier} is off `)
-                        let showHidden = document.getElementById(`${e.note.identifier}-pressed`)
-                        showHidden.style.visibility = 'hidden'
-
-                        let noteLabel = document.getElementById(`note-label-${e.note.identifier}`)
-                        if (noteLabel) {
-                            noteLabel.remove()
-                        }
-                    })
-                }
             },
         }
 
         app.setUpPiano();
     }, []);
 
-    const message = useSelector(state => state.keyChallenge.message);
-    const feedback = useSelector(state => state.keyChallenge.feedback);
+
 
     return (
         <>
