@@ -32,9 +32,9 @@ function UpdateSongPage({ song }) {
 
             {showUpdateForm && (
                 <div className="modal-overlay">
-                    <div className="modal-content">
+                    <div className="modal-content-update-song">
                         <h2>Update Song</h2>
-                        <form onSubmit={handleUpdateSubmit}>
+                        <form  className='update-form'onSubmit={handleUpdateSubmit}>
                             <div className="form-group">
                                 <label>Song Key:</label>
                                 <input

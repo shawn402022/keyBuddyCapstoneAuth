@@ -2,6 +2,8 @@ import {useState } from "react"
 import { createCoursesFetch } from "../../redux/course"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import "./CoursePage.css"
+
 
 const CreateCourse = () => {
     const dispatch = useDispatch()
@@ -19,17 +21,29 @@ const CreateCourse = () => {
     }
 
     return (
-        <div>
-        <h1>Create Course</h1>
-            <form  onSubmit={handleSubmit}>
+        <div  >
+        <h1 className='create-course-title' >Create Course</h1>
+            <form className='create-course'  onSubmit={handleSubmit}>
                 <label>
                     CourseName
-                    <input
-                    type='text'
-                    value={form.course_name}
-                    onChange={(e) => setForm({...form,course_name: e.target.value})}
-                    required
-                    />
+                    <select
+                        value={form.course_name}
+                        onChange={(e) => setForm({...form, course_name: e.target.value})}
+                        required
+                    >
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="G">G</option>
+                        <option value="min">min</option>
+                        <option value="maj">maj</option>
+                        <option value="dim">dim</option>
+                        <option value="aug">aug</option>
+                        <option value="sus">sus</option>
+                    </select>
                 </label>
                 <label>
                     Details of Course

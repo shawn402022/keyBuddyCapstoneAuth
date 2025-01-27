@@ -61,3 +61,21 @@
     margin: 5px;
     cursor: pointer;
 }
+
+.create-course{
+    border: 5px solid black;
+    border-radius: 5px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px 30%;
+    padding: 2% 0;
+    gap: 10px;
+    background-color: bisque
+}
+
+.create-course-title {
+    display:flex;
+    justify-content: center;
+}

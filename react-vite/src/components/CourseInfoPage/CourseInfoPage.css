@@ -58,6 +58,30 @@
     display:flex;
     justify-content: center;
 }
+
+.modal-content-update-song{
+    display:flex;
+    flex-direction: column;
+    background-color: bisque;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid black;
+    border-radius:4px;
+    margin: 10% 30%;
+    padding: 2% 0;
+
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.update-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
 /*Chord info Styles*/
 
 /*Key info Styles*/
