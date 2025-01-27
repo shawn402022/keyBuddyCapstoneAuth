@@ -4,16 +4,35 @@
 KeyBuddy is an music application designed to be a companion to traditional music lessons by offering a series of learning resources, and short repetitive tests.
 
 ## working Features
-The Main feature is the 'Key Challenge' once you press the 'Start Key Challenge' button you are prompted with a question asking you for a sspecific key.(I am currently working on adding functionality that  will ask for a notes in a chord, or a specific note in a scale)
+The Main feature is the 'Key Challenge' once you press the 'Start Key Challenge' button you are prompted with a question asking you for a specific key.(I am currently working on adding functionality that  will ask for a notes in a chord, or a specific note in a scale)
 
 CRUDs are mainly performed by the admin. the admin can create view update and delete, songs, as well as lessons for notes chords and scales. while users can only view and participate. users can , however read and create reviews.
-### how to install
+## extra  installs
 npm install howler
 npm install webmidi
+npm install tonal
+
+
+## Future features
+- Full Music staff with treble and base cleff
+    - under the keyboard I am going to implement a fill notation staff so that the keys trigger notation and not just text telling you what the note is.
+- Ear Training Mode
+    - Ear training mode is like the Key Challenge, except that  instead of the application asking you what note to play, it will sound off the note for you. in this way you can close your eyes put your hand on your midi keyboard and listen for the note/chord to play and mimic it.
+- Space Rep Study mode
+    - When you start a Key challenge, or an ear training challenge,  the App will time you from the time the question is asked to the time you respond,  if you answer quickly the app will assume you know that question good and will either put it way back in the questions que  or omit it entirely. But if you take a while to answer the question, it will assume you need  help and re-insert that into the questions que so that the question comes back at you after the next 1 to 3 questions based on the time it took you to answer.  This is based off space repetition studying method.
+- Scales and Chords
+    - Currently the key challenge can only test you on random notes. In the future it will test you on notes in a certain scales, and notes in a specific chords.
+
+
+
+## Special Thanks
+
+Students and teachers at Aa that I had to lean on for help I appreciate you guys
+
+glietz midi.  Its a library I found that had piano sounds used in the app.
 
 
 ## Database Schema Design
-
 
 
 ![KeyBuddySchema](/images/keybuddy_schema.jpg)
