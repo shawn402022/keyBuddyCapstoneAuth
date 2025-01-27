@@ -1,15 +1,51 @@
 import Utilities from './utilities.js';
 import KeyImages from './images.js';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as Tonal from 'tonal'
 import { WebMidi } from "webmidi";
 import './MidiKeyboardPage.css'
+import {Howl} from 'howler'
+/*
+pianoSoundsRef.current[noteId].play()    src: ['/public/audio/notes/C4.mp3'],
+    volume: 1.0
+});
+*/
+// Then try playing it
+
 
 const chromaticNotes = Tonal.Range.chromatic(['C2', 'B7'], { sharps: true }).filter((note) => note.length === 2)
 const sharpNotes = Tonal.Range.chromatic(['C2', 'B7'], { sharps: true }).filter((note) => note.length > 2)
 
 const MidiKeyboardPage = () => {
     const isMouseDown = useRef(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const pianoSoundsRef = useRef({});
+
+    useEffect(() => {
+        const sounds = {};
+        [...chromaticNotes, ...sharpNotes].forEach(note => {
+            const audioPath = `/audio/notes/${note.replace('#', 'sharp')}.mp3`;
+            sounds[note] = new Howl({
+                src: [audioPath],
+                volume: 0.8,
+                preload: true,
+                onload: () => {
+                    console.log(`${note} loaded successfully`);
+                    checkAllLoaded();
+                }
+            });
+        });
+        pianoSoundsRef.current = sounds;
+
+        function checkAllLoaded() {
+            const allLoaded = Object.values(sounds).every(sound => sound._state === 'loaded');
+            if (allLoaded) {
+                setIsLoading(false);
+            }
+        }
+
+        // Remove the separate loadSounds function since it's handled in checkAllLoaded
+    }, []);
 
     useEffect(() => {
         const keyImages = new KeyImages();
@@ -79,7 +115,9 @@ const MidiKeyboardPage = () => {
                     whiteKeyObjectPressed.appendChild(whiteKeyImagePressed)
 
                     whiteKeyImagePressed.style.visibility = 'hidden'
-                });
+
+
+                }, []);
 
                 //set up black keys
                 sharpNotes.forEach((note, i) => {
@@ -135,11 +173,17 @@ const MidiKeyboardPage = () => {
                     blackKeyObject.appendChild(blackKeyImage)
                     blackKeyObjectPressed.appendChild(blackKeyImagePressed)
                     blackKeyImagePressed.style.visibility = 'hidden'
+
+
                 });
 
                 const activateKey = (noteId) => {
-                    const showPressed = document.getElementById(`${noteId}-pressed`);
-                    showPressed.style.visibility = 'visible';
+                    if (pianoSoundsRef.current[noteId]._state === 'loaded') {
+                        pianoSoundsRef.current[noteId].play();
+                        const showPressed = document.getElementById(`${noteId}-pressed`);
+                        showPressed.style.visibility = 'visible';
+                    }
+
                     let noteLabel = document.getElementById(`note-label-${noteId}`);
 
                     if (!noteLabel) {
@@ -172,6 +216,7 @@ const MidiKeyboardPage = () => {
                     } else {
                         noteLabel.innerHTML = `<span style="color:black">${letter}</span><span style="font-size: 10px">${number}</span>`;
                     }
+
                 };
 
                 // For white keys
@@ -184,11 +229,15 @@ const MidiKeyboardPage = () => {
                         element.addEventListener('mousedown', () => {
                             isMouseDown.current = true;
                             activateKey(noteId);
+
+
                         });
 
                         element.addEventListener('mouseenter', () => {
                             if (isMouseDown.current) {
                                 activateKey(noteId);
+
+
                             }
                         });
 
@@ -218,11 +267,16 @@ const MidiKeyboardPage = () => {
                         element.addEventListener('mousedown', () => {
                             isMouseDown.current = true;
                             activateKey(noteId);
+                            console.log("MOUSE DOWN BLACK", pianoSoundsRef.current[noteId])
+
+
                         });
 
                         element.addEventListener('mouseenter', () => {
                             if (isMouseDown.current) {
                                 activateKey(noteId);
+
+
                             }
                         });
 
@@ -253,6 +307,8 @@ const MidiKeyboardPage = () => {
                         console.log(`${e.note.identifier} is on `)
                         let showPressed = document.getElementById(`${e.note.identifier}-pressed`)
                         showPressed.style.visibility = 'visible'
+                        pianoSoundsRef.current[e.note.identifier].play()
+                        console.log(pianoSoundsRef.current[e.note.identifier])
 
                         // Create or update note label
                         let noteLabel = document.getElementById(`note-label-${e.note.identifier}`)
@@ -295,6 +351,7 @@ const MidiKeyboardPage = () => {
                         console.log(`${e.note.identifier} is off `)
                         let showHidden = document.getElementById(`${e.note.identifier}-pressed`)
                         showHidden.style.visibility = 'hidden'
+                        pianoSoundsRef.current[e.note.identifier].stop()
 
                         // Remove note label
                         let noteLabel = document.getElementById(`note-label-${e.note.identifier}`)
@@ -313,6 +370,12 @@ const MidiKeyboardPage = () => {
 
     return (
         <>
+        {isLoading && (
+            <div className="loading-overlay">
+                <p>Loading Piano Sounds...</p>
+                <div className="loading-spinner"></div>
+            </div>
+        )}
             <div id="piano-container">
                 {/* The piano will be rendered here by the JavaScript code */}
                 <img className="scales"

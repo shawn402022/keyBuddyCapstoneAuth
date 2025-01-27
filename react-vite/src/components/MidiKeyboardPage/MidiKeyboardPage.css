@@ -63,3 +63,7 @@ img {
     height:20px
 
 }
+
+.loading-spinner{
+    border: 5px solid black
+}
