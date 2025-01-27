@@ -351,7 +351,7 @@ const MidiKeyboardPage = () => {
                         console.log(`${e.note.identifier} is off `)
                         let showHidden = document.getElementById(`${e.note.identifier}-pressed`)
                         showHidden.style.visibility = 'hidden'
-                        pianoSoundsRef.current[e.note.identifier].stop()
+                        pianoSoundsRef.current[e.note.identifier]
 
                         // Remove note label
                         let noteLabel = document.getElementById(`note-label-${e.note.identifier}`)
