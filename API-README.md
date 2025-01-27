@@ -1,7 +1,16 @@
 # KEY BUDDY
-## how to install
-npm install tonal --save
+
+## What is Key Buddy
+KeyBuddy is an music application designed to be a companion to traditional music lessons by offering a series of learning resources, and short repetitive tests.
+
+## working Features
+The Main feature is the 'Key Challenge' once you press the 'Start Key Challenge' button you are prompted with a question asking you for a sspecific key.(I am currently working on adding functionality that  will ask for a notes in a chord, or a specific note in a scale)
+
+CRUDs are mainly performed by the admin. the admin can create view update and delete, songs, as well as lessons for notes chords and scales. while users can only view and participate. users can , however read and create reviews.
+### how to install
+npm install howler
 npm install webmidi
+
 
 ## Database Schema Design
 
