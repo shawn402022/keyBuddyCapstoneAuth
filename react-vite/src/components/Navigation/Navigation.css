@@ -21,6 +21,9 @@ button.create-review-button {
   border-width: 2px;
   border-radius: 5px;
   padding: 4px;
+  cursor: pointer;
+  background-color:rgb(243, 154, 90);
+
 }
 
 .profile-dropdown {
@@ -115,6 +118,7 @@ button.create-review-button {
 
 .review-button{
   background-color:rgb(243, 154, 90);
+  cursor: pointer
 }
 
 .allCourses-word{

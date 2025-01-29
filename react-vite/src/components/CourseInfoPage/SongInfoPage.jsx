@@ -5,6 +5,7 @@ import { getSongs } from '../../redux/song'
 import UpdateSongPage from './UpdateSongPage'
 import './CourseInfoPage.css'
 import { deleteSongThunk } from '../../redux/song'
+import { Link } from'react-router-dom'
 
 
 const SongInfoPage = () => {
@@ -34,7 +35,15 @@ const SongInfoPage = () => {
 
             <div className='song-details-title'>
                 <h2 >Songs in Key of {firstChar}</h2>
+
             </div>
+            <div className='create-button-container'>
+                <button className="create-song-button">
+                    <Link to="/create-song">Add Song</Link>
+                </button>
+            </div>
+
+
 
             {Object.values(songs).length > 0 ? (
                 Object.values(songs).map(song => (

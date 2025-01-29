@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCourses,  updateCourseThunk } from '../../redux/course';
+import { getCourses, updateCourseThunk } from '../../redux/course';
 import { Navigate, Link, useNavigate, NavLink } from 'react-router-dom';
 import './CoursePage.css';
 
@@ -60,9 +60,9 @@ const CoursePage = () => {
                         <p className='course-detail'>{course.details_of_course}</p>
                         <div>
                             <button>
-                            <Link to={`/songs/${course.course_name[0]}`}>Songs</Link>
+                                <Link to={`/songs/${course.course_name[0]}`}>Songs</Link>
                             </button>
-                            <button><Link to="/create-song">Add Song</Link></button>
+                    
                             <button onClick={() => alert("Feature to be implemented soon")}>Scales</button>
                             <button onClick={() => alert("Feature to be implemented soon")}>Chords</button>
                             <button onClick={() => alert("Feature to be implemented soon")}>Keys</button>
@@ -105,8 +105,8 @@ const CoursePage = () => {
                 </div>
             )}
             <img className="scales"
-            src="/images/background-scales-lighter.png"
-            alt="KBuddy logo" />
+                src="/images/background-scales-lighter.png"
+                alt="KBuddy logo" />
         </div>
     );
 };
