@@ -6,6 +6,7 @@ import CourseButton from "./CourseButton";
 import { thunkLogout } from "../../redux/session";
 import ReviewButton from "./ReviewButton";
 import { WebMidi } from "webmidi";
+import SoundModule from '../SoundModule/SoundModule';
 
 import "./Navigation.css";
 
@@ -18,6 +19,7 @@ function Navigation() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMouseDownRef = useRef(false);
+  
 
   const generateNewChallenge = useCallback(() => {
     const keys = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
@@ -28,6 +30,11 @@ function Navigation() {
     setTargetKey(fullNote);
     setMessage(`Please play ${fullNote} on the piano`);
     setFeedback("");
+
+      // Play the target note
+      setTimeout(() => {
+        SoundModule.playNote(fullNote);
+    }, 200); // Short delay to ensure the audio is ready
   }, []);
 
   const checkNote = useCallback((playedNote) => {

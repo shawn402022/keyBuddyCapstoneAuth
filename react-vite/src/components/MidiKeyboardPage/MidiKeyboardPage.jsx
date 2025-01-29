@@ -21,6 +21,13 @@ const MidiKeyboardPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const pianoSoundsRef = useRef({});
 
+
+    const playNote = (note) => {
+        if (pianoSoundsRef.current[note] && pianoSoundsRef.current[note]._state === 'loaded') {
+            pianoSoundsRef.current[note].play();
+        }
+    };
+
     useEffect(() => {
         const sounds = {};
         [...chromaticNotes, ...sharpNotes].forEach(note => {
@@ -178,11 +185,15 @@ const MidiKeyboardPage = () => {
                 });
 
                 const activateKey = (noteId) => {
+                    /*
                     if (pianoSoundsRef.current[noteId]._state === 'loaded') {
                         pianoSoundsRef.current[noteId].play();
-                        const showPressed = document.getElementById(`${noteId}-pressed`);
-                        showPressed.style.visibility = 'visible';
+
                     }
+                        */
+                    playNote(noteId);
+                    const showPressed = document.getElementById(`${noteId}-pressed`);
+                    showPressed.style.visibility = 'visible';
 
                     let noteLabel = document.getElementById(`note-label-${noteId}`);
 
@@ -388,5 +399,9 @@ const MidiKeyboardPage = () => {
 
 
     );
+
 }
+
+
+
 export default MidiKeyboardPage
