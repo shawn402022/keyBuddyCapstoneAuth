@@ -100,6 +100,47 @@
     align-items: center;
     gap: 10px;
 }
+
+.create-song-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    align-items: center;
+    padding:0px;
+    margin:5px 30%;
+    border: 5px solid black;
+    border-radius:5px;
+    background-color: rgb(243, 154, 90);
+
+}
+
+
+.create-song-form textarea {
+    resize: none;
+    overflow-y: auto;
+    height: 100px;
+    width: 100%;
+}
+
+.create-song-form div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1px;
+}
+
+.create-song-form label {
+    margin-bottom: 1px;
+    text-align: center;
+}
+
+.create-song-form input,
+.create-song-form select,
+.create-song-form textarea {
+    width: 100%;
+    text-align: center;
+}
 /*Chord info Styles*/
 
 /*Key info Styles*/
