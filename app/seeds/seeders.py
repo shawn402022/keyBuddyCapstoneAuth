@@ -32,54 +32,63 @@ def seed_users():
             full_name="Shawn Norbert",
             password="password",
             email="user1@example.com",
+            isAdmin=False,
         ),
         User(
             username="user2",
             full_name="Bouchra Norbert",
             password="password",
             email="user2@example.com",
+            isAdmin=False,
         ),
         User(
             username="user3",
             full_name="Hamzah Norbert",
             password="password",
             email="user3@example.com",
+            isAdmin=False,
         ),
         User(
             username="user4",
             full_name="Shahid Alexander",
             password="password",
             email="user4@example.com",
+            isAdmin=False,
         ),
         User(
             username="user5",
             full_name="Shirley Kay",
             password="password",
             email="user5@example.com",
+            isAdmin=False,
         ),
         User(
             username="user6",
             full_name="Trevor Khan",
             password="password",
             email="user6@example.com",
+            isAdmin=False,
         ),
         User(
             username="user7",
             full_name="Shamir Roberts",
             password="password",
             email="user7@example.com",
+            isAdmin=False,
         ),
         User(
             username="user8",
             full_name="Allison Nutley",
             password="password",
             email="user8@example.com",
+            isAdmin=False,
         ),
         User(
             username="demo",
             full_name="Demo User",
             password="password",
             email="demo@aa.io",
+            isAdmin=False,
         ),
 
         User(
@@ -87,6 +96,7 @@ def seed_users():
             full_name="Admin User",
             password="password",
             email="admin_demo@aa.io",
+            isAdmin=True,
 
         )
 

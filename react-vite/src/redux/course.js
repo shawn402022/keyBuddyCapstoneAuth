@@ -49,22 +49,30 @@ export const getCourses = () => async (dispatch) => {
 
 //create courses
 export const createCoursesFetch = (course_name, details_of_course) => async (dispatch) => {
-    const response = await fetch('/api/course/admin', {
-        method: 'POST',
-        body: JSON.stringify({
-            course_name,
-            details_of_course
-        }),
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        credentials: 'include'
-    });
-    if (response.ok) {
-        const data = await response.json();
-        dispatch(createCourses(data));
-    } else {
-        console.error('Error creating courses');
+    try {
+        const response = await fetch('/api/course/admin', {
+            method: 'POST',
+            body: JSON.stringify({
+                course_name,
+                details_of_course
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        });
+        if (response.ok) {
+            const data = await response.json();
+            dispatch(createCourses(data));
+            return data;  // Return the created course data
+        } else {
+            const errorData = await response.json();
+            console.error('Error creating course:', errorData);
+            throw new Error(errorData.msg || 'Failed to create course');
+        }
+    } catch (error) {
+        console.error('Error creating course:', error);
+        throw error;
     }
 }
 //## delete courses

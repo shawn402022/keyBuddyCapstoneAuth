@@ -74,7 +74,8 @@ def songs_by_key(song_key):
 @login_required
 def create_song():
     # Check if the current user is authorized
-    if current_user.full_name != "  Admin Demo":
+    if current_user.full_name.strip() != "Admin User":
+        print(f"User full name: '{current_user.full_name}'")
         return jsonify({"msg": "Unauthorized - Only     Admin can add songs"}), 403
 
     song_data = request.json
@@ -98,7 +99,7 @@ def create_song():
 @song_routes.route("/admin/<song_id>", methods=["PATCH"])
 @login_required
 def update_song(song_id):
-    if current_user.full_name != "  Admin Demo":
+    if current_user.full_name != "Admin User":
         return jsonify({"msg": "Unauthorized - Only     Admin can update songs"}), 403
 
     song = db.session.query(Song).get(song_id)
@@ -122,7 +123,7 @@ def update_song(song_id):
 @login_required
 def delete_song(song_id):
 
-    if current_user.full_name != "  Admin Demo":
+    if current_user.full_name != "Admin User":
         return jsonify({"msg": "Unauthorized - Only     Admin can add songs"}), 403
 
     song = db.session.query(Song).get(song_id)
@@ -202,13 +203,13 @@ def delete_review(review_id):
     review = Review.query.get(review_id)
 
     if review:
-        # Check if the current user is  Admin Demo
-        if current_user.full_name == "  Admin Demo":
+        # Check if the current user isAdmin Demo
+        if current_user.full_name == "Admin User":
             db.session.delete(review)
             db.session.commit()
             return jsonify({"msg": "Review successfully deleted"})
         return (
-            jsonify({"msg": "Unauthorized - Only    Admin can delete reviews"}),
+            jsonify({"msg": "Unauthorized - Only Admin can delete reviews"}),
             403,
         )
 
@@ -227,7 +228,7 @@ def ensure_json():
 @login_required
 def delete_course_from_admin(course_id):
     try:
-        if current_user.full_name != "  Admin Demo":
+        if current_user.full_name != "Admin User":
             return jsonify({"msg": "Unauthorized"}), 403
         course = Course.query.get(course_id)
         if course:
@@ -259,7 +260,7 @@ def get_all_courses():
 @login_required
 def add_course_to_database():
     # Check if the current user is the admin
-    if current_user.full_name != "  Admin Demo":
+    if current_user.full_name != "Admin User":
         return jsonify({"msg": "Unauthorized - Only admin can add courses"}), 403
 
     course_data = request.json
@@ -273,7 +274,7 @@ def add_course_to_database():
 @login_required
 def edit_course_from_admin(course_id):
     # Verify admin user
-    if current_user.full_name != "  Admin Demo":
+    if current_user.full_name != "Admin User":
         return jsonify({"msg": "Unauthorized - Only admin can edit courses"}), 403
 
     course = Course.query.get(course_id)
@@ -429,7 +430,7 @@ def get_scale_by_type(type):
 @scale_routes.route("/admin", methods=["POST"])
 @login_required
 def add_scale_to_database():
-    if current_user.full_name!= "   Admin Demo":
+    if current_user.full_name!= " Admin User":
         return jsonify({"msg": "Unauthorized - Only admin can add scales"}), 403
 
     scale_data = request.json
@@ -443,7 +444,7 @@ def add_scale_to_database():
 @scale_routes.route("/admin/<scale_id>", methods=["PUT"])
 @login_required
 def update_scale_in_database(scale_id):
-    if current_user.full_name != "  Admin Demo":
+    if current_user.full_name != "Admin User":
         return jsonify({"msg": "Unauthorized - Only admin can update scales"}), 403
 
     scale = Scale.query.get(scale_id)
@@ -504,7 +505,7 @@ def get_chord_by_name(chord_family):
 @chord_routes.route("/admin", methods=["POST"])
 @login_required
 def add_chord_to_database():
-    if current_user.full_name != "  Admin Demo":
+    if current_user.full_name != "Admin User":
         return jsonify({"msg": "Unauthorized - Only admin can add chords"}), 403
 
     chord_data = request.json
@@ -518,7 +519,7 @@ def add_chord_to_database():
 @chord_routes.route("/admin/<chord_id>", methods=["PUT"])
 @login_required
 def update_chord_in_database(chord_id):
-    if current_user.full_name!= "   Admin Demo":
+    if current_user.full_name!= " Admin User":
         return jsonify({"msg": "Unauthorized - Only admin can update chords"}), 403
 
     chord = Chord.query.get(chord_id)
@@ -541,7 +542,7 @@ def update_chord_in_database(chord_id):
 @chord_routes.route("/admin/<chord_id>", methods=["DELETE"])
 @login_required
 def delete_chord_from_database(chord_id):
-    if current_user.full_name!= "   Admin Demo":
+    if current_user.full_name!= " Admin User":
         return jsonify({"msg": "Unauthorized - Only admin can delete chords"}), 403
 
     chord = Chord.query.get(chord_id)
@@ -605,7 +606,7 @@ def get_progression_by_style(style):
 @progression_routes.route("/admin", methods=["POST"])
 @login_required
 def add_progression_to_database():
-    if current_user.full_name!= "   Admin Demo":
+    if current_user.full_name!= " Admin User":
         return jsonify({"msg": "Unauthorized - Only admin can add progressions"}), 403
 
     progression_data = request.json
@@ -620,7 +621,7 @@ def add_progression_to_database():
 @progression_routes.route("/admin/<progression_id>", methods=["PUT"])
 @login_required
 def update_progression_in_database(progression_id):
-    if current_user.full_name!= "   Admin Demo":
+    if current_user.full_name!= " Admin User":
         return jsonify({"msg": "Unauthorized - Only admin can update progressions"}), 403
 
     progression = Progression.query.get(progression_id)
@@ -657,7 +658,7 @@ def keys():
 @key_routes.route("/admin/<key_id>", methods=["PUT"])
 @login_required
 def update_key_in_database(key_id):
-    if current_user.full_name!= "   Admin Demo":
+    if current_user.full_name!= " Admin User":
         return jsonify({"msg": "Unauthorized - Only admin can update keys"}), 403
 
     key = Key.query.get(key_id)

@@ -22,9 +22,14 @@ const CoursePage = () => {
             dispatch(getCourses());
         }
     }, [dispatch, user]);
+
     if (!user) {
         return <Navigate to="/login" />;
     }
+
+    const isAdmin = user.full_name.trim() === "Admin User";
+    console.log("Is admin?", isAdmin);
+    console.log("User full name:", user.full_name);
 
     const handleUpdateClick = (course) => {
         setSelectedCourse(course);
@@ -47,11 +52,13 @@ const CoursePage = () => {
 
     return (
         <div className="courses-container">
-            <p className="create-course-button-container">
-                <NavLink to="/createCourse" className="create-course-button">
-                    Create Course
-                </NavLink>
-            </p>
+            {isAdmin && (
+                <p className="create-course-button-container">
+                    <NavLink to="/createCourse" className="create-course-button">
+                        Create Course
+                    </NavLink>
+                </p>
+            )}
 
             <div className="courses-grid">
                 {course.map(course => (
@@ -62,16 +69,20 @@ const CoursePage = () => {
                             <button>
                                 <Link to={`/songs/${course.course_name[0]}`}>Songs</Link>
                             </button>
-                    
+
                             <button onClick={() => alert("Feature to be implemented soon")}>Scales</button>
                             <button onClick={() => alert("Feature to be implemented soon")}>Chords</button>
                             <button onClick={() => alert("Feature to be implemented soon")}>Keys</button>
-                            <button onClick={() => handleUpdateClick(course)}>
-                                Update
-                            </button>
-                            <button onClick={() => navigate(`/course/admin/delete/${course.id}`)}>
-                                Delete
-                            </button>
+                            {isAdmin && (
+                                <>
+                                    <button onClick={() => handleUpdateClick(course)}>
+                                        Update
+                                    </button>
+                                    <button onClick={() => navigate(`/course/admin/delete/${course.id}`)}>
+                                        Delete
+                                    </button>
+                                </>
+                            )}
                         </div>
                     </div>
                 ))}

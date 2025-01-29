@@ -124,6 +124,7 @@ class User(db.Model, UserMixin):
     full_name = db.Column(db.String(255), nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
+    isAdmin = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
@@ -148,6 +149,7 @@ class User(db.Model, UserMixin):
             "username": self.username,
             "full_name": self.full_name,
             "email": self.email,
+            "isAdmin": self.isAdmin,
         }
 
     def check_password(self, password):

@@ -12,7 +12,10 @@ const SongInfoPage = () => {
     const dispatch = useDispatch()
     const { song_key } = useParams()
     const songs = useSelector(state => state.song)
+    const user = useSelector(state => state.session.user)
     const firstChar = song_key[0]
+
+    const isAdmin = user && user.full_name.trim() === "Admin User"
 
     useEffect(() => {
         dispatch(getSongs(firstChar))
@@ -35,13 +38,14 @@ const SongInfoPage = () => {
 
             <div className='song-details-title'>
                 <h2 >Songs in Key of {firstChar}</h2>
-
             </div>
-            <div className='create-button-container'>
-                <button className="create-song-button">
-                    <Link to="/create-song">Add Song</Link>
-                </button>
-            </div>
+            {isAdmin && (
+                <div className='create-button-container'>
+                    <button className="create-song-button">
+                        <Link to="/create-song">Add Song</Link>
+                    </button>
+                </div>
+            )}
 
 
 
@@ -54,15 +58,16 @@ const SongInfoPage = () => {
                             <p>{song.song_key}</p>
                             <p>{song.chords_used}</p>
                             <p>{song.progression_used}</p>
-
                         </div>
                         <div className="song-description">
                             <p> {song.description}</p>
                         </div>
-                        <div className='song-button'>
-                            <UpdateSongPage song={song} />
-                            <button onClick={() => handleDeleteSong(song.id)}>Delete Song</button>
-                        </div>
+                        {isAdmin && (
+                            <div className='song-button'>
+                                <UpdateSongPage song={song} />
+                                <button onClick={() => handleDeleteSong(song.id)}>Delete Song</button>
+                            </div>
+                        )}
                     </div>
                 ))
             ) : (

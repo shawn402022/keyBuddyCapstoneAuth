@@ -15,6 +15,9 @@ const CreateSongPage = () => {
         description:''
     });
 
+    const keyOptions = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -63,12 +66,16 @@ const CreateSongPage = () => {
                 </div>
                 <div>
                     <label>Song Key:</label>
-                    <input
-                        type="text"
+                    <select
                         value={songData.song_key}
                         onChange={(e) => setSongData({...songData, song_key: e.target.value})}
                         required
-                    />
+                    >
+                        <option value="">Select a key</option>
+                        {keyOptions.map((key) => (
+                            <option key={key} value={key}>{key}</option>
+                        ))}
+                    </select>
                 </div>
                 <div>
                     <label>Chords Used:</label>
