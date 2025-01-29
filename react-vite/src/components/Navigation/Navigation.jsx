@@ -40,11 +40,34 @@ function Navigation() {
 
     if (playedNote === targetKey) {
       setFeedback("Correct! Here's your next challenge!");
+      //Play the succes sound if you have one.
       setTimeout(generateNewChallenge, 1000);
     } else {
       setFeedback(`Incorrect! Try again. You played ${playedNote}`);
     }
   }, [isGameActive, targetKey, generateNewChallenge]);
+
+  // Make sure this checkNote function is being called in both MIDI and mouse handlers
+useEffect(() => {
+  if (isGameActive) {
+    const setupMidi = async () => {
+      try {
+        await WebMidi.enable();
+        const myInput = WebMidi.getInputByName("KOMPLETE KONTROL A25 MIDI");
+        if (myInput) {
+          myInput.addListener("noteon", (e) => {
+            checkNote(e.note.identifier); // This will trigger the feedback
+          });
+        }
+      } catch (err) {
+        console.log("MIDI device not found or WebMidi not supported");
+      }
+    };
+    setupMidi();
+  }
+}, [isGameActive, checkNote]);
+
+
 
   const handleNotePlay = (note) => {
     SoundModule.playNote(note);
