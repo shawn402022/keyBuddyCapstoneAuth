@@ -19,7 +19,7 @@ function Navigation() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMouseDownRef = useRef(false);
-  
+
 
   const generateNewChallenge = useCallback(() => {
     const keys = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
@@ -58,19 +58,6 @@ function Navigation() {
       }
     };
 
-    const setupMidi = async () => {
-      try {
-        await WebMidi.enable();
-        const myInput = WebMidi.getInputByName("KOMPLETE KONTROL A25 MIDI");
-        if (myInput) {
-          myInput.addListener("noteon", (e) => {
-            checkNote(e.note.identifier);
-          });
-        }
-      } catch (err) {
-        console.log("MIDI device not found or WebMidi not supported");
-      }
-    };
 
     document.addEventListener('mousedown', () => {
       isMouseDownRef.current = true;
@@ -80,14 +67,11 @@ function Navigation() {
       isMouseDownRef.current = false;
     });
 
-    setupMidi();
-
     const pianoKeys = document.querySelectorAll('.white-key img, .black-key img');
     pianoKeys.forEach(key => key.addEventListener('mousedown', handleMousePress));
 
     return () => {
       pianoKeys.forEach(key => key.removeEventListener('mousedown', handleMousePress));
-      WebMidi.disable();
       document.removeEventListener('mousedown', () => {
         isMouseDownRef.current = true;
       });
@@ -95,6 +79,56 @@ function Navigation() {
         isMouseDownRef.current = false;
       });
     };
+  }, [isGameActive, checkNote]);
+
+
+  //Seccond useEffect to handle MIDI input
+  useEffect(() => {
+    if (isGameActive) {
+      const setupMidi = async () => {
+        try {
+          await WebMidi.enable();
+          const myInput = WebMidi.getInputByName("KOMPLETE KONTROL A25 MIDI");
+          if (myInput) {
+            myInput.addListener("noteon", (e) => {
+              checkNote(e.note.identifier);
+            });
+          }
+        } catch (err) {
+          console.log("MIDI device not found or WebMidi not supported");
+        }
+      };
+
+      const handleMousePress = (e) => {
+        const pressedNote = e.target.getAttribute('data-id');
+        if (pressedNote) {
+          checkNote(pressedNote);
+        }
+      };
+
+      document.addEventListener('mousedown', () => {
+        isMouseDownRef.current = true;
+      });
+
+      document.addEventListener('mouseup', () => {
+        isMouseDownRef.current = false;
+      });
+
+      setupMidi();
+
+      const pianoKeys = document.querySelectorAll('.white-key img, .black-key img');
+      pianoKeys.forEach(key => key.addEventListener('mousedown', handleMousePress));
+
+      return () => {
+        pianoKeys.forEach(key => key.removeEventListener('mousedown', handleMousePress));
+        document.removeEventListener('mousedown', () => {
+          isMouseDownRef.current = true;
+        });
+        document.removeEventListener('mouseup', () => {
+          isMouseDownRef.current = false;
+        });
+      };
+    }
   }, [isGameActive, checkNote]);
 
   const startKeyChallenge = () => {
