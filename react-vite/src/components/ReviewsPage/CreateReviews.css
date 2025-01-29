@@ -9,10 +9,26 @@
 .create-review-form{
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
+    border: 3px solid black;
+    border-radius: 5px;
+    margin:0px 30%;
+    padding: 20px;
+    background-color: rgb(243, 154, 90);
 
 
 
+}
+
+.create-review-form textarea {
+    resize: none;
+    height: 150px; /* Set your desired fixed height */
+    overflow-y: auto;
+    padding: 8px;
+}
+.create-review-form textarea,
+.create-review-button {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .review-title{
