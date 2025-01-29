@@ -20,7 +20,6 @@ function Navigation() {
   const dispatch = useDispatch();
   const isMouseDownRef = useRef(false);
 
-
   const generateNewChallenge = useCallback(() => {
     const keys = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
     const octaves = ['2', '3', '4', '5', '6', '7'];
@@ -31,10 +30,9 @@ function Navigation() {
     setMessage(`Please play ${fullNote} on the piano`);
     setFeedback("");
 
-      // Play the target note
-      setTimeout(() => {
-        SoundModule.playNote(fullNote);
-    }, 200); // Short delay to ensure the audio is ready
+    setTimeout(() => {
+      SoundModule.playNote(fullNote);
+    }, 200);
   }, []);
 
   const checkNote = useCallback((playedNote) => {
@@ -48,16 +46,46 @@ function Navigation() {
     }
   }, [isGameActive, targetKey, generateNewChallenge]);
 
+  const handleNotePlay = (note) => {
+    SoundModule.playNote(note);
+    updateKeyImage(note, true);
+    setTimeout(() => updateKeyImage(note, false), 200);
+    if (isGameActive) {
+      checkNote(note);
+    }
+  };
+
+  const updateKeyImage = (note, isPressed) => {
+    const keyElement = document.getElementById(`${note}-${isPressed ? 'pressed' : 'released'}`);
+    const oppositeKeyElement = document.getElementById(`${note}-${isPressed ? 'released' : 'pressed'}`);
+
+    if (keyElement && oppositeKeyElement) {
+      keyElement.style.visibility = 'visible';
+      oppositeKeyElement.style.visibility = 'hidden';
+    }
+  };
+
   useEffect(() => {
-    if (!isGameActive) return;
+    const setupMidi = async () => {
+      try {
+        await WebMidi.enable();
+        const myInput = WebMidi.getInputByName("KOMPLETE KONTROL A25 MIDI");
+        if (myInput) {
+          myInput.addListener("noteon", (e) => {
+            handleNotePlay(e.note.identifier);
+          });
+        }
+      } catch (err) {
+        console.log("MIDI device not found or WebMidi not supported");
+      }
+    };
 
     const handleMousePress = (e) => {
       const pressedNote = e.target.getAttribute('data-id');
       if (pressedNote) {
-        checkNote(pressedNote);
+        handleNotePlay(pressedNote);
       }
     };
-
 
     document.addEventListener('mousedown', () => {
       isMouseDownRef.current = true;
@@ -66,6 +94,8 @@ function Navigation() {
     document.addEventListener('mouseup', () => {
       isMouseDownRef.current = false;
     });
+
+    setupMidi();
 
     const pianoKeys = document.querySelectorAll('.white-key img, .black-key img');
     pianoKeys.forEach(key => key.addEventListener('mousedown', handleMousePress));
@@ -78,58 +108,9 @@ function Navigation() {
       document.removeEventListener('mouseup', () => {
         isMouseDownRef.current = false;
       });
+      WebMidi.disable();
     };
-  }, [isGameActive, checkNote]);
-
-
-  //Seccond useEffect to handle MIDI input
-  useEffect(() => {
-    if (isGameActive) {
-      const setupMidi = async () => {
-        try {
-          await WebMidi.enable();
-          const myInput = WebMidi.getInputByName("KOMPLETE KONTROL A25 MIDI");
-          if (myInput) {
-            myInput.addListener("noteon", (e) => {
-              checkNote(e.note.identifier);
-            });
-          }
-        } catch (err) {
-          console.log("MIDI device not found or WebMidi not supported");
-        }
-      };
-
-      const handleMousePress = (e) => {
-        const pressedNote = e.target.getAttribute('data-id');
-        if (pressedNote) {
-          checkNote(pressedNote);
-        }
-      };
-
-      document.addEventListener('mousedown', () => {
-        isMouseDownRef.current = true;
-      });
-
-      document.addEventListener('mouseup', () => {
-        isMouseDownRef.current = false;
-      });
-
-      setupMidi();
-
-      const pianoKeys = document.querySelectorAll('.white-key img, .black-key img');
-      pianoKeys.forEach(key => key.addEventListener('mousedown', handleMousePress));
-
-      return () => {
-        pianoKeys.forEach(key => key.removeEventListener('mousedown', handleMousePress));
-        document.removeEventListener('mousedown', () => {
-          isMouseDownRef.current = true;
-        });
-        document.removeEventListener('mouseup', () => {
-          isMouseDownRef.current = false;
-        });
-      };
-    }
-  }, [isGameActive, checkNote]);
+  }, []);
 
   const startKeyChallenge = () => {
     setIsGameActive(true);
@@ -195,7 +176,6 @@ function Navigation() {
                 <span>Reviews</span>
               </div>
             </li>
-
             <li>
               <button onClick={handleProtectedAction} className="disabled-button">
                 Start Key Challenge
@@ -208,10 +188,9 @@ function Navigation() {
         </li>
       </ul>
       <div className="q-container">
-        {message && <p className="key-message">{message}</p>}
-        {feedback && <p className="key-feedback">{feedback}</p>}
+        {isGameActive && message && <p className="key-message">{message}</p>}
+        {isGameActive && feedback && <p className="key-feedback">{feedback}</p>}
       </div>
-
     </div>
   );
 }
