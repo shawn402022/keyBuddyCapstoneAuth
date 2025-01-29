@@ -311,13 +311,22 @@ const MidiKeyboardPage = () => {
                     .then(onEnabled)
                     .catch(err => alert(err))
                 console.log('webMidi enabled')
+
+
+
                 function onEnabled() {
                     const myInput = WebMidi.getInputByName("KOMPLETE KONTROL A25 MIDI");
 
+
+                    myInput.removeListener();
+
                     myInput.addListener("noteon", (e) => {
-                        const showPressed = document.getElementById(`${e.note.identifier}-pressed`);
+                        console.log(`${e.note.identifier} is on`);
+                        let showPressed = document.getElementById(`${e.note.identifier}-pressed`);
                         showPressed.style.visibility = 'visible';
                         pianoSoundsRef.current[e.note.identifier].play();
+
+
 
                         // Create or update note label
                         let noteLabel = document.getElementById(`note-label-${e.note.identifier}`);
@@ -341,7 +350,6 @@ const MidiKeyboardPage = () => {
                             const rect = keyElement.getBoundingClientRect();
                             noteLabel.style.left = `${rect.left + (rect.width / 2) - 12.5}px`;
                             noteLabel.style.top = `${rect.bottom + 2}px`;
-
                             document.body.appendChild(noteLabel);
                         }
 
@@ -356,7 +364,8 @@ const MidiKeyboardPage = () => {
                     });
 
                     myInput.addListener("noteoff", (e) => {
-                        const showPressed = document.getElementById(`${e.note.identifier}-pressed`);
+                        console.log(`${e.note.identifier} is off `);
+                        let showPressed = document.getElementById(`${e.note.identifier}-pressed`);
                         showPressed.style.visibility = 'hidden';
 
                         let noteLabel = document.getElementById(`note-label-${e.note.identifier}`);
