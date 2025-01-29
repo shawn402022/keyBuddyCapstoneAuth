@@ -76,11 +76,20 @@ def seed_users():
             email="user8@example.com",
         ),
         User(
-            username="Demo",
+            username="demo",
             full_name="Demo User",
             password="password",
             email="demo@aa.io",
+        ),
+
+        User(
+            username="admin_demo",
+            full_name="Admin User",
+            password="password",
+            email="admin_demo@aa.io",
+
         )
+
     ]
 
     # buld insert seeds into db

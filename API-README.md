@@ -35,7 +35,7 @@ glietz midi.  Its a library I found that had piano sounds used in the app.
 ## Database Schema Design
 
 
-![KeyBuddySchema](/images/keybuddy_schema.jpg)
+![KeyBuddySchema](/public/images/keybuddy_schema.jpg)
 
 ## API Documentation
 

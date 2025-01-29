@@ -21,6 +21,15 @@ function LoginFormModal() {
     if (!serverResponse) closeModal();
   };
 
+  const adminDemoLogin = async () => {
+    const adminDemoUser = {
+      email: "admin_demo@aa.io",
+      password: "password"
+    };
+    const serverResponse = await dispatch(thunkLogin(adminDemoUser));
+    if (!serverResponse) closeModal();
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -70,9 +79,11 @@ function LoginFormModal() {
         <button type="button" onClick={demoLogin}>
         {<p className="demoUser-word">Demo User</p>}
         </button>
+        <button type="button" onClick={adminDemoLogin}>
+          {<p className="adminDemoUser-word">Admin Demo</p>}
+        </button>
       </form>
     </>
   );
 }
-
 export default LoginFormModal;
