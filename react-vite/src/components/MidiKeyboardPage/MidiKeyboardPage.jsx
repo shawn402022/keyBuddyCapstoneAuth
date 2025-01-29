@@ -312,65 +312,56 @@ const MidiKeyboardPage = () => {
                     .catch(err => alert(err))
                 console.log('webMidi enabled')
                 function onEnabled() {
-
                     const myInput = WebMidi.getInputByName("KOMPLETE KONTROL A25 MIDI");
+
                     myInput.addListener("noteon", (e) => {
-                        console.log(`${e.note.identifier} is on `)
-                        let showPressed = document.getElementById(`${e.note.identifier}-pressed`)
-                        showPressed.style.visibility = 'visible'
-                        pianoSoundsRef.current[e.note.identifier].play()
-                        console.log(pianoSoundsRef.current[e.note.identifier])
+                        const showPressed = document.getElementById(`${e.note.identifier}-pressed`);
+                        showPressed.style.visibility = 'visible';
+                        pianoSoundsRef.current[e.note.identifier].play();
 
                         // Create or update note label
-                        let noteLabel = document.getElementById(`note-label-${e.note.identifier}`)
+                        let noteLabel = document.getElementById(`note-label-${e.note.identifier}`);
                         if (!noteLabel) {
-                            noteLabel = document.createElement('div')
-                            noteLabel.id = `note-label-${e.note.identifier}`
-                            noteLabel.style.position = 'fixed'
-                            noteLabel.style.textAlign = 'center'
-                            noteLabel.style.width = '25px'
-                            noteLabel.style.height = '25px'
-                            noteLabel.style.color = 'maroon'
-                            noteLabel.style.fontSize = '15px'
-                            noteLabel.style.backgroundColor = 'white'
-                            noteLabel.style.padding = '0'
-                            noteLabel.style.margin = '0'
-                            noteLabel.style.lineHeight = '25px'
-                            noteLabel.style.borderRadius = '3px'
-                            noteLabel.style.border = '1px solid black'
+                            noteLabel = document.createElement('div');
+                            noteLabel.id = `note-label-${e.note.identifier}`;
+                            noteLabel.style.position = 'fixed';
+                            noteLabel.style.textAlign = 'center';
+                            noteLabel.style.width = '25px';
+                            noteLabel.style.height = '25px';
+                            noteLabel.style.color = 'maroon';
+                            noteLabel.style.fontSize = '15px';
+                            noteLabel.style.backgroundColor = 'white';
+                            noteLabel.style.padding = '0';
+                            noteLabel.style.margin = '0';
+                            noteLabel.style.lineHeight = '25px';
+                            noteLabel.style.borderRadius = '3px';
+                            noteLabel.style.border = '1px solid black';
 
-                            const keyElement = document.getElementById(`${e.note.identifier}-pressed`)
-                            const rect = keyElement.getBoundingClientRect()
-                            noteLabel.style.left = `${rect.left + (rect.width / 2) - 12.5}px`
-                            noteLabel.style.top = `${rect.bottom + 2}px`
+                            const keyElement = document.getElementById(`${e.note.identifier}-pressed`);
+                            const rect = keyElement.getBoundingClientRect();
+                            noteLabel.style.left = `${rect.left + (rect.width / 2) - 12.5}px`;
+                            noteLabel.style.top = `${rect.bottom + 2}px`;
 
-                            document.body.appendChild(noteLabel)
+                            document.body.appendChild(noteLabel);
                         }
 
-                        // Format the note text with colored letter, scaled sharp symbol and number
-                        const noteText = e.note.identifier
-                        const letter = noteText[0]
-                        const number = noteText[noteText.length - 1]
+                        const noteText = e.note.identifier;
+                        const letter = noteText[0];
+                        const number = noteText[noteText.length - 1];
                         if (noteText.includes('#')) {
-                            noteLabel.innerHTML = `<span style="color:black">${letter}</span><span style="font-size: 10px">#</span><span style="font-size: 10px">${number}</span>`
+                            noteLabel.innerHTML = `<span style="color:black">${letter}</span><span style="font-size: 10px">#</span><span style="font-size: 10px">${number}</span>`;
                         } else {
-                            noteLabel.innerHTML = `<span style="color: black">${letter}</span><span style="font-size: 10px">${number}</span>`
+                            noteLabel.innerHTML = `<span style="color:black">${letter}</span><span style="font-size: 10px">${number}</span>`;
                         }
-                    })
+                    });
 
                     myInput.addListener("noteoff", (e) => {
-                        console.log(`${e.note.identifier} is off `)
-                        let showHidden = document.getElementById(`${e.note.identifier}-pressed`)
-                        showHidden.style.visibility = 'hidden'
-                        pianoSoundsRef.current[e.note.identifier]
+                        const showPressed = document.getElementById(`${e.note.identifier}-pressed`);
+                        showPressed.style.visibility = 'hidden';
 
-                        // Remove note label
-                        let noteLabel = document.getElementById(`note-label-${e.note.identifier}`)
-                        if (noteLabel) {
-                            noteLabel.remove()
-                        }
-                    })
-                    console.log('setup midi working')
+                        let noteLabel = document.getElementById(`note-label-${e.note.identifier}`);
+                        if (noteLabel) noteLabel.remove();
+                    });
                 }
             },
 

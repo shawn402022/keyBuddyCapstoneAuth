@@ -96,6 +96,11 @@ useEffect(() => {
         if (myInput) {
           myInput.addListener("noteon", (e) => {
             handleNotePlay(e.note.identifier);
+            updateKeyImage(e.note.identifier, true);  // Show pressed image
+          });
+
+          myInput.addListener("noteoff", (e) => {
+            updateKeyImage(e.note.identifier, false);  // Show released image
           });
         }
       } catch (err) {
