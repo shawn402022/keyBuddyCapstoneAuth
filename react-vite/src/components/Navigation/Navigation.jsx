@@ -5,7 +5,6 @@ import ProfileButton from "./ProfileButton";
 import CourseButton from "./CourseButton";
 import { thunkLogout } from "../../redux/session";
 import ReviewButton from "./ReviewButton";
-import CreateReviewButton from "./CreateReviewButton";
 import { WebMidi } from "webmidi";
 
 import "./Navigation.css";
@@ -131,15 +130,7 @@ function Navigation() {
               <CourseButton />
             </li>
             <li>
-              <NavLink to="/createCourse" className="create-course-button">
-                Create Course
-              </NavLink>
-            </li>
-            <li>
               <ReviewButton />
-            </li>
-            <li>
-              <CreateReviewButton />
             </li>
             <li>
               {!isGameActive ? (
@@ -160,19 +151,10 @@ function Navigation() {
             </li>
             <li>
               <div onClick={handleProtectedAction} className="disabled-link">
-                <span>Create Course</span>
-              </div>
-            </li>
-            <li>
-              <div onClick={handleProtectedAction} className="disabled-link">
                 <span>Reviews</span>
               </div>
             </li>
-            <li>
-              <div onClick={handleProtectedAction} className="disabled-link">
-                <span>Create Review</span>
-              </div>
-            </li>
+
             <li>
               <button onClick={handleProtectedAction} className="disabled-button">
                 Start Key Challenge

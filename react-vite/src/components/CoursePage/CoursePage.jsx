@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCourses,  updateCourseThunk } from '../../redux/course';
-import { Navigate, Link, useNavigate } from 'react-router-dom';
+import { Navigate, Link, useNavigate, NavLink } from 'react-router-dom';
 import './CoursePage.css';
 
 const CoursePage = () => {
@@ -25,14 +25,7 @@ const CoursePage = () => {
     if (!user) {
         return <Navigate to="/login" />;
     }
-/*
-    const handleDelete = async (courseId) => {
-        console.log('Delete request starting for course:', courseId);
-        const result = await dispatch(deleteCourseThunk(courseId));
-        console.log('Delete request completed:', result);
-        dispatch(getCourses());
-    }
-*/
+
     const handleUpdateClick = (course) => {
         setSelectedCourse(course);
         setUpdateFormData({
@@ -54,6 +47,11 @@ const CoursePage = () => {
 
     return (
         <div className="courses-container">
+            <p className="create-course-button-container">
+                <NavLink to="/createCourse" className="create-course-button">
+                    Create Course
+                </NavLink>
+            </p>
 
             <div className="courses-grid">
                 {course.map(course => (

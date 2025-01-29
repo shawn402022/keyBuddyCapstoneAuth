@@ -19,3 +19,21 @@
     display:flex;
     justify-content: center;
 }
+
+.reviews-header{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+.create-review-word{
+    margin: 0px;
+
+}
+
+.create-review-button{
+    margin: 20px 0px;
+}

@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getReviews } from '../../redux/review'
+import CreateReviewButton from '../Navigation/CreateReviewButton'
 
 const ReviewsPage = () => {
     const dispatch = useDispatch()
@@ -12,7 +13,10 @@ const ReviewsPage = () => {
 
     return (
         <div className="reviews-container">
-            <h1>Community Reviews</h1>
+            <div className="reviews-header">
+                <h1>Community Reviews</h1>
+                <CreateReviewButton />
+            </div>
             <div className="reviews-list">
                 {reviews.map((review) => (
                     <div key={review.id} className="review-card">
