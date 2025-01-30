@@ -44,6 +44,7 @@ function UpdateSongPage({ song }) {
                                         ...updateFormData,
                                         song_key: e.target.value
                                     })}
+                                    required
                                 />
                             </div>
                             <div className="form-group">
@@ -55,6 +56,7 @@ function UpdateSongPage({ song }) {
                                         ...updateFormData,
                                         song: e.target.value
                                     })}
+                                    required
                                 />
                             </div>
                             <div className="form-group">
@@ -66,6 +68,7 @@ function UpdateSongPage({ song }) {
                                         ...updateFormData,
                                         artist: e.target.value
                                     })}
+                                    required
                                 />
                             </div>
                             <div className="form-group">
@@ -77,6 +80,7 @@ function UpdateSongPage({ song }) {
                                         ...updateFormData,
                                         chords_used: e.target.value
                                     })}
+                                    required
                                 />
                             </div>
                             <div className="form-group">
@@ -88,6 +92,7 @@ function UpdateSongPage({ song }) {
                                         ...updateFormData,
                                         progression_used: e.target.value
                                     })}
+                                    required
                                 />
                             </div>
                             <div className="form-group">
@@ -98,6 +103,7 @@ function UpdateSongPage({ song }) {
                                         ...updateFormData,
                                         description: e.target.value
                                     })}
+                                    required
                                 />
                             </div>
                             <div className="button-group">
