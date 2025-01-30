@@ -102,6 +102,7 @@ const CreateSongPage = () => {
                         onChange={(e) => setSongData({...songData, description: e.target.value})}
                         placeholder="Add song details, tips, or notes here"
                         rows="4"
+                        required
                     />
                 </div>
                 <button type="submit">Add Song</button>
