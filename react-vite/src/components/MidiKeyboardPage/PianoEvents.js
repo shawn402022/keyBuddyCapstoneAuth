@@ -13,8 +13,21 @@ export class PianoEvents {
     }
 
     activateKey(noteId) {
-        if (this.pianoSoundsRef[noteId] && this.pianoSoundsRef[noteId]._state === 'loaded') {
-            this.pianoSoundsRef[noteId].play();
+
+
+        // Convert any '#' to 'sharp' in the note name
+        const normalizedNoteId = noteId.includes('#') ?
+            noteId.replace('#', 'sharp') :
+            noteId;
+
+        console.log('Playing normalized note:', normalizedNoteId);
+
+
+
+
+        if (this.pianoSoundsRef.sounds[normalizedNoteId]) {
+
+            this.pianoSoundsRef.sounds[normalizedNoteId].play();
         }
 
         const keyElement = document.querySelector(`[data-id="${noteId}"]`);

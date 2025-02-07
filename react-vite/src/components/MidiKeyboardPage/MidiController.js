@@ -21,6 +21,14 @@ export class MidiController {
         }
     }
 
+    handleMIDIMessage(message) {
+        console.log('MIDI message received:', message);
+        console.log('Available sounds:', this.soundManager.sounds);
+
+        const noteId = e.note.identifier; // your current note mapping logic
+        console.log('Mapped MIDI note:', noteId);
+    }
+
     handleNoteOff = (e) => {
         const noteId = e.note.identifier;
         let showPressed = document.getElementById(`${noteId}-pressed`);
