@@ -1,6 +1,8 @@
 import { SoundManager } from './SoundManager';
 import { PianoBuilder } from './PianoBuilder';
 import { MidiController } from './MidiController';
+import { NoteLabelManager } from './NoteLabelManager';
+import { PianoEvents } from './PianoEvents';
 import { PIANO_CONFIG } from './config';
 import Utilities from './utilities.js';
 import KeyImages from './images.js';
@@ -27,8 +29,12 @@ const PianoContainer = () => (
 const MidiKeyboardPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const pianoBuilder = useRef(new PianoBuilder(new Utilities(), new KeyImages()));
+
+    // Create refs for all required instances
     const soundManager = useRef(new SoundManager());
+    const noteLabelManager = useRef(new NoteLabelManager());
+    const pianoEvents = useRef(new PianoEvents(soundManager.current, noteLabelManager.current));
+    const pianoBuilder = useRef(new PianoBuilder(new Utilities(), new KeyImages(), pianoEvents.current));
     const midiController = useRef(new MidiController(soundManager.current));
 
     useEffect(() => {

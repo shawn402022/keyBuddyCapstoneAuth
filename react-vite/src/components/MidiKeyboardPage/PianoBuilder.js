@@ -1,11 +1,11 @@
 import { PIANO_CONFIG } from './config';
 
 export class PianoBuilder {
-    constructor(utils, keyImages) {
+    constructor(utils, keyImages, pianoEvents) {
         this.utils = utils;
         this.keyImages = keyImages;
+        this.pianoEvents = pianoEvents;
     }
-
     createPiano(containerElement) {
         const whiteKeyWidth = 80;
         const pianoHeight = 400;
@@ -16,23 +16,30 @@ export class PianoBuilder {
 
         const piano = this.utils.createMainSVG(pianoWidth, pianoHeight, "piano");
 
-        // Create white keys
+        // Create white keys with event listeners
         PIANO_CONFIG.chromaticNotes.forEach((note, i) => {
             const whiteKey = this.createWhiteKey(note, i, whiteKeyWidth, pianoHeight);
             piano.appendChild(whiteKey);
+            const keyElement = whiteKey.querySelector(`[data-id="${note}"]`);
+            if (keyElement) {
+                this.pianoEvents.setupKeyEvents(keyElement, note);
+            }
         });
 
-        // Create black keys
+        // Create black keys with event listeners
         PIANO_CONFIG.sharpNotes.forEach((note, i) => {
             const blackKey = this.createBlackKey(note, i, whiteKeyWidth, pianoHeight, blackKeyPositionX);
             piano.appendChild(blackKey);
+            const keyElement = blackKey.querySelector(`[data-id="${note}"]`);
+            if (keyElement) {
+                this.pianoEvents.setupKeyEvents(keyElement, note);
+            }
             blackKeyPositionX = this.calculateNextBlackKeyPosition(note, blackKeyPositionX, whiteKeyWidth);
         });
 
         containerElement.appendChild(piano);
         return piano;
     }
-
     createWhiteKey(note, index, width, height) {
         const keyGroup = this.utils.createSVGElement('g');
 

@@ -13,7 +13,11 @@ export class MidiController {
         let showPressed = document.getElementById(`${noteId}-pressed`);
         if (showPressed) {
             showPressed.style.visibility = 'visible';
-            this.pianoSoundsRef[noteId].play();
+            if (this.pianoSoundsRef[noteId]) {
+                this.pianoSoundsRef[noteId].play();
+            } else {
+                console.log(`Sound not loaded for note: ${noteId}`);
+            }
         }
     }
 
