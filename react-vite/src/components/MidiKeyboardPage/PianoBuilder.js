@@ -35,8 +35,14 @@ export class PianoBuilder {
 
     createWhiteKey(note, index, width, height) {
         const keyGroup = this.utils.createSVGElement('g');
+
+        // Create regular key
         const keyObject = this.utils.createSVGElement("foreignObject");
         const keyImage = this.utils.createKeyImage(this.keyImages.releasedNatural[index]);
+
+        // Create pressed state key
+        const pressedKeyObject = this.utils.createSVGElement("foreignObject");
+        const pressedKeyImage = this.utils.createKeyImage(this.keyImages.pressedNatural[index]);
 
         this.utils.setAttributes(keyObject, {
             "class": "white-key",
@@ -46,15 +52,32 @@ export class PianoBuilder {
             "data-id": note
         });
 
+        this.utils.setAttributes(pressedKeyObject, {
+            "class": "white-key-pressed",
+            "width": width,
+            "height": height,
+            "x": width * index,
+            "id": `${note}-pressed`,
+            "style": "visibility: hidden"
+        });
+
         keyObject.appendChild(keyImage);
+        pressedKeyObject.appendChild(pressedKeyImage);
         keyGroup.appendChild(keyObject);
+        keyGroup.appendChild(pressedKeyObject);
         return keyGroup;
     }
 
     createBlackKey(note, index, whiteKeyWidth, height, positionX) {
         const keyGroup = this.utils.createSVGElement('g');
+
+        // Create regular key
         const keyObject = this.utils.createSVGElement("foreignObject");
         const keyImage = this.utils.createKeyImage(this.keyImages.releasedSharp[index]);
+
+        // Create pressed state key
+        const pressedKeyObject = this.utils.createSVGElement("foreignObject");
+        const pressedKeyImage = this.utils.createKeyImage(this.keyImages.pressedSharp[index]);
 
         this.utils.setAttributes(keyObject, {
             "class": "black-key",
@@ -64,11 +87,21 @@ export class PianoBuilder {
             "data-id": note
         });
 
+        this.utils.setAttributes(pressedKeyObject, {
+            "class": "black-key-pressed",
+            "width": whiteKeyWidth / 2,
+            "height": height / 1.6,
+            "x": positionX,
+            "id": `${note}-pressed`,
+            "style": "visibility: hidden"
+        });
+
         keyObject.appendChild(keyImage);
+        pressedKeyObject.appendChild(pressedKeyImage);
         keyGroup.appendChild(keyObject);
+        keyGroup.appendChild(pressedKeyObject);
         return keyGroup;
     }
-
     calculateNextBlackKeyPosition(note, currentPosition, whiteKeyWidth) {
         return note[0] === "D" || note[0] === "A"
             ? currentPosition + whiteKeyWidth * 2
