@@ -14,15 +14,9 @@ export class PianoEvents {
 
     activateKey(noteId) {
 
-
-        // Convert any '#' to 'sharp' in the note name
         const normalizedNoteId = noteId
-        //.includes('#') ?
-            //noteId.replace('#', 'sharp') :
-            //noteId;
 
         console.log('Playing normalized note:', normalizedNoteId);
-
 
 
 
