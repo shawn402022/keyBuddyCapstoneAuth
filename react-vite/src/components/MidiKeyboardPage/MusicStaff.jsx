@@ -12,6 +12,7 @@ const MusicStaff = ({ currentNotes }) => {
             renderer.resize(600, 200);
             const context = renderer.getContext();
 
+            // Draw the staves
             const trebleStave = new VF.Stave(10, 0, 580);
             trebleStave.addClef('treble').setContext(context).draw();
 
@@ -20,25 +21,34 @@ const MusicStaff = ({ currentNotes }) => {
 
             if (currentNotes.length > 0) {
                 // Group notes by clef
-                const trebleNotes = currentNotes
+                const trebleKeys = currentNotes
                     .filter(note => note.octave >= 4)
-                    .map(note => new VF.StaveNote({
-                        clef: "treble",
-                        keys: [note.key],
-                        duration: "q"
-                    }));
+                    .map(note => note.key);
 
-                const bassNotes = currentNotes
+                const bassKeys = currentNotes
                     .filter(note => note.octave < 4)
-                    .map(note => new VF.StaveNote({
-                        clef: "bass",
-                        keys: [note.key],
-                        duration: "q"
-                    }));
+                    .map(note => note.key);
 
-                // Create and draw treble voice if there are treble notes
+                // Create chord notes
+                const trebleNotes = trebleKeys.length > 0 ? [
+                    new VF.StaveNote({
+                        clef: "treble",
+                        keys: trebleKeys,
+                        duration: "w"  // whole note duration
+                    })
+                ] : [];
+
+                const bassNotes = bassKeys.length > 0 ? [
+                    new VF.StaveNote({
+                        clef: "bass",
+                        keys: bassKeys,
+                        duration: "w"  // whole note duration
+                    })
+                ] : [];
+
+                // Draw treble notes
                 if (trebleNotes.length > 0) {
-                    const trebleVoice = new VF.Voice({ num_beats: trebleNotes.length, beat_value: 4 });
+                    const trebleVoice = new VF.Voice({ num_beats: 4, beat_value: 4 });
                     trebleVoice.addTickables(trebleNotes);
                     new VF.Formatter()
                         .joinVoices([trebleVoice])
@@ -46,9 +56,9 @@ const MusicStaff = ({ currentNotes }) => {
                     trebleVoice.draw(context, trebleStave);
                 }
 
-                // Create and draw bass voice if there are bass notes
+                // Draw bass notes
                 if (bassNotes.length > 0) {
-                    const bassVoice = new VF.Voice({ num_beats: bassNotes.length, beat_value: 4 });
+                    const bassVoice = new VF.Voice({ num_beats: 4, beat_value: 4 });
                     bassVoice.addTickables(bassNotes);
                     new VF.Formatter()
                         .joinVoices([bassVoice])
@@ -65,4 +75,5 @@ const MusicStaff = ({ currentNotes }) => {
         </div>
     );
 };
+
 export default MusicStaff;
