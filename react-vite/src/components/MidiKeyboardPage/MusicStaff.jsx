@@ -1,51 +1,63 @@
 import  { useEffect, useRef } from 'react';
 import Vex from 'vexflow';
 
-const MusicStaff = ({ currentNote }) => {
+const MusicStaff = ({ currentNotes }) => {
     const staffRef = useRef(null);
 
     useEffect(() => {
         if (staffRef.current) {
-            // Clear previous rendering
             staffRef.current.innerHTML = '';
-
-            // Initialize VexFlow
             const VF = Vex.Flow;
             const renderer = new VF.Renderer(staffRef.current, VF.Renderer.Backends.SVG);
-
-            // Set size of staff
             renderer.resize(600, 200);
             const context = renderer.getContext();
 
-            // Create a stave for treble clef
             const trebleStave = new VF.Stave(10, 0, 580);
             trebleStave.addClef('treble').setContext(context).draw();
 
-            // Create a stave for bass clef
             const bassStave = new VF.Stave(10, 100, 580);
             bassStave.addClef('bass').setContext(context).draw();
 
-            if (currentNote) {
-                // Create note based on MIDI input
-                const note = new VF.StaveNote({
-                    clef: currentNote.octave >= 4 ? "treble" : "bass",
-                    keys: [currentNote.key],
-                    duration: "q"
-                });
+            if (currentNotes.length > 0) {
+                // Group notes by clef
+                const trebleNotes = currentNotes
+                    .filter(note => note.octave >= 4)
+                    .map(note => new VF.StaveNote({
+                        clef: "treble",
+                        keys: [note.key],
+                        duration: "q"
+                    }));
 
-                // Create voice and formatter
-                const voice = new VF.Voice({ num_beats: 1, beat_value: 4 });
-                voice.addTickables([note]);
+                const bassNotes = currentNotes
+                    .filter(note => note.octave < 4)
+                    .map(note => new VF.StaveNote({
+                        clef: "bass",
+                        keys: [note.key],
+                        duration: "q"
+                    }));
 
-                // Format and draw
-                new VF.Formatter()
-                    .joinVoices([voice])
-                    .format([voice], 580);
+                // Create and draw treble voice if there are treble notes
+                if (trebleNotes.length > 0) {
+                    const trebleVoice = new VF.Voice({ num_beats: trebleNotes.length, beat_value: 4 });
+                    trebleVoice.addTickables(trebleNotes);
+                    new VF.Formatter()
+                        .joinVoices([trebleVoice])
+                        .format([trebleVoice], 580);
+                    trebleVoice.draw(context, trebleStave);
+                }
 
-                voice.draw(context, currentNote.octave >= 4 ? trebleStave : bassStave);
+                // Create and draw bass voice if there are bass notes
+                if (bassNotes.length > 0) {
+                    const bassVoice = new VF.Voice({ num_beats: bassNotes.length, beat_value: 4 });
+                    bassVoice.addTickables(bassNotes);
+                    new VF.Formatter()
+                        .joinVoices([bassVoice])
+                        .format([bassVoice], 580);
+                    bassVoice.draw(context, bassStave);
+                }
             }
         }
-    }, [currentNote]);
+    }, [currentNotes]);
 
     return (
         <div className="music-staff-container">
@@ -53,5 +65,4 @@ const MusicStaff = ({ currentNote }) => {
         </div>
     );
 };
-
 export default MusicStaff;

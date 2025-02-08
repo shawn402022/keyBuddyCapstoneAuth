@@ -6,19 +6,26 @@ export class MidiController {
         this.pianoSoundsRef = pianoSoundsRef;
         this.noteLabelManager = new NoteLabelManager();
         this.currentInput = null;
+        // Create a Map using the note key as the unique identifier
+        this.activeNotes = new Map();
     }
 
     handleNoteOn = (e) => {
         const noteId = e.note.identifier;
         const noteName = e.note.name;
         const octave = e.note.octave;
+        const noteKey = `${noteName.toLowerCase()}/${octave}`;
 
-        // Update the current note for the staff
-        if (this.setNoteCallback) {
-            this.setNoteCallback({
-                key: `${noteName.toLowerCase()}/${octave}`,
-                octave: octave
-            });
+        const noteInfo = {
+            key: noteKey,
+            octave: octave
+        };
+
+        // Use the noteKey as the Map key to prevent duplicates
+        this.activeNotes.set(noteKey, noteInfo);
+
+        if (this.setNotesCallback) {
+            this.setNotesCallback([...this.activeNotes.values()]);
         }
 
         // WebMidi.js provides velocity in range 0-127, so we normalize it to 0-1
@@ -39,10 +46,17 @@ export class MidiController {
             console.log(`Note ${noteId} on, velocity: ${velocity}`);
         }
     }
+
     handleNoteOff = (e) => {
-        // Clear the current note
-        if (this.setNoteCallback) {
-            this.setNoteCallback(null);
+        const noteName = e.note.name;
+        const octave = e.note.octave;
+        const noteKey = `${noteName.toLowerCase()}/${octave}`;
+
+        // Delete the note using its unique key
+        this.activeNotes.delete(noteKey);
+
+        if (this.setNotesCallback) {
+            this.setNotesCallback([...this.activeNotes.values()]);
         }
 
         const noteId = e.note.identifier;

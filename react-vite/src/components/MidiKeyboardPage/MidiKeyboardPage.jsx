@@ -20,7 +20,8 @@ const LoadingSpinner = () => (
 const MidiKeyboardPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [currentNote, setCurrentNote] = useState(null);
+    // Change from single note to array of notes
+    const [currentNotes, setCurrentNotes] = useState([]);
 
     // Create refs for all required instances
     const soundManager = useRef(new SoundManager());
@@ -31,7 +32,7 @@ const MidiKeyboardPage = () => {
 
     useEffect(() => {
         const currentMidiController = midiController.current;
-        currentMidiController.setNoteCallback = setCurrentNote;
+        currentMidiController.setNotesCallback = setCurrentNotes;
 
         const initialize = async () => {
             try {
@@ -63,7 +64,7 @@ const MidiKeyboardPage = () => {
                 <LoadingSpinner />
             ) : (
                 <div className="piano-content">
-                    <MusicStaff currentNote={currentNote} />
+                    <MusicStaff currentNotes={currentNotes} />
                     <PianoContainer />
                 </div>
             )}
@@ -71,7 +72,6 @@ const MidiKeyboardPage = () => {
         </div>
     );
 };
-
 // Keep PianoContainer as a separate component
 const PianoContainer = () => (
     <div id="piano-container">
