@@ -27,4 +27,9 @@ export class NoteLabelManager {
             top: `${rect.bottom + 2}px`
         });
     }
+
+    updateLabelText(noteLabel, noteId) {
+        // Display the full noteId which includes both note name and octave
+        noteLabel.textContent = noteId;
+    }
 }

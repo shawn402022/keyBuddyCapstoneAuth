@@ -13,15 +13,10 @@ export class PianoEvents {
     }
 
     activateKey(noteId) {
-
-        const normalizedNoteId = noteId
-
+        const normalizedNoteId = noteId;
         console.log('Playing normalized note:', normalizedNoteId);
 
-
-
         if (this.pianoSoundsRef.sounds[normalizedNoteId]) {
-
             this.pianoSoundsRef.sounds[normalizedNoteId].play();
         }
 
@@ -31,6 +26,23 @@ export class PianoEvents {
         if (keyElement && pressedElement) {
             pressedElement.style.visibility = 'visible';
             keyElement.style.opacity = '0.8';
+            // Create note label when key is activated
+            this.noteLabelManager.createNoteLabel(noteId, keyElement);
+        }
+    }
+
+    deactivateKey(noteId) {
+        const keyElement = document.querySelector(`[data-id="${noteId}"]`);
+        const pressedElement = document.getElementById(`${noteId}-pressed`);
+        const noteLabel = document.getElementById(`note-label-${noteId}`);
+
+        if (keyElement && pressedElement) {
+            pressedElement.style.visibility = 'hidden';
+            keyElement.style.opacity = '1';
+            // Remove note label when key is deactivated
+            if (noteLabel) {
+                noteLabel.remove();
+            }
         }
     }
 
@@ -61,13 +73,5 @@ export class PianoEvents {
         });
     }
 
-    deactivateKey(noteId) {
-        const keyElement = document.querySelector(`[data-id="${noteId}"]`);
-        const pressedElement = document.getElementById(`${noteId}-pressed`);
 
-        if (keyElement && pressedElement) {
-            pressedElement.style.visibility = 'hidden';
-            keyElement.style.opacity = '1';
-        }
-    }
 }

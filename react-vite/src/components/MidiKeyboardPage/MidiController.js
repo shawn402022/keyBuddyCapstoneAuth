@@ -15,27 +15,32 @@ export class MidiController {
             showPressed.style.visibility = 'visible';
             if (this.pianoSoundsRef.sounds[noteId]) {
                 this.pianoSoundsRef.sounds[noteId].play();
+                // Create note label when MIDI note is pressed
+                const keyElement = document.querySelector(`[data-id="${noteId}"]`);
+                if (keyElement) {
+                    this.noteLabelManager.createNoteLabel(noteId, keyElement);
+                }
             } else {
                 console.log(`Sound not loaded for note: ${noteId}`);
             }
         }
     }
 
-    handleMIDIMessage(message) {
-        console.log('MIDI message received:', message);
-        console.log('Available sounds:', this.soundManager.sounds);
-
-        const noteId = e.note.identifier; // your current note mapping logic
-        console.log('Mapped MIDI note:', noteId);
-    }
-
     handleNoteOff = (e) => {
         const noteId = e.note.identifier;
         let showPressed = document.getElementById(`${noteId}-pressed`);
+        const noteLabel = document.getElementById(`note-label-${noteId}`);
+
         if (showPressed) {
             showPressed.style.visibility = 'hidden';
+            // Remove note label when MIDI note is released
+            if (noteLabel) {
+                noteLabel.remove();
+            }
         }
     }
+
+
 
     setupMidiListeners(input) {
         if (input) {
