@@ -69,13 +69,8 @@ const MidiKeyboardPage = () => {
             {isLoading ? (
                 <LoadingSpinner />
             ) : (
-                <div id="piano-container">
-                    <img
-                        className="scales"
-                        src="/images/background-scales-lighter.png"
-                        alt="KBuddy logo"
-                    />
-                </div>
+                <PianoContainer />
+
             )}
             <div className="pbottom"></div>
         </div>
