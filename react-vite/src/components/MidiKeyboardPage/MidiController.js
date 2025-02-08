@@ -10,22 +10,24 @@ export class MidiController {
 
     handleNoteOn = (e) => {
         const noteId = e.note.identifier;
+        // WebMidi.js provides velocity in range 0-127, so we normalize it to 0-1
+        const velocity = e.velocity;  // WebMidi.js already normalizes this to 0-1
         let showPressed = document.getElementById(`${noteId}-pressed`);
         if (showPressed) {
             showPressed.style.visibility = 'visible';
             if (this.pianoSoundsRef.sounds[noteId]) {
+                // Set volume based on velocity
+                this.pianoSoundsRef.sounds[noteId].volume(velocity);
                 this.pianoSoundsRef.sounds[noteId].play();
-                // Create note label when MIDI note is pressed
+
                 const keyElement = document.querySelector(`[data-id="${noteId}"]`);
                 if (keyElement) {
                     this.noteLabelManager.createNoteLabel(noteId, keyElement);
                 }
-            } else {
-                console.log(`Sound not loaded for note: ${noteId}`);
             }
+            console.log(`Note ${noteId} on, velocity: ${velocity}`);
         }
     }
-
     handleNoteOff = (e) => {
         const noteId = e.note.identifier;
         let showPressed = document.getElementById(`${noteId}-pressed`);
