@@ -16,9 +16,10 @@ export class PianoEvents {
 
 
         // Convert any '#' to 'sharp' in the note name
-        const normalizedNoteId = noteId.includes('#') ?
-            noteId.replace('#', 'sharp') :
-            noteId;
+        const normalizedNoteId = noteId
+        //.includes('#') ?
+            //noteId.replace('#', 'sharp') :
+            //noteId;
 
         console.log('Playing normalized note:', normalizedNoteId);
 
