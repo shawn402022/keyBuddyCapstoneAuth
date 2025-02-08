@@ -1,5 +1,6 @@
 import  { useEffect, useRef } from 'react';
 import Vex from 'vexflow';
+import './MusicStaff.css';
 
 const MusicStaff = ({ currentNotes }) => {
     const staffRef = useRef(null);

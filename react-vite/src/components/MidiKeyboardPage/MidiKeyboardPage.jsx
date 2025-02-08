@@ -9,6 +9,8 @@ import KeyImages from './images.js';
 import { useEffect, useRef, useState } from 'react';
 import './MidiKeyboardPage.css'
 import MusicStaff from './MusicStaff';
+import PianoContainer from './PianoContainer.jsx';
+import ChordDisplay from './ChordDisplay';
 
 const LoadingSpinner = () => (
     <div className="loading-overlay">
@@ -50,7 +52,6 @@ const MidiKeyboardPage = () => {
         };
 
         initialize();
-
         return () => {
             currentMidiController.cleanup();
         };
@@ -64,22 +65,21 @@ const MidiKeyboardPage = () => {
                 <LoadingSpinner />
             ) : (
                 <div className="piano-content">
-                    <MusicStaff currentNotes={currentNotes} />
-                    <PianoContainer />
+                    <div className='staff-notes-chords'>
+                        <MusicStaff currentNotes={currentNotes} />
+                        <ChordDisplay currentNotes={currentNotes} />
+                    </div>
+                    <div>
+                        <PianoContainer />
+                    </div>
                 </div>
             )}
             <div className="pbottom"></div>
         </div>
     );
+
 };
-// Keep PianoContainer as a separate component
-const PianoContainer = () => (
-    <div id="piano-container">
-        <img
-            className="scales"
-            src="/images/background-scales-lighter.png"
-            alt="KBuddy logo"
-        />
-    </div>
-);
+
+
+
 export default MidiKeyboardPage;
