@@ -8,6 +8,7 @@ import Utilities from './utilities.js';
 import KeyImages from './images.js';
 import { useEffect, useRef, useState } from 'react';
 import './MidiKeyboardPage.css'
+import MusicStaff from './MusicStaff';
 
 const LoadingSpinner = () => (
     <div className="loading-overlay">
@@ -16,19 +17,10 @@ const LoadingSpinner = () => (
     </div>
 );
 
-const PianoContainer = () => (
-    <div id="piano-container">
-        <img
-            className="scales"
-            src="/images/background-scales-lighter.png"
-            alt="KBuddy logo"
-        />
-    </div>
-);
-
 const MidiKeyboardPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [currentNote, setCurrentNote] = useState(null);
 
     // Create refs for all required instances
     const soundManager = useRef(new SoundManager());
@@ -39,6 +31,7 @@ const MidiKeyboardPage = () => {
 
     useEffect(() => {
         const currentMidiController = midiController.current;
+        currentMidiController.setNoteCallback = setCurrentNote;
 
         const initialize = async () => {
             try {
@@ -69,12 +62,24 @@ const MidiKeyboardPage = () => {
             {isLoading ? (
                 <LoadingSpinner />
             ) : (
-                <PianoContainer />
-
+                <div className="piano-content">
+                    <MusicStaff currentNote={currentNote} />
+                    <PianoContainer />
+                </div>
             )}
             <div className="pbottom"></div>
         </div>
     );
 };
 
+// Keep PianoContainer as a separate component
+const PianoContainer = () => (
+    <div id="piano-container">
+        <img
+            className="scales"
+            src="/images/background-scales-lighter.png"
+            alt="KBuddy logo"
+        />
+    </div>
+);
 export default MidiKeyboardPage;

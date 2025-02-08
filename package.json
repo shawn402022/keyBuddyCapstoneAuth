@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "howler": "^2.2.4",
-    "tone": "^15.0.4"
+    "tone": "^15.0.4",
+    "vexflow": "^4.2.5"
   }
 }

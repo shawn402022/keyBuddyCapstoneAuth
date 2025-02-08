@@ -4,14 +4,7 @@ export class SoundManager {
     constructor() {
         this.sounds = {};
     }
-
-
-
-
-
-
-
-
+    
     async loadSounds(notes) {
         console.log('Starting to load notes:', notes);
         const loadPromises = notes.map(note => {

@@ -10,6 +10,17 @@ export class MidiController {
 
     handleNoteOn = (e) => {
         const noteId = e.note.identifier;
+        const noteName = e.note.name;
+        const octave = e.note.octave;
+
+        // Update the current note for the staff
+        if (this.setNoteCallback) {
+            this.setNoteCallback({
+                key: `${noteName.toLowerCase()}/${octave}`,
+                octave: octave
+            });
+        }
+
         // WebMidi.js provides velocity in range 0-127, so we normalize it to 0-1
         const velocity = e.velocity;  // WebMidi.js already normalizes this to 0-1
         let showPressed = document.getElementById(`${noteId}-pressed`);
@@ -29,6 +40,11 @@ export class MidiController {
         }
     }
     handleNoteOff = (e) => {
+        // Clear the current note
+        if (this.setNoteCallback) {
+            this.setNoteCallback(null);
+        }
+
         const noteId = e.note.identifier;
         let showPressed = document.getElementById(`${noteId}-pressed`);
         const noteLabel = document.getElementById(`note-label-${noteId}`);
@@ -41,7 +57,6 @@ export class MidiController {
             }
         }
     }
-
 
 
     setupMidiListeners(input) {

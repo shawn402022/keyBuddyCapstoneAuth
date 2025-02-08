@@ -67,3 +67,15 @@ img {
 .loading-spinner{
     border: 5px solid black
 }
+
+.piano-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+#piano-container {
+    position: relative;
+    width: 100%;
+}
