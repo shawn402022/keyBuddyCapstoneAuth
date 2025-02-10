@@ -10,14 +10,14 @@ const MusicStaff = ({ currentNotes }) => {
             staffRef.current.innerHTML = '';
             const VF = Vex.Flow;
             const renderer = new VF.Renderer(staffRef.current, VF.Renderer.Backends.SVG);
-            renderer.resize(600, 200);
+            renderer.resize(800, 300);  // Increased width and height
             const context = renderer.getContext();
 
             // Draw the staves
-            const trebleStave = new VF.Stave(10, 0, 580);
+            const trebleStave = new VF.Stave(10, 40, 780);  // Increased width, adjusted y-position
             trebleStave.addClef('treble').setContext(context).draw();
 
-            const bassStave = new VF.Stave(10, 100, 580);
+            const bassStave = new VF.Stave(10, 160, 780);  // Increased width, adjusted y-position
             bassStave.addClef('bass').setContext(context).draw();
 
             if (currentNotes.length > 0) {
@@ -53,7 +53,7 @@ const MusicStaff = ({ currentNotes }) => {
                     trebleVoice.addTickables(trebleNotes);
                     new VF.Formatter()
                         .joinVoices([trebleVoice])
-                        .format([trebleVoice], 580);
+                        .format([trebleVoice], 780);  // Match stave width
                     trebleVoice.draw(context, trebleStave);
                 }
 
@@ -63,13 +63,12 @@ const MusicStaff = ({ currentNotes }) => {
                     bassVoice.addTickables(bassNotes);
                     new VF.Formatter()
                         .joinVoices([bassVoice])
-                        .format([bassVoice], 580);
+                        .format([bassVoice], 780);  // Match stave width
                     bassVoice.draw(context, bassStave);
                 }
             }
         }
     }, [currentNotes]);
-
     return (
         <div className="music-staff-container">
             <div ref={staffRef} className="music-staff"></div>
