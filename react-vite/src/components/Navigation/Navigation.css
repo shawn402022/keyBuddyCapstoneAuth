@@ -50,7 +50,10 @@ button.create-review-button {
 
 .nav li div {
   cursor: pointer;
+
 }
+
+
 
 /* Add visual indication for unauthorized state */
 .unauthorized {

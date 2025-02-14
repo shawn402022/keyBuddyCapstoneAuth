@@ -3,6 +3,8 @@ export class PianoEvents {
         this.pianoSoundsRef = pianoSoundsRef;
         this.noteLabelManager = noteLabelManager;
         this.isMouseDown = false;
+        this.activeNotes = new Map(); // Add this
+        this.setNotesCallback = null; // Add this
         this.bindGlobalMouseEvents();
     }
 
@@ -11,8 +13,22 @@ export class PianoEvents {
             this.isMouseDown = false;
         });
     }
-
     activateKey(noteId) {
+        // For a note like "a/5" or "a#/5"
+        let [noteName] = noteId.split('/');
+        noteName = noteName.slice(0,-1)
+        const noteInfo = {
+            key: noteName.toLowerCase(), // Keep lowercase
+
+        };
+
+
+        this.activeNotes.set(noteId, noteInfo);
+
+        if (this.setNotesCallback) {
+            this.setNotesCallback([...this.activeNotes.values()]);
+        }
+
         const normalizedNoteId = noteId;
         console.log('Playing normalized note:', normalizedNoteId);
 
@@ -30,8 +46,15 @@ export class PianoEvents {
             this.noteLabelManager.createNoteLabel(noteId, keyElement);
         }
     }
-
     deactivateKey(noteId) {
+        // Remove from active notes
+        this.activeNotes.delete(noteId);
+
+        // Update UI
+        if (this.setNotesCallback) {
+            this.setNotesCallback([...this.activeNotes.values()]);
+        }
+
         const keyElement = document.querySelector(`[data-id="${noteId}"]`);
         const pressedElement = document.getElementById(`${noteId}-pressed`);
         const noteLabel = document.getElementById(`note-label-${noteId}`);
@@ -72,6 +95,4 @@ export class PianoEvents {
             key.addEventListener(event, handler);
         });
     }
-
-
 }
