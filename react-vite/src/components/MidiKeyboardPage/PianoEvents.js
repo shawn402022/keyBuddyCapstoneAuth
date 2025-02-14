@@ -13,18 +13,20 @@ export class PianoEvents {
             this.isMouseDown = false;
         });
     }
-    activateKey(noteId) {
-        // For a note like "a/5" or "a#/5"
-        let [noteName] = noteId.split('/');
-        noteName = noteName.slice(0,-1)
-        const noteInfo = {
-            key: noteName.toLowerCase(), // Keep lowercase
 
+    activateKey(noteId) {
+        // Parse the noteId to get note name and octave
+        const [noteName, octave] = noteId.split('/');
+        const noteInfo = {
+            key: `${noteName}/${octave}`, // Keep the original format
+            octave: parseInt(octave),
+            isSharp: noteName.includes('#')
         };
 
-
+        // Add to active notes
         this.activeNotes.set(noteId, noteInfo);
 
+        // Update UI
         if (this.setNotesCallback) {
             this.setNotesCallback([...this.activeNotes.values()]);
         }
