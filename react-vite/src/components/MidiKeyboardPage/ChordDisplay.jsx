@@ -15,7 +15,7 @@ const ChordDisplay = ({ currentNotes }) => {
         const noteLetter = note.key.split('/')[0];
         const baseName = noteLetter.toUpperCase();
         const properNoteName = note.isSharp ? `${baseName}#` : baseName;
-        return `${properNoteName}${note.octave}`;
+        return `${properNoteName}`;
     }).join(', ');
   }
 
