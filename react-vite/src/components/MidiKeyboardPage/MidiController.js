@@ -12,13 +12,15 @@ export class MidiController {
 
     handleNoteOn = (e) => {
         const noteId = e.note.identifier;
-        const noteName = e.note.name;
+        const noteName = e.note.name;  // This includes sharp information
         const octave = e.note.octave;
+        // Preserve the sharp information from the MIDI note
         const noteKey = `${noteName.toLowerCase()}/${octave}`;
 
         const noteInfo = {
             key: noteKey,
-            octave: octave
+            octave: octave,
+            isSharp: e.note.accidental === '#'  // Add this flag
         };
 
         // Use the noteKey as the Map key to prevent duplicates
@@ -46,7 +48,6 @@ export class MidiController {
             console.log(`Note ${noteId} on, velocity: ${velocity}`);
         }
     }
-
     handleNoteOff = (e) => {
         const noteName = e.note.name;
         const octave = e.note.octave;

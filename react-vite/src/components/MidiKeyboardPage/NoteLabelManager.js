@@ -10,6 +10,7 @@ export class NoteLabelManager {
 
     setLabelStyles(noteLabel, keyElement) {
         const rect = keyElement.getBoundingClientRect();
+        const isNaturalKey = keyElement.classList.contains('white-key');
         Object.assign(noteLabel.style, {
             position: 'fixed',
             textAlign: 'center',
@@ -24,7 +25,9 @@ export class NoteLabelManager {
             borderRadius: '3px',
             border: '1px solid black',
             left: `${rect.left + (rect.width / 2) - 12.5}px`,
-            top: `${rect.bottom + 2}px`
+            top: isNaturalKey
+                ? `${rect.top - 27}px`  // Natural keys: label      appears above the key
+                : `${rect.bottom + 2}px` // Sharp keys: label   appears below the key
         });
     }
 

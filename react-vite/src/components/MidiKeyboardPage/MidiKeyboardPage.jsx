@@ -1,6 +1,8 @@
 import { SoundManager } from './SoundManager';
 import { PianoBuilder } from './PianoBuilder';
 import { MidiController } from './MidiController';
+
+
 import { NoteLabelManager } from './NoteLabelManager';
 import { PianoEvents } from './PianoEvents';
 import { PIANO_CONFIG } from './config';
@@ -11,6 +13,9 @@ import './MidiKeyboardPage.css'
 import MusicStaff from './MusicStaff';
 import PianoContainer from './PianoContainer.jsx';
 import ChordDisplay from './ChordDisplay';
+
+
+
 
 const LoadingSpinner = () => (
     <div className="loading-overlay">

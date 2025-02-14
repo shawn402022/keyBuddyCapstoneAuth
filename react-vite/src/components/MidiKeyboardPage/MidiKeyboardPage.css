@@ -51,7 +51,9 @@ img {
 
 #piano{
     position:absolute;
-    margin-top: 0px
+
+    margin: 0px;
+    padding:0px
 }
 
 .pbottom{
@@ -78,4 +80,8 @@ img {
 #piano-container {
     position: relative;
     width: 100%;
+    padding:0px;
+    margin:0px;
+    
+
 }

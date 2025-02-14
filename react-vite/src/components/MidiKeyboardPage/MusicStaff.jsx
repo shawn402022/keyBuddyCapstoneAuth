@@ -10,7 +10,7 @@ const MusicStaff = ({ currentNotes }) => {
             staffRef.current.innerHTML = '';
             const VF = Vex.Flow;
             const renderer = new VF.Renderer(staffRef.current, VF.Renderer.Backends.SVG);
-            renderer.resize(800, 300);  // Increased width and height
+            renderer.resize(150, 300);  // Increased width and height
             const context = renderer.getContext();
 
             // Draw the staves
