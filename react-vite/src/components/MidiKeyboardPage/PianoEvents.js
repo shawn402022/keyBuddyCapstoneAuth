@@ -3,6 +3,8 @@ export class PianoEvents {
         this.pianoSoundsRef = pianoSoundsRef;
         this.noteLabelManager = noteLabelManager;
         this.isMouseDown = false;
+        this.activeNotes = new Map(); // Add this
+        this.setNotesCallback = null; // Add this
         this.bindGlobalMouseEvents();
     }
 
@@ -13,6 +15,22 @@ export class PianoEvents {
     }
 
     activateKey(noteId) {
+        // Parse the noteId to get note name and octave
+        const [noteName, octave] = noteId.split('/');
+        const noteInfo = {
+            key: `${noteName}/${octave}`, // Keep the original format
+            octave: parseInt(octave),
+            isSharp: noteName.includes('#')
+        };
+
+        // Add to active notes
+        this.activeNotes.set(noteId, noteInfo);
+
+        // Update UI
+        if (this.setNotesCallback) {
+            this.setNotesCallback([...this.activeNotes.values()]);
+        }
+
         const normalizedNoteId = noteId;
         console.log('Playing normalized note:', normalizedNoteId);
 
@@ -30,8 +48,15 @@ export class PianoEvents {
             this.noteLabelManager.createNoteLabel(noteId, keyElement);
         }
     }
-
     deactivateKey(noteId) {
+        // Remove from active notes
+        this.activeNotes.delete(noteId);
+
+        // Update UI
+        if (this.setNotesCallback) {
+            this.setNotesCallback([...this.activeNotes.values()]);
+        }
+
         const keyElement = document.querySelector(`[data-id="${noteId}"]`);
         const pressedElement = document.getElementById(`${noteId}-pressed`);
         const noteLabel = document.getElementById(`note-label-${noteId}`);
@@ -72,6 +97,4 @@ export class PianoEvents {
             key.addEventListener(event, handler);
         });
     }
-
-
 }

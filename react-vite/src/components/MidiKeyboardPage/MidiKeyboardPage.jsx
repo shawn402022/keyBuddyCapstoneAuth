@@ -1,21 +1,16 @@
 import { SoundManager } from './SoundManager';
 import { PianoBuilder } from './PianoBuilder';
 import { MidiController } from './MidiController';
-
-
 import { NoteLabelManager } from './NoteLabelManager';
 import { PianoEvents } from './PianoEvents';
 import { PIANO_CONFIG } from './config';
 import Utilities from './utilities.js';
 import KeyImages from './images.js';
 import { useEffect, useRef, useState } from 'react';
-import './MidiKeyboardPage.css'
+import './MidiKeyboardPage.css';
 import MusicStaff from './MusicStaff';
 import PianoContainer from './PianoContainer.jsx';
 import ChordDisplay from './ChordDisplay';
-
-
-
 
 const LoadingSpinner = () => (
     <div className="loading-overlay">
@@ -27,19 +22,24 @@ const LoadingSpinner = () => (
 const MidiKeyboardPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    // Change from single note to array of notes
     const [currentNotes, setCurrentNotes] = useState([]);
 
     // Create refs for all required instances
     const soundManager = useRef(new SoundManager());
     const noteLabelManager = useRef(new NoteLabelManager());
+    const utilities = useRef(new Utilities());
+    const keyImages = useRef(new KeyImages());
     const pianoEvents = useRef(new PianoEvents(soundManager.current, noteLabelManager.current));
-    const pianoBuilder = useRef(new PianoBuilder(new Utilities(), new KeyImages(), pianoEvents.current));
+    const pianoBuilder = useRef(new PianoBuilder(utilities.current, keyImages.current, pianoEvents.current));
     const midiController = useRef(new MidiController(soundManager.current));
 
     useEffect(() => {
+        // Capture the current value of midiController for cleanup
         const currentMidiController = midiController.current;
+
+        // Set callbacks for both controllers
         currentMidiController.setNotesCallback = setCurrentNotes;
+        pianoEvents.current.setNotesCallback = setCurrentNotes;
 
         const initialize = async () => {
             try {
@@ -57,6 +57,8 @@ const MidiKeyboardPage = () => {
         };
 
         initialize();
+
+        // Use the captured reference in cleanup
         return () => {
             currentMidiController.cleanup();
         };
@@ -84,7 +86,5 @@ const MidiKeyboardPage = () => {
     );
 
 };
-
-
 
 export default MidiKeyboardPage;
