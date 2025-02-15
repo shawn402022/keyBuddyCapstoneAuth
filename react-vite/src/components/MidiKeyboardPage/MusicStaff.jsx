@@ -6,6 +6,7 @@ const MusicStaff = ({ currentNotes }) => {
     const staffRef = useRef(null);
 
     useEffect(() => {
+        console.log('MusicStaff received notes:', currentNotes);
         if (staffRef.current) {
             staffRef.current.innerHTML = '';
             const VF = Vex.Flow;

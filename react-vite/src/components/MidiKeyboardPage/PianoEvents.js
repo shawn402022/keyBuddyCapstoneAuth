@@ -14,23 +14,21 @@ export class PianoEvents {
         });
     }
     activateKey(noteId) {
+        // noteId is something like 'D6'
+        const noteName = noteId.slice(0, -1); // Gets 'D'
+        const octave = noteId.slice(-1);      // Gets '6'
 
-
-
-        let [noteName, octave] = noteId.split('/');
         const noteInfo = {
-
-
-            key: `${noteName.toLowerCase()}/${octave}`,
+            key: `${noteName.toLowerCase()}/${octave}`, // Creates 'd/6'
             octave: parseInt(octave),
-            isSharp: noteName.includes('#')
+            //isSharp: noteName.includes('#')
         };
-
 
         this.activeNotes.set(noteId, noteInfo);
 
         if (this.setNotesCallback) {
-            this.setNotesCallback([...this.activeNotes.values()]);
+            const notes = [...this.activeNotes.values()];
+            this.setNotesCallback(notes);
         }
 
         const normalizedNoteId = noteId;
@@ -49,8 +47,8 @@ export class PianoEvents {
             // Create note label when key is activated
             this.noteLabelManager.createNoteLabel(noteId, keyElement);
         }
-
-    }    deactivateKey(noteId) {
+    }
+    deactivateKey(noteId) {
         // Remove from active notes
         this.activeNotes.delete(noteId);
 

@@ -30,16 +30,15 @@ const MidiKeyboardPage = () => {
     const utilities = useRef(new Utilities());
     const keyImages = useRef(new KeyImages());
     const pianoEvents = useRef(new PianoEvents(soundManager.current, noteLabelManager.current));
+    pianoEvents.current.setNotesCallback = setCurrentNotes;
     const pianoBuilder = useRef(new PianoBuilder(utilities.current, keyImages.current, pianoEvents.current));
     const midiController = useRef(new MidiController(soundManager.current));
-
     useEffect(() => {
         // Capture the current value of midiController for cleanup
         const currentMidiController = midiController.current;
 
         // Set callbacks for both controllers
         currentMidiController.setNotesCallback = setCurrentNotes;
-        pianoEvents.current.setNotesCallback = setCurrentNotes;
 
         const initialize = async () => {
             try {
@@ -64,6 +63,15 @@ const MidiKeyboardPage = () => {
         };
     }, []);
 
+    useEffect(() => {
+        if (pianoEvents) {
+            console.log('Setting up piano events callback');
+            pianoEvents.setNotesCallback = (notes) => {
+                console.log('Callback received notes:', notes);
+                setCurrentNotes(notes);
+            };
+        }
+    }, [pianoEvents]);
     if (error) return <div className="error-message">{error}</div>;
 
     return (
