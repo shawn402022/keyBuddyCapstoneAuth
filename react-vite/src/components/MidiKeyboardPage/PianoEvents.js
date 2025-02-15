@@ -13,20 +13,22 @@ export class PianoEvents {
             this.isMouseDown = false;
         });
     }
-
     activateKey(noteId) {
-        // Parse the noteId to get note name and octave
-        const [noteName, octave] = noteId.split('/');
+
+
+
+        let [noteName, octave] = noteId.split('/');
         const noteInfo = {
-            key: `${noteName}/${octave}`, // Keep the original format
+
+
+            key: `${noteName.toLowerCase()}/${octave}`,
             octave: parseInt(octave),
             isSharp: noteName.includes('#')
         };
 
-        // Add to active notes
+
         this.activeNotes.set(noteId, noteInfo);
 
-        // Update UI
         if (this.setNotesCallback) {
             this.setNotesCallback([...this.activeNotes.values()]);
         }
@@ -47,8 +49,8 @@ export class PianoEvents {
             // Create note label when key is activated
             this.noteLabelManager.createNoteLabel(noteId, keyElement);
         }
-    }
-    deactivateKey(noteId) {
+
+    }    deactivateKey(noteId) {
         // Remove from active notes
         this.activeNotes.delete(noteId);
 
