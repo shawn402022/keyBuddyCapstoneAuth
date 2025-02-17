@@ -3,7 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCourses, updateCourseThunk } from '../../redux/course';
 import { Navigate, Link, useNavigate, NavLink } from 'react-router-dom';
 import './CoursePage.css';
+import { keys} from './CourseData';
+import CourseTile from './CourseTile';
 
+
+console.log('RAW DATA:', keys)
 const CoursePage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -49,6 +53,8 @@ const CoursePage = () => {
         ));
         setShowUpdateForm(false);
     }
+    const keyId = Object.keys(keys)
+    console.log("KeyId:", keyId);
 
     return (
         <div className="courses-container">
@@ -61,32 +67,42 @@ const CoursePage = () => {
             )}
 
             <div className="courses-grid">
-                {course.map(course => (
-                    <div key={course.id} className="course-card">
-                        <h2 className='course-name'>{course.course_name}</h2>
-                        <p className='course-detail'>{course.details_of_course}</p>
-                        <div>
-                            <button>
-                                <Link to={`/songs/${course.course_name[0]}`}>Songs</Link>
-                            </button>
+            {keys.map((keyData, index) => {
+                // Handle different key types
+                let keyProperties;
 
-                            <button onClick={() => alert("Feature to be implemented soon")}>Scales</button>
-                            <button onClick={() => alert("Feature to be implemented soon")}>Chords</button>
-                            <button onClick={() => alert("Feature to be implemented soon")}>Keys</button>
-                            {isAdmin && (
-                                <>
-                                    <button onClick={() => handleUpdateClick(course)}>
-                                        Update
-                                    </button>
-                                    <button onClick={() => navigate(`/course/admin/delete/${course.id}`)}>
-                                        Delete
-                                    </button>
-                                </>
-                            )}
-                        </div>
+                if (keyData.key.type === 'minor') {
+                    // For minor keys, use melodic structure
+                    keyProperties = {
+                        ...keyData.key.natural,
+                        type:keyData.key.type,//the type key is not in natural structure so you have to explicitly add it.
+                    }
+                } else {
+                    // For major keys, use direct key properties
+                    keyProperties = keyData.key;
+                }
+
+                const {
+                    chords,
+                    scale,
+                    tonic,
+                    type,
+                    triads
+                } = keyProperties;
+
+                return (
+                    <div key={`${keyData.name}-${index}`} className="course-card">
+                        <CourseTile
+                            chords={chords}
+                            scale={scale}
+                            tonic={tonic}
+                            type={type}
+                            triads={triads}
+                        />
                     </div>
-                ))}
-            </div>
+                );
+            })}
+        </div>
 
             {showUpdateForm && selectedCourse && (
                 <div className="update-form-modal">
