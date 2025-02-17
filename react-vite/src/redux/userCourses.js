@@ -1,15 +1,31 @@
+// Action Types
+const SET_USER_COURSES = 'userCourses/SET_USER_COURSES';
 
-export const addToUserCourses = (courseData) => async (dispatch) => {
-    const response = await fetch('/api/user-courses', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(courseData)
-    });
+// Action Creators
+export const setUserCourses = (courses) => ({
+    type: SET_USER_COURSES,
+    payload: courses
+});
 
+// Thunk
+export const getUserCourses = () => async (dispatch) => {
+    const response = await fetch('/api/course/2');
     if (response.ok) {
         const data = await response.json();
-        dispatch(addUserCourse(data));
+        dispatch(setUserCourses(data.courses));
     }
 };
+
+// Reducer
+const initialState = [];
+
+const userCoursesReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case SET_USER_COURSES:
+            return action.payload;
+        default:
+            return state;
+    }
+};
+
+export default userCoursesReducer;

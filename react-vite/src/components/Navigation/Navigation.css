@@ -1,4 +1,25 @@
+.my-course-button {
+  background-color:rgb(243, 154, 90);
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 4px;
+  margin:0;
+}
 
+.myCourses-word {
+  color: black;
+  text-decoration: none;
+  font-size: 16px;
+  padding:0;
+  margin:0;
+}
+
+.myCourses-word:hover {
+  color: #007bff;
+}
 button.course-button {
   border-color: black;
   border-style: solid;

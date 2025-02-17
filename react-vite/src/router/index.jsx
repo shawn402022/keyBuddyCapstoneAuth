@@ -10,6 +10,7 @@ import CreateSongPage from '../components/CourseInfoPage/CreateSongPage';
 import ReviewsPage from '../components/ReviewsPage/ReviewsPage';
 import CreateReviewPage from '../components/ReviewsPage/CreateReviewPage';
 import DeleteCourse from '../components/CoursePage/DeleteCourse';
+import MyCoursePage from '../components/CoursePage/MyCoursePage';
 
 
 
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
       {
         path: "course",
         element: <CoursePage/>,
+      },
+      {
+        path: "course/:userId",
+        element: <MyCoursePage/>,
       },
       {
         path: "createCourse",

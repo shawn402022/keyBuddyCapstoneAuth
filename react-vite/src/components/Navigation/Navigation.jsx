@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import CourseButton from "./CourseButton";
+import MyCourseButton from "./MyCourseButton";
 import { thunkLogout } from "../../redux/session";
 import ReviewButton from "./ReviewButton";
 import { WebMidi } from "webmidi";
@@ -176,6 +177,9 @@ useEffect(() => {
         </li>
         {sessionUser ? (
           <>
+            <li>
+              <MyCourseButton />
+            </li>
             <li>
               <CourseButton />
             </li>
