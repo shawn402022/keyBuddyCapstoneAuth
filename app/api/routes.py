@@ -321,26 +321,33 @@ def get_user_courses(user_id):
 @course_routes.route("/<user_id>", methods=["POST"])
 @login_required
 def add_course_to_user(user_id):
-    # Verify the logged-in user matches the requested user_id
+    # Verify user authorization
     if str(current_user.id) != str(user_id):
-        return (
-            jsonify(
-                {"msg": "Unauthorized - You can only add courses to your own account"}
-            ),
-            403,
-        )
+        return jsonify({"msg": "Unauthorized - You can only add courses to your own account"}), 403
 
     user = User.query.get(user_id)
-    course_name = request.json.get("course_name")
+    course_data = request.json
 
-    course = Course.query.filter_by(course_name=course_name).first()
+    # Find or create the course
+    course = Course.query.filter_by(course_name=course_data["course_name"]).first()
 
-    if course:
-        user.courses.append(course)
-        db.session.commit()
-        return jsonify(course.to_dict())
+    if not course:
+        # Create new course if it doesn't exist
+        course = Course(
+            course_name=course_data["course_name"],
+            details_of_course=course_data["details_of_course"]
+        )
+        db.session.add(course)
 
-    return jsonify({"msg": "Course not found"}), 404
+    # Check if user already has this course
+    if course in user.courses:
+        return jsonify({"msg": "Course already saved"}), 200
+
+    # Add course to user's courses
+    user.courses.append(course)
+    db.session.commit()
+
+    return jsonify(course.to_dict())
 
 
 
