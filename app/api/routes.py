@@ -219,7 +219,7 @@ def delete_review(review_id):
 ## COURSE ENDPOINT
 @course_routes.before_request
 def ensure_json():
-    if not request.is_json:
+    if request.method in ['POST', 'PUT', 'PATCH'] and not request.is_json:
         return jsonify({"msg": "Invalid content type"}), 400
 
 
@@ -307,8 +307,16 @@ def get_user_courses(user_id):
             403,
         )
 
+    print(f"Fetching courses for user {user_id}")
+    print(f"Current user: {current_user.id}")
+
     user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
     user_courses = user.courses
+    print(f"Found courses: {user_courses}")
+
     return jsonify({
         "full_name": current_user.full_name,
         "courses": [course.to_dict() for course in user_courses]
