@@ -2,12 +2,23 @@
 const SET_USER_COURSES = 'userCourses/SET_USER_COURSES';
 const ADD_USER_COURSE = 'userCourses/ADD_USER_COURSE';
 const REMOVE_USER_COURSE = 'userCourses/REMOVE_USER_COURSE';
+const SET_TRAINING_COURSE = 'userCourses/SET_TRAINING_COURSE';
 
 // Action Creators
 export const setUserCourses = (courses) => ({
     type: SET_USER_COURSES,
     payload: courses
 });
+
+export const setTrainingCourse = (course) => ({
+    type: SET_TRAINING_COURSE,
+    payload: course
+});
+
+const initialState = {
+    courses: [],
+    trainingCourse: null
+};
 
 export const addToUserCourses = (courseData) => async (dispatch, getState) => {
     const {session} = getState();
@@ -71,7 +82,7 @@ export const getUserCourses = () => async (dispatch, getState) => {
 };
 
 // Reducer
-const initialState = [];
+
 
 const userCoursesReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -81,6 +92,8 @@ const userCoursesReducer = (state = initialState, action) => {
             return[...state, action.payload];
         case REMOVE_USER_COURSE:
             return state.filter(course => course.id !== action.payload);
+        case SET_TRAINING_COURSE:
+            return {...state, trainingCourse: action.payload};
         default:
             return state;
     }

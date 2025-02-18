@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserCourses, deleteUserCourse } from '../../redux/userCourses';
+import { getUserCourses, deleteUserCourse, setTrainingCourse } from '../../redux/userCourses';
 import "./CoursePage.css"
+import { useNavigate } from'react-router-dom';
 
 const MyCoursePage = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const userCourses = useSelector(state => state.userCourses);
 
@@ -17,6 +19,12 @@ const MyCoursePage = () => {
             // Course was successfully deleted
             // Redux state will automatically update
         }
+    };
+
+    const handleTraining = (course) => {
+        console.log('Training course:', course); // Add logging
+        dispatch(setTrainingCourse(course));
+        navigate('/');
     };
 
     return (
@@ -33,7 +41,8 @@ const MyCoursePage = () => {
                             </div>
                             <button onClick={() => handleDelete(course.id)}>delete</button>
                             <button>edit</button>
-                            <button>train</button>
+                            <button onClick={() => handleTraining(course)}>Train</button>
+
                         </div>
 
 
