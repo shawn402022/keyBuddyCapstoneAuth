@@ -74,17 +74,7 @@ const MidiKeyboardPage = () => {
     }, [dispatch, generateChallenge]);
 
     const checkPlayedNotes = useCallback((playedNotes) => {
-        // Log game state to verify activity
-        console.log('Game State:', {
-            isActive: gameState.isActive,
-            targetKey,
-            playedNotes
-        });
-
-        if (!gameState.isActive || !targetKey) {
-            console.log('Game not active or no target key');
-            return;
-        }
+        if (!gameState.isActive || !targetKey) return;
 
         // Convert played notes to format for Tonal.js
         const playedNoteLetters = playedNotes.map(note =>
@@ -94,7 +84,6 @@ const MidiKeyboardPage = () => {
         // Get detected chords
         const possibleChords = Chord.detect(playedNoteLetters);
 
-        // Log detection results
         console.log('Detection Results:', {
             playedNotes: playedNoteLetters,
             detectedChords: possibleChords,
@@ -103,30 +92,26 @@ const MidiKeyboardPage = () => {
 
         if (playedNotes.length > 0) {
             if (possibleChords.length > 0) {
-                const matchFound = possibleChords.some(chord =>
-                    chord.replace(/\d/g, '') === targetKey.replace(/\d/g, '')
-                );
+                // Strip any bass note indicators (everything after /)
+                const normalizedDetectedChord = possibleChords[0].split('/')[0];
+                const normalizedTargetChord = targetKey.split('/')[0];
+
+                const matchFound = normalizedDetectedChord === normalizedTargetChord;
 
                 if (matchFound) {
-                    // Success feedback
                     setFeedback(`🎉 Correct! You played ${targetKey}!`);
-                    // Play success sound if available
                     setTimeout(() => {
                         setFeedback("");
                         generateChallenge(currentTrainingSequence);
                     }, 1500);
                 } else {
-                    // "Getting close" feedback
-                    setFeedback(`You played: ${possibleChords[0]} - Keep going!`);
+                    setFeedback(`You played: ${possibleChords[0]} - Keep trying!`);
                 }
             } else {
-                // Early feedback while building chord
                 setFeedback(`Notes played: ${playedNoteLetters.join(', ')}`);
             }
         }
-    }, [gameState.isActive, targetKey, generateChallenge, currentTrainingSequence]);
-
-    useEffect(() => {
+    }, [gameState.isActive, targetKey, generateChallenge, currentTrainingSequence]);    useEffect(() => {
         if (pianoEvents.current) {
             pianoEvents.current.setNotesCallback = (notes) => {
                 console.log('Piano events callback triggered with notes:', notes);
@@ -150,9 +135,12 @@ const MidiKeyboardPage = () => {
     useEffect(() => {
         const currentMidiController = midiController.current;
         currentMidiController.setNotesCallback = (notes) => {
-            console.log('MIDI controller callback triggered with notes:', notes);
             setCurrentNotes(notes);
             checkPlayedNotes(notes);
+
+            if (notes.length === 0) {
+                setFeedback("");
+            }
         };
 
         const initialize = async () => {
@@ -175,7 +163,7 @@ const MidiKeyboardPage = () => {
         return () => {
             currentMidiController.cleanup();
         };
-    }, []);
+    }, [checkPlayedNotes]); // Add checkPlayedNotes here
 
     useEffect(() => {
         if (pianoEvents) {
