@@ -8,14 +8,16 @@ import { thunkLogout } from "../../redux/session";
 import ReviewButton from "./ReviewButton";
 import { WebMidi } from "webmidi";
 import SoundModule from '../SoundModule/SoundModule';
+import { startTraining } from '../../redux/game';
 
 import "./Navigation.css";
 
 function Navigation() {
   const sessionUser = useSelector(state => state.session.user);
+  const trainingCourse = useSelector(state => state.userCourses.trainingCourse);
   const [message, setMessage] = useState("");
   const [targetKey, setTargetKey] = useState("");
-  const [isGameActive, setIsGameActive] = useState(false);
+  const [isGameActive, setGameActive] = useState(false);
   const [feedback, setFeedback] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -47,6 +49,8 @@ function Navigation() {
       setFeedback(`Incorrect! Try again. You played ${playedNote}`);
     }
   }, [isGameActive, targetKey, generateNewChallenge]);
+
+
 
   // Make sure this checkNote function is being called in both MIDI and mouse handlers
 useEffect(() => {
@@ -142,12 +146,12 @@ useEffect(() => {
   }, []);
 
   const startKeyChallenge = () => {
-    setIsGameActive(true);
+    dispatch(setGameActive(true));
     generateNewChallenge();
   };
 
   const stopKeyChallenge = () => {
-    setIsGameActive(false);
+    dispatch(setGameActive(false));
     setMessage("");
     setFeedback("");
     setTargetKey("");
@@ -187,15 +191,26 @@ useEffect(() => {
               <ReviewButton />
             </li>
             <li>
-              {!isGameActive ? (
-                <button className='start-challenge' onClick={startKeyChallenge}>
+            {!isGameActive ? (
+              <button
+                  className='start-challenge'
+                  onClick={() => {
+                      startKeyChallenge()
+                      // Dispatch action to start training if there's a course
+                      if (trainingCourse) {
+                          dispatch(startTraining(trainingCourse))
+                      }
+                  }}
+              >
                   Start Key Challenge
-                </button>
-              ) : (
-                <button className='stop-challenge' onClick={stopKeyChallenge}>Stop Key Challenge</button>
-              )}
-            </li>
-          </>
+              </button>
+          ) : (
+              <button className='stop-challenge' onClick={stopKeyChallenge}>
+                  Stop Key Challenge
+              </button>
+          )}
+          </li>
+        </>
         ) : (
           <>
             <li>

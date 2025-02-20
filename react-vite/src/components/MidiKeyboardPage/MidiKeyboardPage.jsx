@@ -7,12 +7,18 @@ import { PIANO_CONFIG } from './config';
 import Utilities from './utilities.js';
 import KeyImages from './images.js';
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import './MidiKeyboardPage.css';
 import MusicStaff from './MusicStaff';
 import PianoContainer from './PianoContainer.jsx';
 import ChordDisplay from './ChordDisplay';
 import { TrainingParser } from '../TrainingParser/trainingParse';
+import TrainingQuestions from './TrainingQuestions.jsx';
+import { Chord } from 'tonal';
+import { startTraining } from '../../redux/game';
+
+import { setGameActive } from '../../redux/game';
+
 
 
 const LoadingSpinner = () => (
@@ -26,12 +32,13 @@ const MidiKeyboardPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [currentNotes, setCurrentNotes] = useState([]);
-    const [isGameActive, setIsGameActive] = useState(false);
     const [message, setMessage] = useState("");
     const [targetKey, setTargetKey] = useState("");
     const [feedback, setFeedback] = useState("");
     const [currentTrainingSequence, setCurrentTrainingSequence] = useState(null);
 
+    const dispatch = useDispatch();
+    const gameState = useSelector(state => state.game);
     const trainingCourse = useSelector(state => state.userCourses.trainingCourse);
 
     const soundManager = useRef(new SoundManager());
@@ -44,56 +51,85 @@ const MidiKeyboardPage = () => {
     const midiController = useRef(new MidiController(soundManager.current));
 
     const generateChallenge = useCallback((sequence) => {
+        console.log('Generating challenge from sequence:', sequence);
         if (sequence) {
-            if (Array.isArray(sequence[0])) {
-                const randomChord = sequence[Math.floor(Math.random() * sequence.length)];
-                setTargetKey(randomChord);
-                setMessage(`Play the chord: ${randomChord.join('-')}`);
-            } else {
-                const randomNote = sequence[Math.floor(Math.random() * sequence.length)];
-                setTargetKey(randomNote);
-                setMessage(`Play the note: ${randomNote}`);
-            }
+            const randomChord = sequence[Math.floor(Math.random() * sequence.length)];
+            const cleanChordName = randomChord.replace(',', '');
+            console.log('Setting target to:', cleanChordName);
+            setTargetKey(cleanChordName);
+            setMessage(`Play the chord: ${cleanChordName}`);
+
+            const expectedNotes = Chord.get(cleanChordName).notes;
+            console.log('Generated challenge:', {
+                chord: cleanChordName,
+                expectedNotes: expectedNotes
+            });
         }
     }, []);
 
     const startKeyChallenge = useCallback((trainingSequence) => {
-        setIsGameActive(true);
+        dispatch(setGameActive(true));
         setCurrentTrainingSequence(trainingSequence);
         generateChallenge(trainingSequence);
-    }, [generateChallenge]);
+    }, [dispatch, generateChallenge]);
 
     const checkPlayedNotes = useCallback((playedNotes) => {
-        if (!isGameActive || !targetKey) return;
+        // Log game state to verify activity
+        console.log('Game State:', {
+            isActive: gameState.isActive,
+            targetKey,
+            playedNotes
+        });
 
-        if (Array.isArray(targetKey)) {
-            const isChordCorrect = targetKey.every(note =>
-                playedNotes.some(played => played.key === note));
+        if (!gameState.isActive || !targetKey) {
+            console.log('Game not active or no target key');
+            return;
+        }
 
-            if (isChordCorrect) {
-                setFeedback("Correct chord! Next...");
-                setTimeout(() => {
-                    setFeedback("");
-                    generateChallenge(currentTrainingSequence);
-                }, 1000);
-            }
-        } else {
-            const isNoteCorrect = playedNotes.some(played =>
-                played.key === targetKey);
+        // Convert played notes to format for Tonal.js
+        const playedNoteLetters = playedNotes.map(note =>
+            note.key.split('/')[0].toUpperCase()
+        ).sort();
 
-            if (isNoteCorrect) {
-                setFeedback("Correct note! Next...");
-                setTimeout(() => {
-                    setFeedback("");
-                    generateChallenge(currentTrainingSequence);
-                }, 1000);
+        // Get detected chords
+        const possibleChords = Chord.detect(playedNoteLetters);
+
+        // Log detection results
+        console.log('Detection Results:', {
+            playedNotes: playedNoteLetters,
+            detectedChords: possibleChords,
+            targetChord: targetKey
+        });
+
+        if (playedNotes.length > 0) {
+            if (possibleChords.length > 0) {
+                const matchFound = possibleChords.some(chord =>
+                    chord.replace(/\d/g, '') === targetKey.replace(/\d/g, '')
+                );
+
+                if (matchFound) {
+                    // Success feedback
+                    setFeedback(`🎉 Correct! You played ${targetKey}!`);
+                    // Play success sound if available
+                    setTimeout(() => {
+                        setFeedback("");
+                        generateChallenge(currentTrainingSequence);
+                    }, 1500);
+                } else {
+                    // "Getting close" feedback
+                    setFeedback(`You played: ${possibleChords[0]} - Keep going!`);
+                }
+            } else {
+                // Early feedback while building chord
+                setFeedback(`Notes played: ${playedNoteLetters.join(', ')}`);
             }
         }
-    }, [isGameActive, targetKey, generateChallenge, currentTrainingSequence]);
+    }, [gameState.isActive, targetKey, generateChallenge, currentTrainingSequence]);
 
     useEffect(() => {
         if (pianoEvents.current) {
             pianoEvents.current.setNotesCallback = (notes) => {
+                console.log('Piano events callback triggered with notes:', notes);
                 setCurrentNotes(notes);
                 checkPlayedNotes(notes);
             };
@@ -101,20 +137,23 @@ const MidiKeyboardPage = () => {
     }, [checkPlayedNotes]);
 
     useEffect(() => {
-        console.log('Training course in piano page:', trainingCourse);
-        if(trainingCourse) {
-            const startTraining = () => {
-                const trainingSequence = TrainingParser.parseTrainingContent(trainingCourse);
-                startKeyChallenge(trainingSequence);
-            };
-            startTraining();
+        if (trainingCourse) {
+            console.log('Starting training with course:', trainingCourse);
+            const trainingSequence = TrainingParser.parseTrainingContent(trainingCourse);
+            console.log('Parsed sequence:', trainingSequence);
+            dispatch(setGameActive(true));
+            dispatch(startTraining(trainingSequence));
+            generateChallenge(trainingSequence);
         }
-    }, [trainingCourse, startKeyChallenge]);
+    }, [trainingCourse, startKeyChallenge, dispatch, generateChallenge]);
 
     useEffect(() => {
         const currentMidiController = midiController.current;
-
-        currentMidiController.setNotesCallback = setCurrentNotes;
+        currentMidiController.setNotesCallback = (notes) => {
+            console.log('MIDI controller callback triggered with notes:', notes);
+            setCurrentNotes(notes);
+            checkPlayedNotes(notes);
+        };
 
         const initialize = async () => {
             try {
@@ -148,24 +187,26 @@ const MidiKeyboardPage = () => {
         }
     }, [pianoEvents]);
     if (error) return <div className="error-message">{error}</div>;
-
     return (
         <div className="piano-page">
             {isLoading ? (
                 <LoadingSpinner />
             ) : (
                 <div className="piano-content">
-                    {/* Add game status display */}
-                    {isGameActive && (
-                        <div className="game-status">
-                            <p className="challenge-message">{message}</p>
-                            <p className="feedback-message">{feedback}</p>
-                            <p className="target-note">Target: {Array.isArray(targetKey) ? targetKey.join('-') : targetKey}</p>
-                        </div>
-                    )}
                     <div className='staff-notes-chords'>
                         <MusicStaff currentNotes={currentNotes} />
                         <ChordDisplay currentNotes={currentNotes} />
+                        <div className='answers'>
+                            {trainingCourse && <TrainingQuestions course={trainingCourse} />}
+                            {gameState.isActive && targetKey && (
+                                <div className="game-status">
+                                    <p className="challenge-message">{message}</p>
+                                    <p className="feedback-message">{feedback}</p>
+                                    <p className="target-note">Target: {targetKey}</p>
+
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <div>
                         <PianoContainer />
@@ -174,7 +215,6 @@ const MidiKeyboardPage = () => {
             )}
         </div>
     );
-
 };
 
 export default MidiKeyboardPage;

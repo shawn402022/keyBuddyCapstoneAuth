@@ -14,6 +14,7 @@ import progressionsReducer from "./progression";
 import keysReducer from "./key";
 import songReducer from "./song";
 import userCoursesReducer from './userCourses';
+import gameReducer from './game';
 
 
 const rootReducer = combineReducers({
@@ -25,7 +26,8 @@ const rootReducer = combineReducers({
   progression: progressionsReducer,
   key: keysReducer,
   song: songReducer,
-  userCourses: userCoursesReducer
+  userCourses: userCoursesReducer,
+  game: gameReducer
 });
 
 let enhancer;
