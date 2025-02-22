@@ -107,7 +107,7 @@ export class TrainingParser {
         // Synthetic Scales
         'enigmatic': [0, 1, 4, 6, 8, 10, 11],         // Enigmatic Scale
         'prometheus': [0, 2, 4, 6, 9, 10],            // Prometheus Scale
-        'symmetrical': [0, 1, 4, 5, 8, 9],  
+        'symmetrical': [0, 1, 4, 5, 8, 9],
         };
 
         const baseNote = this.noteToMidiNumber(root);
@@ -151,6 +151,12 @@ export class TrainingParser {
         }
 
         const content = course.details_of_course;
+        const courseName = course.course_name;
+
+        // Handle triads the same way as chords
+        if (courseName.endsWith('_triads')) {
+            return content.split(', ').map(chord => chord.trim());
+        }
 
         if (content.includes('scale')) {
             return this.parseScale(content);
