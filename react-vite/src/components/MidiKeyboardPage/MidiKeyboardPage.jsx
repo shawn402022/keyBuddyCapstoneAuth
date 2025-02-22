@@ -51,19 +51,22 @@ const MidiKeyboardPage = () => {
     const midiController = useRef(new MidiController(soundManager.current));
 
     const generateChallenge = useCallback((sequence) => {
-        console.log('Generating challenge from sequence:', sequence);
-        if (sequence) {
+        if (!sequence) return;
+
+        // Handle scale-specific format
+        if (sequence.type === 'scale' && sequence.notes) {
+            const randomNote = sequence.notes[Math.floor(Math.random() * sequence.notes.length)];
+            setTargetKey(randomNote);
+            setMessage(`Play the key: ${randomNote}`);
+            return;
+        }
+
+        // Handle traditional format
+        if (Array.isArray(sequence)) {
             const randomChord = sequence[Math.floor(Math.random() * sequence.length)];
             const cleanChordName = randomChord.replace(',', '');
-            console.log('Setting target to:', cleanChordName);
             setTargetKey(cleanChordName);
             setMessage(`Play the chord: ${cleanChordName}`);
-
-            const expectedNotes = Chord.get(cleanChordName).notes;
-            console.log('Generated challenge:', {
-                chord: cleanChordName,
-                expectedNotes: expectedNotes
-            });
         }
     }, []);
 
@@ -76,10 +79,29 @@ const MidiKeyboardPage = () => {
     const checkPlayedNotes = useCallback((playedNotes) => {
         if (!gameState.isActive || !targetKey) return;
 
-        // Convert played notes to format for Tonal.js
+        // Get the played note letters
         const playedNoteLetters = playedNotes.map(note =>
             note.key.split('/')[0].toUpperCase()
         ).sort();
+
+        // Handle scale-specific validation
+        if (trainingCourse?.course_name.endsWith('_scale')) {
+            if (playedNotes.length > 0) {
+                const playedKey = playedNoteLetters[0];
+                const targetKeyUpper = targetKey.toUpperCase();
+
+                if (playedKey === targetKeyUpper) {
+                    setFeedback(`🎉 Correct! You played the ${targetKey} key!`);
+                    setTimeout(() => {
+                        setFeedback("");
+                        generateChallenge(currentTrainingSequence);
+                    }, 1500);
+                } else {
+                    setFeedback(`You played: ${playedKey} - Keep trying!`);
+                }
+            }
+            return;
+        }
 
         // Get detected chords
         const possibleChords = Chord.detect(playedNoteLetters);
@@ -111,7 +133,7 @@ const MidiKeyboardPage = () => {
                 setFeedback(`Notes played: ${playedNoteLetters.join(', ')}`);
             }
         }
-    }, [gameState.isActive, targetKey, generateChallenge, currentTrainingSequence]);    useEffect(() => {
+    }, [gameState.isActive, targetKey, generateChallenge, currentTrainingSequence, trainingCourse]);    useEffect(() => {
         if (pianoEvents.current) {
             pianoEvents.current.setNotesCallback = (notes) => {
                 console.log('Piano events callback triggered with notes:', notes);

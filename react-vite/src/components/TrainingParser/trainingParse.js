@@ -151,20 +151,19 @@ export class TrainingParser {
         }
 
         const content = course.details_of_course;
-        const courseName = course.course_name;
+        const courseName = course.course_name || '';
 
-        // Handle triads the same way as chords
-        if (courseName.endsWith('_triads')) {
-            return content.split(', ').map(chord => chord.trim());
+        // Handle scale-specific content
+        if (courseName.endsWith('_scale')) {
+            const notes = content.split(', ').map(item => item.trim());
+            return {
+                type: 'scale',
+                notes: notes,
+                raw: content
+            };
         }
 
-        if (content.includes('scale')) {
-            return this.parseScale(content);
-        } else if (content.includes('chord')) {
-            return this.parseChordProgression(content);
-        }
-
-        // Now we have the formatNote method to handle single notes
-        return content.split(' ').map(note => this.formatNote(note));
+        // Return regular array for non-scale content
+        return content.split(', ').map(item => item.trim());
     }
 }
