@@ -129,6 +129,7 @@ const MidiKeyboardPage = () => {
         // Get detected chords
         const possibleChords = [getSimplifiedChordName(playedNoteLetters)];
 
+
         console.log('Detection Results:', {
             playedNotes: playedNoteLetters,
             detectedChords: possibleChords,
@@ -137,53 +138,19 @@ const MidiKeyboardPage = () => {
 
         if (playedNotes.length > 0) {
             if (possibleChords.length > 0) {
-                // Get the detected chord
                 const detectedChord = possibleChords[0];
 
-                // Parse the chord to get root and quality
-                let formattedChord = '';
+                // Simply use the detected chord for feedback
+                setFeedback(`You played: ${detectedChord}`);
 
-                if (detectedChord) {
-                    // Extract root note and quality
-                    const root = detectedChord[0];
-                    let quality = '';
-
-                    // Simplify chord quality naming
-                    if (detectedChord.includes('min') || detectedChord.includes('m')) {
-                        quality = 'm';  // Minor
-                    } else if (detectedChord.includes('maj')) {
-                        quality = 'M';  // Major
-                    } else if (detectedChord.includes('dim')) {
-                        quality = 'dim';  // Diminished
-                    } else if (detectedChord.includes('aug')) {
-                        quality = 'aug';  // Augmented
-                    } else {
-                        quality = 'M';  // Default to major if no quality specified
-                    }
-
-                    formattedChord = root + quality;
-                } else {
-                    formattedChord = possibleChords[0];  // Fallback to original name
-                }
-
-                // Compare with target
-                const targetChordRoot = targetKey[0].toUpperCase();
-                const targetQuality = targetKey.slice(1).toLowerCase().replace('m', 'min');
-
-                const detectedRoot = formattedChord[0];
-                const detectedQuality = formattedChord.slice(1);
-
-                const matchFound = detectedRoot === targetChordRoot &&
-                                  (detectedQuality.includes('m') === targetQuality.includes('min'));
-
-                if (matchFound) {
-                    setFeedback(`🎉 Correct! You played ${targetKey}!`);
+                // Optional: If you still want to check for correct answers
+                if (detectedChord.startsWith(targetKey[0]) &&
+                    (targetKey.includes('m') === detectedChord.includes('m'))) {
+                    setFeedback(`🎉 Correct! You played ${detectedChord}`);
                     setTimeout(() => {
                         setFeedback("");
                         generateChallenge(currentTrainingSequence);
                     }, 1500);
-                } else {
-                    setFeedback(`You played: ${formattedChord} - Keep trying!`);
                 }
             } else {
                 setFeedback(`Notes played: ${playedNoteLetters.join(', ')}`);
