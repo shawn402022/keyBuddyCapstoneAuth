@@ -50,6 +50,29 @@ const MidiKeyboardPage = () => {
     const pianoBuilder = useRef(new PianoBuilder(utilities.current, keyImages.current, pianoEvents.current));
     const midiController = useRef(new MidiController(soundManager.current));
 
+
+    // Add this function somewhere in your component:
+    const getSimplifiedChordName = (notes) => {
+        // First get all possible interpretations from tonal
+        const allPossibleChords = Chord.detect(notes, { assumePerfectFifth: true });
+
+        // If we have 3 notes exactly, prioritize triads (major, minor, dim, aug)
+        if (notes.length === 3) {
+            // Check for simple triads first
+            for (const chord of allPossibleChords) {
+                // Look for simple triad names
+                if (/^[A-G][#b]?(maj|min|m|dim|aug)$/.test(chord) ||
+                    /^[A-G][#b]?$/.test(chord)) { // Major triads sometimes have no quality suffix
+                    return chord;
+                }
+            }
+        }
+
+        // If no simple triad was found or we have more/fewer than 3 notes,
+        // return the first suggestion from tonal
+        return allPossibleChords.length > 0 ? allPossibleChords[0] : 'Unknown';
+    };
+
     const generateChallenge = useCallback((sequence) => {
         if (!sequence) return;
 
@@ -104,7 +127,7 @@ const MidiKeyboardPage = () => {
         }
 
         // Get detected chords
-        const possibleChords = Chord.detect(playedNoteLetters, { assumePerfectFifth: false });
+        const possibleChords = [getSimplifiedChordName(playedNoteLetters)];
 
         console.log('Detection Results:', {
             playedNotes: playedNoteLetters,
