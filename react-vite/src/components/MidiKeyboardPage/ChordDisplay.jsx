@@ -4,10 +4,21 @@ import { Chord } from 'tonal'
 const ChordDisplay = ({ currentNotes }) => {
   const getChordName = (notes) => {
     if (!notes || notes.length < 2) return ''
-    const noteNames = notes.map(note => `${note.key.replace('/', '')}${note.octave}`)
+
+    // Use the same note formatting logic as in getNoteNames, but include octaves
+    const noteNames = notes.map(note => {
+      const noteLetter = note.key.split('/')[0]
+      const baseName = noteLetter.toUpperCase()
+      const properNoteName = note.isSharp ? `${baseName}#` : baseName
+      return `${properNoteName}${note.octave}`; // Properly formatted note with octave
+    })
+
+    console.log('Properly formatted notes:', noteNames)
     const detected = Chord.detect(noteNames)
+
     return detected.length > 0 ? detected[0] : 'Unknown Chord'
   }
+
 
   const getNoteNames = (notes) => {
     if (!notes || notes.length === 0) return '';

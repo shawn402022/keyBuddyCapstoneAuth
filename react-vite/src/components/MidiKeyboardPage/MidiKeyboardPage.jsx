@@ -114,11 +114,44 @@ const MidiKeyboardPage = () => {
 
         if (playedNotes.length > 0) {
             if (possibleChords.length > 0) {
-                // Strip any bass note indicators (everything after /)
-                const normalizedDetectedChord = possibleChords[0].split('/')[0];
-                const normalizedTargetChord = targetKey.split('/')[0];
+                // Get the detected chord
+                const detectedChord = possibleChords[0];
 
-                const matchFound = normalizedDetectedChord === normalizedTargetChord;
+                // Parse the chord to get root and quality
+                let formattedChord = '';
+
+                if (detectedChord) {
+                    // Extract root note and quality
+                    const root = detectedChord[0];
+                    let quality = '';
+
+                    // Simplify chord quality naming
+                    if (detectedChord.includes('min') || detectedChord.includes('m')) {
+                        quality = 'm';  // Minor
+                    } else if (detectedChord.includes('maj')) {
+                        quality = 'M';  // Major
+                    } else if (detectedChord.includes('dim')) {
+                        quality = 'dim';  // Diminished
+                    } else if (detectedChord.includes('aug')) {
+                        quality = 'aug';  // Augmented
+                    } else {
+                        quality = 'M';  // Default to major if no quality specified
+                    }
+
+                    formattedChord = root + quality;
+                } else {
+                    formattedChord = possibleChords[0];  // Fallback to original name
+                }
+
+                // Compare with target
+                const targetChordRoot = targetKey[0].toUpperCase();
+                const targetQuality = targetKey.slice(1).toLowerCase().replace('m', 'min');
+
+                const detectedRoot = formattedChord[0];
+                const detectedQuality = formattedChord.slice(1);
+
+                const matchFound = detectedRoot === targetChordRoot &&
+                                  (detectedQuality.includes('m') === targetQuality.includes('min'));
 
                 if (matchFound) {
                     setFeedback(`🎉 Correct! You played ${targetKey}!`);
@@ -127,7 +160,7 @@ const MidiKeyboardPage = () => {
                         generateChallenge(currentTrainingSequence);
                     }, 1500);
                 } else {
-                    setFeedback(`You played: ${possibleChords[0]} - Keep trying!`);
+                    setFeedback(`You played: ${formattedChord} - Keep trying!`);
                 }
             } else {
                 setFeedback(`Notes played: ${playedNoteLetters.join(', ')}`);
