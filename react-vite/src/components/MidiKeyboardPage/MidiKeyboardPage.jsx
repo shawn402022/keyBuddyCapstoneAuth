@@ -82,7 +82,7 @@ const MidiKeyboardPage = () => {
         // Get the played note letters
         const playedNoteLetters = playedNotes.map(note =>
             note.key.split('/')[0].toUpperCase()
-        ).sort();
+        );
 
         // Handle scale-specific validation
         if (trainingCourse?.course_name.endsWith('_scale')) {
@@ -104,7 +104,7 @@ const MidiKeyboardPage = () => {
         }
 
         // Get detected chords
-        const possibleChords = Chord.detect(playedNoteLetters);
+        const possibleChords = Chord.detect(playedNoteLetters, { assumePerfectFifth: false });
 
         console.log('Detection Results:', {
             playedNotes: playedNoteLetters,

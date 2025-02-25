@@ -14,7 +14,7 @@ const ChordDisplay = ({ currentNotes }) => {
     })
 
     console.log('Properly formatted notes:', noteNames)
-    const detected = Chord.detect(noteNames)
+    const detected = Chord.detect(noteNames, { assumePerfectFifth: false })
 
     return detected.length > 0 ? detected[0] : 'Unknown Chord'
   }
