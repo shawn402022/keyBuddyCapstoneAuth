@@ -140,17 +140,15 @@ const MidiKeyboardPage = () => {
             if (possibleChords.length > 0) {
                 const detectedChord = possibleChords[0];
 
-                // Simply use the detected chord for feedback
-                setFeedback(`You played: ${detectedChord}`);
-
-                // Optional: If you still want to check for correct answers
-                if (detectedChord.startsWith(targetKey[0]) &&
-                    (targetKey.includes('m') === detectedChord.includes('m'))) {
+                // Replace the current comparison with this
+                if (detectedChord === targetKey) {
                     setFeedback(`🎉 Correct! You played ${detectedChord}`);
                     setTimeout(() => {
                         setFeedback("");
                         generateChallenge(currentTrainingSequence);
                     }, 1500);
+                } else {
+                    setFeedback(`You played: ${detectedChord}. Try again for ${targetKey}.`);
                 }
             } else {
                 setFeedback(`Notes played: ${playedNoteLetters.join(', ')}`);
