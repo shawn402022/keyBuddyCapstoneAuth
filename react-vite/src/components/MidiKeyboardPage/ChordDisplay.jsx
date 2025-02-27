@@ -1,5 +1,6 @@
 import './ChordDisplay.css'
 import { Chord } from 'tonal'
+import { formatChordName } from '../../utils/chordUtils'
 
 const ChordDisplay = ({ currentNotes }) => {
   const getChordName = (notes) => {
@@ -16,9 +17,9 @@ const ChordDisplay = ({ currentNotes }) => {
     console.log('Properly formatted notes:', noteNames)
     const detected = Chord.detect(noteNames, { assumePerfectFifth: false })
 
-    return detected.length > 0 ? detected[0] : 'Unknown Chord'
+    // Format the chord name to ensure consistency with the rest of the application
+    return detected.length > 0 ? formatChordName(detected[0]) : 'Unknown Chord'
   }
-
 
   const getNoteNames = (notes) => {
     if (!notes || notes.length === 0) return '';

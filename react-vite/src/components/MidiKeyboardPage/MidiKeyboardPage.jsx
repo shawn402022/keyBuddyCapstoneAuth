@@ -14,6 +14,7 @@ import PianoContainer from './PianoContainer.jsx';
 import ChordDisplay from './ChordDisplay';
 import { TrainingParser } from '../TrainingParser/trainingParse';
 import TrainingQuestions from './TrainingQuestions.jsx';
+import { formatChordName } from '../../utils/chordUtils';
 import { Chord } from 'tonal';
 import { startTraining } from '../../redux/game';
 
@@ -72,7 +73,6 @@ const MidiKeyboardPage = () => {
         // return the first suggestion from tonal
         return allPossibleChords.length > 0 ? allPossibleChords[0] : 'Unknown';
     };
-
     const generateChallenge = useCallback((sequence) => {
         if (!sequence) return;
 
@@ -88,8 +88,12 @@ const MidiKeyboardPage = () => {
         if (Array.isArray(sequence)) {
             const randomChord = sequence[Math.floor(Math.random() * sequence.length)];
             const cleanChordName = randomChord.replace(',', '');
-            setTargetKey(cleanChordName);
-            setMessage(`Play the chord: ${cleanChordName}`);
+
+            // Use the imported formatChordName function
+            const formattedChordName = formatChordName(cleanChordName);
+
+            setTargetKey(formattedChordName);
+            setMessage(`Play the chord: ${formattedChordName}`);
         }
     }, []);
 
@@ -126,21 +130,26 @@ const MidiKeyboardPage = () => {
             return;
         }
 
-        // Get detected chords
-        const possibleChords = [getSimplifiedChordName(playedNoteLetters)];
+        // Format notes the same way as in ChordDisplay for consistency
+        const noteNames = playedNotes.map(note => {
+            const noteLetter = note.key.split('/')[0];
+            const baseName = noteLetter.toUpperCase();
+            const properNoteName = note.isSharp ? `${baseName}#` : baseName;
+            return `${properNoteName}${note.octave}`;
+        });
 
+        // Use Tonal.js directly as ChordDisplay does
+        const detected = Chord.detect(noteNames, { assumePerfectFifth: false });
+        const detectedChord = detected.length > 0 ? formatChordName(detected[0]) : 'Unknown Chord';
 
         console.log('Detection Results:', {
-            playedNotes: playedNoteLetters,
-            detectedChords: possibleChords,
+            playedNotes: noteNames,
+            detectedChord: detectedChord,
             targetChord: targetKey
         });
 
         if (playedNotes.length > 0) {
-            if (possibleChords.length > 0) {
-                const detectedChord = possibleChords[0];
-
-                // Replace the current comparison with this
+            if (detectedChord !== 'Unknown Chord') {
                 if (detectedChord === targetKey) {
                     setFeedback(`🎉 Correct! You played ${detectedChord}`);
                     setTimeout(() => {
@@ -151,7 +160,11 @@ const MidiKeyboardPage = () => {
                     setFeedback(`You played: ${detectedChord}. Try again for ${targetKey}.`);
                 }
             } else {
-                setFeedback(`Notes played: ${playedNoteLetters.join(', ')}`);
+                // If no chord is recognized, show the notes
+                const playedNoteLetters = playedNotes.map(note =>
+                    note.key.split('/')[0].toUpperCase()
+                ).join(', ');
+                setFeedback(`Notes played: ${playedNoteLetters}`);
             }
         }
     }, [gameState.isActive, targetKey, generateChallenge, currentTrainingSequence, trainingCourse]);    useEffect(() => {
