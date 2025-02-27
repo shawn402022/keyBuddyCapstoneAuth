@@ -14,7 +14,7 @@ import PianoContainer from './PianoContainer.jsx';
 import ChordDisplay from './ChordDisplay';
 import { TrainingParser } from '../TrainingParser/trainingParse';
 import TrainingQuestions from './TrainingQuestions.jsx';
-import { formatChordName } from '../../utils/chordUtils';
+
 import { Chord } from 'tonal';
 import { startTraining } from '../../redux/game';
 
@@ -53,26 +53,7 @@ const MidiKeyboardPage = () => {
 
 
     // Add this function somewhere in your component:
-    const getSimplifiedChordName = (notes) => {
-        // First get all possible interpretations from tonal
-        const allPossibleChords = Chord.detect(notes, { assumePerfectFifth: true });
 
-        // If we have 3 notes exactly, prioritize triads (major, minor, dim, aug)
-        if (notes.length === 3) {
-            // Check for simple triads first
-            for (const chord of allPossibleChords) {
-                // Look for simple triad names
-                if (/^[A-G][#b]?(maj|min|m|dim|aug)$/.test(chord) ||
-                    /^[A-G][#b]?$/.test(chord)) { // Major triads sometimes have no quality suffix
-                    return chord;
-                }
-            }
-        }
-
-        // If no simple triad was found or we have more/fewer than 3 notes,
-        // return the first suggestion from tonal
-        return allPossibleChords.length > 0 ? allPossibleChords[0] : 'Unknown';
-    };
     const generateChallenge = useCallback((sequence) => {
         if (!sequence) return;
 
@@ -136,17 +117,80 @@ const MidiKeyboardPage = () => {
             return;
         }
 
-        // Format notes the same way as in ChordDisplay for consistency
-        const noteNames = playedNotes.map(note => {
+          // Format notes for Tonal.js detection
+          const noteNames = playedNotes.map(note => {
             const noteLetter = note.key.split('/')[0];
             const baseName = noteLetter.toUpperCase();
             const properNoteName = note.isSharp ? `${baseName}#` : baseName;
             return `${properNoteName}${note.octave}`;
-        });
+          });
 
-        // Use Tonal.js directly as ChordDisplay does
-        const detected = Chord.detect(noteNames, { assumePerfectFifth: false });
-        const detectedChord = detected.length > 0 ? formatChordName(detected[0]) : 'Unknown Chord';
+          // Use Tonal.js for chord detection
+          const detected = Chord.detect(noteNames, { assumePerfectFifth: false });
+
+          // Custom formatting to match course.details_of_course style
+          let detectedChord = 'Unknown Chord';
+
+          if (detected.length > 0) {
+            const chordInfo = Chord.get(detected[0]);
+            const intervals = chordInfo.intervals || [];
+            let formattedName = chordInfo.tonic || '';
+
+            // Special case: Major with flat 5th
+            if (intervals.includes('3M') && intervals.includes('5d')) {
+              detectedChord = `${formattedName}Mb5`;
+            }
+            // Format based on chord quality to match course.details_of_course
+            else switch(chordInfo.quality) {
+              case 'Major':
+                // Check for special alterations
+                if (intervals.includes('5A')) {
+                  detectedChord = `${formattedName}aug`;
+                } else {
+                  // Plain major chord - no suffix in course.details_of_course
+                  detectedChord = formattedName;
+                }
+                break;
+              case 'Minor':
+                detectedChord = `${formattedName}m`;
+                break;
+              case 'Diminished':
+                detectedChord = `${formattedName}dim`;
+                break;
+              case 'Major Seventh':
+                detectedChord = `${formattedName}maj7`;
+                break;
+              case 'Dominant Seventh':
+                detectedChord = `${formattedName}7`;
+                break;
+              case 'Minor Seventh':
+                detectedChord = `${formattedName}m7`;
+                break;
+              case 'Half Diminished':
+                detectedChord = `${formattedName}m7b5`;
+                break;
+              default: {
+                // For other chord types, use interval analysis to determine format
+                const hasMajor3rd = intervals.includes('3M');
+                const hasDim5th = intervals.includes('5d');
+                const hasAug5th = intervals.includes('5A');
+
+                if (hasMajor3rd) {
+                  if (hasDim5th) {
+                    detectedChord = `${formattedName}Mb5`;
+                  } else if (hasAug5th) {
+                    detectedChord = `${formattedName}aug`;
+                  } else {
+                    // Use tonal's symbol as fallback if our analysis is inconclusive
+                    detectedChord = `${formattedName}${chordInfo.symbol || ''}`;
+                  }
+                } else {
+                  // Use tonal's symbol as fallback if our analysis is inconclusive
+                  detectedChord = `${formattedName}${chordInfo.symbol || ''}`;
+                }
+              }
+            }
+          }
 
         console.log('Detection Results:', {
             playedNotes: noteNames,

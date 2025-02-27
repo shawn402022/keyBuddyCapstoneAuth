@@ -74,16 +74,9 @@ useEffect(() => {
 
 
 
-  const handleNotePlay = (note) => {
-    SoundModule.playNote(note);
-    updateKeyImage(note, true);
-    setTimeout(() => updateKeyImage(note, false), 200);
-    if (isGameActive) {
-      checkNote(note);
-    }
-  };
 
-  const updateKeyImage = (note, isPressed) => {
+
+  const updateKeyImage = useCallback((note, isPressed) => {
     const keyElement = document.getElementById(`${note}-${isPressed ? 'pressed' : 'released'}`);
     const oppositeKeyElement = document.getElementById(`${note}-${isPressed ? 'released' : 'pressed'}`);
 
@@ -91,8 +84,17 @@ useEffect(() => {
       keyElement.style.visibility = 'visible';
       oppositeKeyElement.style.visibility = 'hidden';
     }
-  };
+  }, []); // Empty dependency array since this function doesn't rely on component state or props
 
+  // Now handleNotePlay will maintain stable reference between renders
+  const handleNotePlay = useCallback((note) => {
+    SoundModule.playNote(note);
+    updateKeyImage(note, true);
+    setTimeout(() => updateKeyImage(note, false), 200);
+    if (isGameActive) {
+      checkNote(note);
+    }
+  }, [isGameActive, checkNote, updateKeyImage]); // updateKeyImage is now stable
   useEffect(() => {
     const setupMidi = async () => {
       try {
@@ -143,7 +145,7 @@ useEffect(() => {
       });
       WebMidi.disable();
     };
-  }, []);
+  }, [handleNotePlay, updateKeyImage]); // Now this is stable and only changes when dependencies change
 
   const startKeyChallenge = () => {
     dispatch(setGameActive(true));

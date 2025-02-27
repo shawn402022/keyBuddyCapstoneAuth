@@ -30,7 +30,7 @@ const ChordDisplay = ({ currentNotes }) => {
       }
 
       // Handle other chord qualities with more precise logic
-      switch(chordInfo.quality) {
+      switch (chordInfo.quality) {
         case 'Major':
           // Check for special alterations
           if (intervals.includes('5A')) return `${formattedName}aug`;
@@ -74,7 +74,8 @@ const ChordDisplay = ({ currentNotes }) => {
             // Fall back to Tonal's symbol if our analysis is inconclusive
             formattedName += chordInfo.symbol || '';
           }
-          break;      }
+          break;
+      }
 
       return formattedName;
     }
@@ -86,10 +87,10 @@ const ChordDisplay = ({ currentNotes }) => {
   const getNoteNames = (notes) => {
     if (!notes || notes.length === 0) return '';
     return notes.map(note => {
-        const noteLetter = note.key.split('/')[0];
-        const baseName = noteLetter.toUpperCase();
-        const properNoteName = note.isSharp ? `${baseName}#` : baseName;
-        return `${properNoteName}`;
+      const noteLetter = note.key.split('/')[0];
+      const baseName = noteLetter.toUpperCase();
+      const properNoteName = note.isSharp ? `${baseName}#` : baseName;
+      return `${properNoteName}`;
     }).join(', ');
   }
 
