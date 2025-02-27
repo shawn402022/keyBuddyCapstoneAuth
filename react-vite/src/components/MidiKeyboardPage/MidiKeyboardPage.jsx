@@ -50,14 +50,23 @@ const MidiKeyboardPage = () => {
     pianoEvents.current.setNotesCallback = setCurrentNotes;
     const pianoBuilder = useRef(new PianoBuilder(utilities.current, keyImages.current, pianoEvents.current));
     const midiController = useRef(new MidiController(soundManager.current));
+    const timeoutRef = useRef(null);
+
+
+
 
 
     // Add this function somewhere in your component:
 
     const generateChallenge = useCallback((sequence) => {
-        if (!sequence) return;
+        console.log("generateChallenge called with:", sequence);
 
-        // Handle scale-specific format
+        if (!sequence){
+            console.log("No sequence provided to generateChallenge");
+            return;
+        }
+
+        // For scales
         if (sequence.type === 'scale' && sequence.notes) {
             const randomNote = sequence.notes[Math.floor(Math.random() * sequence.notes.length)];
             setTargetKey(randomNote);
@@ -65,20 +74,10 @@ const MidiKeyboardPage = () => {
             return;
         }
 
-        // Handle traditional format
+        // For chord sequences
         if (Array.isArray(sequence)) {
             const randomChord = sequence[Math.floor(Math.random() * sequence.length)];
-
-
-
-
-
-
-
-            // Remove any commas but preserve the exact chord name format
             const cleanChordName = randomChord.replace(',', '').trim();
-
-            // Use cleanChordName directly to maintain the exact format from course.details_of_course
             setTargetKey(cleanChordName);
             setMessage(`Play the chord: ${cleanChordName}`);
         }
@@ -106,10 +105,17 @@ const MidiKeyboardPage = () => {
 
                 if (playedKey === targetKeyUpper) {
                     setFeedback(`🎉 Correct! You played the ${targetKey} key!`);
-                    setTimeout(() => {
+
+                    // Clear any existing timeout
+                    if (timeoutRef.current) {
+                        clearTimeout(timeoutRef.current);
+                    }
+
+                    // Set new timeout and store the reference
+                    timeoutRef.current = setTimeout(() => {
                         setFeedback("");
                         generateChallenge(currentTrainingSequence);
-                    }, 1500);
+                    }, 800);
                 } else {
                     setFeedback(`You played: ${playedKey} - Keep trying!`);
                 }
@@ -191,21 +197,28 @@ const MidiKeyboardPage = () => {
               }
             }
           }
-
+        /*
         console.log('Detection Results:', {
             playedNotes: noteNames,
             detectedChord: detectedChord,
             targetChord: targetKey
         });
-
+          */
         if (playedNotes.length > 0) {
             if (detectedChord !== 'Unknown Chord') {
                 if (detectedChord === targetKey) {
                     setFeedback(`🎉 Correct! You played ${detectedChord}`);
-                    setTimeout(() => {
+
+                    // Clear any existing timeout
+                    if (timeoutRef.current) {
+                        clearTimeout(timeoutRef.current);
+                    }
+
+                    // Set new timeout and store the reference
+                    timeoutRef.current = setTimeout(() => {
                         setFeedback("");
                         generateChallenge(currentTrainingSequence);
-                    }, 1500);
+                    }, 800);
                 } else {
                     setFeedback(`You played: ${detectedChord}. Try again for ${targetKey}.`);
                 }
@@ -232,6 +245,10 @@ const MidiKeyboardPage = () => {
             console.log('Starting training with course:', trainingCourse);
             const trainingSequence = TrainingParser.parseTrainingContent(trainingCourse);
             console.log('Parsed sequence:', trainingSequence);
+
+            // Set the current training sequence state
+            setCurrentTrainingSequence(trainingSequence);
+
             dispatch(setGameActive(true));
             dispatch(startTraining(trainingSequence));
             generateChallenge(trainingSequence);
@@ -268,6 +285,11 @@ const MidiKeyboardPage = () => {
 
         return () => {
             currentMidiController.cleanup();
+
+            // Add timeout cleanup
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
         };
     }, [checkPlayedNotes]); // Add checkPlayedNotes here
 
@@ -280,6 +302,11 @@ const MidiKeyboardPage = () => {
             };
         }
     }, [pianoEvents]);
+
+    useEffect(() => {
+        console.log("currentTrainingSequence changed:", currentTrainingSequence);
+    }, [currentTrainingSequence]);
+
     if (error) return <div className="error-message">{error}</div>;
     return (
         <div className="piano-page">
