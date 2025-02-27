@@ -87,13 +87,19 @@ const MidiKeyboardPage = () => {
         // Handle traditional format
         if (Array.isArray(sequence)) {
             const randomChord = sequence[Math.floor(Math.random() * sequence.length)];
-            const cleanChordName = randomChord.replace(',', '');
 
-            // Use the imported formatChordName function
-            const formattedChordName = formatChordName(cleanChordName);
 
-            setTargetKey(formattedChordName);
-            setMessage(`Play the chord: ${formattedChordName}`);
+
+
+
+
+
+            // Remove any commas but preserve the exact chord name format
+            const cleanChordName = randomChord.replace(',', '').trim();
+
+            // Use cleanChordName directly to maintain the exact format from course.details_of_course
+            setTargetKey(cleanChordName);
+            setMessage(`Play the chord: ${cleanChordName}`);
         }
     }, []);
 
@@ -246,7 +252,7 @@ const MidiKeyboardPage = () => {
                                 <div className="game-status">
                                     <p className="challenge-message">{message}</p>
                                     <p className="feedback-message">{feedback}</p>
-                                    <p className="target-note">Target: {targetKey}</p>
+
 
                                 </div>
                             )}
