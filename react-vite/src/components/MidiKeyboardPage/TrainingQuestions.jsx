@@ -10,7 +10,7 @@ const TrainingQuestions = ({ course }) => {
         // For scales, we can show rich information
         if (course.course_name.toLowerCase().endsWith('scale')) {
             if (tonalInfo.type === 'key') {
-                return `${tonalInfo.displayName} - Notes: ${tonalInfo.data.scale.join(', ')}`;
+                return course.details_of_course;
             }
         }
 
