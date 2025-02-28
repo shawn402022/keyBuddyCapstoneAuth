@@ -2,7 +2,7 @@ import Utilities from "./utilities.js"
 import KeyImages from "./images.js"
 import * as Tonal from 'tonal'
 import {WebMidi} from "webmidi";
-import {MidiAccessCheck} from "./MidiAccessCheck"
+
 
 
 const chromaticNotes = Tonal.Range.chromatic(['C2', 'B7'], {sharps: true}).filter((note)=> note.length === 2)
