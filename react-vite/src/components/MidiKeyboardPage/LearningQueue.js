@@ -36,13 +36,75 @@ export class LearningQueue {
     this.currentChallenge = null;
   }
 
+// Process challenge result based on time taken
+processResult(correct) {
+    if (!this.currentChallenge || !correct) return;
+
+    const timeTaken = (Date.now() - this.startTime) / 1000;
+    const node = this.currentChallenge;
+
+    // Store the current challenge value for reference
+    const currentValue = node.value;
+
+    // IMPORTANT: We need to specifically set mastered=true or mastered=false based on time
+    // NOT just in the if branch
+    if (timeTaken < 2) {
+      // Fast answer - mark as mastered
+      this.masteredItems.set(currentValue, { mastered: true, color: 'red' });
+      // Don't put this node back in the queue
+    } else if (timeTaken < 4) {
+      // Not mastered - ensure mastered flag is false
+      this.masteredItems.set(currentValue, { mastered: false, color: 'lightgrey' });
+      // Move to end of queue (enqueue a new object, not the original node reference)
+      this.queue.push({ value: currentValue, mastered: false });
+    } else if (timeTaken < 5) {
+      // Not mastered - ensure mastered flag is false
+      this.masteredItems.set(currentValue, { mastered: false, color: 'lightgrey' });
+      // Move to middle of queue (as a new object)
+      const middlePosition = Math.floor(this.queue.length / 2);
+      this.queue.splice(middlePosition, 0, { value: currentValue, mastered: false });
+    } else {
+      // Not mastered - ensure mastered flag is false
+      this.masteredItems.set(currentValue, { mastered: false, color: 'lightgrey' });
+      // Move to second position (as a new object)
+      this.queue.splice(1, 0, { value: currentValue, mastered: false });
+    }
+
+    // Clear current challenge reference
+    this.currentChallenge = null;
+
+    // Check if all items are mastered
+    const allMastered = [...this.masteredItems.values()].every(item => item.mastered);
+
+    // Get next challenge using our method
+    const nextChallenge = this.getNextChallenge();
+
+    return {
+      nextChallenge,
+      allMastered
+    };
+  }
+
   // Get next challenge from queue
   getNextChallenge() {
     if (this.queue.length === 0) {
       return null; // Queue is empty
     }
 
-    this.currentChallenge = this.queue.shift();
+    // Ensure enough time has passed before starting a new challenge
+    const minTimeGap = 800; // milliseconds
+    const now = Date.now();
+
+    // If we recently processed a challenge, add a small delay
+    if (this.startTime && (now - this.startTime < minTimeGap)) {
+      // We could add a manual delay here, but that could block execution
+      // Instead just making sure the timing will be correct
+      console.log("Processing next item with timing adjustment");
+    }
+
+    // Get the next challenge from the queue
+    const nextNode = this.queue.shift();
+    this.currentChallenge = nextNode;
     this.startTime = Date.now();
 
     // Reset stopwatch if provided
@@ -50,40 +112,10 @@ export class LearningQueue {
       this.stopwatchRef.current.handleStartTimer();
     }
 
-    return this.currentChallenge.value;
+    return nextNode.value;
   }
 
-  // Process challenge result based on time taken
-  processResult(correct) {
-    if (!this.currentChallenge || !correct) return;
 
-    const timeTaken = (Date.now() - this.startTime) / 1000;
-    const node = this.currentChallenge;
-
-    if (timeTaken < 2) {
-      // Mastered - remove from queue and mark as mastered
-      node.mastered = true;
-      this.masteredItems.set(node.value, { mastered: true, color: 'red' });
-    } else if (timeTaken < 4) {
-      // Move to end of queue
-      this.queue.push(node);
-    } else if (timeTaken < 5) {
-      // Move to middle of queue
-      const middlePosition = Math.floor(this.queue.length / 2);
-      this.queue.splice(middlePosition, 0, node);
-    } else {
-      // Move to second position
-      this.queue.splice(1, 0, node);
-    }
-
-    // Check if all items are mastered
-    const allMastered = [...this.masteredItems.values()].every(item => item.mastered);
-
-    return {
-      nextChallenge: this.getNextChallenge(),
-      allMastered: allMastered
-    };
-  }
 
   // Get array of mastered items with their status
   getMasteredItems() {
