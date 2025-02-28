@@ -357,6 +357,29 @@ def add_course_to_user(user_id):
 
     return jsonify(course.to_dict())
 
+#create custom course for user
+@course_routes.route("/<user_id>/custom", methods=["POST"])
+@login_required
+def create_custom_course_for_user(user_id):
+    # Verify user authorization
+    if str(current_user.id)!= str(user_id):
+        return jsonify({"msg": "Unauthorized - You can only add courses to your own account"}), 403
+
+    user = User.query.get(user_id)
+    course_data = request.json
+
+    # Create new course if it doesn't exist
+    course = Course(
+        course_name=course_data["course_name"],
+        details_of_course=course_data["details_of_course"]
+    )
+    db.session.add(course)
+
+    # Add course to user's courses
+    user.courses.append(course)
+    db.session.commit()
+
+    return jsonify(course.to_dict())
 
 
 # delete a course from user
