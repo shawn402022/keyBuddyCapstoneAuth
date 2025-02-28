@@ -309,6 +309,9 @@ const MidiKeyboardPage = () => {
     }, [currentTrainingSequence]);
 
     if (error) return <div className="error-message">{error}</div>;
+
+    const mastered = [];
+    
     return (
 
         <div className="piano-page">
@@ -328,6 +331,7 @@ const MidiKeyboardPage = () => {
                                 <div className="game-status">
                                     <p className="challenge-message">{message}</p>
                                     <p className="feedback-message">{feedback}</p>
+                                    <p className="mastered-message">{mastered}</p>
 
 
                                 </div>
