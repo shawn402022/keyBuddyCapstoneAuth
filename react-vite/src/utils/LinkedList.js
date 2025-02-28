@@ -3,33 +3,19 @@ export class Node {
     this.value = value;
     this.next = null;
     this.mastered = false;
-    this.responseTime = null;
   }
 }
 
-export class TrainingLinkedList {
-  constructor(items = []) {
+export class LinkedList {
+  constructor() {
     this.head = null;
     this.tail = null;
     this.size = 0;
-    this.current = null;
-
-    // Initialize with items if provided
-    if (items.length) {
-      this.initializeFromArray(items);
-    }
   }
 
-  initializeFromArray(items) {
-    items.forEach(item => {
-      this.append(item);
-    });
-    this.current = this.head;
-  }
-
+  // Add a node to the end of the list
   append(value) {
     const newNode = new Node(value);
-
     if (!this.head) {
       this.head = newNode;
       this.tail = newNode;
@@ -37,239 +23,91 @@ export class TrainingLinkedList {
       this.tail.next = newNode;
       this.tail = newNode;
     }
-
     this.size++;
     return newNode;
   }
 
-  prepend(value) {
-    const newNode = new Node(value);
+  // Convert array to linked list
+  fromArray(array) {
+    array.forEach(item => this.append(item));
+    return this;
+  }
 
-    if (!this.head) {
-      this.head = newNode;
-      this.tail = newNode;
+  // Insert a node at a specific position
+  insertAt(node, position) {
+    if (position <= 0 || !this.head) {
+      // Insert at beginning
+      node.next = this.head;
+      this.head = node;
+      if (!this.tail) this.tail = node;
+    } else if (position >= this.size) {
+      // Insert at end
+      this.tail.next = node;
+      this.tail = node;
+      node.next = null;
     } else {
-      newNode.next = this.head;
-      this.head = newNode;
-    }
-
-    this.size++;
-    return newNode;
-  }
-
-  getNext() {
-    if (!this.current) {
-      this.current = this.head;
-    } else {
-      this.current = this.current.next;
-      if (!this.current) {
-        this.current = this.head; // Loop back to start if at end
+      // Insert in the middle
+      let current = this.head;
+      let count = 0;
+      while (count < position - 1) {
+        current = current.next;
+        count++;
       }
+      node.next = current.next;
+      current.next = node;
     }
-    return this.current;
-  }
-
-  insertAfter(targetValue, value) {
-    let current = this.head;
-
-    while (current && current.value !== targetValue) {
-      current = current.next;
-    }
-
-    if (current) {
-      const newNode = new Node(value);
-      newNode.next = current.next;
-      current.next = newNode;
-
-      if (current === this.tail) {
-        this.tail = newNode;
-      }
-
-      this.size++;
-      return true;
-    }
-
-    return false;
-  }
-
-  insertAt(index, value) {
-    if (index < 0 || index > this.size) {
-      return null;
-    }
-
-    if (index === 0) {
-      return this.prepend(value);
-    }
-
-    if (index === this.size) {
-      return this.append(value);
-    }
-
-    const newNode = new Node(value);
-    let current = this.head;
-    let count = 0;
-
-    while (count < index - 1) {
-      current = current.next;
-      count++;
-    }
-
-    newNode.next = current.next;
-    current.next = newNode;
     this.size++;
-
-    return newNode;
   }
 
-  insertMiddle(value) {
-    const middleIndex = Math.floor(this.size / 2);
-    return this.insertAt(middleIndex, value);
-  }
-
-  remove(value) {
+  // Remove a node
+  remove(node) {
     if (!this.head) return null;
 
-    if (this.head.value === value) {
-      const removed = this.head;
+    if (this.head === node) {
       this.head = this.head.next;
-
-      if (this.head === null) {
-        this.tail = null;
-      }
-
+      if (this.size === 1) this.tail = null;
       this.size--;
-      return removed;
+      return node;
     }
 
     let current = this.head;
-
-    while (current.next && current.next.value !== value) {
+    while (current.next && current.next !== node) {
       current = current.next;
     }
 
     if (current.next) {
-      const removed = current.next;
-      current.next = removed.next;
-
-      if (removed === this.tail) {
+      if (current.next === this.tail) {
         this.tail = current;
       }
-
+      current.next = current.next.next;
       this.size--;
-      return removed;
+      return node;
     }
 
     return null;
   }
 
-  removeAt(index) {
-    if (index < 0 || index >= this.size) {
-      return null;
-    }
-
-    if (index === 0) {
-      const removed = this.head;
-      this.head = this.head.next;
-
-      if (this.head === null) {
-        this.tail = null;
-      }
-
-      this.size--;
-      return removed;
-    }
-
-    let current = this.head;
-    let count = 0;
-
-    while (count < index - 1) {
-      current = current.next;
-      count++;
-    }
-
-    const removed = current.next;
-    current.next = removed.next;
-
-    if (removed === this.tail) {
-      this.tail = current;
-    }
-
-    this.size--;
-    return removed;
-  }
-
+  // Convert to array for easier handling
   toArray() {
     const array = [];
     let current = this.head;
-
     while (current) {
-      array.push(current.value);
+      array.push(current);
       current = current.next;
     }
-
     return array;
   }
 
-  isEmpty() {
-    return this.size === 0;
-  }
-
-  getSize() {
-    return this.size;
-  }
-
-  reset() {
-    this.current = this.head;
-  }
-
-  handleResponseTime(responseTime) {
-    if (!this.current) return;
-
-    // Store response time
-    this.current.responseTime = responseTime;
-    const currentNode = this.current;
-
-    // Apply spaced repetition algorithm based on response time
-    if (responseTime < 2000) {
-      // Fast response - remove from training and mark as mastered
-      currentNode.mastered = true;
-      this.remove(currentNode.value);
-      return {
-        mastered: true,
-        value: currentNode.value,
-        action: 'mastered'
-      };
-    } else if (responseTime < 4000) {
-      // Good response - move to end
-      this.remove(currentNode.value);
-      this.append(currentNode.value);
-      return {
-        mastered: false,
-        value: currentNode.value,
-        action: 'moved-to-end'
-      };
-    } else if (responseTime < 5000) {
-      // Moderate response - move to middle
-      this.remove(currentNode.value);
-      this.insertMiddle(currentNode.value);
-      return {
-        mastered: false,
-        value: currentNode.value,
-        action: 'moved-to-middle'
-      };
-    } else {
-      // Slow response - move to second position
-      this.remove(currentNode.value);
-      if (this.size >= 1) {
-        this.insertAt(1, currentNode.value);
-      } else {
-        this.append(currentNode.value);
+  // Get all mastered nodes
+  getMasteredArray() {
+    const array = [];
+    let current = this.head;
+    while (current) {
+      if (current.mastered) {
+        array.push(current.value);
       }
-      return {
-        mastered: false,
-        value: currentNode.value,
-        action: 'moved-to-second'
-      };
+      current = current.next;
     }
+    return array;
   }
 }
