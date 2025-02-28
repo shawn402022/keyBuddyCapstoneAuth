@@ -55,25 +55,31 @@ const MidiKeyboardPage = () => {
     const pianoBuilder = useRef(new PianoBuilder(utilities.current, keyImages.current, pianoEvents.current));
     const midiController = useRef(new MidiController(soundManager.current));
     const timeoutRef = useRef(null);
-
     // Initialize the learning queue with the training sequence
     const initializeLearningQueue = useCallback((sequence) => {
-        if (!sequence) return;
+        if (!sequence) {
+            console.log('No sequence provided to initialize');
+            return;
+        }
 
+        console.log('Initializing learning queue with sequence:', sequence);
         learningQueue.current.initialize(sequence);
         learningQueue.current.setStopwatchRef(stopwatchRef);
 
         // Update mastered items display
-        setMasteredItems(learningQueue.current.getMasteredItems());
+        const items = learningQueue.current.getMasteredItems();
+        console.log('Initial mastered items:', items);
+        setMasteredItems(items);
 
         // Get the first challenge
         const firstChallenge = learningQueue.current.getNextChallenge();
+        console.log('First challenge:', firstChallenge);
+
         if (firstChallenge) {
             setTargetKey(firstChallenge);
             setMessage(`Play the ${firstChallenge}`);
         }
     }, []);
-
     // Start the challenge session
     const startKeyChallenge = useCallback(() => {
         dispatch(setGameActive(true));
@@ -124,16 +130,36 @@ const MidiKeyboardPage = () => {
         if (trainingCourse?.course_name.endsWith('_scale')) {
             if (playedNotes.length > 0) {
                 const playedKey = playedNoteLetters[0];
+
+                // Add defensive programming
+                if (typeof targetKey !== 'string') {
+                    console.error('targetKey is not a string:', targetKey);
+                    setFeedback('Error: Invalid target key format');
+                    return;
+                }
+
                 const targetKeyUpper = targetKey.toUpperCase();
+
+                console.log('Scale validation:', {
+                    playedKey,
+                    targetKeyUpper,
+                    targetKey,
+                    playedNotes,
+                    playedNoteLetters
+                });
 
                 if (playedKey === targetKeyUpper) {
                     setFeedback(`🎉 Correct! You played the ${targetKey} key!`);
 
                     // Process correct answer in learning queue
+                    console.log('Processing correct answer for target:', targetKey);
                     const result = learningQueue.current.processResult(true);
+                    console.log('Process result:', result);
 
                     // Update mastered items display
-                    setMasteredItems(learningQueue.current.getMasteredItems());
+                    const updatedItems = learningQueue.current.getMasteredItems();
+                    console.log('Updated mastered items:', updatedItems);
+                    setMasteredItems(updatedItems);
 
                     // Check if all items are mastered
                     if (result.allMastered) {
@@ -161,7 +187,6 @@ const MidiKeyboardPage = () => {
             }
             return;
         }
-
         // Format notes for Tonal.js detection
         const noteNames = playedNotes.map(note => {
             const noteLetter = note.key.split('/')[0];
