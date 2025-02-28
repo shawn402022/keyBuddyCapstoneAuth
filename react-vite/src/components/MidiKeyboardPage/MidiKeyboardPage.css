@@ -100,3 +100,52 @@ img {
     min-height: 1.5em;
 }
 
+
+
+.timer-container{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    padding:0px;
+    margin:0px;
+    min-width: 300px; /* Set a minimum width */
+}
+
+.timer-value {
+    display: inline-block;
+    min-width: 80px; /* Set a width that can accommodate the largest time value */
+    text-align: right;
+}
+
+.start-lesson-button, .stop-lesson-button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.start-lesson-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.stop-lesson-button {
+    background-color: #f44336;
+    color: white;
+}
+
+
+.stopwatch {
+    font-family: monospace; /* Use a fixed-width font */
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+
+.button-container{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}

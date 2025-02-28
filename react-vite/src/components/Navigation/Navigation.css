@@ -106,16 +106,6 @@ button.create-review-button {
 }
 
 
-.q-container{
-  display: flex;
-  border:2px solid black;
-  border-bottom: 5px solid black;
-  padding-bottom:35px;
-  border-radius:2px;
-  background-color: rgb(61, 35, 3);
-
-
-}
 
 .key-message{
   border: 1px solid black;

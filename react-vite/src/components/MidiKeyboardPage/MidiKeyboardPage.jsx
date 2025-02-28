@@ -10,6 +10,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './MidiKeyboardPage.css';
 import MusicStaff from './MusicStaff';
+import StopWatch  from './StopWatch';
 import PianoContainer from './PianoContainer.jsx';
 import ChordDisplay from './ChordDisplay';
 import { TrainingParser } from '../TrainingParser/trainingParse';
@@ -309,7 +310,11 @@ const MidiKeyboardPage = () => {
 
     if (error) return <div className="error-message">{error}</div>;
     return (
+
         <div className="piano-page">
+        <div className="q-container">
+            <StopWatch/>
+        </div>
             {isLoading ? (
                 <LoadingSpinner />
             ) : (
