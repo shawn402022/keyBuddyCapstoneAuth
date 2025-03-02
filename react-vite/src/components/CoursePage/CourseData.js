@@ -1,4 +1,5 @@
 import {Key} from 'tonal';
+import { KeySignature } from 'vexflow';
 
 
 /*
@@ -45,7 +46,7 @@ export const keys = {
 */
 
 export const keys = [
-    { name: 'CMajor', key: Key.majorKey('C') },
+    { name: 'CMajor', key: Key.majorKey('C')  },
     { name: 'CsMajor', key: Key.majorKey('C#') },
     { name: 'DMajor', key: Key.majorKey('D') },
     { name: 'DsMajor', key: Key.majorKey('D#') },
