@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setStartTime } from '../../redux/spacedRepetition';
+import { setStartTime, selectIsComplete } from '../../redux/spacedRepetition';
 
 const StopWatch = ({ onStart, onStop }) => {
     const [startTime, setStartTimeState] = useState(null);
@@ -8,6 +8,21 @@ const StopWatch = ({ onStart, onStop }) => {
     const intervalRef = useRef(null);
     const dispatch = useDispatch();
     const isActive = useSelector(state => state.game.isActive);
+    const isComplete = useSelector(selectIsComplete);
+
+    // Automatically stop timer when game becomes inactive
+    useEffect(() => {
+        if (!isActive && intervalRef.current) {
+            handleStopTimer();
+        }
+    }, [isActive]);
+
+    // Automatically stop timer when challenge is complete
+    useEffect(() => {
+        if (isComplete && intervalRef.current) {
+            handleStopTimer();
+        }
+    }, [isComplete]);
 
     function handleStartTimer() {
         // Start the timer
@@ -53,9 +68,7 @@ const StopWatch = ({ onStart, onStop }) => {
                 <button className="start-lesson-button" onClick={handleStartTimer} disabled={isActive}>
                     Start Challenge
                 </button>
-                <button className="stop-lesson-button" onClick={handleStopTimer} disabled={!isActive}>
-                    Stop Challenge
-                </button>
+
             </div>
         </div>
     )
