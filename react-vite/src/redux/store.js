@@ -15,7 +15,7 @@ import keysReducer from "./key";
 import songReducer from "./song";
 import userCoursesReducer from './userCourses';
 import gameReducer from './game';
-
+import spacedRepetitionReducer from './spacedRepetition';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -27,9 +27,9 @@ const rootReducer = combineReducers({
   key: keysReducer,
   song: songReducer,
   userCourses: userCoursesReducer,
-  game: gameReducer
+  game: gameReducer,
+  spacedRepetition: spacedRepetitionReducer
 });
-
 let enhancer;
 if (import.meta.env.MODE === "production") {
   enhancer = applyMiddleware(thunk);

@@ -1,0 +1,20 @@
+.mastered-items-container {
+  margin-top: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.mastered-items-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mastered-item {
+  padding: 3px 8px;
+  border-radius: 12px;
+  background-color: #eee;
+  font-size: 0.9rem;
+}

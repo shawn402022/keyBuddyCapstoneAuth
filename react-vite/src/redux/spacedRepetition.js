@@ -61,8 +61,6 @@ const spacedRepetitionSlice = createSlice({
       state.currentItem = state.queue[0];
       state.queue.shift();
       state.startTime = Date.now();
-
-      return state.currentItem.value;
     },
 
     processResult: (state, action) => {

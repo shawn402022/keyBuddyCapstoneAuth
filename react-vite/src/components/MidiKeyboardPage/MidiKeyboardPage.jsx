@@ -15,13 +15,25 @@ import PianoContainer from './PianoContainer.jsx';
 import ChordDisplay from './ChordDisplay';
 import { TrainingParser } from '../TrainingParser/trainingParse';
 import TrainingQuestions from './TrainingQuestions.jsx';
+import MasteredItemsDisplay from './MasteredItemsDisplay';
+import { TrainingLinkedList } from '../../utils/LinkedList';
 
 import { Chord } from 'tonal';
-import { startTraining } from '../../redux/game';
+import {
+  startTraining,
+  setGameActive,
+  setScore
+} from '../../redux/game';
 
-import { setGameActive } from '../../redux/game';
-
-
+import {
+  initializeItems,
+  getNextItem,
+  processResult,
+  resetLearning,
+  selectCurrentItem,
+  selectIsComplete,
+  selectIsInitialized
+} from '../../redux/spacedRepetition';
 
 const LoadingSpinner = () => (
     <div className="loading-overlay">
@@ -38,10 +50,15 @@ const MidiKeyboardPage = () => {
     const [targetKey, setTargetKey] = useState("");
     const [feedback, setFeedback] = useState("");
     const [currentTrainingSequence, setCurrentTrainingSequence] = useState(null);
+    const [startTime, setStartTime] = useState(null);
+    const linkedListRef = useRef(null);
 
     const dispatch = useDispatch();
     const gameState = useSelector(state => state.game);
     const trainingCourse = useSelector(state => state.userCourses.trainingCourse);
+    const currentItem = useSelector(selectCurrentItem);
+    const isComplete = useSelector(selectIsComplete);
+    const isInitialized = useSelector(selectIsInitialized);
 
     const soundManager = useRef(new SoundManager());
     const noteLabelManager = useRef(new NoteLabelManager());
@@ -53,89 +70,139 @@ const MidiKeyboardPage = () => {
     const midiController = useRef(new MidiController(soundManager.current));
     const timeoutRef = useRef(null);
 
+    // Initialize the spaced repetition system when course changes
+    useEffect(() => {
+        if (trainingCourse && trainingCourse.details_of_course) {
+            const trainingSequence = TrainingParser.parseTrainingContent(trainingCourse);
+            setCurrentTrainingSequence(trainingSequence);
 
+            // Initialize the redux state for spaced repetition
+            dispatch(initializeItems(trainingSequence));
 
-
-
-    // Add this function somewhere in your component:
-
-    const generateChallenge = useCallback((sequence) => {
-        console.log("generateChallenge called with:", sequence);
-
-        if (!sequence) {
-            console.log("No sequence provided to generateChallenge");
-            return;
+            // Also initialize our LinkedList as a backup/alternative
+            if (Array.isArray(trainingSequence)) {
+                linkedListRef.current = new TrainingLinkedList(trainingSequence);
+            } else if (trainingSequence.type === 'scale' && trainingSequence.notes) {
+                linkedListRef.current = new TrainingLinkedList(trainingSequence.notes);
+            }
         }
+    }, [trainingCourse, dispatch]);
 
-        // For scales
-        if (sequence.type === 'scale' && sequence.notes) {
-            const randomNote = sequence.notes[Math.floor(Math.random() * sequence.notes.length)];
-            setTargetKey(randomNote);
-            setMessage(`Play the key: ${randomNote}`);
-            return;
-        }
-
-        // For chord sequences
-        if (Array.isArray(sequence)) {
-            const randomChord = sequence[Math.floor(Math.random() * sequence.length)];
-            const cleanChordName = randomChord.replace(',', '').trim();
-            setTargetKey(cleanChordName);
-            setMessage(`Play the chord: ${cleanChordName}`);
-        }
-    }, []);
-
-    const startKeyChallenge = useCallback((trainingSequence) => {
+    // When the challenge starts
+    const handleStartChallenge = useCallback(() => {
         dispatch(setGameActive(true));
-        setCurrentTrainingSequence(trainingSequence);
-        generateChallenge(trainingSequence);
-    }, [dispatch, generateChallenge]);
+        dispatch(startTraining(currentTrainingSequence)); // Add this line
+        dispatch(setScore(0)); // Add this line
+        dispatch(resetLearning());
+        setStartTime(Date.now());
 
+        // Get the first item
+        dispatch(getNextItem());
+    }, [dispatch, currentTrainingSequence]);
+
+    // Set the target key when current item changes
+// Set the target key when current item changes
+useEffect(() => {
+    if (currentItem) {
+        setTargetKey(currentItem);
+        // Fix: Ensure proper conditional handling of the course name
+        const itemType = trainingCourse && trainingCourse.course_name &&
+                         trainingCourse.course_name.includes('scale') ? 'key' : 'chord';
+        setMessage(`Play the ${itemType}: ${currentItem}`);
+    }
+}, [currentItem, trainingCourse]);
+
+
+    // Show completion message when all items are mastered
+    useEffect(() => {
+        if (isComplete && isInitialized) {
+            setFeedback("🎉🎉 Congratulations! You have completed the challenge!");
+            dispatch(setGameActive(false));
+        }
+    }, [isComplete, isInitialized, dispatch]);
+    // This function processes a correct answer and determines the next item based on response time
+    const processAnswer = useCallback((correct) => {
+        if (!correct || !startTime) return;
+
+        // Calculate time taken in milliseconds
+        const timeTaken = Date.now() - startTime;
+
+        // Process the result in Redux
+        dispatch(processResult({
+            correct: true,
+            timeTaken
+        }));
+
+        // Also process in our linked list as a backup
+        if (linkedListRef.current) {
+            const result = linkedListRef.current.handleResponseTime(timeTaken);
+            console.log("LinkedList result:", result);
+        }
+
+        // Clear any existing timeout to prevent race conditions
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+
+        // Set a timeout to get the next item
+        timeoutRef.current = setTimeout(() => {
+            setFeedback("");
+
+            // Get next item, only if we haven't completed yet
+            if (!isComplete) {
+                dispatch(getNextItem());
+                setStartTime(Date.now()); // Reset the start time for the next question
+            }
+        }, 800);
+
+        // When getting the next item, use the training sequence:
+        if (currentTrainingSequence) {
+            // Use it here for some logic
+            console.log("Using training sequence:", currentTrainingSequence);
+        }
+    }, [dispatch, startTime, isComplete, currentTrainingSequence]);
+    
     const checkPlayedNotes = useCallback((playedNotes) => {
-        if (!gameState.isActive || !targetKey) return;
+        if (!gameState.isActive || !targetKey || !startTime) return;
 
         // Get the played note letters
         const playedNoteLetters = playedNotes.map(note =>
             note.key.split('/')[0].toUpperCase()
         );
 
+        let isCorrect = false;
+
         // Handle scale-specific validation
-        if (trainingCourse?.course_name.endsWith('_scale')) {
+        if (trainingCourse?.course_name.includes('scale')) {
             if (playedNotes.length > 0) {
                 const playedKey = playedNoteLetters[0];
                 const targetKeyUpper = targetKey.toUpperCase();
 
-                if (playedKey === targetKeyUpper) {
+                isCorrect = playedKey === targetKeyUpper;
+
+                if (isCorrect) {
                     setFeedback(`🎉 Correct! You played the ${targetKey} key!`);
-
-                    // Clear any existing timeout
-                    if (timeoutRef.current) {
-                        clearTimeout(timeoutRef.current);
-                    }
-
-                    // Set new timeout and store the reference
-                    timeoutRef.current = setTimeout(() => {
-                        setFeedback("");
-                        generateChallenge(currentTrainingSequence);
-                    }, 800);
+                    processAnswer(true);
                 } else {
                     setFeedback(`You played: ${playedKey} - Keep trying!`);
                 }
             }
             return;
         }
-          // Format notes for Tonal.js detection
-          const noteNames = playedNotes.map(note => {
+
+        // Format notes for Tonal.js detection
+        const noteNames = playedNotes.map(note => {
             const noteLetter = note.key.split('/')[0];
             const baseName = noteLetter.toUpperCase();
             const properNoteName = note.isSharp ? `${baseName}#` : baseName;
             return `${properNoteName}${note.octave}`;
-          });
+        });
 
-          // Check for specific chord patterns first
-          let detectedChord = 'Unknown Chord';
+        // Check for specific chord patterns first
+        let detectedChord = 'Unknown Chord';
 
-          // Check for G7 pattern (G dominant 7th)
-          if (noteNames.length === 4) {
+        // Check for G7 pattern (G dominant 7th)
+        if (noteNames.length === 4) {
             const roots = noteNames.map(n => n.charAt(0));
             const hasG = roots.includes('G');
             const hasB = roots.includes('B');
@@ -143,149 +210,136 @@ const MidiKeyboardPage = () => {
             const hasF = roots.includes('F');
 
             if (hasG && hasB && hasD && hasF) {
-              detectedChord = 'G7';
+                detectedChord = 'G7';
             } else {
-              // Check for Bm7b5 (half-diminished)
-              const hasB = roots.includes('B');
-              const hasD = roots.includes('D');
-              const hasF = roots.includes('F');
-              const hasA = roots.includes('A');
-              if (hasB && hasD && hasF && hasA) {
-                detectedChord = 'Bm7b5';
-              } else {
-                // Check for Bdim7
+                // Check for Bm7b5 (half-diminished)
                 const hasB = roots.includes('B');
                 const hasD = roots.includes('D');
                 const hasF = roots.includes('F');
-                const hasGSharp = noteNames.some(n => n.includes('G#'));
-                if (hasB && hasD && hasF && hasGSharp) {
-                  detectedChord = 'Bdim7';
+                const hasA = roots.includes('A');
+                if (hasB && hasD && hasF && hasA) {
+                    detectedChord = 'Bm7b5';
+                } else {
+                    // Check for Bdim7
+                    const hasB = roots.includes('B');
+                    const hasD = roots.includes('D');
+                    const hasF = roots.includes('F');
+                    const hasGSharp = noteNames.some(n => n.includes('G#'));
+                    if (hasB && hasD && hasF && hasGSharp) {
+                        detectedChord = 'Bdim7';
+                    }
                 }
-              }
             }
-          }
+        }
 
-          // If not a special case, use Tonal.js
-          if (detectedChord === 'Unknown Chord') {
+        // If not a special case, use Tonal.js
+        if (detectedChord === 'Unknown Chord') {
             // Use Tonal.js for chord detection
             const detected = Chord.detect(noteNames, { assumePerfectFifth: false });
 
             if (detected.length > 0) {
-              const chordInfo = Chord.get(detected[0]);
-              const intervals = chordInfo.intervals || [];
-              let formattedName = chordInfo.tonic || '';
+                const chordInfo = Chord.get(detected[0]);
+                const intervals = chordInfo.intervals || [];
+                let formattedName = chordInfo.tonic || '';
 
-              // Handle specific interval patterns first
-              if (intervals.includes('3M') && intervals.includes('5P') && intervals.includes('7m')) {
-                detectedChord = `${formattedName}7`; // Dominant 7th
-              } else if (intervals.includes('3m') && intervals.includes('5d') && intervals.includes('7m')) {
-                detectedChord = `${formattedName}m7b5`; // Half-diminished
-              } else if (intervals.includes('3m') && intervals.includes('5d') && intervals.includes('7d')) {
-                detectedChord = `${formattedName}dim7`; // Diminished 7th
-              }
-              // Special case: Major with flat 5th
-              else if (intervals.includes('3M') && intervals.includes('5d')) {
-                detectedChord = `${formattedName}Mb5`;
-              }
-              // Format based on chord quality to match course.details_of_course
-              else switch (chordInfo.quality) {
-                case 'Major':
-                  // Check for special alterations
-                  if (intervals.includes('7m')) {
-                    detectedChord = `${formattedName}7`;
-                  } else if (intervals.includes('5A')) {
-                    detectedChord = `${formattedName}aug`;
-                  } else if (intervals.includes('7M')) {
-                    detectedChord = `${formattedName}maj7`;
-                  } else {
-                    // Plain major chord - no suffix in course.details_of_course
-                    detectedChord = formattedName;
-                  }
-                  break;
-                case 'Minor':
-                  if (intervals.includes('7m')) {
-                    detectedChord = `${formattedName}m7`;
-                  } else {
-                    detectedChord = `${formattedName}m`;
-                  }
-                  break;
-                case 'Diminished':
-                  if (intervals.includes('7d')) {
-                    detectedChord = `${formattedName}dim7`;
-                  } else {
-                    detectedChord = `${formattedName}dim`;
-                  }
-                  break;
-                case 'Major Seventh':
-                  detectedChord = `${formattedName}maj7`;
-                  break;
-                case 'Dominant Seventh':
-                  detectedChord = `${formattedName}7`;
-                  break;
-                case 'Minor Seventh':
-                  detectedChord = `${formattedName}m7`;
-                  break;
-                case 'Half Diminished':
-                  detectedChord = `${formattedName}m7b5`;
-                  break;
-                default: {
-                  // For other chord types, use interval analysis to determine format
-                  const hasMajor3rd = intervals.includes('3M');
-                  const hasMinor3rd = intervals.includes('3m');
-                  const hasDim5th = intervals.includes('5d');
-                  const hasAug5th = intervals.includes('5A');
-                  const hasMin7th = intervals.includes('7m');
-                  const hasMaj7th = intervals.includes('7M');
+                // Handle specific interval patterns first
+                if (intervals.includes('3M') && intervals.includes('5P') && intervals.includes('7m')) {
+                    detectedChord = `${formattedName}7`; // Dominant 7th
+                } else if (intervals.includes('3m') && intervals.includes('5d') && intervals.includes('7m')) {
+                    detectedChord = `${formattedName}m7b5`; // Half-diminished
+                } else if (intervals.includes('3m') && intervals.includes('5d') && intervals.includes('7d')) {
+                    detectedChord = `${formattedName}dim7`; // Diminished 7th
+                }
+                // Special case: Major with flat 5th
+                else if (intervals.includes('3M') && intervals.includes('5d')) {
+                    detectedChord = `${formattedName}Mb5`;
+                }
+                // Format based on chord quality to match course.details_of_course
+                else switch (chordInfo.quality) {
+                    case 'Major':
+                        // Check for special alterations
+                        if (intervals.includes('7m')) {
+                            detectedChord = `${formattedName}7`;
+                        } else if (intervals.includes('5A')) {
+                            detectedChord = `${formattedName}aug`;
+                        } else if (intervals.includes('7M')) {
+                            detectedChord = `${formattedName}maj7`;
+                        } else {
+                            // Plain major chord - no suffix in course.details_of_course
+                            detectedChord = formattedName;
+                        }
+                        break;
+                    case 'Minor':
+                        if (intervals.includes('7m')) {
+                            detectedChord = `${formattedName}m7`;
+                        } else {
+                            detectedChord = `${formattedName}m`;
+                        }
+                        break;
+                    case 'Diminished':
+                        if (intervals.includes('7d')) {
+                            detectedChord = `${formattedName}dim7`;
+                        } else {
+                            detectedChord = `${formattedName}dim`;
+                        }
+                        break;
+                    case 'Major Seventh':
+                        detectedChord = `${formattedName}maj7`;
+                        break;
+                    case 'Dominant Seventh':
+                        detectedChord = `${formattedName}7`;
+                        break;
+                    case 'Minor Seventh':
+                        detectedChord = `${formattedName}m7`;
+                        break;
+                    case 'Half Diminished':
+                        detectedChord = `${formattedName}m7b5`;
+                        break;
+                    default: {
+                        // For other chord types, use interval analysis to determine format
+                        const hasMajor3rd = intervals.includes('3M');
+                        const hasMinor3rd = intervals.includes('3m');
+                        const hasDim5th = intervals.includes('5d');
+                        const hasAug5th = intervals.includes('5A');
+                        const hasMin7th = intervals.includes('7m');
+                        const hasMaj7th = intervals.includes('7M');
 
-                  if (hasMajor3rd) {
-                    if (hasMin7th) {
-                      detectedChord = `${formattedName}7`;
-                    } else if (hasMaj7th) {
-                      detectedChord = `${formattedName}maj7`;
-                    } else if (hasDim5th) {
-                      detectedChord = `${formattedName}Mb5`;
-                    } else if (hasAug5th) {
-                      detectedChord = `${formattedName}aug`;
-                    } else {
-                      detectedChord = formattedName;
-                    }
-                  } else if (hasMinor3rd) {
-                    if (hasMin7th) {
-                      detectedChord = `${formattedName}m7`;
-                    } else if (hasMaj7th) {
-                      detectedChord = `${formattedName}mM7`;
-                    } else {
-                      detectedChord = `${formattedName}m`;
-                    }
-                  } else {
-                    // Use tonal's symbol as fallback if our analysis is inconclusive
-                    detectedChord = `${formattedName}${chordInfo.symbol || ''}`;
-                  }
-                } break;
-              }
+                        if (hasMajor3rd) {
+                            if (hasMin7th) {
+                                detectedChord = `${formattedName}7`;
+                            } else if (hasMaj7th) {
+                                detectedChord = `${formattedName}maj7`;
+                            } else if (hasDim5th) {
+                                detectedChord = `${formattedName}Mb5`;
+                            } else if (hasAug5th) {
+                                detectedChord = `${formattedName}aug`;
+                            } else {
+                                detectedChord = formattedName;
+                            }
+                        } else if (hasMinor3rd) {
+                            if (hasMin7th) {
+                                detectedChord = `${formattedName}m7`;
+                            } else if (hasMaj7th) {
+                                detectedChord = `${formattedName}mM7`;
+                            } else {
+                                detectedChord = `${formattedName}m`;
+                            }
+                        } else {
+                            // Use tonal's symbol as fallback if our analysis is inconclusive
+                            detectedChord = `${formattedName}${chordInfo.symbol || ''}`;
+                        }
+                    } break;
+                }
             }
-          }        /*
-        console.log('Detection Results:', {
-            playedNotes: noteNames,
-            detectedChord: detectedChord,
-            targetChord: targetKey
-        });
-          */
+        }
+
         if (playedNotes.length > 0) {
             if (detectedChord !== 'Unknown Chord') {
-                if (detectedChord === targetKey) {
+                isCorrect = detectedChord === targetKey;
+
+                if (isCorrect) {
                     setFeedback(`🎉 Correct! You played ${detectedChord}`);
-
-                    // Clear any existing timeout
-                    if (timeoutRef.current) {
-                        clearTimeout(timeoutRef.current);
-                    }
-
-                    // Set new timeout and store the reference
-                    timeoutRef.current = setTimeout(() => {
-                        setFeedback("");
-                        generateChallenge(currentTrainingSequence);
-                    }, 800);
+                    processAnswer(true);
                 } else {
                     setFeedback(`You played: ${detectedChord}. Try again for ${targetKey}.`);
                 }
@@ -297,32 +351,18 @@ const MidiKeyboardPage = () => {
                 setFeedback(`Notes played: ${playedNoteLetters}`);
             }
         }
-    }, [gameState.isActive, targetKey, generateChallenge, currentTrainingSequence, trainingCourse]);
+    }, [gameState.isActive, targetKey, startTime, trainingCourse, processAnswer]);
+
+
 
     useEffect(() => {
         if (pianoEvents.current) {
             pianoEvents.current.setNotesCallback = (notes) => {
-                console.log('Piano events callback triggered with notes:', notes);
                 setCurrentNotes(notes);
                 checkPlayedNotes(notes);
             };
         }
     }, [checkPlayedNotes]);
-
-    useEffect(() => {
-        if (trainingCourse) {
-            console.log('Starting training with course:', trainingCourse);
-            const trainingSequence = TrainingParser.parseTrainingContent(trainingCourse);
-            console.log('Parsed sequence:', trainingSequence);
-
-            // Set the current training sequence state
-            setCurrentTrainingSequence(trainingSequence);
-
-            dispatch(setGameActive(true));
-            dispatch(startTraining(trainingSequence));
-            generateChallenge(trainingSequence);
-        }
-    }, [trainingCourse, startKeyChallenge, dispatch, generateChallenge]);
 
     useEffect(() => {
         const currentMidiController = midiController.current;
@@ -360,29 +400,14 @@ const MidiKeyboardPage = () => {
                 clearTimeout(timeoutRef.current);
             }
         };
-    }, [checkPlayedNotes]); // Add checkPlayedNotes here
-
-    useEffect(() => {
-        if (pianoEvents) {
-            console.log('Setting up piano events callback');
-            pianoEvents.setNotesCallback = (notes) => {
-                console.log('Callback received notes:', notes);
-                setCurrentNotes(notes);
-            };
-        }
-    }, [pianoEvents]);
-
-    useEffect(() => {
-        console.log("currentTrainingSequence changed:", currentTrainingSequence);
-    }, [currentTrainingSequence]);
+    }, [checkPlayedNotes]);
 
     if (error) return <div className="error-message">{error}</div>;
-    const mastered = []
-    return (
 
+    return (
         <div className="piano-page">
             <div className="q-container">
-                <StopWatch />
+                <StopWatch onStart={handleStartChallenge} />
             </div>
             {isLoading ? (
                 <LoadingSpinner />
@@ -397,9 +422,13 @@ const MidiKeyboardPage = () => {
                                 <div className="game-status">
                                     <p className="challenge-message">{message}</p>
                                     <p className="feedback-message">{feedback}</p>
-                                    <p className="mastered-message">Mastered{mastered}</p>
-
-
+                                    <MasteredItemsDisplay />
+                                </div>
+                            )}
+                            {isComplete && (
+                                <div className="completion-message">
+                                    <h2>Congratulations! 🎉</h2>
+                                    <p>You have mastered all items in this course!</p>
                                 </div>
                             )}
                         </div>
