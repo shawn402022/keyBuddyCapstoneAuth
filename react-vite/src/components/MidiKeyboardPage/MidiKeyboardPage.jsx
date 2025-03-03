@@ -70,6 +70,16 @@ const MidiKeyboardPage = () => {
     const midiController = useRef(new MidiController(soundManager.current));
     const timeoutRef = useRef(null);
 
+    // Check if sound is loaded before playing
+    const playNote = (note) => {
+        if (soundManager.current.sounds[note] && soundManager.current.sounds[note].state() === 'loaded') {
+        soundManager.current.sounds[note].play();
+        } else {
+        console.warn(`Sound not loaded for note: ${note}`);
+        }
+    };
+
+
     // Initialize the spaced repetition system when course changes
     useEffect(() => {
         if (trainingCourse && trainingCourse.details_of_course) {
@@ -161,7 +171,7 @@ useEffect(() => {
             console.log("Using training sequence:", currentTrainingSequence);
         }
     }, [dispatch, startTime, isComplete, currentTrainingSequence]);
-    
+
     const checkPlayedNotes = useCallback((playedNotes) => {
         if (!gameState.isActive || !targetKey || !startTime) return;
 
@@ -402,6 +412,63 @@ useEffect(() => {
         };
     }, [checkPlayedNotes]);
 
+    // Add a function to play the current challenge
+    const playCurrentChallenge = useCallback(() => {
+        if (!targetKey || !soundManager.current) return;
+
+        // For scales (single notes)
+        if (trainingCourse?.course_name.includes('scale')) {
+        // Convert note name to proper format (e.g., "C" to "C4")
+        const noteToPlay = `${targetKey}4`; // Assuming octave 4 for consistent playback
+        playNote(noteToPlay);
+        // Play the note using the sound manager
+        if (soundManager.current.sounds[noteToPlay]) {
+            soundManager.current.sounds[noteToPlay].play();
+        }
+        return;
+        }
+
+        // For chords, use the TrainingParser to get the notes
+        let chordNotes = [];
+        try {
+        // This approach uses your existing TrainingParser to convert chord names to notes
+        // For example: "Cmaj7" → ["C4", "E4", "G4", "B4"]
+        const cleanChordName = targetKey.trim();
+
+        // Extract root and quality (e.g., "Cmaj7" → "C" and "maj7")
+        const match = cleanChordName.match(/^([A-G][#b]?)(.*)$/);
+        if (match) {
+            const [_, root, quality] = match;
+            chordNotes = TrainingParser.chordToNotes(cleanChordName);
+
+            // Play chord notes with slight delay between each
+            if (chordNotes && chordNotes.length > 0) {
+            chordNotes.forEach((note, index) => {
+                setTimeout(() => {
+                    playNote(note)
+                    if (soundManager.current.sounds[note]) {
+                        soundManager.current.sounds[note].play();
+                    }
+                }, index * 80); // Slight delay for arpeggio effect
+            });
+            }
+        }
+        } catch (err) {
+        console.error("Error playing challenge chord:", err);
+        }
+    }, [targetKey, trainingCourse, soundManager]);
+
+    // Add effect to play the challenge when it starts
+    useEffect(() => {
+        if (currentItem && gameState.isActive) {
+        // Play the challenge sound after a short delay to ensure sounds are loaded
+        setTimeout(() => {
+            playCurrentChallenge();
+        }, 300);
+        }
+    }, [currentItem, gameState.isActive, playCurrentChallenge]);
+
+
     if (error) return <div className="error-message">{error}</div>;
 
     return (
@@ -419,11 +486,20 @@ useEffect(() => {
                         <div className='answers'>
                             {trainingCourse && <TrainingQuestions course={trainingCourse} />}
                             {gameState.isActive && targetKey && (
-                                <div className="game-status">
-                                    <p className="challenge-message">{message}</p>
-                                    <p className="feedback-message">{feedback}</p>
-                                    <MasteredItemsDisplay />
+                            <div className="game-status">
+                                <div className="challenge-header">
+                                <p className="challenge-message">{message}</p>
+                                    <button
+                                        className="play-again-button"
+                                        onClick={playCurrentChallenge}
+                                        aria-label="Play the sound again"
+                                    >
+                                        🔊 Listen
+                                    </button>
                                 </div>
+                                <p className="feedback-message">{feedback}</p>
+                                <MasteredItemsDisplay />
+                            </div>
                             )}
                             {isComplete && (
                                 <div className="completion-message">

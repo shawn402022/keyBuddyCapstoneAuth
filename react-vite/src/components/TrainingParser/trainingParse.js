@@ -128,6 +128,25 @@ export class TrainingParser {
         return noteMap[note];
     }
 
+    static chordToPlayableNotes(chordName) {
+        // Extract root and quality (e.g., "Cmaj7" → "C" and "maj7")
+        const match = chordName.match(/^([A-G][#b]?)(.*)$/);
+        if (!match) return [];
+
+        const [_, root, quality] = match;
+
+        // Use existing method but adjust octave for playability
+        const theoreticalNotes = this.chordToNotes(`${root}${quality}`);
+
+        // Convert to playable format (ensure octave is specified)
+        return theoreticalNotes.map(note => {
+            // If note already has octave, use it
+            if (/[0-9]/.test(note)) return note;
+            // Otherwise, add octave 4 for middle range
+            return `${note}4`;
+        });
+    }
+
     static midiNumberToNote(midiNumber) {
         const octave = Math.floor(midiNumber / 12) - 1;
         const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
@@ -167,3 +186,5 @@ export class TrainingParser {
         return content.split(', ').map(item => item.trim());
     }
 }
+
+// Potential enhancement to the TrainingParser

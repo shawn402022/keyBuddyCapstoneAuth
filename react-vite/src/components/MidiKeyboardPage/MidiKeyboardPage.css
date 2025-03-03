@@ -1,24 +1,26 @@
 /* Piano keys base styles */
-.white-key, .black-key {
-    position: relative;
-    cursor: pointer;
-    pointer-events: auto;
+.white-key,
+.black-key {
+  position: relative;
+  cursor: pointer;
+  pointer-events: auto;
 }
 
 /* White keys specific */
 .white-key {
-    z-index: 1;
+  z-index: 1;
 }
 
 /* Black keys specific */
 .black-key {
-    z-index: 3;  /* Higher z-index to ensure black keys are above white keys */
+  z-index: 3; /* Higher z-index to ensure black keys are above white keys */
 }
 
 /* Pressed states */
-.white-key-pressed, .black-key-pressed {
-    position: relative;
-    pointer-events: none;
+.white-key-pressed,
+.black-key-pressed {
+  position: relative;
+  pointer-events: none;
 }
 
 /*
@@ -29,123 +31,141 @@ piano-container {
 */
 /* Background */
 .scales {
-    position: absolute;
-    z-index: -1;
-    pointer-events: none;
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
 }
 
-.white-key, .black-key {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+.white-key,
+.black-key {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 img {
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
-    user-drag: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
 }
 
-#piano{
-    position:absolute;
+#piano {
+  position: absolute;
 
-    margin: 0px;
-    padding:0px
+  margin: 0px;
+  padding: 0px;
 }
 
-.pbottom{
-    position:absolute;
-    border: 5px solid black;
-    background-color: rgb(61, 35, 3);
-    margin-top:12%;
-    width: 99%;
-    height:20px
-
+.pbottom {
+  position: absolute;
+  border: 5px solid black;
+  background-color: rgb(61, 35, 3);
+  margin-top: 12%;
+  width: 99%;
+  height: 20px;
 }
 
-.loading-spinner{
-    border: 5px solid black
+.loading-spinner {
+  border: 5px solid black;
 }
 
 .piano-content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
 }
 
 #piano-container {
-    position: relative;
-    width: 100%;
-    padding:0px;
-    margin:0px;
-
-
+  position: relative;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
 }
-.answers{
-    border: 2px solid black;
-    width:90%;
-    border-radius:4px;
-    background-color:white
+.answers {
+  border: 2px solid black;
+  width: 90%;
+  border-radius: 4px;
+  background-color: white;
 }
 
 .feedback-message {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #2c5282;
-    margin: 10px 0;
-    min-height: 1.5em;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #2c5282;
+  margin: 10px 0;
+  min-height: 1.5em;
 }
 
-
-
-.timer-container{
-    display:flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    padding:0px;
-    margin:0px;
-    min-width: 300px; /* Set a minimum width */
+.timer-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 0px;
+  margin: 0px;
+  min-width: 300px; /* Set a minimum width */
 }
 
 .timer-value {
-    display: inline-block;
-    min-width: 80px; /* Set a width that can accommodate the largest time value */
-    text-align: right;
+  display: inline-block;
+  min-width: 80px; /* Set a width that can accommodate the largest time value */
+  text-align: right;
 }
 
-.start-lesson-button, .stop-lesson-button {
-    padding: 8px 16px;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
+.start-lesson-button,
+.stop-lesson-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
 }
 
 .start-lesson-button {
-    background-color: #4CAF50;
-    color: white;
+  background-color: #4caf50;
+  color: white;
 }
 
 .stop-lesson-button {
-    background-color: #f44336;
-    color: white;
+  background-color: #f44336;
+  color: white;
 }
-
 
 .stopwatch {
-    font-family: monospace; /* Use a fixed-width font */
-    margin: 0;
-    padding: 10px;
-    text-align: center;
+  font-family: monospace; /* Use a fixed-width font */
+  margin: 0;
+  padding: 10px;
+  text-align: center;
 }
 
+.button-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
 
-.button-container{
-    display: flex;
-    gap: 10px;
-    justify-content: center;
+.challenge-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.play-again-button {
+  background-color: #4a86e8;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.play-again-button:hover {
+  background-color: #3a76d8;
 }
