@@ -143,6 +143,9 @@ useEffect(() => {
             timeTaken
         }));
 
+        // Stop sounds immediately when the answer is correct
+        stopAllSounds();
+
         // Also process in our linked list as a backup
         if (linkedListRef.current) {
             const result = linkedListRef.current.handleResponseTime(timeTaken);
@@ -412,9 +415,28 @@ useEffect(() => {
         };
     }, [checkPlayedNotes]);
 
+    const stopAllSounds = () => {
+        // Get all loaded sound keys
+        const soundKeys = Object.keys(soundManager.current.sounds || {});
+
+        // Stop each active sound
+        soundKeys.forEach(key => {
+            if (soundManager.current.sounds[key]) {
+            soundManager.current.sounds[key].stop();
+            }
+        });
+    };
+
+    const chordTimeoutsRef = useRef([]);
+
     // Add a function to play the current challenge
     const playCurrentChallenge = useCallback(() => {
         if (!targetKey || !soundManager.current) return;
+
+        stopAllSounds();
+
+        chordTimeoutsRef.current.forEach(timeoutId => clearTimeout(timeoutId));
+        chordTimeoutsRef.current = []; // Reset the array
 
         // For scales (single notes)
         if (trainingCourse?.course_name.includes('scale')) {
@@ -435,28 +457,80 @@ useEffect(() => {
         // For example: "Cmaj7" → ["C4", "E4", "G4", "B4"]
         const cleanChordName = targetKey.trim();
 
+        // Improved debugging - log the chord we're trying to play
+        console.log(`Attempting to play chord/triad: ${cleanChordName}`);
+
         // Extract root and quality (e.g., "Cmaj7" → "C" and "maj7")
         const match = cleanChordName.match(/^([A-G][#b]?)(.*)$/);
         if (match) {
             const [_, root, quality] = match;
             chordNotes = TrainingParser.chordToNotes(cleanChordName);
 
+
+            // Determine if it's a triad by checking the course name or chord structure
+            const isTriad = trainingCourse?.course_name.includes('triad');
+
+            // For triads, we might need special handling
+            if (isTriad) {
+                console.log(`Detected triad: ${root}${quality}`);
+
+                // Attempt to use our existing chord parser
+                chordNotes = TrainingParser.chordToNotes(cleanChordName);
+
+                // If parsing fails, fallback to basic triad construction
+                if (!chordNotes || chordNotes.length === 0) {
+                // Basic major triad if no quality specified
+                const triadType = quality || 'maj';
+                console.log(`Fallback to basic triad construction: ${root}${triadType}`);
+                chordNotes = TrainingParser.chordToNotes(`${root}${triadType}`);
+                }
+            } else {
+                // Regular chord processing
+                chordNotes = TrainingParser.chordToNotes(cleanChordName);
+            }
+
+            console.log("Notes to play:", chordNotes);
+
+
             // Play chord notes with slight delay between each
             if (chordNotes && chordNotes.length > 0) {
-            chordNotes.forEach((note, index) => {
-                setTimeout(() => {
-                    playNote(note)
-                    if (soundManager.current.sounds[note]) {
-                        soundManager.current.sounds[note].play();
-                    }
-                }, index * 80); // Slight delay for arpeggio effect
-            });
+                chordNotes.forEach((note, index) => {
+                    // Ensure note has an octave specification
+                    const noteWithOctave = note.includes('/') ? note :
+                    (note.match(/\d/) ? note : `${note}4`);
+
+
+                    const timeoutId = setTimeout(() => {
+
+                        console.log(`Playing note: ${noteWithOctave}`);
+
+                        playNote(noteWithOctave)
+                        if (soundManager.current.sounds[note]) {
+                            soundManager.current.sounds[note].play();
+                        }
+                    }, index * 80); // Slight delay for arpeggio effect
+
+                    chordTimeoutsRef.current.push(timeoutId);
+
+                });
+            } else {
+                console.warn(`Could not determine notes for: ${cleanChordName}`);
+              }
+            } else {
+              console.warn(`Invalid chord/triad format: ${cleanChordName}`);
             }
-        }
+        
         } catch (err) {
         console.error("Error playing challenge chord:", err);
         }
     }, [targetKey, trainingCourse, soundManager]);
+
+    // Also clear timeouts on component unmount
+    useEffect(() => {
+        return () => {
+            chordTimeoutsRef.current.forEach(timeoutId => clearTimeout(timeoutId));
+        };
+    }, []);
 
     // Add effect to play the challenge when it starts
     useEffect(() => {
@@ -467,6 +541,7 @@ useEffect(() => {
         }, 300);
         }
     }, [currentItem, gameState.isActive, playCurrentChallenge]);
+
 
 
     if (error) return <div className="error-message">{error}</div>;
