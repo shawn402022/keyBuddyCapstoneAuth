@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCourses } from '../../redux/course';
-import { Navigate,  NavLink } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 import './CoursePage.css';
-import { keys} from './CourseData';
-import CourseTile from './CourseTile';
+import { keys } from './CourseData';
+
 
 
 console.log('RAW DATA:', keys)
@@ -34,52 +34,10 @@ const CoursePage = () => {
 
     return (
         <div className="courses-container">
-            {isAdmin && (
-                <p className="create-course-button-container">
-                    <NavLink to="/createCourse" className="create-course-button">
-                        Create Course
-                    </NavLink>
-                </p>
-            )}
 
-            <div className="courses-grid">
-            {keys.map((keyData, index) => {
-                // Handle different key types
-                let keyProperties;
-
-                if (keyData.key.type === 'minor') {
-                    // For minor keys, use melodic structure
-                    keyProperties = {
-                        ...keyData.key.natural,
-                        type:keyData.key.type,//the type key is not in natural structure so you have to explicitly add it.
-                    }
-                } else {
-                    // For major keys, use direct key properties
-                    keyProperties = keyData.key;
-                }
-
-                const {
-                    chords,
-                    scale,
-                    tonic,
-                    type,
-                    triads
-                } = keyProperties;
-
-                return (
-                    <div key={`${keyData.name}-${index}`} className="course-card">
-                        <CourseTile
-                            chords={chords}
-                            scale={scale}
-                            tonic={tonic}
-                            type={type}
-                            triads={triads}
-                        />
-                    </div>
-                );
-            })}
-        </div>
-
+            <NavLink to="/createCourse" className="custom-course-button">
+                Create Custom Course
+            </NavLink>
 
             <img className="scales"
                 src="/images/background-scales-lighter.png"
