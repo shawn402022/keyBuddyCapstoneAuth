@@ -20,19 +20,19 @@ import { TrainingLinkedList } from '../../utils/LinkedList';
 
 import { Chord } from 'tonal';
 import {
-  startTraining,
-  setGameActive,
-  setScore
+    startTraining,
+    setGameActive,
+    setScore
 } from '../../redux/game';
 
 import {
-  initializeItems,
-  getNextItem,
-  processResult,
-  resetLearning,
-  selectCurrentItem,
-  selectIsComplete,
-  selectIsInitialized
+    initializeItems,
+    getNextItem,
+    processResult,
+    resetLearning,
+    selectCurrentItem,
+    selectIsComplete,
+    selectIsInitialized
 } from '../../redux/spacedRepetition';
 
 const LoadingSpinner = () => (
@@ -73,9 +73,9 @@ const MidiKeyboardPage = () => {
     // Check if sound is loaded before playing
     const playNote = (note) => {
         if (soundManager.current.sounds[note] && soundManager.current.sounds[note].state() === 'loaded') {
-        soundManager.current.sounds[note].play();
+            soundManager.current.sounds[note].play();
         } else {
-        console.warn(`Sound not loaded for note: ${note}`);
+            console.warn(`Sound not loaded for note: ${note}`);
         }
     };
 
@@ -111,16 +111,16 @@ const MidiKeyboardPage = () => {
     }, [dispatch, currentTrainingSequence]);
 
     // Set the target key when current item changes
-// Set the target key when current item changes
-useEffect(() => {
-    if (currentItem) {
-        setTargetKey(currentItem);
-        // Fix: Ensure proper conditional handling of the course name
-        const itemType = trainingCourse && trainingCourse.course_name &&
-                         trainingCourse.course_name.includes('scale') ? 'key' : 'chord';
-        setMessage(`Play the ${itemType}: ${currentItem}`);
-    }
-}, [currentItem, trainingCourse]);
+    // Set the target key when current item changes
+    useEffect(() => {
+        if (currentItem) {
+            setTargetKey(currentItem);
+            // Fix: Ensure proper conditional handling of the course name
+            const itemType = trainingCourse && trainingCourse.course_name &&
+                trainingCourse.course_name.includes('scale') ? 'key' : 'chord';
+            setMessage(`Play the ${itemType}: ${currentItem}`);
+        }
+    }, [currentItem, trainingCourse]);
 
 
     // Show completion message when all items are mastered
@@ -422,7 +422,7 @@ useEffect(() => {
         // Stop each active sound
         soundKeys.forEach(key => {
             if (soundManager.current.sounds[key]) {
-            soundManager.current.sounds[key].stop();
+                soundManager.current.sounds[key].stop();
             }
         });
     };
@@ -440,88 +440,98 @@ useEffect(() => {
 
         // For scales (single notes)
         if (trainingCourse?.course_name.includes('scale')) {
-        // Convert note name to proper format (e.g., "C" to "C4")
-        const noteToPlay = `${targetKey}4`; // Assuming octave 4 for consistent playback
-        playNote(noteToPlay);
-        // Play the note using the sound manager
-        if (soundManager.current.sounds[noteToPlay]) {
-            soundManager.current.sounds[noteToPlay].play();
-        }
-        return;
+            // Convert note name to proper format (e.g., "C" to "C4")
+            const noteToPlay = `${targetKey}4`; // Assuming octave 4 for consistent playback
+            playNote(noteToPlay);
+            // Play the note using the sound manager
+            if (soundManager.current.sounds[noteToPlay]) {
+                soundManager.current.sounds[noteToPlay].play();
+            }
+            return;
         }
 
         // For chords, use the TrainingParser to get the notes
         let chordNotes = [];
         try {
-        // This approach uses your existing TrainingParser to convert chord names to notes
-        // For example: "Cmaj7" → ["C4", "E4", "G4", "B4"]
-        const cleanChordName = targetKey.trim();
+            // This approach uses your existing TrainingParser to convert chord names to notes
+            // For example: "Cmaj7" → ["C4", "E4", "G4", "B4"]
+            const cleanChordName = targetKey.trim();
 
-        // Improved debugging - log the chord we're trying to play
-        console.log(`Attempting to play chord/triad: ${cleanChordName}`);
+            // Improved debugging - log the chord we're trying to play
+            console.log(`Attempting to play chord/triad: ${cleanChordName}`);
 
-        // Extract root and quality (e.g., "Cmaj7" → "C" and "maj7")
-        const match = cleanChordName.match(/^([A-G][#b]?)(.*)$/);
-        if (match) {
-            const [_, root, quality] = match;
-            chordNotes = TrainingParser.chordToNotes(cleanChordName);
-
-
-            // Determine if it's a triad by checking the course name or chord structure
-            const isTriad = trainingCourse?.course_name.includes('triad');
-
-            // For triads, we might need special handling
-            if (isTriad) {
-                console.log(`Detected triad: ${root}${quality}`);
-
-                // Attempt to use our existing chord parser
+            // Extract root and quality (e.g., "Cmaj7" → "C" and "maj7")
+            const match = cleanChordName.match(/^([A-G][#b]?)(.*)$/);
+            if (match) {
+                const [_, root, quality] = match;
                 chordNotes = TrainingParser.chordToNotes(cleanChordName);
 
-                // If parsing fails, fallback to basic triad construction
-                if (!chordNotes || chordNotes.length === 0) {
-                // Basic major triad if no quality specified
-                const triadType = quality || 'maj';
-                console.log(`Fallback to basic triad construction: ${root}${triadType}`);
-                chordNotes = TrainingParser.chordToNotes(`${root}${triadType}`);
+
+                // Determine if it's a triad by checking the course name or chord structure
+                const isTriad = trainingCourse?.course_name.toLowerCase().endsWith('triads')
+
+
+                // For triads, we might need special handling
+                if (isTriad) {
+                    console.log(`Detected triad: ${root}${quality}`);
+
+                    // Attempt to use our existing chord parser
+                    chordNotes = TrainingParser.chordToNotes(cleanChordName);
+
+                    // If parsing fails, fallback to basic triad construction
+                    if (!chordNotes || chordNotes.length === 0) {
+                        console.log("Initial parsing failed, trying direct note construction");
+                        // For C major triad, directly use ["C4", "E4", "G4"]
+                        if (root === "C" && (!quality || quality === "maj")) {
+                            chordNotes = ["C4", "E4", "G4"];
+                        } else {
+                            // Other triads - construct using music theory
+                            // ...
+                        }
+                    }
+                } else {
+                    // Regular chord processing
+                    chordNotes = TrainingParser.chordToNotes(cleanChordName);
+                }
+
+                console.log("Notes to play:", chordNotes);
+
+
+                // Play chord notes with slight delay between each
+                if (chordNotes && chordNotes.length > 0) {
+                    chordNotes.forEach((note, index) => {
+                        // Ensure note has an octave specification
+                        const noteWithOctave = note.includes('/') ? note.replace('/', '') :
+                            (note.match(/\d/) ? note : `${note}4`);
+
+
+                        const timeoutId = setTimeout(() => {
+
+                            
+                            console.log("Sound availability:", {
+                                note: noteWithOctave,
+                                available: soundManager.current.sounds[noteWithOctave] ? true : false,
+                                state: soundManager.current.sounds[noteWithOctave]?.state()
+                            });
+
+                            playNote(noteWithOctave)
+                            if (soundManager.current.sounds[noteWithOctave]) {
+                                soundManager.current.sounds[noteWithOctave].play();
+                            }
+                        }, index * 80); // Slight delay for arpeggio effect
+
+                        chordTimeoutsRef.current.push(timeoutId);
+
+                    });
+                } else {
+                    console.warn(`Could not determine notes for: ${cleanChordName}`);
                 }
             } else {
-                // Regular chord processing
-                chordNotes = TrainingParser.chordToNotes(cleanChordName);
+                console.warn(`Invalid chord/triad format: ${cleanChordName}`);
             }
 
-            console.log("Notes to play:", chordNotes);
-
-
-            // Play chord notes with slight delay between each
-            if (chordNotes && chordNotes.length > 0) {
-                chordNotes.forEach((note, index) => {
-                    // Ensure note has an octave specification
-                    const noteWithOctave = note.includes('/') ? note :
-                    (note.match(/\d/) ? note : `${note}4`);
-
-
-                    const timeoutId = setTimeout(() => {
-
-                        console.log(`Playing note: ${noteWithOctave}`);
-
-                        playNote(noteWithOctave)
-                        if (soundManager.current.sounds[note]) {
-                            soundManager.current.sounds[note].play();
-                        }
-                    }, index * 80); // Slight delay for arpeggio effect
-
-                    chordTimeoutsRef.current.push(timeoutId);
-
-                });
-            } else {
-                console.warn(`Could not determine notes for: ${cleanChordName}`);
-              }
-            } else {
-              console.warn(`Invalid chord/triad format: ${cleanChordName}`);
-            }
-        
         } catch (err) {
-        console.error("Error playing challenge chord:", err);
+            console.error("Error playing challenge chord:", err);
         }
     }, [targetKey, trainingCourse, soundManager]);
 
@@ -535,10 +545,10 @@ useEffect(() => {
     // Add effect to play the challenge when it starts
     useEffect(() => {
         if (currentItem && gameState.isActive) {
-        // Play the challenge sound after a short delay to ensure sounds are loaded
-        setTimeout(() => {
-            playCurrentChallenge();
-        }, 300);
+            // Play the challenge sound after a short delay to ensure sounds are loaded
+            setTimeout(() => {
+                playCurrentChallenge();
+            }, 300);
         }
     }, [currentItem, gameState.isActive, playCurrentChallenge]);
 
@@ -561,20 +571,20 @@ useEffect(() => {
                         <div className='answers'>
                             {trainingCourse && <TrainingQuestions course={trainingCourse} />}
                             {gameState.isActive && targetKey && (
-                            <div className="game-status">
-                                <div className="challenge-header">
-                                <p className="challenge-message">{message}</p>
-                                    <button
-                                        className="play-again-button"
-                                        onClick={playCurrentChallenge}
-                                        aria-label="Play the sound again"
-                                    >
-                                        🔊 Listen
-                                    </button>
+                                <div className="game-status">
+                                    <div className="challenge-header">
+                                        <p className="challenge-message">{message}</p>
+                                        <button
+                                            className="play-again-button"
+                                            onClick={playCurrentChallenge}
+                                            aria-label="Play the sound again"
+                                        >
+                                            🔊 Listen
+                                        </button>
+                                    </div>
+                                    <p className="feedback-message">{feedback}</p>
+                                    <MasteredItemsDisplay />
                                 </div>
-                                <p className="feedback-message">{feedback}</p>
-                                <MasteredItemsDisplay />
-                            </div>
                             )}
                             {isComplete && (
                                 <div className="completion-message">

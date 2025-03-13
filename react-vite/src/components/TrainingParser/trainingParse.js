@@ -12,61 +12,77 @@ export class TrainingParser {
     }
 
     static chordToNotes(chord) {
-        const chordMap = {
-            // Triads
-            'maj': [0, 4, 7],          // Major
-            'min': [0, 3, 7],          // Minor
-            'dim': [0, 3, 6],          // Diminished
-            'aug': [0, 4, 8],          // Augmented
-            'sus2': [0, 2, 7],         // Suspended 2nd
-            'sus4': [0, 5, 7],         // Suspended 4th
+        // Proper root/quality extraction with regex
+        const match = chord.match(/^([A-G][#b]?)(.*)$/);
+        if (!match) {
+            console.error(`Invalid chord format: ${chord}`);
+            return [];
+        }
 
-            // Seventh Chords
-            'maj7': [0, 4, 7, 11],     // Major 7th
-            'm7': [0, 3, 7, 10],       // Minor 7th
-            '7': [0, 4, 7, 10],        // Dominant 7th
-            'dim7': [0, 3, 6, 9],      // Diminished 7th
-            'm7b5': [0, 3, 6, 10],     // Half Diminished 7th
-            'mM7': [0, 3, 7, 11],      // Minor Major 7th
-            'aug7': [0, 4, 8, 10],     // Augmented 7th
-            '7sus4': [0, 5, 7, 10],    // 7th Suspended 4th
-
-            // Extended Chords
-            'maj9': [0, 4, 7, 11, 14], // Major 9th
-            '9': [0, 4, 7, 10, 14],    // Dominant 9th
-            'm9': [0, 3, 7, 10, 14],   // Minor 9th
-            'maj11': [0, 4, 7, 11, 14, 17], // Major 11th
-            '11': [0, 4, 7, 10, 14, 17],    // Dominant 11th
-            'm11': [0, 3, 7, 10, 14, 17],   // Minor 11th
-            'maj13': [0, 4, 7, 11, 14, 21], // Major 13th
-            '13': [0, 4, 7, 10, 14, 21],    // Dominant 13th
-            'm13': [0, 3, 7, 10, 14, 21],   // Minor 13th
-
-            // Add9 Chords
-            'add9': [0, 4, 7, 14],     // Add 9
-            'madd9': [0, 3, 7, 14],    // Minor Add 9
-
-            // 6th Chords
-            '6': [0, 4, 7, 9],         // Major 6th
-            'm6': [0, 3, 7, 9],        // Minor 6th
-            '69': [0, 4, 7, 9, 14],    // 6/9 Chord
-
-            // Altered Dominants
-            '7b5': [0, 4, 6, 10],      // 7 flat 5
-            '7#5': [0, 4, 8, 10],      // 7 sharp 5
-            '7b9': [0, 4, 7, 10, 13],  // 7 flat 9
-            '7#9': [0, 4, 7, 10, 15],  // 7 sharp 9
-            '7#11': [0, 4, 7, 10, 18], // 7 sharp 11
-            '7b13': [0, 4, 7, 10, 20], // 7 flat 13
-        };
-
-        const root = chord.slice(0, 1);
-        const quality = chord.slice(1);
+        const [_, root, quality] = match;
         const baseNote = this.noteToMidiNumber(root);
 
-        return chordMap[quality].map(interval =>
+        // Handle the case where quality is empty - implied major chord
+        const effectiveQuality = quality === '' ? 'maj' : quality;
+
+        // Handle unknown qualities with fallback
+        if (!this.chordMap[effectiveQuality]) {
+            console.warn(`Unknown chord quality "${effectiveQuality}" in chord "${chord}". Defaulting to major.`);
+            return this.chordMap['maj'].map(interval =>
+                this.midiNumberToNote(baseNote + interval));
+        }
+
+        return this.chordMap[effectiveQuality].map(interval =>
             this.midiNumberToNote(baseNote + interval));
     }
+
+    static chordMap = {
+        // Triads
+        'maj': [0, 4, 7],          // Major
+        'min': [0, 3, 7],          // Minor
+        'dim': [0, 3, 6],          // Diminished
+        'aug': [0, 4, 8],          // Augmented
+        'sus2': [0, 2, 7],         // Suspended 2nd
+        'sus4': [0, 5, 7],         // Suspended 4th
+
+        // Seventh Chords
+        'maj7': [0, 4, 7, 11],     // Major 7th
+        'm7': [0, 3, 7, 10],       // Minor 7th
+        '7': [0, 4, 7, 10],        // Dominant 7th
+        'dim7': [0, 3, 6, 9],      // Diminished 7th
+        'm7b5': [0, 3, 6, 10],     // Half Diminished 7th
+        'mM7': [0, 3, 7, 11],      // Minor Major 7th
+        'aug7': [0, 4, 8, 10],     // Augmented 7th
+        '7sus4': [0, 5, 7, 10],    // 7th Suspended 4th
+
+        // Extended Chords
+        'maj9': [0, 4, 7, 11, 14], // Major 9th
+        '9': [0, 4, 7, 10, 14],    // Dominant 9th
+        'm9': [0, 3, 7, 10, 14],   // Minor 9th
+        'maj11': [0, 4, 7, 11, 14, 17], // Major 11th
+        '11': [0, 4, 7, 10, 14, 17],    // Dominant 11th
+        'm11': [0, 3, 7, 10, 14, 17],   // Minor 11th
+        'maj13': [0, 4, 7, 11, 14, 21], // Major 13th
+        '13': [0, 4, 7, 10, 14, 21],    // Dominant 13th
+        'm13': [0, 3, 7, 10, 14, 21],   // Minor 13th
+
+        // Add9 Chords
+        'add9': [0, 4, 7, 14],     // Add 9
+        'madd9': [0, 3, 7, 14],    // Minor Add 9
+
+        // 6th Chords
+        '6': [0, 4, 7, 9],         // Major 6th
+        'm6': [0, 3, 7, 9],        // Minor 6th
+        '69': [0, 4, 7, 9, 14],    // 6/9 Chord
+
+        // Altered Dominants
+        '7b5': [0, 4, 6, 10],      // 7 flat 5
+        '7#5': [0, 4, 8, 10],      // 7 sharp 5
+        '7b9': [0, 4, 7, 10, 13],  // 7 flat 9
+        '7#9': [0, 4, 7, 10, 15],  // 7 sharp 9
+        '7#11': [0, 4, 7, 10, 18], // 7 sharp 11
+        '7b13': [0, 4, 7, 10, 20], // 7 flat 13
+    };
 
     static getScaleNotes(root, type) {
         const scaleMap = {
