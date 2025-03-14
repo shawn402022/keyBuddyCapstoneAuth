@@ -24,7 +24,6 @@ export const addToUserCourses = (courseData) => async (dispatch, getState) => {
     const {session} = getState();
     const userId = session.user.id;
 
-
     const response = await fetch(`/api/course/${userId}`, {
         method: 'POST',
         headers: {
@@ -40,6 +39,9 @@ export const addToUserCourses = (courseData) => async (dispatch, getState) => {
             payload: data
         });
         return data;
+    } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create course');
     }
 };
 
@@ -88,8 +90,25 @@ const userCoursesReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_USER_COURSES:
             return action.payload;
-        case ADD_USER_COURSE:
-            return[...state, action.payload];
+            case ADD_USER_COURSE:
+                // If state is an array, add the new course
+                if (Array.isArray(state)) {
+                    return [...state, action.payload];
+                }
+                // If state has a courses property (which is an array)
+                else if (state.courses && Array.isArray(state.courses)) {
+                    return {
+                        ...state,
+                        courses: [...state.courses, action.payload]
+                    };
+                }
+                // Fallback case
+                else {
+                    return {
+                        ...state,
+                        courses: [action.payload]
+                    };
+                }
         case REMOVE_USER_COURSE:
             return state.filter(course => course.id !== action.payload);
         case SET_TRAINING_COURSE:

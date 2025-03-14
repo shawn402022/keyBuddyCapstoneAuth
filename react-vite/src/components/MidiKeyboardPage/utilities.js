@@ -8,8 +8,9 @@ export default class Utilities  {
     }
 
     createSVGElement(el) {
-        const element = document.createElementNS("http://www.w3.org/2000/svg", el)
-        return element
+        // Explicitly use the SVG namespace
+        const element = document.createElementNS("http://www.w3.org/2000/svg", el);
+        return element;
     }
 
     createElement(el) {
@@ -19,7 +20,14 @@ export default class Utilities  {
 
     setAttributes(el, attr) {
         for(let key in attr){
-            el.setAttribute(key, attr[key])
+            // Check if we're dealing with an SVG element
+            if (el instanceof SVGElement) {
+                // Use setAttributeNS for SVG elements
+                //el.setAttributeNS(null, key, attr[key]);
+            } else {
+                // Use regular setAttribute for HTML elements
+                el.setAttribute(key, attr[key]);
+            }
         }
     }
 

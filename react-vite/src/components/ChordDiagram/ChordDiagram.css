@@ -1,0 +1,95 @@
+.chord-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.chord-diagram.small {
+  width: 140px;
+}
+
+.chord-diagram.medium {
+  width: 200px;
+}
+
+.diagram-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chord-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.chord-piano-container {
+  position: relative;
+  height: 120px;
+  margin-bottom: 10px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.chord-white-key {
+  position: relative;
+  float: left;
+  width: 14.28%; /* 100% / 7 keys */
+  height: 120px;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.chord-black-key {
+  position: absolute;
+  top: 0;
+  width: 10px;
+  height: 70px;
+  background-color: black;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Highlighted keys */
+.chord-white-key.highlighted {
+  background-color: #4CAF50;
+}
+
+.chord-black-key.highlighted {
+  background-color: #8BC34A;
+}
+
+.listen-button {
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+.listen-button:hover {
+  background-color: #0b7dda;
+}
+
+.chord-error {
+  color: red;
+  font-size: 10px;
+  margin-top: 5px;
+  text-align: center;
+}

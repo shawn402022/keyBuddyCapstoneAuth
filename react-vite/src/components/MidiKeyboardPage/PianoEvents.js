@@ -97,4 +97,45 @@ export class PianoEvents {
             key.addEventListener(event, handler);
         });
     }
+
+    // In the handleKeyDown method
+    handleKeyDown(event) {
+        const noteId = event.currentTarget.getAttribute('data-id');
+        if (noteId) {
+            // Show pressed state
+            const pressedKey = document.getElementById(`${noteId}-pressed`);
+            if (pressedKey) {
+                pressedKey.style.visibility = 'visible';
+            }
+
+            // Hide released state (optional - depends on your visual design)
+            // event.currentTarget.style.visibility = 'hidden';
+
+            // Play sound
+            if (this.pianoSoundsRef.sounds[noteId]) {
+                this.pianoSoundsRef.sounds[noteId].play();
+            }
+
+            // Add to active notes
+            // ... existing code ...
+        }
+    }
+
+    // In the handleKeyUp method
+    handleKeyUp(event) {
+        const noteId = event.currentTarget.getAttribute('data-id');
+        if (noteId) {
+            // Hide pressed state
+            const pressedKey = document.getElementById(`${noteId}-pressed`);
+            if (pressedKey) {
+                pressedKey.style.visibility = 'hidden';
+            }
+
+            // Show released state (ensure it's visible)
+            event.currentTarget.style.visibility = 'visible';
+
+            // Remove from active notes
+            // ... existing code ...
+        }
+    }
 }

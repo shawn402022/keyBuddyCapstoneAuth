@@ -79,6 +79,16 @@ img {
   width: 100%;
 }
 
+/* For the piano keyboard */
+#piano-container .white-key,
+#piano-container .black-key,
+#piano-container .white-key-pressed,
+#piano-container .black-key-pressed {
+  /* Piano-specific styles */
+  position: absolute;
+  visibility: visible; /* Default state */
+}
+
 #piano-container {
   position: relative;
   width: 100%;
@@ -153,12 +163,26 @@ img {
   gap: 10px;
 }
 
+.challenge-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin: 15px 0;
+}
+
+.chord-diagram-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
 .play-again-button {
-  background-color: #4a86e8;
+  background-color: #4caf50;
   color: white;
   border: none;
+  padding: 8px 15px;
   border-radius: 4px;
-  padding: 6px 12px;
   cursor: pointer;
   font-size: 14px;
   display: flex;
@@ -167,5 +191,24 @@ img {
 }
 
 .play-again-button:hover {
-  background-color: #3a76d8;
+  background-color: #45a049;
+}
+
+/* Add these styles to the existing CSS file */
+
+.chord-diagram-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    width: 100%;
+}
+
+/* Ensure the diagram is visible and properly sized */
+.chord-diagram.medium {
+    width: 180px;
+    height: 220px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }

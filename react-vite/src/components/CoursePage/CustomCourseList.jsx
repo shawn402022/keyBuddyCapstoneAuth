@@ -1,10 +1,19 @@
 import { useState, useEffect } from 'react';
 import { keys } from './CourseData';
-//import './CustomCourseList.css'; // Create this file for styling
+import ChordDiagram from '../ChordDiagram/ChordDiagram';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToUserCourses } from '../../redux/userCourses';
+import './CustomCourseList.css';
 
 const CustomCourseList = () => {
   const [uniqueChords, setUniqueChords] = useState([]);
   const [selectedChords, setSelectedChords] = useState([]);
+  const [courseName, setCourseName] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const dispatch = useDispatch();
+  const userId = useSelector(state => state.session.user?.id);
 
   // Collect all unique chords when component mounts
   useEffect(() => {
@@ -42,6 +51,40 @@ const CustomCourseList = () => {
     }
   };
 
+  // Handle course creation
+  const handleCreateCourse = async () => {
+    if (selectedChords.length === 0) {
+      setMessage('Please select at least one chord');
+      return;
+    }
+
+    if (!courseName.trim()) {
+      setMessage('Please enter a course name');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const courseData = {
+        course_name: `${courseName.trim()} Course`,
+        details_of_course: selectedChords.join(', '),
+        course_type: 'custom'
+      };
+
+      await dispatch(addToUserCourses(courseData));
+
+      setMessage('Course created successfully!');
+      setSelectedChords([]);
+      setCourseName('');
+    } catch (error) {
+      setMessage('Error creating course. Please try again.');
+      console.error('Error creating course:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="custom-course-container">
       <h2>Create a Custom Course</h2>
@@ -49,13 +92,15 @@ const CustomCourseList = () => {
 
       <div className="chords-selection">
         {uniqueChords.map((chord) => (
-          <button
-            key={chord}
-            className={`chord-button ${selectedChords.includes(chord) ? 'selected' : ''}`}
-            onClick={() => toggleChord(chord)}
-          >
-            {chord}
-          </button>
+          <div key={chord} className="chord-item">
+            <button
+              className={`chord-button ${selectedChords.includes(chord) ? 'selected' : ''}`}
+              onClick={() => toggleChord(chord)}
+            >
+              {chord}
+            </button>
+            <ChordDiagram chordName={chord} size="small" />
+          </div>
         ))}
       </div>
 
@@ -70,15 +115,26 @@ const CustomCourseList = () => {
               </span>
             ))}
           </div>
+
+          <div className="course-name-input">
+            <label htmlFor="course-name">Name your course:</label>
+            <input
+              id="course-name"
+              type="text"
+              value={courseName}
+              onChange={(e) => setCourseName(e.target.value)}
+              placeholder="Enter course name"
+            />
+          </div>
+
+          {message && <p className="message">{message}</p>}
+
           <button
             className="create-course-button"
-            onClick={() => {
-              // Handle course creation with selectedChords
-              console.log("Creating course with chords:", selectedChords);
-              // Call API or dispatch action here
-            }}
+            onClick={handleCreateCourse}
+            disabled={isSubmitting}
           >
-            Create Course
+            {isSubmitting ? 'Creating...' : 'Create Course'}
           </button>
         </div>
       )}

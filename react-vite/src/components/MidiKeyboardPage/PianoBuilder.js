@@ -42,43 +42,55 @@ export class PianoBuilder {
     }
     createWhiteKey(note, index, width, height) {
         const keyGroup = this.utils.createSVGElement('g');
+        keyGroup.setAttribute('class', 'key-group');
 
-        // Create regular key
+        // Create regular key (released state)
         const keyObject = this.utils.createSVGElement("foreignObject");
         const keyImage = this.utils.createKeyImage(this.keyImages.releasedNatural[index]);
+
+        // Ensure the image fills the foreignObject completely
+        keyImage.style.width = "100%";
+        keyImage.style.height = "100%";
+        keyImage.style.display = "block";
 
         // Create pressed state key
         const pressedKeyObject = this.utils.createSVGElement("foreignObject");
         const pressedKeyImage = this.utils.createKeyImage(this.keyImages.pressedNatural[index]);
 
+        // Ensure the pressed image also fills its container
+        pressedKeyImage.style.width = "100%";
+        pressedKeyImage.style.height = "100%";
+        pressedKeyImage.style.display = "block";
+
         this.utils.setAttributes(keyObject, {
-            "class": "white-key",
+            "class": "white-key piano-key", // Add a common class for all piano keys
             "width": width,
             "height": height,
             "x": width * index,
-            "data-id": note
+            "data-id": note,
+            "style": "visibility: visible; z-index: 1;"
         });
 
         this.utils.setAttributes(pressedKeyObject, {
-            "class": "white-key-pressed",
+            "class": "white-key-pressed piano-key-pressed", // Add a common class
             "width": width,
             "height": height,
             "x": width * index,
             "id": `${note}-pressed`,
-            "style": "visibility: hidden"
+            "style": "visibility: hidden; z-index: 2;"
         });
 
         keyObject.appendChild(keyImage);
         pressedKeyObject.appendChild(pressedKeyImage);
         keyGroup.appendChild(keyObject);
         keyGroup.appendChild(pressedKeyObject);
+
         return keyGroup;
     }
-
     createBlackKey(note, index, whiteKeyWidth, height, positionX) {
         const keyGroup = this.utils.createSVGElement('g');
 
-        // Create regular key
+        // Create regular key (released state)
         const keyObject = this.utils.createSVGElement("foreignObject");
         const keyImage = this.utils.createKeyImage(this.keyImages.releasedSharp[index]);
 
@@ -91,7 +103,8 @@ export class PianoBuilder {
             "width": whiteKeyWidth / 2,
             "height": height / 1.6,
             "x": positionX,
-            "data-id": note
+            "data-id": note,
+            "style": "visibility: visible" // Explicitly set released state to visible
         });
 
         this.utils.setAttributes(pressedKeyObject, {
@@ -100,7 +113,7 @@ export class PianoBuilder {
             "height": height / 1.6,
             "x": positionX,
             "id": `${note}-pressed`,
-            "style": "visibility: hidden"
+            "style": "visibility: hidden" // Ensure pressed state starts hidden
         });
 
         keyObject.appendChild(keyImage);

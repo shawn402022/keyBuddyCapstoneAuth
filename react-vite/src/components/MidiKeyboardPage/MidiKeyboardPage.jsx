@@ -1,3 +1,4 @@
+import ChordDiagram from '../ChordDiagram/ChordDiagram';
 import { SoundManager } from './SoundManager';
 import { PianoBuilder } from './PianoBuilder';
 import { MidiController } from './MidiController';
@@ -18,6 +19,7 @@ import TrainingQuestions from './TrainingQuestions.jsx';
 import MasteredItemsDisplay from './MasteredItemsDisplay';
 import { TrainingLinkedList } from '../../utils/LinkedList';
 
+
 import { Chord } from 'tonal';
 import {
     startTraining,
@@ -35,11 +37,10 @@ import {
     selectIsInitialized
 } from '../../redux/spacedRepetition';
 
-const LoadingSpinner = () => (
-    <div className="loading-overlay">
-        <p>Loading Piano Sounds...</p>
-        <div className="loading-spinner"></div>
-    </div>
+const LoadingSpinner = () => (<div className="loading-overlay">
+    <p>Loading Piano Sounds...</p>
+    <div className="loading-spinner"></div>
+</div>
 );
 
 const MidiKeyboardPage = () => {
@@ -507,7 +508,7 @@ const MidiKeyboardPage = () => {
 
                         const timeoutId = setTimeout(() => {
 
-                            
+
                             console.log("Sound availability:", {
                                 note: noteWithOctave,
                                 available: soundManager.current.sounds[noteWithOctave] ? true : false,
@@ -581,10 +582,22 @@ const MidiKeyboardPage = () => {
                                         >
                                             🔊 Listen
                                         </button>
+
+                                        {/* Replace img tag with ChordDiagram component */}
+                                        {targetKey && !trainingCourse?.course_name?.toLowerCase().includes('scale') && (
+                                            <div className="chord-diagram-wrapper">
+                                                <ChordDiagram
+                                                    chordName={targetKey}
+                                                    showListenButton={false}
+                                                    size="medium"
+                                                />
+                                            </div>
+                                        )}
                                     </div>
                                     <p className="feedback-message">{feedback}</p>
                                     <MasteredItemsDisplay />
                                 </div>
+
                             )}
                             {isComplete && (
                                 <div className="completion-message">

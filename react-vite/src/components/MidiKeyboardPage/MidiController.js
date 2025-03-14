@@ -33,8 +33,13 @@ export class MidiController {
         // WebMidi.js provides velocity in range 0-127, so we normalize it to 0-1
         const velocity = e.velocity;  // WebMidi.js already normalizes this to 0-1
         let showPressed = document.getElementById(`${noteId}-pressed`);
+        let hideReleased = document.querySelector(`[data-id="${noteId}"]`);
+
         if (showPressed) {
             showPressed.style.visibility = 'visible';
+            // Optionally hide the released state
+            // if (hideReleased) hideReleased.style.visibility = 'hidden';
+
             if (this.pianoSoundsRef.sounds[noteId]) {
                 // Set volume based on velocity
                 this.pianoSoundsRef.sounds[noteId].volume(velocity);
@@ -49,6 +54,7 @@ export class MidiController {
         }
     }
     handleNoteOff = (e) => {
+        const noteId = e.note.identifier;
         const noteName = e.note.name;
         const octave = e.note.octave;
         const noteKey = `${noteName.toLowerCase()}/${octave}`;
@@ -60,12 +66,15 @@ export class MidiController {
             this.setNotesCallback([...this.activeNotes.values()]);
         }
 
-        const noteId = e.note.identifier;
         let showPressed = document.getElementById(`${noteId}-pressed`);
+        let showReleased = document.querySelector(`[data-id="${noteId}"]`);
         const noteLabel = document.getElementById(`note-label-${noteId}`);
 
         if (showPressed) {
             showPressed.style.visibility = 'hidden';
+            // Ensure released state is visible
+            if (showReleased) showReleased.style.visibility = 'visible';
+
             // Remove note label when MIDI note is released
             if (noteLabel) {
                 noteLabel.remove();

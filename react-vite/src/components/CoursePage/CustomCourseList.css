@@ -1,0 +1,116 @@
+.custom-course-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.chords-selection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.chord-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 130px;
+  margin-bottom: 15px;
+}
+
+.chord-button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 5px;
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.chord-button.selected {
+  background-color: #4CAF50;
+  color: white;
+  border-color: #4CAF50;
+}
+
+.selected-chords {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.selected-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.chord-chip {
+  display: flex;
+  align-items: center;
+  background-color: #e0e0e0;
+  padding: 5px 10px;
+  border-radius: 16px;
+  font-size: 14px;
+}
+
+.chord-chip button {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.course-name-input {
+  margin: 15px 0;
+}
+
+.course-name-input label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.course-name-input input {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.create-course-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.create-course-button:hover {
+  background-color: #45a049;
+}
+
+.create-course-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.message {
+  margin: 10px 0;
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  border-left: 4px solid #4CAF50;
+}
