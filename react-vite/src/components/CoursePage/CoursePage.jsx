@@ -41,7 +41,9 @@ const CoursePage = () => {
                     </NavLink>
                 </p>
             )}
-
+            <NavLink to="/createCourse" className="custom-course-button">
+                 Create Custom Course
+            </NavLink>
             <div className="courses-grid">
             {keys.map((keyData, index) => {
                 // Handle different key types

@@ -170,3 +170,19 @@
     text-align: center;
     margin: 20px 0;
 }
+
+
+
+.custom-course-title {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.custom-course-ui{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+    border: 5px solid black
+}

@@ -11,6 +11,8 @@ import ReviewsPage from '../components/ReviewsPage/ReviewsPage';
 import CreateReviewPage from '../components/ReviewsPage/CreateReviewPage';
 import DeleteCourse from '../components/CoursePage/DeleteCourse';
 import MyCoursePage from '../components/CoursePage/MyCoursePage';
+import CustomCourseList from '../components/CoursePage/CustomCourseList';
+import CustomCoursePage from '../components/CoursePage/CustomCoursePage';
 
 
 
@@ -36,7 +38,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "createCourse",
-        element: <CreateCourse/>
+        element: <CustomCoursePage/>
       },
       {
         path: "course/admin/delete/:courseId",
