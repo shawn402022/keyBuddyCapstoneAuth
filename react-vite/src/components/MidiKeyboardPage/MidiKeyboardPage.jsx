@@ -1,4 +1,8 @@
+
 import ChordDiagram from '../ChordDiagram/ChordDiagram';
+
+import PianoDiagnostic from '../Diagnostic/PianoDiagnostic';
+
 import { SoundManager } from './SoundManager';
 import { PianoBuilder } from './PianoBuilder';
 import { MidiController } from './MidiController';
@@ -377,7 +381,6 @@ const MidiKeyboardPage = () => {
             };
         }
     }, [checkPlayedNotes]);
-
     useEffect(() => {
         const currentMidiController = midiController.current;
         currentMidiController.setNotesCallback = (notes) => {
@@ -393,12 +396,30 @@ const MidiKeyboardPage = () => {
             try {
                 await soundManager.current.loadSounds([...PIANO_CONFIG.chromaticNotes, ...PIANO_CONFIG.sharpNotes]);
                 await currentMidiController.initialize();
-                const container = document.getElementById('piano-container');
-                if (container) {
-                    pianoBuilder.current.createPiano(container);
-                }
-                setIsLoading(false);
+
+                // Add a small delay to ensure DOM is ready
+                setTimeout(() => {
+                    const container = document.getElementById('piano-container');
+                    console.log("Piano container:", container); // Debug log
+
+                    if (container) {
+                        // Clear any existing content
+                        container.innerHTML = '';
+
+                        // Create the piano
+                        const piano = pianoBuilder.current.createPiano(container);
+                        console.log("Piano created:", piano); // Debug log
+
+                        // Verify the piano was appended
+                        console.log("Container children:", container.children.length);
+                    } else {
+                        console.error("Piano container not found!");
+                    }
+
+                    setIsLoading(false);
+                }, 100);
             } catch (err) {
+                console.error("Error initializing piano:", err);
                 setError(err.message);
                 setIsLoading(false);
             }
@@ -409,13 +430,11 @@ const MidiKeyboardPage = () => {
         return () => {
             currentMidiController.cleanup();
 
-            // Add timeout cleanup
             if (timeoutRef.current) {
                 clearTimeout(timeoutRef.current);
             }
         };
     }, [checkPlayedNotes]);
-
     const stopAllSounds = () => {
         // Get all loaded sound keys
         const soundKeys = Object.keys(soundManager.current.sounds || {});
@@ -556,7 +575,6 @@ const MidiKeyboardPage = () => {
 
 
     if (error) return <div className="error-message">{error}</div>;
-
     return (
         <div className="piano-page">
             <div className="q-container">
@@ -566,6 +584,7 @@ const MidiKeyboardPage = () => {
                 <LoadingSpinner />
             ) : (
                 <div className="piano-content">
+                    
                     <div className='staff-notes-chords'>
                         <MusicStaff currentNotes={currentNotes} />
                         <ChordDisplay currentNotes={currentNotes} />
@@ -583,7 +602,6 @@ const MidiKeyboardPage = () => {
                                             🔊 Listen
                                         </button>
 
-                                        {/* Replace img tag with ChordDiagram component */}
                                         {targetKey && !trainingCourse?.course_name?.toLowerCase().includes('scale') && (
                                             <div className="chord-diagram-wrapper">
                                                 <ChordDiagram

@@ -23,7 +23,7 @@ export default class Utilities  {
             // Check if we're dealing with an SVG element
             if (el instanceof SVGElement) {
                 // Use setAttributeNS for SVG elements
-                //el.setAttributeNS(null, key, attr[key]);
+                el.setAttributeNS(null, key, attr[key]);
             } else {
                 // Use regular setAttribute for HTML elements
                 el.setAttribute(key, attr[key]);
@@ -45,7 +45,6 @@ export default class Utilities  {
     createKey({className,width,height}){
         const key = this.createSVGElement('foreignObject');
         key.classList.add(className, "key")
-
         this.setAttributes(key,{
             "width":width,
             "height":height
@@ -65,19 +64,21 @@ export default class Utilities  {
     }
 
     createMainSVG(pianoWidth, pianoHeight, id){
+        console.log(`Creating main SVG: ${id}, ${pianoWidth}x${pianoHeight}`);
         const svg = this.createSVGElement("svg");
 
         this.setAttributes(svg, {
             "id": `${id}`,
             "width": "100%",
+            "height": `${pianoHeight}px`,
             "version": "1.1",
             "xmlns": "http://www.w3.org/2000/svg",
             "xmlns:xlink": "http://www.w3.org/1999/xlink",
-            "viewBox": `0 0 ${pianoWidth} ${pianoHeight}`
+            "viewBox": `0 0 ${pianoWidth} ${pianoHeight}`,
+            "style": "display: block; overflow: visible;"
+        });
 
-        })
-
-        return svg
+        return svg;
     }
 
     addNote(arr,note){

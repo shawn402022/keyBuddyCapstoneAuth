@@ -7,6 +7,8 @@ export class PianoBuilder {
         this.pianoEvents = pianoEvents;
     }
     createPiano(containerElement) {
+        console.log("Creating piano in container:", containerElement);
+
         const whiteKeyWidth = 80;
         const pianoHeight = 400;
         let blackKeyPositionX = 60;
@@ -14,7 +16,18 @@ export class PianoBuilder {
         const naturalNotes = this.utils.getNaturalNotes(PIANO_CONFIG.chromaticNotes);
         const pianoWidth = naturalNotes.length * whiteKeyWidth;
 
+        console.log(`Piano dimensions: ${pianoWidth}x${pianoHeight}`);
+
+        // Create the main SVG with explicit dimensions
         const piano = this.utils.createMainSVG(pianoWidth, pianoHeight, "piano");
+
+        // Ensure the SVG has visible dimensions
+        piano.style.width = "100%";
+        piano.style.height = "auto";
+        piano.style.display = "block";
+        piano.style.overflow = "visible";
+
+        console.log("Piano SVG created:", piano);
 
         // Create white keys with event listeners
         PIANO_CONFIG.chromaticNotes.forEach((note, i) => {
@@ -37,10 +50,15 @@ export class PianoBuilder {
             blackKeyPositionX = this.calculateNextBlackKeyPosition(note, blackKeyPositionX, whiteKeyWidth);
         });
 
+        // Append the piano to the container
+        console.log("Appending piano to container");
         containerElement.appendChild(piano);
+
+        // Verify the piano was appended
+        console.log("Container now has children:", containerElement.children.length);
+
         return piano;
-    }
-    createWhiteKey(note, index, width, height) {
+    }    createWhiteKey(note, index, width, height) {
         const keyGroup = this.utils.createSVGElement('g');
         keyGroup.setAttribute('class', 'key-group');
 

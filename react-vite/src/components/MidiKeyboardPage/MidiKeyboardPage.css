@@ -212,3 +212,42 @@ img {
     padding: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
+/* Add to MidiKeyboardPage.css */
+#piano-container {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  margin-top: 20px;
+  overflow: visible;
+}
+
+#piano-container svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+#piano-container .scales {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+#piano-container g {
+  overflow: visible;
+}
+
+#piano-container foreignObject {
+  overflow: visible;
+}
+
+#piano-container img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
