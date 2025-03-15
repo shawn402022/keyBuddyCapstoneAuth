@@ -1,13 +1,16 @@
 import { WebMidi } from "webmidi";
-import { NoteLabelManager } from "./NoteLabelManager";
+
 
 export class MidiController {
     constructor(pianoSoundsRef) {
         this.pianoSoundsRef = pianoSoundsRef;
-        this.noteLabelManager = new NoteLabelManager();
-        this.currentInput = null;
-        // Create a Map using the note key as the unique identifier
         this.activeNotes = new Map();
+        this.setNotesCallback = null;
+        this.pianoRef = null; // Reference to the VexFlow piano component
+    }
+
+    setPianoRef(ref) {
+        this.pianoRef = ref;
     }
 
     handleNoteOn = (e) => {
@@ -26,35 +29,31 @@ export class MidiController {
         // Use the noteKey as the Map key to prevent duplicates
         this.activeNotes.set(noteKey, noteInfo);
 
+        // Update the UI via callback
         if (this.setNotesCallback) {
             this.setNotesCallback([...this.activeNotes.values()]);
         }
 
         // WebMidi.js provides velocity in range 0-127, so we normalize it to 0-1
         const velocity = e.velocity;  // WebMidi.js already normalizes this to 0-1
-        let showPressed = document.getElementById(`${noteId}-pressed`);
-        let hideReleased = document.querySelector(`[data-id="${noteId}"]`);
 
-        if (showPressed) {
-            showPressed.style.visibility = 'visible';
-            // Optionally hide the released state
-            // if (hideReleased) hideReleased.style.visibility = 'hidden';
-
-            if (this.pianoSoundsRef.sounds[noteId]) {
-                // Set volume based on velocity
-                this.pianoSoundsRef.sounds[noteId].volume(velocity);
-                this.pianoSoundsRef.sounds[noteId].play();
-
-                const keyElement = document.querySelector(`[data-id="${noteId}"]`);
-                if (keyElement) {
-                    this.noteLabelManager.createNoteLabel(noteId, keyElement);
-                }
-            }
-            console.log(`Note ${noteId} on, velocity: ${velocity}`);
+        // Play the sound
+        if (this.pianoSoundsRef.sounds[noteId]) {
+            // Set volume based on velocity
+            this.pianoSoundsRef.sounds[noteId].volume(velocity);
+            this.pianoSoundsRef.sounds[noteId].play();
         }
+
+        // Highlight the key on the VexFlow piano if available
+        if (this.pianoRef && this.pianoRef.current) {
+            // The piano component will handle the highlighting internally
+            // based on the activeNotes state that we're updating via the callback
+        }
+
+        console.log(`Note ${noteId} on, velocity: ${velocity}`);
     }
+
     handleNoteOff = (e) => {
-        const noteId = e.note.identifier;
         const noteName = e.note.name;
         const octave = e.note.octave;
         const noteKey = `${noteName.toLowerCase()}/${octave}`;
@@ -62,26 +61,16 @@ export class MidiController {
         // Delete the note using its unique key
         this.activeNotes.delete(noteKey);
 
+        // Update the UI via callback
         if (this.setNotesCallback) {
             this.setNotesCallback([...this.activeNotes.values()]);
         }
 
-        let showPressed = document.getElementById(`${noteId}-pressed`);
-        let showReleased = document.querySelector(`[data-id="${noteId}"]`);
-        const noteLabel = document.getElementById(`note-label-${noteId}`);
+        // The piano component will handle unhighlighting the key
+        // based on the updated activeNotes state
 
-        if (showPressed) {
-            showPressed.style.visibility = 'hidden';
-            // Ensure released state is visible
-            if (showReleased) showReleased.style.visibility = 'visible';
-
-            // Remove note label when MIDI note is released
-            if (noteLabel) {
-                noteLabel.remove();
-            }
-        }
+        console.log(`Note ${e.note.identifier} off`);
     }
-
 
     setupMidiListeners(input) {
         if (input) {
@@ -95,9 +84,21 @@ export class MidiController {
     async initialize() {
         try {
             await WebMidi.enable({ sysex: true });
+
+            // Try to find the MIDI device by name
             this.currentInput = WebMidi.getInputByName("KOMPLETE KONTROL A25 MIDI");
+
+            // If not found, use the first available input if any
+            if (!this.currentInput && WebMidi.inputs.length > 0) {
+                console.log("Specific MIDI device not found, using first available input");
+                this.currentInput = WebMidi.inputs[0];
+            }
+
             if (this.currentInput) {
+                console.log(`Connected to MIDI device: ${this.currentInput.name}`);
                 this.setupMidiListeners(this.currentInput);
+            } else {
+                console.warn("No MIDI inputs available");
             }
         } catch (err) {
             console.error("MIDI initialization failed:", err);

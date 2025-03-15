@@ -1,45 +1,24 @@
 
 import ChordDiagram from '../ChordDiagram/ChordDiagram';
-
-import PianoDiagnostic from '../Diagnostic/PianoDiagnostic';
-
 import { SoundManager } from './SoundManager';
-import { PianoBuilder } from './PianoBuilder';
 import { MidiController } from './MidiController';
-import { NoteLabelManager } from './NoteLabelManager';
 import { PianoEvents } from './PianoEvents';
 import { PIANO_CONFIG } from './config';
-import Utilities from './utilities.js';
-import KeyImages from './images.js';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './MidiKeyboardPage.css';
 import MusicStaff from './MusicStaff';
 import StopWatch from './StopWatch';
-import PianoContainer from './PianoContainer.jsx';
+import VexFlowPiano from './VexFlowPiano';
+import { PianoEventsAdapter } from './PianoEventsAdapter';
 import ChordDisplay from './ChordDisplay';
 import { TrainingParser } from '../TrainingParser/trainingParse';
 import TrainingQuestions from './TrainingQuestions.jsx';
 import MasteredItemsDisplay from './MasteredItemsDisplay';
 import { TrainingLinkedList } from '../../utils/LinkedList';
-
-
 import { Chord } from 'tonal';
-import {
-    startTraining,
-    setGameActive,
-    setScore
-} from '../../redux/game';
-
-import {
-    initializeItems,
-    getNextItem,
-    processResult,
-    resetLearning,
-    selectCurrentItem,
-    selectIsComplete,
-    selectIsInitialized
-} from '../../redux/spacedRepetition';
+import { startTraining, setGameActive, setScore } from '../../redux/game';
+import { initializeItems, getNextItem, processResult, resetLearning, selectCurrentItem, selectIsComplete, selectIsInitialized } from '../../redux/spacedRepetition';
 
 const LoadingSpinner = () => (<div className="loading-overlay">
     <p>Loading Piano Sounds...</p>
@@ -56,86 +35,26 @@ const MidiKeyboardPage = () => {
     const [feedback, setFeedback] = useState("");
     const [currentTrainingSequence, setCurrentTrainingSequence] = useState(null);
     const [startTime, setStartTime] = useState(null);
-    const linkedListRef = useRef(null);
-
     const dispatch = useDispatch();
     const gameState = useSelector(state => state.game);
     const trainingCourse = useSelector(state => state.userCourses.trainingCourse);
     const currentItem = useSelector(selectCurrentItem);
     const isComplete = useSelector(selectIsComplete);
     const isInitialized = useSelector(selectIsInitialized);
-
+    //##REFS
+    const pianoRef = useRef(null);
+    const linkedListRef = useRef(null);
     const soundManager = useRef(new SoundManager());
-    const noteLabelManager = useRef(new NoteLabelManager());
-    const utilities = useRef(new Utilities());
-    const keyImages = useRef(new KeyImages());
-    const pianoEvents = useRef(new PianoEvents(soundManager.current, noteLabelManager.current));
+    const pianoEvents = useRef(new PianoEvents(soundManager.current));
     pianoEvents.current.setNotesCallback = setCurrentNotes;
-    const pianoBuilder = useRef(new PianoBuilder(utilities.current, keyImages.current, pianoEvents.current));
     const midiController = useRef(new MidiController(soundManager.current));
     const timeoutRef = useRef(null);
-
-    // Check if sound is loaded before playing
-    const playNote = (note) => {
-        if (soundManager.current.sounds[note] && soundManager.current.sounds[note].state() === 'loaded') {
-            soundManager.current.sounds[note].play();
-        } else {
-            console.warn(`Sound not loaded for note: ${note}`);
-        }
-    };
+    const pianoEventsAdapter = useRef(new PianoEventsAdapter(soundManager.current));
 
 
-    // Initialize the spaced repetition system when course changes
-    useEffect(() => {
-        if (trainingCourse && trainingCourse.details_of_course) {
-            const trainingSequence = TrainingParser.parseTrainingContent(trainingCourse);
-            setCurrentTrainingSequence(trainingSequence);
-
-            // Initialize the redux state for spaced repetition
-            dispatch(initializeItems(trainingSequence));
-
-            // Also initialize our LinkedList as a backup/alternative
-            if (Array.isArray(trainingSequence)) {
-                linkedListRef.current = new TrainingLinkedList(trainingSequence);
-            } else if (trainingSequence.type === 'scale' && trainingSequence.notes) {
-                linkedListRef.current = new TrainingLinkedList(trainingSequence.notes);
-            }
-        }
-    }, [trainingCourse, dispatch]);
-
-    // When the challenge starts
-    const handleStartChallenge = useCallback(() => {
-        dispatch(setGameActive(true));
-        dispatch(startTraining(currentTrainingSequence)); // Add this line
-        dispatch(setScore(0)); // Add this line
-        dispatch(resetLearning());
-        setStartTime(Date.now());
-
-        // Get the first item
-        dispatch(getNextItem());
-    }, [dispatch, currentTrainingSequence]);
-
-    // Set the target key when current item changes
-    // Set the target key when current item changes
-    useEffect(() => {
-        if (currentItem) {
-            setTargetKey(currentItem);
-            // Fix: Ensure proper conditional handling of the course name
-            const itemType = trainingCourse && trainingCourse.course_name &&
-                trainingCourse.course_name.includes('scale') ? 'key' : 'chord';
-            setMessage(`Play the ${itemType}: ${currentItem}`);
-        }
-    }, [currentItem, trainingCourse]);
 
 
-    // Show completion message when all items are mastered
-    useEffect(() => {
-        if (isComplete && isInitialized) {
-            setFeedback("🎉🎉 Congratulations! You have completed the challenge!");
-            dispatch(setGameActive(false));
-        }
-    }, [isComplete, isInitialized, dispatch]);
-    // This function processes a correct answer and determines the next item based on response time
+
     const processAnswer = useCallback((correct) => {
         if (!correct || !startTime) return;
 
@@ -179,6 +98,7 @@ const MidiKeyboardPage = () => {
             console.log("Using training sequence:", currentTrainingSequence);
         }
     }, [dispatch, startTime, isComplete, currentTrainingSequence]);
+
 
     const checkPlayedNotes = useCallback((playedNotes) => {
         if (!gameState.isActive || !targetKey || !startTime) return;
@@ -372,6 +292,130 @@ const MidiKeyboardPage = () => {
     }, [gameState.isActive, targetKey, startTime, trainingCourse, processAnswer]);
 
 
+    // Set up the adapter to update currentNotes state
+    useEffect(() => {
+        if (pianoEventsAdapter.current) {
+            pianoEventsAdapter.current.setCallback(notes => {
+                setCurrentNotes(notes);
+                checkPlayedNotes(notes);
+            });
+        }
+    }, [checkPlayedNotes]);
+
+    // Update MidiController to use the adapter
+    useEffect(() => {
+        const currentMidiController = midiController.current;
+
+        // Modify the MIDI controller to use our adapter
+        currentMidiController.setNotesCallback = (notes) => {
+            // For each MIDI note, tell the adapter about it
+            notes.forEach(note => {
+                pianoEventsAdapter.current.handleMidiNoteOn(note);
+            });
+
+            // If no notes are being played, clear all
+            if (notes.length === 0) {
+                pianoEventsAdapter.current.clearAllNotes();
+                setFeedback("");
+            }
+        };
+
+        // Rest of the effect remains the same...
+    }, [checkPlayedNotes]);
+
+    const handleNotePlay = (note) => {
+        console.log('Note played:', note); // Debug log
+
+        // Update the activeNotes state to include this note
+        setCurrentNotes(prev => {
+            // Check if this note is already in the array
+            const exists = prev.some(n => n.key === note.key);
+            if (!exists) {
+                console.log('Adding note to activeNotes:', note); // Debug log
+                return [...prev, note];
+            }
+            return prev;
+        });
+
+        // Call checkPlayedNotes to evaluate if this matches the target
+        if (note) {
+            checkPlayedNotes([note]);
+        }
+    };
+
+    // Check if sound is loaded before playing
+    const playNote = (note) => {
+        if (soundManager.current.sounds[note] && soundManager.current.sounds[note].state() === 'loaded') {
+            soundManager.current.sounds[note].play();
+        } else {
+            console.warn(`Sound not loaded for note: ${note}`);
+        }
+    };
+
+    // Set up the adapter to update currentNotes state
+    useEffect(() => {
+        if (pianoEventsAdapter.current) {
+            pianoEventsAdapter.current.setCallback(notes => {
+                setCurrentNotes(notes);
+                checkPlayedNotes(notes);
+            });
+        }
+    }, [checkPlayedNotes]);
+
+
+    // Initialize the spaced repetition system when course changes
+    useEffect(() => {
+        if (trainingCourse && trainingCourse.details_of_course) {
+            const trainingSequence = TrainingParser.parseTrainingContent(trainingCourse);
+            setCurrentTrainingSequence(trainingSequence);
+
+            // Initialize the redux state for spaced repetition
+            dispatch(initializeItems(trainingSequence));
+
+            // Also initialize our LinkedList as a backup/alternative
+            if (Array.isArray(trainingSequence)) {
+                linkedListRef.current = new TrainingLinkedList(trainingSequence);
+            } else if (trainingSequence.type === 'scale' && trainingSequence.notes) {
+                linkedListRef.current = new TrainingLinkedList(trainingSequence.notes);
+            }
+        }
+    }, [trainingCourse, dispatch]);
+
+    // When the challenge starts
+    const handleStartChallenge = useCallback(() => {
+        dispatch(setGameActive(true));
+        dispatch(startTraining(currentTrainingSequence)); // Add this line
+        dispatch(setScore(0)); // Add this line
+        dispatch(resetLearning());
+        setStartTime(Date.now());
+
+        // Get the first item
+        dispatch(getNextItem());
+    }, [dispatch, currentTrainingSequence]);
+
+    // Set the target key when current item changes
+    // Set the target key when current item changes
+    useEffect(() => {
+        if (currentItem) {
+            setTargetKey(currentItem);
+            // Fix: Ensure proper conditional handling of the course name
+            const itemType = trainingCourse && trainingCourse.course_name &&
+                trainingCourse.course_name.includes('scale') ? 'key' : 'chord';
+            setMessage(`Play the ${itemType}: ${currentItem}`);
+        }
+    }, [currentItem, trainingCourse]);
+
+
+    // Show completion message when all items are mastered
+    useEffect(() => {
+        if (isComplete && isInitialized) {
+            setFeedback("🎉🎉 Congratulations! You have completed the challenge!");
+            dispatch(setGameActive(false));
+        }
+    }, [isComplete, isInitialized, dispatch]);
+    // This function processes a correct answer and determines the next item based on response time
+
+
 
     useEffect(() => {
         if (pianoEvents.current) {
@@ -381,8 +425,10 @@ const MidiKeyboardPage = () => {
             };
         }
     }, [checkPlayedNotes]);
+
     useEffect(() => {
         const currentMidiController = midiController.current;
+
         currentMidiController.setNotesCallback = (notes) => {
             setCurrentNotes(notes);
             checkPlayedNotes(notes);
@@ -392,34 +438,19 @@ const MidiKeyboardPage = () => {
             }
         };
 
+        // Initialize MIDI and sound system
         const initialize = async () => {
             try {
+                // Load piano sounds
                 await soundManager.current.loadSounds([...PIANO_CONFIG.chromaticNotes, ...PIANO_CONFIG.sharpNotes]);
-                await currentMidiController.initialize();
 
-                // Add a small delay to ensure DOM is ready
-                setTimeout(() => {
-                    const container = document.getElementById('piano-container');
-                    console.log("Piano container:", container); // Debug log
+                // Initialize MIDI controller
+                await midiController.current.initialize();
 
-                    if (container) {
-                        // Clear any existing content
-                        container.innerHTML = '';
-
-                        // Create the piano
-                        const piano = pianoBuilder.current.createPiano(container);
-                        console.log("Piano created:", piano); // Debug log
-
-                        // Verify the piano was appended
-                        console.log("Container children:", container.children.length);
-                    } else {
-                        console.error("Piano container not found!");
-                    }
-
-                    setIsLoading(false);
-                }, 100);
+                // Mark loading as complete
+                setIsLoading(false);
             } catch (err) {
-                console.error("Error initializing piano:", err);
+                console.error("Initialization error:", err);
                 setError(err.message);
                 setIsLoading(false);
             }
@@ -428,13 +459,17 @@ const MidiKeyboardPage = () => {
         initialize();
 
         return () => {
-            currentMidiController.cleanup();
+            midiController.current.cleanup();
 
             if (timeoutRef.current) {
                 clearTimeout(timeoutRef.current);
             }
+
+            chordTimeoutsRef.current.forEach(timeoutId => clearTimeout(timeoutId));
+
         };
     }, [checkPlayedNotes]);
+
     const stopAllSounds = () => {
         // Get all loaded sound keys
         const soundKeys = Object.keys(soundManager.current.sounds || {});
@@ -446,10 +481,10 @@ const MidiKeyboardPage = () => {
             }
         });
     };
-
     const chordTimeoutsRef = useRef([]);
 
-    // Add a function to play the current challenge
+
+    // Modify the playCurrentChallenge function to use the piano's highlightKey method
     const playCurrentChallenge = useCallback(() => {
         if (!targetKey || !soundManager.current) return;
 
@@ -459,110 +494,72 @@ const MidiKeyboardPage = () => {
         chordTimeoutsRef.current = []; // Reset the array
 
         // For scales (single notes)
+        // For scales (single notes)
         if (trainingCourse?.course_name.includes('scale')) {
             // Convert note name to proper format (e.g., "C" to "C4")
             const noteToPlay = `${targetKey}4`; // Assuming octave 4 for consistent playback
-            playNote(noteToPlay);
-            // Play the note using the sound manager
+
+            // Highlight the key on the piano
+            if (pianoRef.current) {
+                const resetHighlight = pianoRef.current.highlightKey(noteToPlay, '#4CAF50');
+                // Reset the highlight after a delay
+                const timeoutId = setTimeout(resetHighlight, 1000);
+                chordTimeoutsRef.current.push(timeoutId);
+            }
+
+            // Play the note
             if (soundManager.current.sounds[noteToPlay]) {
                 soundManager.current.sounds[noteToPlay].play();
+            } else {
+                console.warn(`Sound not loaded for note: ${noteToPlay}`);
             }
+
             return;
         }
 
         // For chords, use the TrainingParser to get the notes
-        let chordNotes = [];
         try {
-            // This approach uses your existing TrainingParser to convert chord names to notes
-            // For example: "Cmaj7" → ["C4", "E4", "G4", "B4"]
             const cleanChordName = targetKey.trim();
-
-            // Improved debugging - log the chord we're trying to play
             console.log(`Attempting to play chord/triad: ${cleanChordName}`);
 
-            // Extract root and quality (e.g., "Cmaj7" → "C" and "maj7")
-            const match = cleanChordName.match(/^([A-G][#b]?)(.*)$/);
-            if (match) {
-                const [_, root, quality] = match;
-                chordNotes = TrainingParser.chordToNotes(cleanChordName);
+            // Get the chord notes
+            const chordNotes = TrainingParser.chordToPlayableNotes(cleanChordName);
+            console.log("Notes to play:", chordNotes);
 
-
-                // Determine if it's a triad by checking the course name or chord structure
-                const isTriad = trainingCourse?.course_name.toLowerCase().endsWith('triads')
-
-
-                // For triads, we might need special handling
-                if (isTriad) {
-                    console.log(`Detected triad: ${root}${quality}`);
-
-                    // Attempt to use our existing chord parser
-                    chordNotes = TrainingParser.chordToNotes(cleanChordName);
-
-                    // If parsing fails, fallback to basic triad construction
-                    if (!chordNotes || chordNotes.length === 0) {
-                        console.log("Initial parsing failed, trying direct note construction");
-                        // For C major triad, directly use ["C4", "E4", "G4"]
-                        if (root === "C" && (!quality || quality === "maj")) {
-                            chordNotes = ["C4", "E4", "G4"];
-                        } else {
-                            // Other triads - construct using music theory
-                            // ...
+            // Play chord notes with slight delay between each
+            if (chordNotes && chordNotes.length > 0) {
+                chordNotes.forEach((note, index) => {
+                    const timeoutId = setTimeout(() => {
+                        // Highlight the key on the piano
+                        if (pianoRef.current) {
+                            const resetHighlight = pianoRef.current.highlightKey(note, '#4CAF50');
+                            // Reset the highlight after a delay
+                            const resetTimeoutId = setTimeout(resetHighlight, 800);
+                            chordTimeoutsRef.current.push(resetTimeoutId);
                         }
-                    }
-                } else {
-                    // Regular chord processing
-                    chordNotes = TrainingParser.chordToNotes(cleanChordName);
-                }
 
-                console.log("Notes to play:", chordNotes);
+                        // Play the note
+                        if (soundManager.current.sounds[note]) {
+                            soundManager.current.sounds[note].play();
+                        } else {
+                            console.warn(`Sound not loaded for note: ${note}`);
+                        }
+                    }, index * 80); // Slight delay for arpeggio effect
 
-
-                // Play chord notes with slight delay between each
-                if (chordNotes && chordNotes.length > 0) {
-                    chordNotes.forEach((note, index) => {
-                        // Ensure note has an octave specification
-                        const noteWithOctave = note.includes('/') ? note.replace('/', '') :
-                            (note.match(/\d/) ? note : `${note}4`);
-
-
-                        const timeoutId = setTimeout(() => {
-
-
-                            console.log("Sound availability:", {
-                                note: noteWithOctave,
-                                available: soundManager.current.sounds[noteWithOctave] ? true : false,
-                                state: soundManager.current.sounds[noteWithOctave]?.state()
-                            });
-
-                            playNote(noteWithOctave)
-                            if (soundManager.current.sounds[noteWithOctave]) {
-                                soundManager.current.sounds[noteWithOctave].play();
-                            }
-                        }, index * 80); // Slight delay for arpeggio effect
-
-                        chordTimeoutsRef.current.push(timeoutId);
-
-                    });
-                } else {
-                    console.warn(`Could not determine notes for: ${cleanChordName}`);
-                }
+                    chordTimeoutsRef.current.push(timeoutId);
+                });
             } else {
-                console.warn(`Invalid chord/triad format: ${cleanChordName}`);
+                console.warn(`Could not determine notes for: ${cleanChordName}`);
             }
-
         } catch (err) {
             console.error("Error playing challenge chord:", err);
         }
-    }, [targetKey, trainingCourse, soundManager]);
+    }, [targetKey, trainingCourse]);
 
-    // Also clear timeouts on component unmount
-    useEffect(() => {
-        return () => {
-            chordTimeoutsRef.current.forEach(timeoutId => clearTimeout(timeoutId));
-        };
-    }, []);
 
-    // Add effect to play the challenge when it starts
+
+
+    // Play the challenge when it starts
     useEffect(() => {
         if (currentItem && gameState.isActive) {
             // Play the challenge sound after a short delay to ensure sounds are loaded
@@ -571,8 +568,6 @@ const MidiKeyboardPage = () => {
             }, 300);
         }
     }, [currentItem, gameState.isActive, playCurrentChallenge]);
-
-
 
     if (error) return <div className="error-message">{error}</div>;
     return (
@@ -584,7 +579,6 @@ const MidiKeyboardPage = () => {
                 <LoadingSpinner />
             ) : (
                 <div className="piano-content">
-                    
                     <div className='staff-notes-chords'>
                         <MusicStaff currentNotes={currentNotes} />
                         <ChordDisplay currentNotes={currentNotes} />
@@ -615,7 +609,6 @@ const MidiKeyboardPage = () => {
                                     <p className="feedback-message">{feedback}</p>
                                     <MasteredItemsDisplay />
                                 </div>
-
                             )}
                             {isComplete && (
                                 <div className="completion-message">
@@ -626,7 +619,25 @@ const MidiKeyboardPage = () => {
                         </div>
                     </div>
                     <div>
-                        <PianoContainer />
+                        {/* Replace the PianoContainer with our new VexFlowPiano */}
+                        <VexFlowPiano
+                            ref={pianoRef}
+                            activeNotes={currentNotes}
+                            targetKey={targetKey}
+                            soundManager={soundManager.current}
+                            isTrainingMode={gameState.isActive}
+
+                            onNotePlay={handleNotePlay} // Add this line
+                            onNoteRelease={() => {
+                                // Clear notes on release
+                                setCurrentNotes([]);
+
+                                // Only clear feedback if not in active game mode
+                                if (!gameState.isActive) {
+                                    setFeedback("");
+                                }
+                            }}
+                        />
                     </div>
                 </div>
             )}

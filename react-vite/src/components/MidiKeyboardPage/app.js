@@ -1,5 +1,5 @@
 import Utilities from "./utilities.js"
-import KeyImages from "./images.js"
+
 import * as Tonal from 'tonal'
 import {WebMidi} from "webmidi";
 
