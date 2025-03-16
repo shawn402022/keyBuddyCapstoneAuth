@@ -4,6 +4,7 @@ import { getCourses } from '../../redux/course';
 import { Navigate,  NavLink } from 'react-router-dom';
 import './CoursePage.css';
 import { keys} from './CourseData';
+import { Scale } from "tonal"
 import CourseTile from './CourseTile';
 
 
@@ -44,6 +45,19 @@ const CoursePage = () => {
             <NavLink to="/createCourse" className="custom-course-button">
                  Create Custom Course
             </NavLink>
+            <div className='test'>
+            TEST
+            {keys.map((data) => {
+                let key = data.key.tonic;
+                let type = data.key.type;
+                let name = `${key} ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+                console.log('NAME', name)
+                let note = Scale.get(name).notes
+                console.log('NOTES', note)
+                let maj7 = [1,3,5, 7].map(Scale.degrees(name))
+                console.log('MAJ7', maj7)
+            })}
+            </div>
             <div className="courses-grid">
             {keys.map((keyData, index) => {
                 // Handle different key types

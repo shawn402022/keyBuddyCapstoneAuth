@@ -97,7 +97,7 @@ const CustomCourseList = () => {
               className={`chord-button ${selectedChords.includes(chord) ? 'selected' : ''}`}
               onClick={() => toggleChord(chord)}
             >
-              {chord}
+              Add
             </button>
             <ChordDiagram chordName={chord} size="small" />
           </div>

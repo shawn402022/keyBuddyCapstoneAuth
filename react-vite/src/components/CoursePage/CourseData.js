@@ -1,4 +1,4 @@
-import {Key} from 'tonal';
+import {Key, Scale} from 'tonal';
 import { KeySignature } from 'vexflow';
 
 
