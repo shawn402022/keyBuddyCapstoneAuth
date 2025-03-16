@@ -51,9 +51,9 @@ const CoursePage = () => {
                 let key = data.key.tonic;
                 let type = data.key.type;
                 let name = `${key} ${type.charAt(0).toUpperCase() + type.slice(1)}`;
-                console.log('NAME', name)
+                //console.log('NAME', name)
                 let note = Scale.get(name).notes
-                console.log('NOTES', note)
+                //console.log('NOTES', note)
                 let maj7 = [1,3,5, 7].map(Scale.degrees(name))
                 console.log('MAJ7', maj7)
             })}

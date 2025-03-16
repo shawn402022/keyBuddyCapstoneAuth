@@ -284,11 +284,6 @@ export class TrainingParser {
         '6sus4b5': [0, 5, 6, 9],     // 6th Suspended 4th Flat 5th
         '6sus4#5': [0, 5, 8, 9],     // 6th Suspended 4th Sharp 5th
         '6m7': [0, 3, 7, 9, 10],  // Minor 7th add 11th
-        '7sus2': [0, 2, 7, 9, 11],  // 7th Suspended 2nd
-        '7sus4': [0, 5, 7, 9, 11],  // 7th Suspended 4th
-        '7sus2b5': [0, 2, 6, 9, 11],  // 7th Suspended 2nd Flat 5th
-        '6sus2#5': [0, 2, 8, 9, 11],  // 7th Suspended 2nd Sharp 5th
-        '6sus4#5': [0, 5, 8, 9, 11],  // 7th Suspended 4th Sharp 5th
 
         // add sixth
         'add6': [0, 4, 7, 9, 11],  // Add 6th
@@ -300,9 +295,6 @@ export class TrainingParser {
         'add6sus2#5': [0, 2, 8, 9, 11],  // Add 6th Suspended 2nd Sharp 5th
         'add6sus4#5': [0, 5, 8, 9, 11],  // Add 6th Suspended 4th Sharp 5th
         'add6sus4b5': [0, 5, 6, 9, 11],  // Add 6th Suspended 4th Flat 5th
-        'add6sus4#5': [0, 5, 8, 9, 11],  // Add 6th Suspended 4th Sharp 5th
-        'add6sus4b5': [0, 5, 6, 9, 11],  // Add 6th Suspended 4th Flat 5th
-        'add6sus4#5': [0, 5, 8, 9, 11],  // Add 6th Suspended 4th Sharp 5th
 
         // Seventh Chords
         'maj7': [0, 4, 7, 11],     // Major 7th
@@ -456,7 +448,6 @@ export class TrainingParser {
         '13b13sus11': [0, 3, 7, 10, 14, 17, 19],  // 13th Flat 13 Suspended 11
         '13b13sus13': [0, 3, 7, 10, 14, 17, 20], // 13th Flat 13 Suspended 13
         '13#13b5': [0, 3, 8, 10, 14, 17],  // 13th Sharp 13 Flat 5
-        '13#13#5': [0, 3, 8, 10, 14, 17],  // 13th Sharp 13 Sharp 5
         '13#13b11': [0, 3, 8, 10, 14, 17, 19],  // 13th Sharp 13 Flat 11
         '13#13#11': [0, 3, 8, 10, 14, 17, 19],  // 13th Sharp 13 Sharp 11
         '13#13b11b5': [0, 3, 8, 10, 14, 16],  // 13th Sharp 13 Flat 11 Flat 5
@@ -465,232 +456,11 @@ export class TrainingParser {
         '13#13#13': [0, 3, 8, 10, 14, 17],  // 13th Sharp 13 Sharp 13
         '13#13b11sus4': [0, 3, 8, 10, 13, 16], // 13th Sharp 13 Flat 11 Suspended 4th
         '13#13sus2': [0, 3, 8, 10, 13, 16], // 13th Sharp 13 Suspended 2nd
-        '13#13sus2b5': [0, 3, 8, 10, 13, 13],  // 13th Sharp 13 Suspended 2nd Flat 5
         '13#13sus2#5': [0, 3, 8, 10, 13, 13],  // 13th Sharp 13 Suspended 2nd Sharp 5
         '13#13b13sus4': [0, 3, 8, 10, 13, 16],  // 13th Sharp 13 Flat 13 Suspended 4th
-        '13#13sus2': [0, 3, 8, 10, 13, 16],  // 13th Sharp 13 Suspended 2nd
-        '13#13sus2b5': [0, 3, 8, 10, 13, 13],  // 13th Sharp 13 Suspended 2nd Flat 5
-        '13#13sus4#5': [0, 3, 8, 10, 13, 13],  // 13th Sharp 13 Suspended 4th Sharp 5
         '13#13b13sus11': [0, 3, 8, 10, 13, 16, 18],  // 13th Sharp 13 Flat 13 Suspended 11
         '13#13b13sus13': [0, 3, 8, 10, 13, 16, 19], // 13th Sharp 13 Flat 13 Suspended 13
         '13#13b11sus4b5': [0, 3, 8, 10, 12, 15],  // 13th Sharp 13 Flat 11 Flat 5
-
-        // jazz scales
-        'jazzMinor': [0, 3, 5, 7, 10],  // Jazz Minor
-        'jazzMajor': [0, 0, 2, 4, 5, 7, 9, 11, 12, 14, 15, 17, 19], // Jazz Major
-        'jazzMinorPentatonic': [0, 3, 5, 7, 10, 12], // Jazz Minor Pentatonic
-        'jazzMajorPentatonic': [0, 0, 2, 4, 5, 7, 9, 11, 12, 14, 15, 17, 19], // Jazz Major Pentatonic
-        'jazzDominantSeventh': [0, 0, 2, 4, 5, 7, 9, 11, 12, 14, 15, 17, 19, 21], // Jazz Dominant Seventh
-        'jazzMinorSeventh': [0, 3, 5, 6, 8, 10, 13, 15], // Jazz Minor Seventh
-        'jazzMajorSeventh': [0, 0, 2, 4, 5, 7, 9, 11, 12, 14, 15, 17, 19, 21], // Jazz Major Seventh
-        'jazzAugmentedSeventh': [0, 0, 2, 4, 5, 7, 9, 11, 12, 14, 15, 17, 19, 21, 23], // Jazz Augmented Seventh
-        'jazzDiminishedSeventh': [0, 0, 2, 3, 5, 6, 8, 10, 12, 13, 15, 17, 19, 20], // Jazz Diminished Seventh
-        'jazzSuspendedFourth': [0, 3, 5, 6, 8, 10, 13, 15, 17], // Jazz Suspended Fourth
-        'jazzSuspendedSecond': [0, 3, 5, 6, 8, 10, 13, 15, 17, 19], // Jazz Suspended Second
-        'jazzSuspendedSecondb5': [0, 3, 5, 6, 8, 10, 13, 15, 17, 13],  // Jazz Suspended Second Flat 5
-        'jazzSuspendedSecond#5': [0, 3, 5, 6, 8, 10, 13, 15, 17, 13],  // Jazz Suspended Second Sharp 5
-        'jazzSuspendedFourth#5': [0, 3, 5, 6, 8, 10, 13, 15, 17, 13],  // Jazz Suspended Fourth Sharp 5
-        'jazzSuspendedFourthb5': [0, 3, 5, 6, 8, 10, 13, 15, 17, 13],  // Jazz Suspended Fourth Flat 5
-        'jazzSuspendedFourthsus4': [0, 3, 5, 6, 8, 10, 13, 15, 17, 16],  // Jazz Suspended Fourth Suspended 4th
-        'jazzSuspendedFourthb13': [0, 3, 5, 6, 8, 10, 13, 15, 17, 16, 18],  // Jazz Suspended Fourth Flat 13
-        'jazzSuspendedFourthsus2': [0, 3, 5, 6, 8, 10, 13, 15, 17, 16],  // Jazz Suspended Fourth Suspended 2nd
-        'jazzSuspendedFourthsus2b5': [0, 3, 5, 6, 8, 10, 13, 15, 17, 13],  // Jazz Suspended Fourth Suspended 2nd Flat 5
-        'jazzSuspendedFourthsus4b5': [0, 3, 5, 6, 8, 10, 13, 15, 17, 13],  // Jazz Suspended Fourth Suspended 4th Flat 5
-        'jazzSuspendedFourthsus4#5': [0, 3, 5, 6, 8, 10, 13, 15, 17, 13],  // Jazz Suspended Fourth Suspended 4th Sharp 5
-        'jazzSuspendedFourthb13sus11': [0, 3, 5, 6, 8, 10, 13, 15, 17, 16, 18, 20],  // Jazz Suspended Fourth Flat 13 Suspended 11
-        'jazzSuspendedFourthsus2sus4': [0, 3, 5, 6, 8, 10, 13, 15, 17, 16],  // Jazz Suspended Fourth Suspended 2nd Suspended 4th
-        'jazzSuspendedFourthsus4sus2': [0, 3, 5, 6, 8, 10, 13, 15, 17, 16],  // Jazz Suspended Fourth Suspended 4th Suspended 2nd
-        'jazzSuspendedFourthsus2sus4b5': [0, 3, 5, 6, 8, 10, 13, 15, 17, 13],  // Jazz Suspended Fourth Suspended 2nd Suspended 4th Flat 5
-        'jazzSuspendedFourthsus4sus2b5': [0, 3, 5, 6, 8, 10, 13, 15, 17, 13],  // Jazz Suspended Fourth Suspended 4th Sharp 5 Flat 5
-        'jazzSuspendedFourthsus4sus2b5sus4': [0, 3, 5, 6, 8, 10, 13, 15, 17, 13],  // Jazz Suspended Fourth Suspended 4th Suspended 2nd Flat 5
-        'jazzSuspendedFourthsus4sus2b5sus4b5': [0, 3, 5, 6, 8, 10, 13, 15, 17, 13],  // Jazz Suspended Fourth Suspended 4th Sharp 5 Flat 5
-        'jazzSuspendedFourthsus4sus2b5sus4b5sus4': [0, 3, 5, 6, 8, 10, 13, 15, 17, 13],  // Jazz Suspended Fourth Suspended 4th Sharp 5 Flat 5
-        'jazzSuspendedFourthsus4sus2b5sus4b5sus4sus4': [0, 3, 5, 6, 8, 10, 13, 15, 17, 13],  // Jazz Suspended Fourth Suspended 4th Sharp 5 Flat 5 Suspended 4th
-
-        // gospel scales
-        'gospel': [0, 0, 3, 5, 7, 10, 12], // Gospel
-        'gospelMinor': [0, 0, 3, 5, 7, 10, 12, 13], // Gospel Minor
-        'gospelMajor': [0, 0, 2, 4, 5, 7, 9, 10, 12, 14, 15, 17, 19], // Gospel Major
-        'gospelMinorPentatonic': [0, 0, 3, 5, 7, 10, 13], // Gospel Minor Pentatonic
-        'gospelMajorPentatonic': [0, 0, 2, 4, 5, 7, 9, 10, 12, 14, 15, 17, 19], // Gospel Major Pentatonic
-        'gospelDominantSeventh': [0, 0, 2, 4, 5, 7, 9, 10, 12, 14, 15, 17, 19, 21], // Gospel Dominant Seventh
-        'gospelMinorSeventh': [0, 0, 3, 5, 7, 10, 13, 15], // Gospel Minor Seventh
-        'gospelDominantSeventhSharp5': [0, 0, 2, 4, 5, 7, 9, 10, 12, 14, 15, 17, 19, 22], // Gospel Dominant Seventh Sharp 5
-        'gospelMinorSeventhSharp5b9': [0, 0, 3, 5, 7, 10, 13, 15, 18], // Gospel Minor Seventh Sharp 5 Flat 9
-        'gospelMinorSeventhSharp5sus4': [0, 0, 3, 5, 7, 10, 13, 15, 17], // Gospel Minor Seventh Sharp 5 Suspended 4th
-        'gospelMinorSeventhSharp5sus4b5': [0, 0, 3, 5, 7, 10, 13, 15, 13], // Gospel Minor Seventh Sharp 5 Flat 5
-        'gospelMinorSeventhSharp5sus4b5sus4': [0, 0, 3, 5, 7, 10, 13, 15, 13], // Gospel Minor Seventh Sharp 5 Flat 5 Suspended 4th
-        'gospelMinorSeventhSharp5sus4b5sus4sus4': [0, 0, 3, 5, 7, 10, 13, 15, 13], // Gospel Minor Seventh Sharp 5 Flat 5 Suspended 4th Suspended 4th
-        'gospelMinorSeventhSharp5sus4b5sus4sus4sus4': [0, 0, 3, 5, 7, 10, 13, 15, 13],  // Gospel Minor Seventh Sharp 5 Flat 5 Suspended 4th Suspended 4th
-
-
-        // Blues Scales
-        'blues': [0, 3, 5, 6, 10],     // Blues
-        'bluesMinor': [0, 3, 5, 6, 10, 13],  // Blues Minor
-        'bluesMajor': [0, 0, 2, 4, 5, 7, 9, 10, 11, 14, 15, 17, 19], // Blues Major
-        'bluesMinorPentatonic': [0, 3, 5, 7, 10, 13], // Blues Minor Pentatonic
-        'bluesMajorPentatonic': [0, 0, 2, 4, 5, 7, 9, 11, 12, 14, 15, 17, 19], // Blues Major Pentatonic
-        'bluesDominantSeventh': [0, 0, 2, 4, 5, 7, 9, 11, 12, 14, 15, 17, 19, 21], // Blues Dominant Seventh
-        'bluesMinorSeventh': [0, 3, 5, 6, 8, 10, 13, 15], // Blues Minor Seventh
-        'blues DominantSeventhFlatFifth': [0, 0, 2, 4, 5, 7, 9, 11, 12, 14, 15, 17, 19, 20], // Blues Dominant Seventh Flat Fifth
-        'blues MinorSeventhFlatFifthSharpNinth': [0, 3, 5, 6, 8, 10, 13, 15, 17, 19, 20, 22, 23], // Blues Minor Seventh Flat Fifth Sharp Ninth
-        'blues MinorSeventhSharpNinth': [0, 3, 5, 6, 8, 10, 13, 15, 17, 19, 20, 22, 23], // Blues Minor Seventh Sharp Ninth
-        'blues MinorSeventhSharpEleventh': [0, 3, 5, 6, 8, 10, 13, 15, 17, 19, 20, 22, 24], // Blues Minor Seventh Sharp Eleventh
-        'blues MinorSeventhSharpEleventhFlatThirteenth': [0, 3, 5, 6, 8, 10, 13, 15, 17, 19, 20, 22, 24, 25], // Blues Minor Seventh Sharp Eleventh Flat Thirteenth
-
-        // Chromatic Scales
-        'chromatic': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], // Chromatic
-        'chromaticMinor': [0, 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 14], // Chromatic Minor
-        'chromaticMajor': [0, 0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19], // Chromatic Major
-        'chromaticDiminished': [0, 1, 2, 3, 5, 6, 7, 8, 9, 11, 12, 13, 14], // Chromatic Diminished
-        'chromaticAugmented': [0, 1, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19], // Chromatic Augmented
-        'chromaticSuspendedSecond': [0, 1, 2, 4, 5, 8, 9, 11, 12, 14, 16, 17, 19], // Chromatic Suspended Second
-        'chromaticSuspendedFourth': [0, 1, 2, 4, 5, 7, 9, 11, 13, 14, 16, 17, 19], // Chromatic Suspended Fourth
-        'chromaticDiminishedSeventh': [0, 1, 2, 3, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15], // Chromatic Diminished Seventh
-        'chromaticDominantSeventh': [0, 1, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 20], // Chromatic Dominant Seventh
-        'chromaticMinorMajorSeventh': [0, 1, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 21], // Chromatic Minor Major Seventh
-        'chromaticDominantNinth': [0, 1, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 21], // Chromatic Dominant Ninth
-        'chromaticDominantEleventh': [0, 1, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 22], // Chromatic Dominant Eleventh
-        'chromaticDominant Thirteenth': [0, 1, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 23], // Chromatic Dominant Thirteenth
-
-
-
-        // Arabian Scales
-        'arabian': [0, 2, 4, 6, 7, 9, 11, 13],  // Arabian
-        'arabianMinor': [0, 2, 3, 5, 7, 9, 10, 12],  // Arabian Minor
-        'arabian Major': [0, 2, 4, 6, 7, 9, 11, 13, 14],  // Arabian Major
-        'arabian Augmented': [0, 2, 4, 6, 7, 9, 11, 13, 15],  // Arabian Augmented
-        'arabian Minor Major': [0, 2, 4, 6, 7, 9, 11, 13, 15],  // Arabian Minor Major
-        'arabian DominantSeventh': [0, 2, 4, 6, 7, 9, 11, 13, 15, 17],  // Arabian Dominant Seventh
-        'arabian DominantNinth': [0, 2, 4, 6, 7, 9, 11, 13, 15, 17, 19],  // Arabian Dominant Ninth
-        'arabian DominantEleventh': [0, 2, 4, 6, 7, 9, 11, 13, 15, 17, 19, 20],  // Arabian Dominant Eleventh
-        'arabian Dominant Thirteenth': [0, 2, 4, 6, 7, 9, 11, 13, 15, 17, 19, 20, 22],  // Arabian Dominant Thirteenth
-        'arabian Dominant Sixteenth': [0, 2, 4, 6, 7, 9, 11, 13, 15, 17, 19, 20, 22, 24],  // Arabian Dominant Sixteenth
-        'arabian Dominant Seventeenth': [0, 2, 4, 6, 7, 9, 11, 13, 15, 17, 19, 20, 22, 25],  // Arabian Dominant Seventeenth
-
-
-
-        // Oriental Scales
-        'oriental': [0, 2, 4, 5, 7, 9, 11, 12],  // Oriental
-        'orientalMinor': [0, 2, 3, 5, 7, 8, 10, 11],  // Oriental Minor
-        'oriental Major': [0, 2, 4, 5, 7, 9, 11, 12, 13],  // Oriental Major
-        'oriental Augmented': [0, 2, 4, 5, 7, 9, 11, 12, 15],  // Oriental Augmented
-        'oriental Minor Major': [0, 2, 4, 5, 7, 9, 11, 12, 14],  // Oriental Minor Major
-        'oriental DominantSeventh': [0, 2, 4, 5, 7, 9, 11, 12, 14, 16],  // Oriental Dominant Seventh
-        'oriental DominantNinth': [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 18],  // Oriental Dominant Ninth
-        'oriental DominantEleventh': [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 18, 19],  // Oriental Dominant Eleventh
-        'oriental Dominant Thirteenth': [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 18, 19, 21],  // Oriental Dominant Thirteenth
-        'oriental Dominant Sixteenth': [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 18, 19, 21, 23],  // Oriental Dominant Sixteenth
-
-
-
-        // Minor Scales
-        'naturalMinor': [0, 2, 3, 5, 7, 8, 10],  // Natural Minor/Aeolian
-        'harmonicMinor': [0, 2, 3, 5, 7, 8, 11],  // Harmonic Minor
-        'hungarianMinor': [0, 2, 3, 5, 6, 8, 10],  // Hungarian Minor
-        'bebopMinor': [0, 2, 3, 5, 7, 8, 10, 13],  // Bebop Minor
-        'bebop Dominant': [0, 2, 4, 5, 7, 8, 10, 13, 15],  // Bebop Dominant
-        'bebop Minor Sixth': [0, 2, 3, 5, 7, 8, 10, 13, 15, 17],  // Bebop Minor Sixth
-        'bebop Dominant Seventh': [0, 2, 4, 5, 7, 8, 10, 13, 15, 17, 19],  // Bebop Dominant Seventh
-        'bebop Dominant Ninth': [0, 2, 4, 5, 7, 8, 10, 13, 15, 17, 19, 21],  // Bebop Dominant Ninth
-        'bebop Dominant Thirteenth': [0, 2, 4, 5, 7, 8, 10, 13, 15, 17, 19, 21, 23],  // Bebop Dominant Thirteenth
-        'bebop Dominant Sixteenth': [0, 2, 4, 5, 7, 8, 10, 13, 15, 17, 19, 21, 23, 25],  // Bebop Dominant Sixteenth
-        'bebop Dominant SeventeenthFlatFifth': [0, 2, 4, 5, 7, 8, 10, 13, 15, 17, 19, 21, 23, 26],  // Bebop Dominant Seventeenth Flat Fifth
-        'bebop Dominant SeventeenthSharpFifth': [0, 2, 4, 5, 7, 8, 10, 13, 15, 17, 19, 21, 23, 27],  // Bebop Dominant Seventeenth Sharp Fifth
-        'bebop Dominant SeventeenthMinor': [0, 2, 4, 5, 7, 8, 10, 13, 15, 17, 19, 21, 23, 25],  // Bebop Dominant Seventeenth Minor
-        'bebop Dominant Seventeenth Diminished': [0, 2, 4, 5, 7, 8, 10, 13, 15, 17, 19, 21, 23, 24],  // Bebop Dominant Seventeenth Diminished
-        'bebop Dominant Seventeenth Augmented': [0, 2, 4, 5, 7, 8, 10, 13, 15, 17, 19, 21, 23, 26],  // Bebop Dominant Seventeenth Augmented
-        'bebop Dominant Seventeenth SuspendedSecond': [0, 1, 3, 5, 7, 8, 10, 13, 15, 17, 19, 21, 23, 24, 25],  // Bebop Dominant Seventeenth Suspended Second
-        'bebop Dominant Seventeenth Suspended Fourth': [0, 1, 3, 5, 7, 8, 10, 13, 15, 17, 19, 21, 23, 24, 26],  // Bebop Dominant Seventeenth Suspended Fourth
-        'bebop Dominant Seventeenth Suspended Sixth': [0, 1, 3, 5, 7, 8, 10, 13, 15, 17, 19, 21, 23, 24, 27],  // Bebop Dominant Seventeenth Suspended Sixth
-        'bebop Dominant Seventeenth Suspended Seventh': [0, 1, 3, 5, 7, 8, 10, 13, 15, 17, 19, 21, 23, 24, 28],  // Bebop Dominant Seventeenth Suspended Seventh
-
-
-        // Ionian Scales
-        'ionian': [0, 2, 4, 5, 7, 9, 11],              // Major/Ionian
-            'dorian': [0, 2, 3, 5, 7, 9, 10],             // Dorian Mode
-            'phrygian': [0, 1, 3, 5, 7, 8, 10],           // Phrygian Mode
-            'lydian': [0, 2, 4, 6, 7, 9, 11],             // Lydian Mode
-            'mixolydian': [0, 2, 4, 5, 7, 9, 10],         // Mixolydian Mode
-            'locrian': [0, 1, 3, 5, 6, 8, 10],            // Locrian Mode
-            'wholeTone': [0, 2, 4, 6, 8, 10, 12],          // Whole Tone Scale
-            'minorPentatonic': [0, 3, 5, 7, 10],           // Minor Pentatonic Scale
-            'pentatonicMinor': [0, 3, 5, 7, 12],           // Pentatonic Minor Scale
-            'pentatonicMajor': [0, 2, 4, 7, 12],           // Pentatonic Major Scale
-            'wholeOctatonic': [0, 2, 4, 6, 8, 10, 12, 14],  // Whole Octatonic Scale
-            'majorBlues': [0, 3, 5, 6, 10, 11, 13],     // Major Blues Scale
-            'minorPentatonicBlues': [0, 3, 5, 6, 10, 11, 14],  // Minor Pentatonic Blues Scale
-            'majorPentatonicSharp': [0, 2, 4, 7, 10, 11, 13],  // Major Pentatonic Sharp Scale
-            'minorPentatonicSharp': [0, 3, 5, 7, 9, 10, 12],  // Minor Pentatonic Sharp Scale
-            'majorPentatonicFlat': [0, 2, 3, 5, 7, 9, 11],     // Major Pentatonic Flat Scale
-            'minorPentatonicFlat': [0, 3, 5, 6, 8, 10, 12],     // Minor Pentatonic Flat Scale
-            'majorSixth': [0, 2, 4, 5, 7, 9, 12],           // Major Sixth Scale
-            'minorSixth': [0, 3, 5, 6, 8, 10, 12],           // Minor Sixth Scale
-            'majorSeventh': [0, 2, 4, 5, 7, 9, 13],           // Major Seventh Scale
-            'minorSeventh': [0, 3, 5, 6, 8, 10, 12],           // Minor Seventh Scale
-            'majorNinth': [0, 2, 4, 5, 7, 9, 14],           // Major Ninth Scale
-            'minorNinth': [0, 3, 5, 6, 8, 10, 12],           // Minor Ninth Scale
-            'majorEleventh': [0, 2, 4, 5, 7, 9, 14, 16],  // Major Eleventh Scale
-            'minorEleventh': [0, 3, 5, 6, 8, 10, 12, 15],  // Minor Eleventh Scale
-            'majorThirteenth': [0, 2, 4, 5, 7, 9, 14, 16, 19],  // Major Thirteenth Scale
-            'minorThirteenth': [0, 3, 5, 6, 8, 10, 12, 15, 18],  // Minor Thirteenth Scale
-            'majorSixteenth': [0, 2, 4, 5, 7, 9, 14, 16, 19, 22],  // Major Sixteenth Scale
-            'minorSixteenth': [0, 3, 5, 6, 8, 10, 12, 15, 18, 22],  // Minor Sixteenth Scale
-            'majorSeventeenth': [0, 2, 4, 5, 7, 9, 13, 16, 19, 22, 25],  // Major Seventeenth Scale
-            'minorSeventeenth': [0, 3, 5, 6, 8, 10, 12, 15, 18, 22, 25],  // Minor Seventeenth Scale
-            'majorTwelfth': [0, 2, 4, 5, 7, 9, 14, 16, 19, 22, 25, 28],  // Major Twelfth Scale
-            'minorTwelfth': [0, 3, 5, 6, 8, 10, 12, 15, 18, 22, 25, 28],  // Minor Twelfth Scale
-            'majorThirteenthSharp': [0, 2, 4, 5, 7, 9, 14, 16, 19, 22, 25, 28, 31],  // Major Thirteenth Sharp Scale
-            'minorThirteenthSharp': [0, 3, 5, 6, 8, 10, 12, 15, 18, 22, 25, 28, 31],  // Minor Thirteenth Sharp Scale
-            'majorSixteenthSharp': [0, 2, 4, 5, 7, 9, 14, 16, 19, 22, 25, 28, 31, 34],  // Major Sixteenth Sharp Scale
-            'minorSixteenthSharp': [0, 3, 5, 6, 8, 10, 12, 15, 18, 22, 25, 28, 31],  // Minor Sixteenth Sharp Scale
-            'majorSeventeenthSharp': [0, 2, 4, 5, 7, 9, 13, 16, 19, 22, 25, 28, 31, 34],  // Major Seventeenth Sharp Scale
-            'minorSeventeenthSharp': [0, 3, 5, 6, 8, 10, 12, 15, 18, 22, 25, 28, 31],  // Minor Seventeenth Sharp Scale
-            'majorTwelfthSharp': [0, 2, 4, 5, 7, 9, 14, 16, 19, 22, 25, 28, 31, 34],  // Major Twelfth Sharp Scale
-            'minorTwelfthSharp': [0, 3, 5, 6, 8, 10, 12, 15, 18, 22, 25, 28, 31],  // Minor Twelfth Sharp Scale
-            'majorThirteenthFlat': [0, 2, 4, 5, 7, 9, 14, 16, 19, 22, 25, 28, 31, 33],  // Major Thirteenth Flat Scale
-            'minorThirteenthFlat': [0, 3, 5, 6, 8, 10, 12, 15, 18, 22, 25, 28, 31],  // Minor Thirteenth Flat Scale
-            'majorSixteenthFlat': [0, 2, 4, 5, 7, 9, 14, 16, 19, 22, 25, 28, 31, 33],  // Major Sixteenth Flat Scale
-
-            // Minor Scales
-            'minor': [0, 2, 3, 5, 7, 8, 10],              // Natural Minor/Aeolian
-            'harmonicMinor': [0, 2, 3, 5, 7, 8, 11],      // Harmonic Minor
-            'melodicMinor': [0, 2, 3, 5, 7, 9, 11],       // Melodic Minor (ascending)
-
-            // Modes of Major Scale
-            'dorian': [0, 2, 3, 5, 7, 9, 10],             // Dorian Mode
-            'phrygian': [0, 1, 3, 5, 7, 8, 10],           // Phrygian Mode
-            'lydian': [0, 2, 4, 6, 7, 9, 11],             // Lydian Mode
-            'mixolydian': [0, 2, 4, 5, 7, 9, 10],         // Mixolydian Mode
-            'locrian': [0, 1, 3, 5, 6, 8, 10],            // Locrian Mode
-            'Ionian': [0, 2, 4, 5, 7, 9, 11],            // Ionian Mode
-            'Major Pentatonic': [0, 2, 4, 7, 9],            // Major Pentatonic
-            'Minor Pentatonic': [0, 3, 5, 7, 10],         // Minor Pentatonic
-
-            // Blues Scale
-            'blues': [0, 3, 5, 6, 7, 10],               // Blues
-            // Diminished Scale
-            'diminished': [0, 2, 3, 5, 6, 8, 9],            // Diminished
-            // Augmented Scale
-            'augmented': [0, 2, 4, 5, 7, 8, 10, 11],       // Augmented
-            // Octatonic Scale
-            'octatonic': [0, 2, 4, 5, 7, 9, 10, 12],      // Octatonic
-            // Chromatic Scale
-            'chromatic': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-
-            // Minor Scales
-            'minor': [0, 2, 3, 5, 7, 8, 10],              // Natural Minor/Aeolian
-            'harmonicMinor': [0, 2, 3, 5, 7, 8, 11],      // Harmonic Minor
-            'melodicMinor': [0, 2, 3, 5, 7, 9, 11],       // Melodic Minor (ascending)
-
-            // Modes of Major Scale
-            'dorian': [0, 2, 3, 5, 7, 9, 10],             // Dorian Mode
-            'phrygian': [0, 1, 3, 5, 7, 8, 10],           // Phrygian Mode
-
-
-
-
-
     };
 
     static getScaleNotes(root, type) {
