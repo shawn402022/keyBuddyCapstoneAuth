@@ -18,7 +18,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import './MidiKeyboardPage.css';
 import MusicStaff from './MusicStaff';
 import StopWatch from './StopWatch';
-import PianoContainer from './PianoContainer.jsx';
+
 import ChordDisplay from './ChordDisplay';
 import { TrainingParser } from '../TrainingParser/trainingParse';
 import TrainingQuestions from './TrainingQuestions.jsx';
@@ -631,6 +631,8 @@ const MidiKeyboardPage = () => {
                         <SimplePiano
                         soundManager={soundManager.current}
                         setCurrentNotes={setCurrentNotes}
+                        midiController={midiController.current}
+
                         />
                     </div>
                 </div>

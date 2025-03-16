@@ -8,6 +8,13 @@ export class MidiController {
         this.currentInput = null;
         // Create a Map using the note key as the unique identifier
         this.activeNotes = new Map();
+        this.noteOnCallback = null;
+        this.noteOffCallback = null;
+    }
+
+    setNoteCallbacks(onCallback, offCallback) {
+        this.noteOnCallback = onCallback;
+        this.noteOffCallback = offCallback;
     }
 
     handleNoteOn = (e) => {
@@ -52,6 +59,10 @@ export class MidiController {
             }
             console.log(`Note ${noteId} on, velocity: ${velocity}`);
         }
+
+        if (this.noteOnCallback) {
+            this.noteOnCallback(noteId, e.velocity);
+        }
     }
     handleNoteOff = (e) => {
         const noteId = e.note.identifier;
@@ -79,6 +90,10 @@ export class MidiController {
             if (noteLabel) {
                 noteLabel.remove();
             }
+        }
+
+        if (this.noteOffCallback) {
+            this.noteOffCallback(noteId);
         }
     }
 

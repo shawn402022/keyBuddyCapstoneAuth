@@ -11,8 +11,11 @@ const SimplePiano = ({ soundManager, setCurrentNotes, midiController }) => {
     useEffect(() => {
         if (!pianoRef.current) return;
 
+        // Store a reference to the container that will persist through cleanup
+        const pianoContainer = pianoRef.current;
+
         // Clear any existing content
-        pianoRef.current.innerHTML = '';
+        pianoContainer.innerHTML = '';
 
         // Create SVG element - extended width for more octaves
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -81,7 +84,7 @@ const SimplePiano = ({ soundManager, setCurrentNotes, midiController }) => {
             }
         });
 
-        pianoRef.current.appendChild(svg);
+        pianoContainer.appendChild(svg);
 
         // Handle note events
         function handleNoteOn(noteId) {
@@ -125,6 +128,11 @@ const SimplePiano = ({ soundManager, setCurrentNotes, midiController }) => {
             if (setCurrentNotes) {
                 setCurrentNotes([...activeNotesRef.current.values()]);
             }
+        }
+
+        // Connect to MIDI controller if available
+        if (midiController) {
+            midiController.setNoteCallbacks(handleNoteOn, handleNoteOff);
         }
 
         // Add mouse event listeners for individual keys
@@ -189,8 +197,8 @@ const SimplePiano = ({ soundManager, setCurrentNotes, midiController }) => {
             }
         };
 
-        // Add event listeners for drag functionality
-        pianoRef.current.addEventListener('mousedown', handleMouseDown);
+        // Add event listeners with proper reference
+        pianoContainer.addEventListener('mousedown', handleMouseDown);
         document.addEventListener('mouseup', handleMouseUp);
         document.addEventListener('mousemove', handleMouseMove);
 
@@ -205,16 +213,32 @@ const SimplePiano = ({ soundManager, setCurrentNotes, midiController }) => {
             };
         }
 
-        // Cleanup function
+        // Cleanup function with null checks
         return () => {
-            pianoRef.current.removeEventListener('mousedown', handleMouseDown);
-            document.removeEventListener('mouseup', handleMouseUp);
-            document.removeEventListener('mousemove', handleMouseMove);
+            // Check if references still exist before removing listeners
+            if (pianoContainer) {
+                try {
+                    pianoContainer.removeEventListener('mousedown', handleMouseDown);
+                } catch (e) {
+                    console.warn('Failed to remove mousedown event listener', e);
+                }
+            }
 
-            // Clean up MIDI controller callbacks
+            // Document should always exist, but wrap in try/catch for safety
+            try {
+                document.removeEventListener('mouseup', handleMouseUp);
+                document.removeEventListener('mousemove', handleMouseMove);
+            } catch (e) {
+                console.warn('Failed to remove document event listeners', e);
+            }
+
+            // Clean up MIDI controller callbacks safely
             if (midiController) {
-                midiController.setNoteOnCallback = null;
-                midiController.setNoteOffCallback = null;
+                try {
+                    midiController.setNoteCallbacks(null, null);
+                } catch (e) {
+                    console.warn('Failed to clean up MIDI callbacks', e);
+                }
             }
         };
     }, [soundManager, setCurrentNotes, midiController]);
