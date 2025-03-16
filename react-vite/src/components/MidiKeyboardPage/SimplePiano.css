@@ -1,0 +1,43 @@
+.simple-piano-container {
+  background-color: #333;
+  border-radius: 3px;
+  padding: 2px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  max-height: 100px;
+}
+
+.simple-piano {
+    max-height: 100px;
+}
+
+.white-key {
+  fill: white;
+  stroke: #ccc;
+  stroke-width: 1;
+  transition: fill 0.1s ease;
+
+}
+
+.black-key {
+  fill: #222;
+  stroke: #000;
+  stroke-width: 1;
+  transition: fill 0.1s ease;
+}
+
+.white-key.active {
+  fill: #32e732;
+  stroke: #8df987;
+  stroke-width: 3;
+}
+
+.black-key.active {
+  fill: #32e732;
+  stroke: #8df987;
+  stroke-width: 3;
+}
+
+/* Add subtle 3D effect */
+.white-key, .black-key {
+  filter: drop-shadow(0px 4px 3px rgba(0, 0, 0, 0.2));
+}

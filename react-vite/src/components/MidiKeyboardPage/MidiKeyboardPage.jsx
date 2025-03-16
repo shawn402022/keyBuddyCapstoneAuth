@@ -2,6 +2,8 @@
 import ChordDiagram from '../ChordDiagram/ChordDiagram';
 
 import PianoDiagnostic from '../Diagnostic/PianoDiagnostic';
+import SimplePiano from './SimplePiano';
+
 
 import { SoundManager } from './SoundManager';
 import { PianoBuilder } from './PianoBuilder';
@@ -584,7 +586,7 @@ const MidiKeyboardPage = () => {
                 <LoadingSpinner />
             ) : (
                 <div className="piano-content">
-                    
+
                     <div className='staff-notes-chords'>
                         <MusicStaff currentNotes={currentNotes} />
                         <ChordDisplay currentNotes={currentNotes} />
@@ -626,7 +628,10 @@ const MidiKeyboardPage = () => {
                         </div>
                     </div>
                     <div>
-                        <PianoContainer />
+                        <SimplePiano
+                        soundManager={soundManager.current}
+                        setCurrentNotes={setCurrentNotes}
+                        />
                     </div>
                 </div>
             )}

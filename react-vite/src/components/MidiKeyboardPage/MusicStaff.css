@@ -16,7 +16,7 @@
 .staff-notes-chords{
     display: flex;
     flex-direction: row;
-
+    gap: 10px;
 }
 
 .piano-content {

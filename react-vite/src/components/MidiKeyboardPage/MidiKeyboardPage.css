@@ -75,7 +75,7 @@ img {
 .piano-content {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 5px;
   width: 100%;
 }
 
@@ -250,4 +250,3 @@ img {
   height: 100%;
   display: block;
 }
-

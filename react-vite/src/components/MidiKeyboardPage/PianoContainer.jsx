@@ -1,14 +1,47 @@
     import { useEffect, useRef } from 'react'
+    import { PIANO_CONFIG } from './config'
+    import { PianoBuilder } from './PianoBuilder'
+    import Utilities from './utilities.js'
+    import KeyImages from './images.js'
+    import { PianoEvents } from './PianoEvents'
 
-    const PianoContainer = () => {
+    const PianoContainer = ({ soundManager, noteLabelManager, setCurrentNotes }) => {
       const containerRef = useRef(null)
+      const pianoBuilderRef = useRef(null)
+      const utilsRef = useRef(new Utilities())
+      const keyImagesRef = useRef(new KeyImages())
+      const pianoEventsRef = useRef(null)
 
       useEffect(() => {
-        // Log when the container is mounted
-        if (containerRef.current) {
-          console.log("Piano container mounted:", containerRef.current)
+        // Initialize piano events with the current sound manager and note label manager
+        if (soundManager && noteLabelManager) {
+          pianoEventsRef.current = new PianoEvents(soundManager, noteLabelManager)
+
+          // Set the callback for notes
+          if (setCurrentNotes) {
+            pianoEventsRef.current.setNotesCallback = setCurrentNotes
+          }
+
+          // Initialize the piano builder
+          pianoBuilderRef.current = new PianoBuilder(
+            utilsRef.current,
+            keyImagesRef.current,
+            pianoEventsRef.current
+          )
+
+          // Create the piano when the container is available
+          if (containerRef.current) {
+            console.log("Creating piano in container:", containerRef.current)
+
+            // Clear any existing content
+            containerRef.current.innerHTML = ''
+
+            // Create the piano
+            const piano = pianoBuilderRef.current.createPiano(containerRef.current)
+            console.log("Piano created:", piano)
+          }
         }
-      }, [])
+      }, [soundManager, noteLabelManager, setCurrentNotes])
 
       return (
         <div
@@ -18,7 +51,7 @@
             width: '100%',
             minHeight: '400px',
             position: 'relative',
-            border: '1px solid #ccc', // Temporary border to see the container
+            border: '1px solid #ccc',
             marginTop: '20px'
           }}
         >
@@ -34,7 +67,6 @@
               zIndex: 0
             }}
           />
-          {/* The piano SVG will be inserted here */}
         </div>
       )
     }
