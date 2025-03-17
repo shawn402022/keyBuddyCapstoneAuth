@@ -55,7 +55,7 @@ const CoursePage = () => {
                 let note = Scale.get(name).notes
                 //console.log('NOTES', note)
                 let maj7 = [1,3,5, 7].map(Scale.degrees(name))
-                console.log('MAJ7', maj7)
+                //console.log('MAJ7',name, maj7)
             })}
             </div>
             <div className="courses-grid">
