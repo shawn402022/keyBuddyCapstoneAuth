@@ -2,6 +2,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.1",
     "howler": "^2.2.4",
+    "piano-chart": "^1.5.0",
     "tone": "^15.0.4",
     "vexflow": "^4.2.5"
   }

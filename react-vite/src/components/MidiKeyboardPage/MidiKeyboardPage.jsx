@@ -1,8 +1,8 @@
 
 import ChordDiagram from '../ChordDiagram/ChordDiagram';
-
 import PianoDiagnostic from '../Diagnostic/PianoDiagnostic';
-import SimplePiano from './SimplePiano';
+//import SimplePiano from './SimplePiano';
+import PianoChart from './PianoChart.jsx';
 
 
 import { SoundManager } from './SoundManager';
@@ -628,11 +628,9 @@ const MidiKeyboardPage = () => {
                         </div>
                     </div>
                     <div>
-                        <SimplePiano
-                        soundManager={soundManager.current}
-                        setCurrentNotes={setCurrentNotes}
-                        midiController={midiController.current}
-
+                        <PianoChart
+                            currentNotes={currentNotes}
+                            soundManager={soundManager.current}
                         />
                     </div>
                 </div>

@@ -1,0 +1,16 @@
+.piano-chart-container {
+  display: flex;
+  flex-direction: row;
+
+  width: 100%;
+  height: 200px;
+  margin: 0px 0;
+  position: relative;
+
+}
+
+.piano-chart {
+  width: 100%;
+  height: 100%;
+
+}
