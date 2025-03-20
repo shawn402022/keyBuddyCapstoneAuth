@@ -37,6 +37,7 @@ export class MidiController {
             this.setNotesCallback([...this.activeNotes.values()]);
         }
 
+
         // WebMidi.js provides velocity in range 0-127, so we normalize it to 0-1
         const velocity = e.velocity;  // WebMidi.js already normalizes this to 0-1
         let showPressed = document.getElementById(`${noteId}-pressed`);
@@ -73,9 +74,17 @@ export class MidiController {
         // Delete the note using its unique key
         this.activeNotes.delete(noteKey);
 
-        if (this.setNotesCallback) {
-            this.setNotesCallback([...this.activeNotes.values()]);
+        // Only call setNotesCallback if we're not in the middle of releasing multiple keys
+        // We can use a debounce mechanism to wait a short time before calling the callback
+        if (this.noteOffDebounceTimeout) {
+            clearTimeout(this.noteOffDebounceTimeout);
         }
+
+        this.noteOffDebounceTimeout = setTimeout(() => {
+            if (this.setNotesCallback) {
+                this.setNotesCallback([...this.activeNotes.values()]);
+            }
+        }, 50); // 50ms debounce time
 
         let showPressed = document.getElementById(`${noteId}-pressed`);
         let showReleased = document.querySelector(`[data-id="${noteId}"]`);
@@ -83,10 +92,7 @@ export class MidiController {
 
         if (showPressed) {
             showPressed.style.visibility = 'hidden';
-            // Ensure released state is visible
             if (showReleased) showReleased.style.visibility = 'visible';
-
-            // Remove note label when MIDI note is released
             if (noteLabel) {
                 noteLabel.remove();
             }
@@ -126,6 +132,11 @@ export class MidiController {
                 channel.removeListener('noteoff');
             });
         }
+
+        if (this.noteOffDebounceTimeout) {
+            clearTimeout(this.noteOffDebounceTimeout);
+        }
+        
         WebMidi.disable();
     }
 }

@@ -4,10 +4,12 @@ import { Instrument } from 'piano-chart';
 import './PianoChart.css';
 
 const PianoChart = ({ currentNotes, soundManager }) => {
-
+  const rgbOrange = 'rgb(243, 154, 90)'
   const [startOctave, setStartOctave] = useState(1);
   const [endOctave, setEndOctave] = useState(8); // Define height state
   const [showNoteNames, setShowNoteNames] = useState('always');
+  const [keyPressStyle, setKeyPressStyle] = useState('vivid')
+  const [vividPressColor, setVividPressColor] = useState(rgbOrange);
   const [scale, setScale] = useState(.7);
 
 
@@ -49,6 +51,9 @@ const PianoChart = ({ currentNotes, soundManager }) => {
           startOctave,
           endOctave,
           showNoteNames,
+          keyPressStyle,
+          vividPressColor,
+          scale,
 
         });
         pianoInstanceRef.current.create();
