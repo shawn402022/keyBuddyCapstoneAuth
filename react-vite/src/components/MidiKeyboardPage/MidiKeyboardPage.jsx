@@ -86,64 +86,64 @@ const MidiKeyboardPage = () => {
     }, [currentNotes]);
 
     // Update function that properly merges state changes
-    const updateActiveNotes = useCallback((noteId, isActive, velocity = 0.8) => {
-        setActiveNoteMap(prevMap => {
-            const newMap = new Map(prevMap);
+      const updateActiveNotes = useCallback((noteId, isActive, velocity = 0.8) => {
+    setActiveNoteMap(prevMap => {
+      const newMap = new Map(prevMap);
 
-            if (isActive) {
-                // Note is being activated
-                if (!newMap.has(noteId)) {
-                    // Parse the noteId to extract information in the expected format
-                    // noteId could be "C4", "C#4", etc.
+      if (isActive) {
+        // Note is being activated
+        const match = noteId.match(/([A-G][#]?)(\d)/i);
+        if (!match) {
+          console.error(`Invalid note ID format: ${noteId}`);
+          return prevMap;
+        }
 
-                    // Extract note name and octave
-                    const match = noteId.match(/([A-G][#]?)(\d)/i);
-                    if (!match) {
-                        console.error(`Invalid note ID format: ${noteId}`);
-                        return prevMap; // Return previous state unchanged
-                    }
+        const [, noteName, octave] = match;
+        const isSharp = noteName.includes('#');
 
-                    const [_, noteName, octave] = match;
-                    const isSharp = noteName.includes('#');
+        // Create note object with the expected structure
+        const noteInfo = {
+          id: noteId,
+          key: `${noteName.toLowerCase().replace('#', '')}/${octave}`,
+          octave: parseInt(octave),
+          isSharp: isSharp,
+          velocity: velocity,
+          timestamp: Date.now()
+        };
 
-                    // Create note object with the expected structure
-                    const noteInfo = {
-                        id: noteId, // Keep the original ID for reference
-                        key: `${noteName.toLowerCase().replace('#', '')}/${octave}`, // Format as "c/4"
-                        octave: parseInt(octave),
-                        isSharp: isSharp,
-                        velocity: velocity,
-                        timestamp: Date.now()
-                    };
+        // Check if this note is already in the map
+        const isRepeatedPress = newMap.has(noteId);
 
-                    newMap.set(noteId, noteInfo);
+        // Update the map
+        newMap.set(noteId, noteInfo);
 
-                    // Play the sound only when a note is newly activated
-                    if (soundManager.current) {
-                        soundManager.current.playNote(noteId, velocity);
-                    }
-                }
-            } else {
-                // Note is being deactivated
-                if (newMap.has(noteId)) {
-                    newMap.delete(noteId);
+        // Play the sound
+        if (soundManager.current) {
+          if (isRepeatedPress) {
+            // If it's a repeated press, restart the note
+            soundManager.current.restartNote(noteId, velocity);
+          } else {
+            // Otherwise, just play it normally
+            soundManager.current.playNote(noteId, velocity);
+          }
+        }
+      } else {
+        // Note is being deactivated
+        if (newMap.has(noteId)) {
+          newMap.delete(noteId);
 
-                    // Release the sound when a note is deactivated
-                    if (soundManager.current) {
-                        soundManager.current.releaseNote(noteId);
-                    }
-                }
-            }
+          // Release the sound
+          if (soundManager.current) {
+            soundManager.current.releaseNote(noteId);
+          }
+        }
+      }
 
-            return newMap;
-        });
+      return newMap;
+    });
+}, [soundManager]);
 
-
-
-    }, [soundManager]);
-
-    useEffect(() => {
-        // Convert Map to array for components that expect array format
+useEffect(() => {        // Convert Map to array for components that expect array format
         const notesArray = Array.from(activeNoteMap.values());
         setCurrentNotes(notesArray);
         console.log("Updated currentNotes:", notesArray);

@@ -1,4 +1,4 @@
-import {Howl} from 'howler'
+import { Howl } from 'howler'
 
 export class SoundManager {
     constructor() {
@@ -6,8 +6,14 @@ export class SoundManager {
         this.activeNotes = new Map(); // Track which notes are currently active
         this.soundIds = new Map();    // Track the Howl sound IDs for proper management
 
+        // Add a timestamp for logging
+        this.instanceCreatedAt = Date.now();
+
         // Debug flag - set to true to see detailed logging
-        this.debug = false;
+        this.debug = true;
+
+        // Add a new map to track notes that are in the process of being released
+        this.releasingNotes = new Map();
     }
 
     log(...args) {
@@ -76,25 +82,63 @@ export class SoundManager {
     playNote(note, velocity = 0.8) {
         const normalizedNote = this.normalizeNoteFormat(note);
 
-        console.log(`[${Date.now() - this.instanceCreatedAt}ms] PLAY NOTE REQUEST: ${normalizedNote}, velocity: ${velocity}`);
-        console.log(`Current active notes: ${Array.from(this.activeNotes.keys()).join(', ')}`);
+        console.log(`PLAY NOTE REQUEST: ${normalizedNote}, velocity: ${velocity}`);
 
-        // Skip if already playing
-        if (this.activeNotes.has(normalizedNote)) {
-            console.log(`Note ${normalizedNote} is already active, skipping playback`);
+        // Check if the note is currently active
+        const isActive = this.activeNotes.has(normalizedNote);
+
+        // Check if the note is in the process of being released
+        const isReleasing = this.releasingNotes.has(normalizedNote);
+
+        // If the note is active but not in the process of being released,
+        // we don't need to do anything - it's already playing
+        if (isActive && !isReleasing) {
+            console.log(`Note ${normalizedNote} is already active and not being released, skipping playback`);
             return this.soundIds.get(normalizedNote);
         }
 
+        // If the note is in the process of being released, cancel the release
+        if (isReleasing) {
+            console.log(`Note ${normalizedNote} is being released, cancelling release`);
+
+            // Get the release timeout ID
+            const releaseTimeout = this.releasingNotes.get(normalizedNote);
+
+            // Cancel the timeout
+            clearTimeout(releaseTimeout);
+
+            // Remove from releasing notes
+            this.releasingNotes.delete(normalizedNote);
+
+            // If the note is still active, just update its velocity and return
+            if (isActive) {
+                // Get the sound ID
+                const soundId = this.soundIds.get(normalizedNote);
+
+                // Update the velocity
+                if (soundId !== undefined) {
+                    this.sounds[normalizedNote].volume(velocity, soundId);
+                }
+
+                console.log(`Note ${normalizedNote} was active, updated velocity to ${velocity}`);
+                return soundId;
+            }
+
+            // If we get here, the note was being released but is no longer active
+            // So we need to play it again
+        }
+
+        // If the note doesn't exist, log a warning and return
         if (!this.sounds[normalizedNote]) {
             console.warn(`Sound not found for note: ${normalizedNote}`);
             return null;
         }
 
-        // Set volume based on velocity
-        this.sounds[normalizedNote].volume(velocity);
-
         // Play the sound and get its ID
         const soundId = this.sounds[normalizedNote].play();
+
+        // Set volume based on velocity
+        this.sounds[normalizedNote].volume(velocity, soundId);
 
         // Store the sound ID for later reference
         this.soundIds.set(normalizedNote, soundId);
@@ -107,7 +151,7 @@ export class SoundManager {
             soundId
         });
 
-        console.log(`After playNote, active notes: ${Array.from(this.activeNotes.keys()).join(', ')}`);
+        console.log(`Note ${normalizedNote} is now active with sound ID ${soundId}`);
         return soundId;
     }
 
@@ -119,16 +163,16 @@ export class SoundManager {
     releaseNote(note, fadeTime = 700) {
         const normalizedNote = this.normalizeNoteFormat(note);
 
-        console.log(`[${Date.now() - this.instanceCreatedAt}ms] RELEASE NOTE REQUEST: ${normalizedNote}`);
-        console.log(`Current active notes: ${Array.from(this.activeNotes.keys()).join(', ')}`);
+        console.log(`RELEASE NOTE REQUEST: ${normalizedNote}`);
 
+        // If the note doesn't exist or isn't active, log and return
         if (!this.sounds[normalizedNote]) {
-            this.log(`SoundManager: No sound found for note: ${normalizedNote}`);
+            console.log(`No sound found for note: ${normalizedNote}`);
             return;
         }
 
         if (!this.activeNotes.has(normalizedNote)) {
-            this.log(`SoundManager: Note ${normalizedNote} is not active, nothing to release`);
+            console.log(`Note ${normalizedNote} is not active, nothing to release`);
             return;
         }
 
@@ -142,20 +186,51 @@ export class SoundManager {
             // Fade out this specific sound instance
             this.sounds[normalizedNote].fade(currentVolume, 0, fadeTime, soundId);
 
-            // Remove from tracking after fade completes
-            setTimeout(() => {
+            // Mark the note as being released
+            const releaseTimeout = setTimeout(() => {
+                // Remove from tracking
                 this.soundIds.delete(normalizedNote);
                 this.activeNotes.delete(normalizedNote);
-                this.log(`SoundManager: Note ${normalizedNote} removed from active notes after fade`);
-                this.log(`SoundManager: Currently active notes:`, Array.from(this.activeNotes.keys()));
+                this.releasingNotes.delete(normalizedNote);
+
+                console.log(`Note ${normalizedNote} removed from active notes after fade`);
             }, fadeTime);
 
-            this.log(`SoundManager: Releasing note ${normalizedNote} with sound ID ${soundId}`);
+            // Store the timeout ID so we can cancel it if needed
+            this.releasingNotes.set(normalizedNote, releaseTimeout);
+
+            console.log(`Note ${normalizedNote} is now being released with sound ID ${soundId}`);
+        }
+    }
+
+    restartNote(note, velocity = 0.8) {
+        const normalizedNote = this.normalizeNoteFormat(note);
+
+        console.log(`RESTART NOTE REQUEST: ${normalizedNote}, velocity: ${velocity}`);
+
+        // Stop the current sound immediately
+        if (this.activeNotes.has(normalizedNote)) {
+            const soundId = this.soundIds.get(normalizedNote);
+            if (soundId !== undefined) {
+                this.sounds[normalizedNote].stop(soundId);
+            }
+
+            // Clean up tracking
+            this.soundIds.delete(normalizedNote);
+            this.activeNotes.delete(normalizedNote);
+
+            // Also clean up any release in progress
+            if (this.releasingNotes.has(normalizedNote)) {
+                clearTimeout(this.releasingNotes.get(normalizedNote));
+                this.releasingNotes.delete(normalizedNote);
+            }
         }
 
-        console.log(`After releaseNote (before timeout), active notes: ${Array.from(this.activeNotes.keys()).join(', ')}`);
+        // Now play the note fresh
+        return this.playNote(note, velocity);
     }
-    
+
+
 
     /**
      * Stop all sounds immediately
