@@ -6,86 +6,43 @@ export class MidiController {
         this.pianoSoundsRef = pianoSoundsRef;
         this.noteLabelManager = new NoteLabelManager();
         this.currentInput = null;
-        // Create a Map using the note key as the unique identifier
-        this.activeNotes = new Map();
-        this.noteOnCallback = null;
-        this.noteOffCallback = null;
+        this.updateActiveNotesCallback = null; // New callback for centralized state
     }
 
-    setNoteCallbacks(onCallback, offCallback) {
-        this.noteOnCallback = onCallback;
-        this.noteOffCallback = offCallback;
+    setUpdateActiveNotesCallback(callback) {
+        this.updateActiveNotesCallback = callback;
     }
 
     handleNoteOn = (e) => {
         const noteId = e.note.identifier;
-        const noteName = e.note.name;  // This includes sharp information
-        const octave = e.note.octave;
-        // Preserve the sharp information from the MIDI note
-        const noteKey = `${noteName.toLowerCase()}/${octave}`;
+        const velocity = e.velocity;
 
-        const noteInfo = {
-            key: noteKey,
-            octave: octave,
-            isSharp: e.note.accidental === '#'  // Add this flag
-        };
-
-        // Use the noteKey as the Map key to prevent duplicates
-        this.activeNotes.set(noteKey, noteInfo);
-
-        if (this.setNotesCallback) {
-            this.setNotesCallback([...this.activeNotes.values()]);
+        // Use the centralized state update function
+        if (this.updateActiveNotesCallback) {
+            this.updateActiveNotesCallback(noteId, true, velocity);
         }
 
-
-        // WebMidi.js provides velocity in range 0-127, so we normalize it to 0-1
-        const velocity = e.velocity;  // WebMidi.js already normalizes this to 0-1
+        // Visual feedback only - no sound playback here
         let showPressed = document.getElementById(`${noteId}-pressed`);
-        let hideReleased = document.querySelector(`[data-id="${noteId}"]`);
-
         if (showPressed) {
             showPressed.style.visibility = 'visible';
-            // Optionally hide the released state
-            // if (hideReleased) hideReleased.style.visibility = 'hidden';
 
-            if (this.pianoSoundsRef.sounds[noteId]) {
-                // Set volume based on velocity
-                this.pianoSoundsRef.sounds[noteId].volume(velocity);
-                this.pianoSoundsRef.sounds[noteId].play();
-
-                const keyElement = document.querySelector(`[data-id="${noteId}"]`);
-                if (keyElement) {
-                    this.noteLabelManager.createNoteLabel(noteId, keyElement);
-                }
+            const keyElement = document.querySelector(`[data-id="${noteId}"]`);
+            if (keyElement) {
+                this.noteLabelManager.createNoteLabel(noteId, keyElement);
             }
-            console.log(`Note ${noteId} on, velocity: ${velocity}`);
-        }
-
-        if (this.noteOnCallback) {
-            this.noteOnCallback(noteId, e.velocity);
         }
     }
+
     handleNoteOff = (e) => {
         const noteId = e.note.identifier;
-        const noteName = e.note.name;
-        const octave = e.note.octave;
-        const noteKey = `${noteName.toLowerCase()}/${octave}`;
 
-        // Delete the note using its unique key
-        this.activeNotes.delete(noteKey);
-
-        // Only call setNotesCallback if we're not in the middle of releasing multiple keys
-        // We can use a debounce mechanism to wait a short time before calling the callback
-        if (this.noteOffDebounceTimeout) {
-            clearTimeout(this.noteOffDebounceTimeout);
+        // Use the centralized state update function
+        if (this.updateActiveNotesCallback) {
+            this.updateActiveNotesCallback(noteId, false);
         }
 
-        this.noteOffDebounceTimeout = setTimeout(() => {
-            if (this.setNotesCallback) {
-                this.setNotesCallback([...this.activeNotes.values()]);
-            }
-        }, 50); // 50ms debounce time
-
+        // Visual feedback only - no sound release here
         let showPressed = document.getElementById(`${noteId}-pressed`);
         let showReleased = document.querySelector(`[data-id="${noteId}"]`);
         const noteLabel = document.getElementById(`note-label-${noteId}`);
@@ -97,13 +54,7 @@ export class MidiController {
                 noteLabel.remove();
             }
         }
-
-        if (this.noteOffCallback) {
-            this.noteOffCallback(noteId);
-        }
     }
-
-
     setupMidiListeners(input) {
         if (input) {
             input.channels.forEach(channel => {
@@ -136,7 +87,7 @@ export class MidiController {
         if (this.noteOffDebounceTimeout) {
             clearTimeout(this.noteOffDebounceTimeout);
         }
-        
+
         WebMidi.disable();
     }
 }

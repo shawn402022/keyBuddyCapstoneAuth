@@ -115,59 +115,71 @@ const PianoChart = ({ currentNotes, soundManager }) => {
       }
     };
   }, []); // Empty dependency array means this runs once on mount
-
   // Update pressed keys when currentNotes changes
   useEffect(() => {
     // Skip if component is unmounted or instance doesn't exist
     if (!mountedRef.current || !pianoInstanceRef.current || !currentNotes) return;
 
     try {
-      // Release previously pressed keys
-      previousNotesRef.current.forEach(note => {
-        if (!mountedRef.current) return; // Safety check
-
+      // Create sets for easier comparison
+      const currentNoteIds = new Set(currentNotes.map(note => {
         const noteName = note.key.split('/')[0];
         const octave = note.key.split('/')[1];
-        const formattedNote = note.isSharp
+        return note.isSharp
+          ? `${noteName.toUpperCase()}#${octave}`
+          : `${noteName.toUpperCase()}${octave}`;
+      }));
+
+      const previousNoteIds = new Set(previousNotesRef.current.map(note => {
+        const noteName = note.key.split('/')[0];
+        const octave = note.key.split('/')[1];
+        return note.isSharp
+          ? `${noteName.toUpperCase()}#${octave}`
+          : `${noteName.toUpperCase()}${octave}`;
+      }));
+
+      // Find notes to release (in previous but not in current)
+      for (const prevNote of previousNotesRef.current) {
+        const noteName = prevNote.key.split('/')[0];
+        const octave = prevNote.key.split('/')[1];
+        const formattedNote = prevNote.isSharp
           ? `${noteName.toUpperCase()}#${octave}`
           : `${noteName.toUpperCase()}${octave}`;
 
-        try {
-          pianoInstanceRef.current.keyUp(formattedNote);
-        } catch (error) {
-          console.warn(`Error releasing key ${formattedNote}:`, error);
-        }
-      });
-
-      // Press current notes
-      currentNotes.forEach(note => {
-        if (!mountedRef.current) return; // Safety check
-
-        const noteName = note.key.split('/')[0];
-        const octave = note.key.split('/')[1];
-        const formattedNote = note.isSharp
-          ? `${noteName.toUpperCase()}#${octave}`
-          : `${noteName.toUpperCase()}${octave}`;
-
-        try {
-          pianoInstanceRef.current.keyDown(formattedNote);
-
-          // Play sound if available
-          if (soundManager && soundManager.sounds[formattedNote]) {
-            soundManager.sounds[formattedNote].play();
+        if (!currentNoteIds.has(formattedNote)) {
+          try {
+            // Only update the visual state - no sound playback
+            pianoInstanceRef.current.keyUp(formattedNote);
+          } catch (error) {
+            console.warn(`Error releasing key ${formattedNote}:`, error);
           }
-        } catch (error) {
-          console.warn(`Error pressing key ${formattedNote}:`, error);
         }
-      });
+      }
+
+      // Find notes to press (in current but not in previous)
+      for (const note of currentNotes) {
+        const noteName = note.key.split('/')[0];
+        const octave = note.key.split('/')[1];
+        const formattedNote = note.isSharp
+          ? `${noteName.toUpperCase()}#${octave}`
+          : `${noteName.toUpperCase()}${octave}`;
+
+        if (!previousNoteIds.has(formattedNote)) {
+          try {
+            // Only update the visual state - no sound playback
+            pianoInstanceRef.current.keyDown(formattedNote);
+          } catch (error) {
+            console.warn(`Error pressing key ${formattedNote}:`, error);
+          }
+        }
+      }
 
       // Update previous notes reference
       previousNotesRef.current = [...currentNotes];
     } catch (error) {
       console.error("Error updating piano keys:", error);
     }
-  }, [currentNotes, soundManager]);
-
+  }, [currentNotes]);
   return (
       <div
     className="piano-chart-container"

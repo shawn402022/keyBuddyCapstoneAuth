@@ -2,9 +2,8 @@ import { useEffect, useRef } from 'react';
 import { PIANO_CONFIG } from './config';
 import './SimplePiano.css';
 
-const SimplePiano = ({ soundManager, setCurrentNotes, midiController }) => {
+const SimplePiano = ({ soundManager, updateActiveNotes, midiController }) => {
     const pianoRef = useRef(null);
-    const activeNotesRef = useRef(new Map());
     const isDraggingRef = useRef(false);
     const lastTouchedNoteRef = useRef(null);
 
@@ -88,29 +87,15 @@ const SimplePiano = ({ soundManager, setCurrentNotes, midiController }) => {
 
         // Handle note events
         function handleNoteOn(noteId) {
-            // Play the sound
-            if (soundManager && soundManager.sounds[noteId]) {
-                soundManager.sounds[noteId].play();
-            }
-
             // Add visual feedback
             const keyElement = svg.querySelector(`[data-note="${noteId}"]`);
             if (keyElement) {
                 keyElement.classList.add('active');
             }
 
-            // Add to active notes
-            const noteInfo = {
-                key: noteId.toLowerCase(),
-                octave: noteId.includes('/') ? noteId.split('/')[1] : noteId.slice(-1),
-                isSharp: noteId.includes('#')
-            };
-
-            activeNotesRef.current.set(noteId, noteInfo);
-
-            // Update parent component
-            if (setCurrentNotes) {
-                setCurrentNotes([...activeNotesRef.current.values()]);
+            // Use the centralized state update function
+            if (updateActiveNotes) {
+                updateActiveNotes(noteId, true, 0.8);
             }
         }
 
@@ -121,18 +106,10 @@ const SimplePiano = ({ soundManager, setCurrentNotes, midiController }) => {
                 keyElement.classList.remove('active');
             }
 
-            // Remove from active notes
-            activeNotesRef.current.delete(noteId);
-
-            // Update parent component
-            if (setCurrentNotes) {
-                setCurrentNotes([...activeNotesRef.current.values()]);
+            // Use the centralized state update function
+            if (updateActiveNotes) {
+                updateActiveNotes(noteId, false);
             }
-        }
-
-        // Connect to MIDI controller if available
-        if (midiController) {
-            midiController.setNoteCallbacks(handleNoteOn, handleNoteOff);
         }
 
         // Add mouse event listeners for individual keys
@@ -241,14 +218,13 @@ const SimplePiano = ({ soundManager, setCurrentNotes, midiController }) => {
                 }
             }
         };
-    }, [soundManager, setCurrentNotes, midiController]);
+    }, [updateActiveNotes, midiController]);
 
     return (
         <div
             ref={pianoRef}
             className="simple-piano-container"
             style={{
-
                 marginTop: '5px', // Reduced margin
             }}
         />

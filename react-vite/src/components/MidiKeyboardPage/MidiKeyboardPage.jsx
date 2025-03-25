@@ -1,5 +1,7 @@
 
 import ChordDiagram from '../ChordDiagram/ChordDiagram';
+import SoundStateDiagnostic from '../Diagnostic/SoundStateDiagnostic.jsx';
+
 import PianoDiagnostic from '../Diagnostic/PianoDiagnostic';
 import SimplePiano from './SimplePiano';
 import PianoChart from './PianoChart.jsx';
@@ -77,15 +79,46 @@ const MidiKeyboardPage = () => {
     const midiController = useRef(new MidiController(soundManager.current));
     const timeoutRef = useRef(null);
 
-    // Check if sound is loaded before playing
-    const playNote = (note) => {
-        if (soundManager.current.sounds[note] && soundManager.current.sounds[note].state() === 'loaded') {
-            soundManager.current.sounds[note].play();
-        } else {
-            console.warn(`Sound not loaded for note: ${note}`);
-        }
-    };
+    const [activeNoteMap, setActiveNoteMap] = useState(new Map());
 
+    // Update function that properly merges state changes
+    const updateActiveNotes = useCallback((noteId, isActive, velocity = 0.8) => {
+        setActiveNoteMap(prevMap => {
+            const newMap = new Map(prevMap);
+
+            if (isActive) {
+                // Note is being activated
+                if (!newMap.has(noteId)) {
+                    newMap.set(noteId, {
+                        id: noteId,
+                        velocity,
+                        timestamp: Date.now()
+                    });
+
+                    // Play the sound only when a note is newly activated
+                    if (soundManager.current) {
+                        soundManager.current.playNote(noteId, velocity);
+                    }
+                }
+            } else {
+                // Note is being deactivated
+                if (newMap.has(noteId)) {
+                    newMap.delete(noteId);
+
+                    // Release the sound when a note is deactivated
+                    if (soundManager.current) {
+                        soundManager.current.releaseNote(noteId);
+                    }
+                }
+            }
+
+            return newMap;
+        });
+
+        // Convert Map to array for components that expect array format
+        const notesArray = Array.from(activeNoteMap.values());
+        setCurrentNotes(notesArray);
+    }, []);
 
     // Initialize the spaced repetition system when course changes
     useEffect(() => {
@@ -117,7 +150,7 @@ const MidiKeyboardPage = () => {
         dispatch(getNextItem());
     }, [dispatch, currentTrainingSequence]);
 
-    // Set the target key when current item changes
+
     // Set the target key when current item changes
     useEffect(() => {
         if (currentItem) {
@@ -137,6 +170,7 @@ const MidiKeyboardPage = () => {
             dispatch(setGameActive(false));
         }
     }, [isComplete, isInitialized, dispatch]);
+
     // This function processes a correct answer and determines the next item based on response time
     const processAnswer = useCallback((correct) => {
         if (!correct || !startTime) return;
@@ -376,23 +410,15 @@ const MidiKeyboardPage = () => {
 
 
     useEffect(() => {
-        if (pianoEvents.current) {
-            pianoEvents.current.setNotesCallback = (notes) => {
-                setCurrentNotes(notes);
-                checkPlayedNotes(notes);
-            };
-        }
-    }, [checkPlayedNotes]);
-    useEffect(() => {
         const currentMidiController = midiController.current;
-        currentMidiController.setNotesCallback = (notes) => {
-            setCurrentNotes(notes);
-            checkPlayedNotes(notes);
 
-            if (notes.length === 0) {
-                setFeedback("");
-            }
-        };
+        // Set up the centralized note state management
+        currentMidiController.setUpdateActiveNotesCallback(updateActiveNotes);
+
+        // Also set up the piano events handler
+        if (pianoEvents.current) {
+            pianoEvents.current.setUpdateActiveNotesCallback(updateActiveNotes);
+        }
 
         const initialize = async () => {
             try {
@@ -436,21 +462,17 @@ const MidiKeyboardPage = () => {
                 clearTimeout(timeoutRef.current);
             }
         };
-    }, [checkPlayedNotes]);
-    const stopAllSounds = () => {
-        // Get all loaded sound keys
-        const soundKeys = Object.keys(soundManager.current.sounds || {});
+    }, [updateActiveNotes]);
 
-        // Stop each active sound
-        soundKeys.forEach(key => {
-            if (soundManager.current.sounds[key]) {
-                soundManager.current.sounds[key].stop();
-            }
-        });
-    };
+
+
+    const stopAllSounds = useCallback(() => {
+        if (soundManager.current) {
+            soundManager.current.stopAllSounds();
+        }
+    }, []);
 
     const chordTimeoutsRef = useRef([]);
-
     // Add a function to play the current challenge
     const playCurrentChallenge = useCallback(() => {
         if (!targetKey || !soundManager.current) return;
@@ -555,6 +577,7 @@ const MidiKeyboardPage = () => {
         } catch (err) {
             console.error("Error playing challenge chord:", err);
         }
+
     }, [targetKey, trainingCourse, soundManager]);
 
     // Also clear timeouts on component unmount
@@ -584,6 +607,7 @@ const MidiKeyboardPage = () => {
             </div>
             {isLoading ? (
                 <LoadingSpinner />
+
             ) : (
                 <div className="piano-content">
 
@@ -631,6 +655,10 @@ const MidiKeyboardPage = () => {
                         <PianoChart
                             currentNotes={currentNotes}
                             soundManager={soundManager.current}
+                        />
+                        <SoundStateDiagnostic
+                            soundManager={soundManager.current}
+                            activeNotes={currentNotes}
                         />
                     </div>
                 </div>

@@ -3,9 +3,14 @@ export class PianoEvents {
         this.pianoSoundsRef = pianoSoundsRef;
         this.noteLabelManager = noteLabelManager;
         this.isMouseDown = false;
-        this.activeNotes = new Map(); // Add this
-        this.setNotesCallback = null; // Add this
+        this.activeNotes = new Map(); // Local tracking for UI purposes
+        this.updateActiveNotesCallback = null; // New callback for centralized state
         this.bindGlobalMouseEvents();
+    }
+
+    // Add a setter for the centralized state callback
+    setUpdateActiveNotesCallback(callback) {
+        this.updateActiveNotesCallback = callback;
     }
 
     bindGlobalMouseEvents() {
@@ -13,50 +18,47 @@ export class PianoEvents {
             this.isMouseDown = false;
         });
     }
+
     activateKey(noteId) {
-        // noteId is something like 'D6'
-        const noteName = noteId.slice(0, -1); // Gets 'D'
-        const octave = noteId.slice(-1);      // Gets '6'
+        // Parse note information
+        const noteName = noteId.slice(0, -1);
+        const octave = noteId.slice(-1);
 
         const noteInfo = {
-            key: `${noteName.toLowerCase()}/${octave}`, // Creates 'd/6'
+            key: `${noteName.toLowerCase()}/${octave}`,
             octave: parseInt(octave),
-            //isSharp: noteName.includes('#')
+            isSharp: noteName.includes('#')
         };
 
+        // Add to local tracking for UI consistency
         this.activeNotes.set(noteId, noteInfo);
 
-        if (this.setNotesCallback) {
-            const notes = [...this.activeNotes.values()];
-            this.setNotesCallback(notes);
+        // Use the centralized state update function
+        if (this.updateActiveNotesCallback) {
+            this.updateActiveNotesCallback(noteId, true, 0.8); // Default velocity
         }
 
-        const normalizedNoteId = noteId;
-        console.log('Playing normalized note:', normalizedNoteId);
-
-        if (this.pianoSoundsRef.sounds[normalizedNoteId]) {
-            this.pianoSoundsRef.sounds[normalizedNoteId].play();
-        }
-
+        // Visual feedback only - sound is handled by the callback
         const keyElement = document.querySelector(`[data-id="${noteId}"]`);
         const pressedElement = document.getElementById(`${noteId}-pressed`);
 
         if (keyElement && pressedElement) {
             pressedElement.style.visibility = 'visible';
             keyElement.style.opacity = '0.8';
-            // Create note label when key is activated
             this.noteLabelManager.createNoteLabel(noteId, keyElement);
         }
     }
+
     deactivateKey(noteId) {
-        // Remove from active notes
+        // Remove from local tracking
         this.activeNotes.delete(noteId);
 
-        // Update UI
-        if (this.setNotesCallback) {
-            this.setNotesCallback([...this.activeNotes.values()]);
+        // Use the centralized state update function
+        if (this.updateActiveNotesCallback) {
+            this.updateActiveNotesCallback(noteId, false);
         }
 
+        // Visual feedback only - sound release is handled by the callback
         const keyElement = document.querySelector(`[data-id="${noteId}"]`);
         const pressedElement = document.getElementById(`${noteId}-pressed`);
         const noteLabel = document.getElementById(`note-label-${noteId}`);
@@ -64,7 +66,6 @@ export class PianoEvents {
         if (keyElement && pressedElement) {
             pressedElement.style.visibility = 'hidden';
             keyElement.style.opacity = '1';
-            // Remove note label when key is deactivated
             if (noteLabel) {
                 noteLabel.remove();
             }
