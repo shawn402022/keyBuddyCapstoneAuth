@@ -14,12 +14,16 @@ export class MidiController {
     }
 
     handleNoteOn = (e) => {
-        const noteId = e.note.identifier;
-        const velocity = e.velocity;
+        const noteId = e.note.identifier; // e.g., "C4"
+        const noteName = e.note.name;     // e.g., "C"
+        const octave = e.note.octave;     // e.g., 4
+        const isSharp = e.note.accidental === '#';
+        console.log(`MIDI NOTE ON: ${noteId}, velocity: ${e.velocity}`);
 
-        // Use the centralized state update function
+
+        // Use the centralized state update function with all necessary information
         if (this.updateActiveNotesCallback) {
-            this.updateActiveNotesCallback(noteId, true, velocity);
+            this.updateActiveNotesCallback(noteId, true, e.velocity);
         }
 
         // Visual feedback only - no sound playback here
@@ -36,6 +40,8 @@ export class MidiController {
 
     handleNoteOff = (e) => {
         const noteId = e.note.identifier;
+        console.log(`MIDI NOTE OFF: ${noteId}`);
+
 
         // Use the centralized state update function
         if (this.updateActiveNotesCallback) {
@@ -57,6 +63,8 @@ export class MidiController {
     }
     setupMidiListeners(input) {
         if (input) {
+            console.log("Setting up MIDI listeners for input:", input.name);
+
             input.channels.forEach(channel => {
                 channel.addListener('noteon', this.handleNoteOn);
                 channel.addListener('noteoff', this.handleNoteOff);

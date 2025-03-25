@@ -2,6 +2,8 @@ import './ChordDisplay.css'
 import { Chord } from 'tonal'
 
 const ChordDisplay = ({ currentNotes }) => {
+  console.log("ChordDisplay received notes:", currentNotes);
+  
   const getChordName = (notes) => {
     if (!notes || notes.length < 2) return '';
 

@@ -3,6 +3,9 @@ import Vex from 'vexflow';
 import './MusicStaff.css';
 
 const MusicStaff = ({ currentNotes }) => {
+    console.log("MusicStaff received notes:", currentNotes);
+
+
     const staffRef = useRef(null);
 
     useEffect(() => {

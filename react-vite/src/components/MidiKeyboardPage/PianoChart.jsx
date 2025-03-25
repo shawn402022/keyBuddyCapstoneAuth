@@ -115,10 +115,13 @@ const PianoChart = ({ currentNotes, soundManager }) => {
       }
     };
   }, []); // Empty dependency array means this runs once on mount
+
+
   // Update pressed keys when currentNotes changes
   useEffect(() => {
     // Skip if component is unmounted or instance doesn't exist
     if (!mountedRef.current || !pianoInstanceRef.current || !currentNotes) return;
+    console.log("PianoChart updating with notes:", currentNotes);
 
     try {
       // Create sets for easier comparison
@@ -129,6 +132,9 @@ const PianoChart = ({ currentNotes, soundManager }) => {
           ? `${noteName.toUpperCase()}#${octave}`
           : `${noteName.toUpperCase()}${octave}`;
       }));
+
+      // Log the current active notes
+      console.log("PianoChart active notes:", Array.from(currentNoteIds));
 
       const previousNoteIds = new Set(previousNotesRef.current.map(note => {
         const noteName = note.key.split('/')[0];

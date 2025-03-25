@@ -21,19 +21,11 @@ export class PianoEvents {
 
     activateKey(noteId) {
         // Parse note information
-        const noteName = noteId.slice(0, -1);
-        const octave = noteId.slice(-1);
+        const noteName = noteId.slice(0, -1); // Gets 'C' from 'C4'
+        const octave = noteId.slice(-1);      // Gets '4' from 'C4'
+        const isSharp = noteName.includes('#');
 
-        const noteInfo = {
-            key: `${noteName.toLowerCase()}/${octave}`,
-            octave: parseInt(octave),
-            isSharp: noteName.includes('#')
-        };
-
-        // Add to local tracking for UI consistency
-        this.activeNotes.set(noteId, noteInfo);
-
-        // Use the centralized state update function
+        // Use the centralized state update function with all necessary information
         if (this.updateActiveNotesCallback) {
             this.updateActiveNotesCallback(noteId, true, 0.8); // Default velocity
         }
@@ -48,7 +40,6 @@ export class PianoEvents {
             this.noteLabelManager.createNoteLabel(noteId, keyElement);
         }
     }
-
     deactivateKey(noteId) {
         // Remove from local tracking
         this.activeNotes.delete(noteId);
