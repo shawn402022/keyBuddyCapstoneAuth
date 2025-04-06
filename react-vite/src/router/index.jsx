@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
-import LoginFormPage from '../components/LoginFormPage';
-import SignupFormPage from '../components/SignupFormPage';
+import LoginFormPage from '../components/Login-SignUp/LoginFormPage/LoginFormPage';
+import SignupFormPage from '../components/Login-SignUp/SignupFormPage/SignupFormPage';
 import Layout from './Layout';
 import LandingPage from '../components/LandingPage';
 import CoursePage from '../components/CoursePage/CoursePage';
@@ -27,11 +27,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "course",
-        element: <CoursePage/>,
+        element: <CoursePage />,
       },
       {
         path: "createCourse",
-        element: <CreateCourse/>
+        element: <CreateCourse />
       },
       {
         path: "course/admin/delete/:courseId",
@@ -46,11 +46,11 @@ export const router = createBrowserRouter([
         element: <SongInfoPage />,
       },
       {
-        path:"/review",
+        path: "/review",
         element: <ReviewsPage />
       },
       {
-        path:"/review/create",
+        path: "/review/create",
         element: <CreateReviewPage />
       },
 

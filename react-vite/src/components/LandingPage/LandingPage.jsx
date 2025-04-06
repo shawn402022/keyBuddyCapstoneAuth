@@ -1,7 +1,7 @@
-//import MidiKeyboard from "../MidiKeyboardPage/MidiKeyboard";
-import MidiKeyboardPage from "../MidiKeyboardPage/MidiKeyboardPage";
+
 import "./LandingPage.css"
 import { useSelector } from "react-redux";
+import MainPage from "../MainPage/MainPage";
 
 const LandingPage = () => {
     const sessionUser = useSelector(state => state.session.user);
@@ -10,7 +10,7 @@ const LandingPage = () => {
         return (
             <div className="authenticated-landing">
                 {/* Your logged-in user content here */}
-                <MidiKeyboardPage/>
+                    <MainPage />
                 {/* Add your authenticated user interface */}
             </div>
         );

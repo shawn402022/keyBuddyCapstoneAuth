@@ -1,38 +1,22 @@
 import { useState } from "react";
-import { thunkLogin } from "../../redux/session";
-import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
+import { thunkLogin } from "../../../redux/session";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 import "./LoginForm.css";
 
-function LoginFormModal() {
+function LoginFormPage() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const { closeModal } = useModal();
 
+  if (sessionUser) return <Navigate to="/" replace={true} />;
 
-  const demoLogin = async () => {
-    const demoUser = {
-      email: "demo@aa.io",
-      password: "password"
-    };
-    const serverResponse = await dispatch(thunkLogin(demoUser));
-    if (!serverResponse) closeModal();
-  };
-
-  const adminDemoLogin = async () => {
-    const adminDemoUser = {
-      email: "admin_demo@aa.io",
-      password: "password"
-    };
-    const serverResponse = await dispatch(thunkLogin(adminDemoUser));
-    if (!serverResponse) closeModal();
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
 
     const serverResponse = await dispatch(
       thunkLogin({
@@ -44,15 +28,15 @@ function LoginFormModal() {
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
-      closeModal();
+      navigate("/");
     }
   };
 
   return (
-    <>
-
-
-      <form  className='login-modal' onSubmit={handleSubmit}>
+    <div className='login-page-div'>
+      {errors.length > 0 &&
+        errors.map((message) => <p key={message}>{message}</p>)}
+      <form className='login-page'  onSubmit={handleSubmit}>
         <label>
         {<p className="email-word">Email</p>}
           <input
@@ -64,7 +48,7 @@ function LoginFormModal() {
         </label>
         {errors.email && <p>{errors.email}</p>}
         <label>
-        {<p>Password</p>}
+        {<p className="password-word">Password</p>}
           <input
             type="password"
             value={password}
@@ -76,14 +60,12 @@ function LoginFormModal() {
         <button type="submit">
         {<p className="login-word">Log In</p>}
         </button>
-        <button type="button" onClick={demoLogin}>
-        {<p className="demoUser-word">Demo User</p>}
-        </button>
-        <button type="button" onClick={adminDemoLogin}>
-          {<p className="adminDemoUser-word">Admin Demo</p>}
-        </button>
       </form>
-    </>
+      <img className="scales"
+      src="/images/background-scales-lighter.png"
+      alt="KBuddy logo" />
+    </div>
   );
 }
-export default LoginFormModal;
+
+export default LoginFormPage;

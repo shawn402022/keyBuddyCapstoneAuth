@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
+import LoginFormModal from "../Login-SignUp/LoginFormModal/LoginFormModal";
+import SignupFormModal from "../Login-SignUp/SignupFormModal/SignupFormModal";
 import { LuKeyboardMusic } from "react-icons/lu";
 
 function ProfileButton() {

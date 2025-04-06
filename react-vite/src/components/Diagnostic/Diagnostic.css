@@ -1,0 +1,66 @@
+.sound-debug-panel {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 400px;
+  max-height: 500px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  z-index: 9999;
+  overflow-y: auto;
+  font-family: monospace;
+}
+
+.debug-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.debug-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.debug-actions button {
+  background: #333;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.debug-active-notes,
+.debug-events {
+  margin-bottom: 15px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+li {
+  padding: 3px 0;
+  border-bottom: 1px solid #333;
+  font-size: 12px;
+}
+
+.event-play {
+  color: #4caf50;
+}
+.event-release {
+  color: #ff9800;
+}
+.event-stopAll {
+  color: #f44336;
+}

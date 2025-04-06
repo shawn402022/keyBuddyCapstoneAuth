@@ -183,13 +183,6 @@ useEffect(() => {
               <ReviewButton />
             </li>
             <li>
-              {!isGameActive ? (
-                <button className='start-challenge' onClick={startKeyChallenge}>
-                  Start Key Challenge
-                </button>
-              ) : (
-                <button className='stop-challenge' onClick={stopKeyChallenge}>Stop Key Challenge</button>
-              )}
             </li>
           </>
         ) : (
@@ -215,10 +208,7 @@ useEffect(() => {
           <ProfileButton onLogout={handleLogout}/>
         </li>
       </ul>
-      <div className="q-container">
-        {isGameActive && message && <p className="key-message">{message}</p>}
-        {isGameActive && feedback && <p className="key-feedback">{feedback}</p>}
-      </div>
+
     </div>
   );
 }
