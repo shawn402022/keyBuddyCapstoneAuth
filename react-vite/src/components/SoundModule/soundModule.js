@@ -8,14 +8,16 @@ class SoundModule {
 
     loadSounds() {
 
-        const notes = ['C','C#', 'D','D#','E', 'F', 'F#', 'G', 'G#',  'A', 'A#', 'B'];
+        const notes = ['C','Cs', 'D','Ds','E', 'F', 'Fs', 'G', 'Gs',  'A', 'As', 'B'];
         const octaves = ['2', '3', '4', '5', '6', '7'];
 
         notes.forEach(note => {
             octaves.forEach(octave => {
                 const fullNote = `${note}${octave}`;
+                const fileName = fullNote.replace('#', 's');
+
                 this.sounds[fullNote] = new Howl({
-                    src: [`/audio/notes/${fullNote}.mp3`],
+                    src: [`/audio/notes/${fileName}.mp3`],
                     preload: true,
                 });
             });

@@ -17,6 +17,8 @@ function Navigation() {
 
   const handleNotePlay = (note) => {
     SoundModule.playNote(note);
+    console.log("Playing note:", note);  // Add this line for debugging
+
   };
 
 
@@ -35,12 +37,17 @@ function Navigation() {
 
         if (myInput) {
           myInput.addListener("noteon", (e) => {
-            handleNotePlay(e.note.identifier);
+            const note = e.note.identifier;
+            console.log("MIDI Note On:", note);  // Add this line for debugging
+            handleNotePlay(note);
+
           });
 
           myInput.addListener("noteoff", (e) => {
 
           });
+        } else {
+          console.log('KOMPLETE KONTROL A25 MIDI not found')
         }
       } catch (err) {
         console.log("MIDI device not found or WebMidi not supported");
