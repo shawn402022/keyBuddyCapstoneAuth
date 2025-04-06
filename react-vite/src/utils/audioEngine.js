@@ -1,5 +1,5 @@
-import * as Tone from 'tone';
-
+//import * as Tone from 'tone';
+/*
 class AudioEngine {
   constructor() {
     this.synth = new Tone.Sampler({
@@ -104,5 +104,5 @@ class AudioEngine {
     this.synth.triggerAttackRelease(note, "8n");
   }
 }
-
+*/
 export default new AudioEngine();

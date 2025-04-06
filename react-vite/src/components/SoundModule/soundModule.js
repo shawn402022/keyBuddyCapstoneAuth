@@ -7,7 +7,8 @@ class SoundModule {
     }
 
     loadSounds() {
-        const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+
+        const notes = ['C','C#', 'D','D#','E', 'F', 'F#', 'G', 'G#',  'A', 'A#', 'B'];
         const octaves = ['2', '3', '4', '5', '6', '7'];
 
         notes.forEach(note => {
@@ -19,6 +20,7 @@ class SoundModule {
                 });
             });
         });
+
     }
 
     playNote(note) {
@@ -28,6 +30,8 @@ class SoundModule {
             console.error(`Sound not found for note: ${note}`);
         }
     }
+
+
 }
 
 export default new SoundModule();
