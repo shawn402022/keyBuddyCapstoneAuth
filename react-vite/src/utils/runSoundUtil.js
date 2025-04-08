@@ -1,6 +1,6 @@
 import { Howl } from 'howler';
 
-class SoundModule {
+class RunSoundUtil {
     constructor() {
         this.sounds = {};
         this.loadSounds();
@@ -9,6 +9,7 @@ class SoundModule {
     loadSounds() {
 
         const notes = ['C','Cs', 'D','Ds','E', 'F', 'Fs', 'G', 'Gs',  'A', 'As', 'B'];
+
         const octaves = ['1','2', '3', '4', '5', '6', '7','8'];
 
         notes.forEach(note => {
@@ -62,4 +63,4 @@ class SoundModule {
 
 }
 
-export default new SoundModule();
+export default new RunSoundUtil();

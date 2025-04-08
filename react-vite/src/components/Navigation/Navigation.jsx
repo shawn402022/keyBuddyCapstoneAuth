@@ -5,8 +5,7 @@ import ProfileButton from "./ProfileButton";
 import CourseButton from "./CourseButton";
 import { thunkLogout } from "../../redux/session";
 import ReviewButton from "./ReviewButton";
-import { WebMidi } from "webmidi";
-import SoundModule from '../SoundModule/soundModule';
+
 
 import "./Navigation.css";
 
@@ -15,48 +14,10 @@ function Navigation() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleNotePlay = (note) => {
-    SoundModule.playNote(note);
-    console.log("Playing note:", note);  // Add this line for debugging
-
-  };
 
 
-  useEffect(() => {
-    const setupMidi = async () => {
-      try {
-        await WebMidi.enable();
-        //GET ALL CONNECTED MIDI DEVICES AND LOG IN CONSOLE
-        const inputs = WebMidi.inputs;
-        console.log(inputs)
-        const setMidiDevices = inputs.map(input => input.name);
-        console.log("Connected MIDI devices:", inputs.map(input => input.name));
 
-
-        const myInput = WebMidi.getInputByName("KOMPLETE KONTROL A25 MIDI");
-
-        if (myInput) {
-          myInput.addListener("noteon", (e) => {
-            const note = e.note.identifier;
-            console.log("MIDI Note On:", note);  // Add this line for debugging
-            handleNotePlay(note);
-
-          });
-
-          myInput.addListener("noteoff", (e) => {
-
-          });
-        } else {
-          console.log('KOMPLETE KONTROL A25 MIDI not found')
-        }
-      } catch (err) {
-        console.log("MIDI device not found or WebMidi not supported");
-      }
-    };
-
-    setupMidi();
-
-  }, []);
+  
 
 
 
