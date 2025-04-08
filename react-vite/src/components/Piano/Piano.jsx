@@ -1,6 +1,7 @@
 import { Instrument } from "piano-chart";
 import { useEffect, useRef } from "react";
 import RunMidiUtil from "../../utils/runMidiUtil";
+import './PianoDisplays.css'
 
 const Piano = () => {
     const pianoContainerRef = useRef(null);

@@ -1,0 +1,6 @@
+.chord-staff-container {
+    border:5px solid black;
+    display:inline-flex;
+    flex-direction:column
+
+}
