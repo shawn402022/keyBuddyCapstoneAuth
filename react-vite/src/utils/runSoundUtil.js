@@ -21,40 +21,40 @@ class RunSoundUtil {
                     src: [`/audio/notes/${fileName}.mp3`],
                     preload: true,
                     volume: 1.0,
-                    onload: () => console.log(`Loaded sound: ${fullNote}`),
+                    //onload: () => console.log(`Loaded sound: ${fullNote}`),
                     onloaderror: (id, error) => console.error(`Error loading ${fullNote}:`, error)
                 });
             });
         });
 
-        console.log("Available sounds:", Object.keys(this.sounds));
+        //console.log("Available sounds:", Object.keys(this.sounds));
 
 
 
     }
 
     playNote(note) {
-        console.log(`Attempting to play note: ${note}`);
+        //console.log(`Attempting to play note: ${note}`);
 
         // Check if the note needs normalization (e.g., convert C#4 to Cs4)
         const normalizedNote = note.replace('#', 's');
 
         if (this.sounds[normalizedNote]) {
-            console.log(`Playing sound for note: ${normalizedNote}`);
+            //console.log(`Playing sound for note: ${normalizedNote}`);
             this.sounds[normalizedNote].volume(1.0); // Ensure volume is up
             this.sounds[normalizedNote].play();
         } else {
             console.error(`Sound not found for note: ${normalizedNote}`);
-            console.log("Available notes:", Object.keys(this.sounds));
+            //console.log("Available notes:", Object.keys(this.sounds));
         }
     }
 
     // Test method to manually verify sounds
     testPlayAllNotes() {
-        console.log("Testing all notes...");
+        //console.log("Testing all notes...");
         Object.keys(this.sounds).forEach((note, index) => {
             setTimeout(() => {
-                console.log(`Testing note: ${note}`);
+                //console.log(`Testing note: ${note}`);
                 this.playNote(note);
             }, index * 500); // Play each note with a delay
         });
