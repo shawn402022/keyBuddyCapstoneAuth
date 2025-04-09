@@ -1,7 +1,7 @@
 import { Instrument } from "piano-chart";
 import { useEffect, useRef } from "react";
 import RunMidiUtil from "../../utils/runMidiUtil";
-import './PianoDisplays.css'
+
 
 const Piano = () => {
     const pianoContainerRef = useRef(null);
@@ -58,7 +58,7 @@ const Piano = () => {
 
     return (
 
-        <div ref={pianoContainerRef} id="pianoContainer">
+        <div ref={pianoContainerRef} className="piano-display">
             {/* The piano will be rendered here */}
         </div>
 

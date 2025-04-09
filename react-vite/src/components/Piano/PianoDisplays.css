@@ -1,6 +1,35 @@
-.chord-display {
-    border:1px solid black
+
+.piano-display {
+    margin:2px;
 }
-staff-display {
-    border:5px solid black
+.piano-notes-display {
+    margin:2px;
+    border:1.5px solid black;
+    border-radius: 3px;
+    height:20%
+
+}
+.piano-chords-display {
+    margin:2px;
+    border:1.5px solid black;
+    border-radius: 3px;
+    height:80%
+
+}
+
+.staff-display-container {
+    border:2px solid black;
+    border-radius: 3px;
+    display:inline-flex;
+    margin:3px
+}
+
+.chord-note-container {
+    border:2px solid black;
+    border-radius: 3px;
+    display:inline-flex;
+    width: 250px;
+    height:220px;
+    flex-direction:column;
+    margin:3px
 }
