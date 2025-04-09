@@ -2,7 +2,7 @@ import { useEffect, useContext } from "react"
 import Piano from "../Piano/Piano"
 import RunMidiUtil from "../../utils/runMidiUtil"
 import PianoStaffDisplay from "../Piano/PianoStaffDisplay"
-import PianoChordsDisplay from "../Piano/PianoChordsDisplay"
+//import PianoChordsDisplay from "../Piano/PianoChordsDisplay"
 import NoteUtil from "../../utils/noteUtil"
 import './mainPage.css'
 
@@ -27,8 +27,6 @@ const MainPage = () => {
       </div>
       <div className='chord-staff-container'>
         <PianoStaffDisplay />
-        <PianoChordsDisplay/>
-
       </div>
     </>
 
