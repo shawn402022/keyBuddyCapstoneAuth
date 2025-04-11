@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { usePianoContext } from '../../context/PianoContext';
 import Vex from 'vexflow'
-import RunMidiUtil from '../../utils/runMidiUtil';
 import './PianoDisplays.css'
 
 const PianoStaffDisplay = () => {
+
+    // Get active notes from context instead of local state
+    const { activeNotes } = usePianoContext();
 
     // Create a ref to store the  DOM element
     const staffContainerRef = useRef(null);
@@ -11,8 +14,7 @@ const PianoStaffDisplay = () => {
     // Use tickNotesRef to store notes that should be displayed
     const tickNotesRef = useRef([]);
 
-    // Add state to trigger re-renders when notes change
-    const [activeNotes, setActiveNotes] = useState([]);
+
 
     // Reference to store VexFlow context and staves
     const vexFlowRef = useRef({
@@ -349,42 +351,6 @@ const PianoStaffDisplay = () => {
         }
     };
 
-    // Effect to register MIDI listeners
-    useEffect(() => {
-        // Handler for note on events
-        const handleNoteOn = (note) => {
-            console.log("Staff received note on:", note);
-            setActiveNotes(prevNotes => {
-                // Add the note if it's not already in the list
-                if (!prevNotes.includes(note)) {
-                    return [...prevNotes, note];
-                }
-                return prevNotes;
-            });
-        };
-
-        // Handler for note off events
-        const handleNoteOff = (note) => {
-            console.log("Staff received note off:", note);
-            setActiveNotes(prevNotes => {
-                // Remove the note from the list
-                return prevNotes.filter(n => n !== note);
-            });
-        };
-
-        // Register listeners and store the cleanup functions
-        const removeNoteOnListener = RunMidiUtil.addNoteOnListener(handleNoteOn);
-        const removeNoteOffListener = RunMidiUtil.addNoteOffListener(handleNoteOff);
-
-        console.log("MIDI listeners registered for PianoStaffDisplay");
-
-        // Return a cleanup function that calls both cleanup functions
-        return () => {
-            console.log("Cleaning up MIDI listeners for PianoStaffDisplay");
-            removeNoteOnListener?.();
-            removeNoteOffListener?.();
-        };
-    }, []);
 
     // Effect to render notes when active notes change
     useEffect(() => {

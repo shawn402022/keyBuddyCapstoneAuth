@@ -14,7 +14,7 @@ const Piano = () => {
                 endOctave: 8,
                 showNoteNames: 'always',
 
-                highlightedNotes: ["D", "E", "F#", "G", "A", "B", "C#"],
+                highlightedNotes: ["D", "E", "F", "G", "A", "B", "C#"],
                 specialHighlightedNotes: [{ note: "D" }],
                 keyPressStyle: 'vivid',
                 vividKeyPressColor: 'rgb(255, 255, 0)',
@@ -46,8 +46,6 @@ const Piano = () => {
         RunMidiUtil.addNoteOnListener(handleNoteOn);
         RunMidiUtil.addNoteOffListener(handleNoteOff)
 
-        //Initialize MIDI
-        RunMidiUtil.setupMidi();
 
         //Cleanup function
         return () => {
