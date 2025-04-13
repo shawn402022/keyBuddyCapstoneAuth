@@ -45,7 +45,7 @@ const Piano = () => {
                         endOctave: 8,
                         showNoteNames: 'always',
                         highlightedNotes: highlightedNotes,
-                        specialHighlightedNotes: [{ note: "D" }],
+                        specialHighlightedNotes: [],
                         keyPressStyle: 'vivid',
                         vividKeyPressColor: 'rgb(255, 255, 0)',
                     });

@@ -6,6 +6,7 @@ import RunMidiUtil from "../../utils/runMidiUtil"
 import PianoStaffDisplay from "../Piano/PianoStaffDisplay"
 import PianoNotesDisplay from "../Piano/PianoNotesDisplay"
 import PianoChordsDisplay from "../Piano/PianoChordsDisplay"
+import PianoChordSampleDisplay from "../Piano/PianoChordSampleDisplay";
 
 
 import NoteUtil from "../../utils/noteUtil"
@@ -33,6 +34,9 @@ const MainPage = () => {
           <div className='chord-note-container'>
             <PianoNotesDisplay />
             <PianoChordsDisplay />
+          </div>
+          <div>
+            <PianoChordSampleDisplay/>
           </div>
 
         </div>

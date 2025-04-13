@@ -22,7 +22,7 @@ const PianoChordsDisplay = () => {
 
     return (
         <div className='piano-chords-display'>
-            
+
             {chordName ? (
                 <div className="chord-name">{chordName}</div>
             ) : (

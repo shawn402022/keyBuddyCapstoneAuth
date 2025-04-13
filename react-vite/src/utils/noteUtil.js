@@ -45,7 +45,8 @@ class NoteUtil {
                     everyChordObj[notesKey] = chordName;
 
                     //Log for debugging
-                    console.log(`Added: ${notesKey} => ${chordName}`);
+                    //console.log(`Added: ${notesKey} => ${chordName}`);
+
 
                 } catch(error) {
                     console.log(`Error processing ${diffNote}${diffChord}: ${error.message}`)
@@ -53,6 +54,7 @@ class NoteUtil {
             });
         });
         console.log(`Chord definitions object created with`, Object.keys(everyChordObj).length, 'entries');
+        //console.log(everyChordObj)
         return everyChordObj;
     }
 
@@ -66,6 +68,11 @@ class NoteUtil {
 
         //Look up the chord name
         return chordDefinitions[notesKey] || null;
+    }
+
+    //Method to create a visual representation fo the chords
+    rasterizeChord = (notes) =>{
+
     }
 
 }

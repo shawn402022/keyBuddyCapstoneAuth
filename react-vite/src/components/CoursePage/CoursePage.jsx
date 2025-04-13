@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCourses, updateCourseThunk } from '../../redux/course';
 import { Navigate, Link, useNavigate, NavLink } from 'react-router-dom';
+import PianoChordSampleDisplay from '../Piano/PianoChordSampleDisplay';
 import './CoursePage.css';
 
 const CoursePage = () => {
@@ -61,6 +62,7 @@ const CoursePage = () => {
             )}
 
             <div className="courses-grid">
+                <PianoChordSampleDisplay/>
                 {course.map(course => (
                     <div key={course.id} className="course-card">
                         <h2 className='course-name'>{course.course_name}</h2>
