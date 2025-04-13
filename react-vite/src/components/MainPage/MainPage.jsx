@@ -6,7 +6,7 @@ import RunMidiUtil from "../../utils/runMidiUtil"
 import PianoStaffDisplay from "../Piano/PianoStaffDisplay"
 import PianoNotesDisplay from "../Piano/PianoNotesDisplay"
 import PianoChordsDisplay from "../Piano/PianoChordsDisplay"
-import SwitchDisplay from "../Piano/SwitchDisplay";
+
 
 import NoteUtil from "../../utils/noteUtil"
 import './mainPage.css'
@@ -34,9 +34,7 @@ const MainPage = () => {
             <PianoNotesDisplay />
             <PianoChordsDisplay />
           </div>
-          <div id="switch-display-container">
-            <SwitchDisplay/>
-          </div>
+
         </div>
 
       </div>

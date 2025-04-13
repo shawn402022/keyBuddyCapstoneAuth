@@ -1,9 +1,15 @@
 import { useEffect, useRef } from 'react';
 import { usePianoContext } from '../../context/PianoContext';
+//import { useAccidentalContext } from '../../context/AccidentalContext';
+
 import Vex from 'vexflow'
+import AccidentalToggle from '../AccidentalToggle';
+
+
 import './PianoDisplays.css'
 
 const PianoStaffDisplay = () => {
+
 
     // Get active notes from context instead of local state
     const { activeNotes } = usePianoContext();
@@ -365,8 +371,18 @@ const PianoStaffDisplay = () => {
 
     console.log('Staff received notes:')
     return (
-        <div ref={staffContainerRef} className='staff-display'>
-            {/* Vex Flow will render here*/}
+
+        <div className='staff-display-wrapper'>
+            {/* Separate container for controls, positioned below the staff */}
+            <div className="staff-controls">
+                <AccidentalToggle />
+            </div>
+            {/* Separate container for the staff */}
+            <div ref={staffContainerRef} className='staff-display'>
+                {/* VexFlow will render here */}
+            </div>
+
+
         </div>
     )
 }

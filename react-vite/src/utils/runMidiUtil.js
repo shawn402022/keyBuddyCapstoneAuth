@@ -8,6 +8,46 @@ class RunMidiUtil {
     constructor() {
         this.noteOnListeners = [];
         this.noteOffListeners = [];
+        this.useFlats = true;
+    }
+
+    getEnharmonicEquivalent(note) {
+        const sharpToFlat = {
+            'C#': 'Db',
+            'D#': 'Eb',
+            'F#': 'Gb',
+            'G#': 'Ab',
+            'A#': 'Bb'
+        };
+
+        const flatToSharp = {
+            'Db': 'C#',
+            'Eb': 'D#',
+            'Gb': 'F#',
+            'Ab': 'G#',
+            'Bb': 'A#'
+        };
+
+        // Extract the base note and octave
+        const match = note.match(/([A-G][#b]?)(\d+)/);
+        if (!match) return note;
+
+        const [, noteName, octave] = match;
+
+        // Convert based on current preference
+        if (this.useFlats && sharpToFlat[noteName]) {
+            return `${sharpToFlat[noteName]}${octave}`;
+        } else if (!this.useFlats && flatToSharp[noteName]) {
+            return `${flatToSharp[noteName]}${octave}`;
+        }
+
+        return note;
+    }
+
+    // Add this method to set accidental preference
+    setAccidentalPreference(useFlats) {
+        this.useFlats = useFlats;
+        console.log(`Accidental preference set to: ${useFlats ? 'flats' : 'sharps'}`);
     }
 
     /**
@@ -82,6 +122,7 @@ class RunMidiUtil {
     handleNotePlay = (note) => {
         RunSoundUtil.playNote(note);
         console.log("Playing note:", note);
+        this.noteOnListeners.forEach(callback => callback(note));
 
         // Notify all listeners about the note on event
         this.noteOnListeners.forEach(callback => callback(note));
@@ -107,34 +148,49 @@ class RunMidiUtil {
 
             if (myInput) {
                 myInput.addListener("noteon", (e) => {
-                    const note = e.note.identifier;
-                    console.log("MIDI Note On:", note);
-                    this.handleNotePlay(note);
+                    // Use enharmonic equivalent based on preference
+                    const noteIdentifier = this.useFlats ?
+                        this.getEnharmonicEquivalent(e.note.identifier) :
+                        e.note.identifier;
+
+                    console.log("MIDI Note On:", noteIdentifier);
+                    this.handleNotePlay(noteIdentifier);
                 });
 
                 myInput.addListener("noteoff", (e) => {
-                    const note = e.note.identifier;
-                    console.log('MIDI Note Off:', note);
-                    this.handleNoteOff(note);
+                    // Use enharmonic equivalent based on preference
+                    const noteIdentifier = this.useFlats ?
+                        this.getEnharmonicEquivalent(e.note.identifier) :
+                        e.note.identifier;
+
+                    console.log('MIDI Note Off:', noteIdentifier);
+                    this.handleNoteOff(noteIdentifier);
                 });
             } else {
                 console.log('KOMPLETE KONTROL A25 MIDI not found');
 
-                // Try to connect to any available MIDI device
                 if (inputs.length > 0) {
                     const firstInput = inputs[0];
                     console.log(`Connecting to available MIDI device: ${firstInput.name}`);
 
                     firstInput.addListener("noteon", (e) => {
-                        const note = e.note.identifier;
-                        console.log("MIDI Note On:", note);
-                        this.handleNotePlay(note);
+                        // Use enharmonic equivalent based on preference
+                        const noteIdentifier = this.useFlats ?
+                            this.getEnharmonicEquivalent(e.note.identifier) :
+                            e.note.identifier;
+
+                        console.log("MIDI Note On:", noteIdentifier);
+                        this.handleNotePlay(noteIdentifier);
                     });
 
                     firstInput.addListener("noteoff", (e) => {
-                        const note = e.note.identifier;
-                        console.log("MIDI Note Off:", note);
-                        this.handleNoteOff(note);
+                        // Use enharmonic equivalent based on preference
+                        const noteIdentifier = this.useFlats ?
+                            this.getEnharmonicEquivalent(e.note.identifier) :
+                            e.note.identifier;
+
+                        console.log("MIDI Note Off:", noteIdentifier);
+                        this.handleNoteOff(noteIdentifier);
                     });
                 }
             }

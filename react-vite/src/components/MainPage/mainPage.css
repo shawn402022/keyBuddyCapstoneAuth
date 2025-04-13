@@ -3,14 +3,14 @@
   flex-direction: column;
   border: 7px solid black;
   border-radius: 5px;
-  height: 420px;
+  height: 460px;
   margin: 5px;
 }
 
 #piano-display-container {
   border: 5px solid black;
   border-radius: 5px;
-  
+
   justify-content: center;
   align-items: center;
   margin: 3px;
