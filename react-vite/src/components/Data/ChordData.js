@@ -1770,4 +1770,4 @@ export const reformatData = () => {
   return reformattedData
 }
 
-console.log('REFORMAT',reformatData())
+console.log('REFORMAT',reformatData)

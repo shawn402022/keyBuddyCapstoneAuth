@@ -1,0 +1,120 @@
+.piano-chord-detail {
+    max-width: 1200px;
+    margin: 0px auto;
+    padding: 20px;
+}
+
+.key-filter-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.key-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.results-count {
+    margin-left: 10px;
+    color: #666;
+}
+
+.chord-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+    gap: 20px;
+}
+
+/* SOLUTION FOR ISSUE 1: Proper layout structure */
+.chord-info-item {
+    /* Improved container for the entire component */
+    .piano-chord-detail {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        overflow-x: hidden; /* Prevent horizontal scrolling at the page level */
+    }
+
+    /* More controlled grid layout */
+    .chord-list {
+        display: grid;
+        /* Fixed width columns instead of responsive ones */
+        grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+        gap: 20px;
+    }
+
+    /* Better chord item containment */
+    .chord-info-item {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        display: flex;
+        flex-direction: column;
+        /* Set a fixed height or min-height */
+        min-height: 300px;
+        /* Add overflow control at the item level */
+        overflow: hidden;
+        /* Ensure position context for absolute elements */
+        position: relative;
+    }
+
+    .chord-details {
+        margin-bottom: 15px;
+    }
+
+    .chord-details h2 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .chord-details p {
+        margin: 5px 0;
+        color: #555;
+    }
+
+    /* Piano visualization container with better control */
+    .piano-visualization {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* Increased minimum height */
+        min-height: 180px;
+        background-color: #fff;
+        border-radius: 4px;
+        /* Control overflow at this level */
+
+        /* Ensure position context */
+        position: relative;
+    }
+
+    /* More controlled piano container */
+    .piano-container {
+        /* Wider width to accommodate 3 octaves properly */
+        width: 500px !important;
+        height: 180px !important;
+        position: relative;
+        /* Scale down if needed */
+        transform-origin: center;
+        transform: scale(0.9);
+        /* Center the piano */
+        margin: 0 auto;
+    }
+
+    /* Consistent piano image with proper scaling */
+    .piano-image {
+        display: block;
+        /* Match the container dimensions */
+        width: 200px;
+        height: 75px;
+        /* Use cover instead of contain for better filling */
+        object-fit: contain;
+        /* Center the image */
+        object-position: center;
+    }
