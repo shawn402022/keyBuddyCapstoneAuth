@@ -41,8 +41,8 @@ const PianoChordDetail = () => {
 
         // IMPROVED SOLUTION: Better container preparation
         // Force the container to have consistent dimensions before creating the piano
-        container.style.width = '200px';  // Wider width for 3 octaves
-        container.style.height = '75px'; // Taller height for better proportions
+        container.style.width = '500px';  // Wider width for 3 octaves
+        container.style.height = '180px'; // Taller height for better proportions
         container.style.margin = '0 auto'; // Center the container
 
         // Create the piano with EXPLICIT octave range and settings
@@ -53,6 +53,7 @@ const PianoChordDetail = () => {
             whiteKeyWidth: 40,     // Consistent key sizing
             blackKeyWidth: 20,
             blackKeyHeight: 100,
+            keyPressStyle: "vivid",
             // Disable any auto-adjustment features if the library has them
             autoAdjustOctaves: false, // This is a hypothetical setting - check the library docs
         });
@@ -171,8 +172,8 @@ const PianoChordDetail = () => {
                                         alt={`Piano visualization for ${chordInfo.name}`}
                                         className="piano-image"
                                         // SOLUTION FOR ISSUE 2: Consistent image dimensions
-                                        width="200"
-                                        height="75"
+                                        width="500"
+                                        height="180"
                                     />
                                 ) : (
                                     <div

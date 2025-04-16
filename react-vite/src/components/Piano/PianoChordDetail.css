@@ -65,6 +65,7 @@
 
     .chord-details {
         margin-bottom: 15px;
+        justify-items: center;
     }
 
     .chord-details h2 {
@@ -111,8 +112,8 @@
     .piano-image {
         display: block;
         /* Match the container dimensions */
-        width: 200px;
-        height: 75px;
+        width: 500px;
+        height: 180px;
         /* Use cover instead of contain for better filling */
         object-fit: contain;
         /* Center the image */
