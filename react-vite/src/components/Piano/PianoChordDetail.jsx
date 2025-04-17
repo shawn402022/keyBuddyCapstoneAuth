@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
-import { reformatData } from "../Data/ChordData"
+import { reformatData } from '../../utils/formatChordUtils';
 import { Instrument } from "piano-chart"
 import './PianoChordDetail.css' // Add a CSS file for styling
 
