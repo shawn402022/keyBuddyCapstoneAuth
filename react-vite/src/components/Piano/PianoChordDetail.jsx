@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { reformatData } from '../../utils/formatChordUtils';
 import { Instrument } from "piano-chart"
+import PianoChordDetailCard from './PianoChordDetailCard';
 import './PianoChordDetail.css' // Add a CSS file for styling
 
 const PianoChordDetail = () => {
@@ -148,11 +149,9 @@ const PianoChordDetail = () => {
     };
 
     // Apply musical voicing rules to distribute notes across octaves
+    // Apply musical voicing rules to distribute notes across octaves
     const applyVoicingRules = (notes, rootNote) => {
-        // Start with the root note in octave 3
-        const voiced = [`${rootNote}3`];
-
-        // Calculate the position of each note relative to the root
+        // Create a mapping of note positions in the chromatic scale
         const notePositions = {
             'C': 0, 'C#': 1, 'Db': 1, 'D': 2, 'D#': 3, 'Eb': 3,
             'E': 4, 'F': 5, 'F#': 6, 'Gb': 6, 'G': 7, 'G#': 8, 'Ab': 8,
@@ -161,6 +160,24 @@ const PianoChordDetail = () => {
 
         // Get the position of the root note
         const rootPosition = notePositions[standardizeNoteName(rootNote)];
+        if (rootPosition === undefined) {
+            // If we can't determine the root position, use default voicing
+            return notes.map(note => `${note}4`);
+        }
+
+        // Parse the chord quality from the first note (which should include the chord name)
+        // This is a more robust way to identify chord extensions
+        const chordQuality = notes[0].includes('b13') || notes[0].includes('13') ? '13' :
+            notes[0].includes('11') ? '11' :
+                notes[0].includes('9') ? '9' :
+                    notes[0].includes('7') ? '7' :
+                        notes[0].includes('6') ? '6' :
+                            notes[0].includes('dim') ? 'dim' :
+                                notes[0].includes('aug') ? 'aug' :
+                                    notes[0].includes('m') || notes[0].includes('-') ? 'm' : '';
+
+        // Start with the root note in octave 3
+        const voiced = [`${rootNote}3`];
 
         // For each note after the root, determine its octave based on musical principles
         for (let i = 1; i < notes.length; i++) {
@@ -177,35 +194,58 @@ const PianoChordDetail = () => {
             // Calculate the interval from the root (0-11)
             let interval = (notePosition - rootPosition + 12) % 12;
 
-            // Determine octave based on interval
+            // Determine the function of this note in the chord
+            let noteFunction = '';
+            if (interval === 0) noteFunction = 'root';
+            else if (interval === 3 || interval === 4) noteFunction = 'third';
+            else if (interval === 7) noteFunction = 'fifth';
+            else if (interval === 10 || interval === 11) noteFunction = 'seventh';
+            else if (interval === 1 || interval === 2) noteFunction = 'ninth';
+            else if (interval === 5 || interval === 6) noteFunction = 'eleventh';
+            else if (interval === 8 || interval === 9) noteFunction = 'thirteenth';
+
+            // Determine octave based on note function and chord quality
             let octave;
-            if (interval === 0) {
-                // If it's the same note as root (e.g., another A in A7), put it in octave 4
+
+            // CRITICAL FIX: Explicitly handle the b13 case for B7b13
+            // Check if this is a b13 (minor sixth interval) in a dominant 7 chord
+            const isB13 = interval === 8 && chordQuality.includes('7') &&
+                (notes[0].includes('b13') || notes.length >= 4);
+
+            if (isB13) {
+                // Always place the b13 in octave 5 for proper separation
+                octave = 5;
+            }
+            // Handle other extensions
+            else if (noteFunction === 'ninth' || noteFunction === 'eleventh' || noteFunction === 'thirteenth') {
+                // Extensions always go to octave 5
+                octave = 5;
+            }
+            // Handle basic chord tones
+            else if (noteFunction === 'root') {
+                // Root duplicates go to octave 4
                 octave = 4;
-            } else if (interval <= 4) {
-                // For close intervals like thirds and fourths, keep in octave 4
+            }
+            else if (noteFunction === 'third' || noteFunction === 'fifth') {
+                // Basic chord tones go to octave 4
                 octave = 4;
-            } else if (interval <= 8) {
-                // For fifths and sixths, could go either way - use octave 4
+            }
+            else if (noteFunction === 'seventh') {
+                // Sevenths go to octave 4
                 octave = 4;
-            } else {
-                // For sevenths, ninths, etc., put in octave 4 or 5
-                octave = interval === 10 || interval === 11 ? 4 : 5;
+            }
+            else {
+                // Default for other intervals
+                octave = 4;
             }
 
-            // For extended chords (9, 11, 13), adjust octaves to spread them out
-            if (notes.length > 4) {
-                // If we have many notes, distribute them more evenly
-                if (i >= 4) {
-                    octave = 5; // Put extensions in higher octave
-                }
-            }
-
+            // Add the note with its determined octave
             voiced.push(`${standardNote}${octave}`);
         }
 
         return voiced;
     };
+
 
     useEffect(() => {
         const processChords = (startIdx, batchSize) => {
@@ -251,37 +291,31 @@ const PianoChordDetail = () => {
             {/* SOLUTION FOR ISSUE 1: Improved layout structure */}
             <div className="chord-list">
                 {chordData.map(chordInfo => (
-                    <div  key={chordInfo.id}>
-                        <div className="chord-details">
-                            <h2>{chordInfo.name}</h2>
+                    <PianoChordDetailCard
+                        key={chordInfo.id}
+                        name={chordInfo.name}
+                        image={pianoImages[chordInfo.id] ? (
+                            <img
+                                src={pianoImages[chordInfo.id]}
+                                alt={`Piano visualization for ${chordInfo.name}`}
+                                className="piano-image"
+                                // SOLUTION FOR ISSUE 2: Consistent image dimensions
+                                width="250"
+                                height="90"
+                            />
+                        ) : (
+                            <div
+                                id={`piano-container-${chordInfo.id}`}
+                                className="piano-container"
+                            // Container dimensions set in createPianoImage function
+                            >
 
-                            {/* Piano container with consistent sizing */}
-                            <div className="piano-visualization">
-                                {pianoImages[chordInfo.id] ? (
-                                    <img
-                                        src={pianoImages[chordInfo.id]}
-                                        alt={`Piano visualization for ${chordInfo.name}`}
-                                        className="piano-image"
-                                        // SOLUTION FOR ISSUE 2: Consistent image dimensions
-                                        width="500"
-                                        height="180"
-                                    />
-                                ) : (
-                                    <div
-                                        id={`piano-container-${chordInfo.id}`}
-                                        className="piano-container"
-                                    // Container dimensions set in createPianoImage function
-                                    >
-
-                                    </div>
-                                )}
                             </div>
+                        )}
+                        notes={chordInfo.notes}
+                        id={chordInfo.id}
+                    />
 
-                            <p>{chordInfo.notes}</p>
-                        </div>
-
-
-                    </div>
                 ))}
             </div>
 
