@@ -66,18 +66,10 @@
     .chord-details {
         margin-bottom: 15px;
         justify-items: center;
+        border:5px solid black
     }
 
-    .chord-details h2 {
-        margin-top: 0;
-        margin-bottom: 10px;
-        color: #333;
-    }
 
-    .chord-details p {
-        margin: 5px 0;
-        color: #555;
-    }
 
     /* Piano visualization container with better control */
     .piano-visualization {
@@ -89,6 +81,7 @@
         min-height: 180px;
         background-color: #fff;
         border-radius: 4px;
+
         /* Control overflow at this level */
 
         /* Ensure position context */

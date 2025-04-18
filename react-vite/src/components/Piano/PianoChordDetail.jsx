@@ -29,9 +29,8 @@ const PianoChordDetail = () => {
     useEffect(() => {
         setPianoImages({});
     }, [selectedKey]);
-
     // Function to create piano, highlight notes, and rasterize
-    const createPianoImage = (chordId, notes) => {
+    const createPianoImage = (chordId, notes, chordName) => {
         // Skip if we already have an image for this chord
         if (pianoImages[chordId]) return;
 
@@ -39,49 +38,30 @@ const PianoChordDetail = () => {
         const container = document.getElementById(`piano-container-${chordId}`);
         if (!container) return;
 
-        // IMPROVED SOLUTION: Better container preparation
-        // Force the container to have consistent dimensions before creating the piano
-        container.style.width = '500px';  // Wider width for 3 octaves
-        container.style.height = '180px'; // Taller height for better proportions
-        container.style.margin = '0 auto'; // Center the container
+        // Force the container to have consistent dimensions
+        container.style.width = '500px';
+        container.style.height = '180px';
+        container.style.margin = '0 auto';
 
-        // Create the piano with EXPLICIT octave range and settings
+        // Create the piano with wider octave range to accommodate voicing
         const piano = new Instrument(container, {
-            startOctave: 4,        // Always start at octave 3
-            endOctave: 6,          // Always end at octave 5
-            showOctaveNumbers: true, // Optional: show octave numbers for clarity
-            whiteKeyWidth: 40,     // Consistent key sizing
+            startOctave: 3,        // Start at octave 3 to give room for lower notes
+            endOctave: 6,          // End at octave 5 for higher notes
+            showOctaveNumbers: true,
+            whiteKeyWidth: 40,
             blackKeyWidth: 20,
             blackKeyHeight: 100,
             keyPressStyle: "vivid",
-            // Disable any auto-adjustment features if the library has them
-            autoAdjustOctaves: false, // This is a hypothetical setting - check the library docs
         });
 
-        // Force the piano to render the full specified range
         piano.create();
 
-        // Ensure notes are mapped to the visible octave range
+        // Parse the chord name to extract the root note
+        const rootNote = extractRootNote(chordName);
+
+        // Process notes with intelligent voicing
         const noteArray = notes.split(',').map(note => note.trim());
-        const processedNotes = noteArray.map(note => {
-            // Extract the note name without octave
-            const noteName = note.replace(/\d+$/, '');
-
-            // Determine the best octave to display this note within our visible range
-            let octave = 4; // Default to middle octave
-
-            // If the note already has an octave specified, try to use it if in range
-            const octaveMatch = note.match(/\d+$/);
-            if (octaveMatch) {
-                const specifiedOctave = parseInt(octaveMatch[0]);
-                // Keep the octave within our visible range
-                if (specifiedOctave >= 3 && specifiedOctave <= 5) {
-                    octave = specifiedOctave;
-                }
-            }
-
-            return `${noteName}${octave}`;
-        });
+        const processedNotes = applyChordVoicing(noteArray, rootNote);
 
         // Press all the keys
         processedNotes.forEach(note => {
@@ -92,11 +72,9 @@ const PianoChordDetail = () => {
             }
         });
 
-        // CRITICAL: Add a delay before rasterization to ensure keys are visually pressed
+        // Rasterize after delay
         setTimeout(() => {
-            // Now rasterize after the delay
             piano.rasterize((dataUrl) => {
-                // Update state with the image
                 if (isMounted.current) {
                     setPianoImages(prev => ({
                         ...prev,
@@ -104,7 +82,7 @@ const PianoChordDetail = () => {
                     }));
                 }
 
-                // Only release the keys AFTER rasterization is complete
+                // Release the keys after rasterization
                 processedNotes.forEach(note => {
                     try {
                         piano.keyUp(note);
@@ -113,16 +91,129 @@ const PianoChordDetail = () => {
                     }
                 });
             }, `${notes} - ${chordId}`);
-        }, 200); // Increased delay to ensure visual rendering is complete
+        }, 200);
     };
-    // Effect to handle piano creation after render
+
+    // Helper function to extract the root note from chord name
+    const extractRootNote = (chordName) => {
+        // Most chord names start with the root note
+        // This regex matches the first part of the chord name (e.g., "A" from "A7#9b13")
+        const rootMatch = chordName.match(/^([A-G][#b]?)/);
+        return rootMatch ? rootMatch[1] : null;
+    };
+
+    // Helper function to apply proper chord voicing
+    const applyChordVoicing = (noteArray, rootNote) => {
+        if (!rootNote) {
+            // Fallback if we can't determine the root
+            return noteArray.map(note => `${note}4`);
+        }
+
+        // Standardize note names (e.g., convert B# to C)
+        const standardizedNotes = noteArray.map(standardizeNoteName);
+
+        // Find the root note index in the array
+        const rootIndex = standardizedNotes.findIndex(note =>
+            standardizeNoteName(note) === standardizeNoteName(rootNote)
+        );
+
+        if (rootIndex === -1) {
+            // Root note not found in the array, use default voicing
+            return standardizedNotes.map(note => `${note}4`);
+        }
+
+        // Reorder notes to start with the root
+        const reordered = [
+            ...standardizedNotes.slice(rootIndex),
+            ...standardizedNotes.slice(0, rootIndex)
+        ];
+
+        // Apply voicing rules
+        return applyVoicingRules(reordered, rootNote);
+    };
+
+    // Helper function to standardize note names
+    const standardizeNoteName = (note) => {
+        // Remove any existing octave number
+        const noteName = note.replace(/\d+$/, '');
+
+        // Handle enharmonic equivalents
+        const enharmonics = {
+            'B#': 'C', 'E#': 'F',
+            'Cb': 'B', 'Fb': 'E',
+            // Add more as needed
+        };
+
+        return enharmonics[noteName] || noteName;
+    };
+
+    // Apply musical voicing rules to distribute notes across octaves
+    const applyVoicingRules = (notes, rootNote) => {
+        // Start with the root note in octave 3
+        const voiced = [`${rootNote}3`];
+
+        // Calculate the position of each note relative to the root
+        const notePositions = {
+            'C': 0, 'C#': 1, 'Db': 1, 'D': 2, 'D#': 3, 'Eb': 3,
+            'E': 4, 'F': 5, 'F#': 6, 'Gb': 6, 'G': 7, 'G#': 8, 'Ab': 8,
+            'A': 9, 'A#': 10, 'Bb': 10, 'B': 11
+        };
+
+        // Get the position of the root note
+        const rootPosition = notePositions[standardizeNoteName(rootNote)];
+
+        // For each note after the root, determine its octave based on musical principles
+        for (let i = 1; i < notes.length; i++) {
+            const note = notes[i];
+            const standardNote = standardizeNoteName(note);
+            const notePosition = notePositions[standardNote];
+
+            if (notePosition === undefined) {
+                // If we can't determine the position, default to octave 4
+                voiced.push(`${note}4`);
+                continue;
+            }
+
+            // Calculate the interval from the root (0-11)
+            let interval = (notePosition - rootPosition + 12) % 12;
+
+            // Determine octave based on interval
+            let octave;
+            if (interval === 0) {
+                // If it's the same note as root (e.g., another A in A7), put it in octave 4
+                octave = 4;
+            } else if (interval <= 4) {
+                // For close intervals like thirds and fourths, keep in octave 4
+                octave = 4;
+            } else if (interval <= 8) {
+                // For fifths and sixths, could go either way - use octave 4
+                octave = 4;
+            } else {
+                // For sevenths, ninths, etc., put in octave 4 or 5
+                octave = interval === 10 || interval === 11 ? 4 : 5;
+            }
+
+            // For extended chords (9, 11, 13), adjust octaves to spread them out
+            if (notes.length > 4) {
+                // If we have many notes, distribute them more evenly
+                if (i >= 4) {
+                    octave = 5; // Put extensions in higher octave
+                }
+            }
+
+            voiced.push(`${standardNote}${octave}`);
+        }
+
+        return voiced;
+    };
+
     useEffect(() => {
         const processChords = (startIdx, batchSize) => {
             const endIdx = Math.min(startIdx + batchSize, chordData.length);
 
             for (let i = startIdx; i < endIdx; i++) {
                 const chord = chordData[i];
-                createPianoImage(chord.id, chord.notes);
+                createPianoImage(chord.id, chord.notes, chord.name);
             }
 
             // If there are more chords to process, schedule the next batch
@@ -160,7 +251,7 @@ const PianoChordDetail = () => {
             {/* SOLUTION FOR ISSUE 1: Improved layout structure */}
             <div className="chord-list">
                 {chordData.map(chordInfo => (
-                    <div className="chord-info-item" key={chordInfo.id}>
+                    <div  key={chordInfo.id}>
                         <div className="chord-details">
                             <h2>{chordInfo.name}</h2>
 
@@ -198,6 +289,9 @@ const PianoChordDetail = () => {
         </div>
     );
 };
+// Effect to handle piano creation after render
+
+
 
 
 
