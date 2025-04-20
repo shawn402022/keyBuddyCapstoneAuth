@@ -30,6 +30,7 @@ const PianoChordDetail = () => {
     useEffect(() => {
         setPianoImages({});
     }, [selectedKey]);
+
     // Function to create piano, highlight notes, and rasterize
     const createPianoImage = (chordId, notes, chordName) => {
         // Skip if we already have an image for this chord
@@ -62,7 +63,7 @@ const PianoChordDetail = () => {
 
         // Process notes with intelligent voicing
         const noteArray = notes.split(',').map(note => note.trim());
-        const processedNotes = applyChordVoicing(noteArray, rootNote);
+        const processedNotes = applyChordVoicing(noteArray, rootNote, chordName);
 
         // Press all the keys
         processedNotes.forEach(note => {
@@ -104,33 +105,126 @@ const PianoChordDetail = () => {
     };
 
     // Helper function to apply proper chord voicing
-    const applyChordVoicing = (noteArray, rootNote) => {
+    const applyChordVoicing = (noteArray, rootNote, chordName) => {
         if (!rootNote) {
             // Fallback if we can't determine the root
             return noteArray.map(note => `${note}4`);
         }
 
-        // Standardize note names (e.g., convert B# to C)
-        const standardizedNotes = noteArray.map(standardizeNoteName);
+        // Create a mapping to track the original notes and their functions
+        const noteMapping = noteArray.map(note => {
+            const standardNote = standardizeNoteName(note);
+            return {
+                original: note,
+                standardized: standardNote,
+                // We'll fill these in later
+                function: '',
+                interval: -1,
+                octave: 4 // Default octave
+            };
+        });
 
-        // Find the root note index in the array
-        const rootIndex = standardizedNotes.findIndex(note =>
-            standardizeNoteName(note) === standardizeNoteName(rootNote)
+        // Find the root note index
+        const rootIndex = noteMapping.findIndex(item =>
+            standardizeNoteName(item.original) === standardizeNoteName(rootNote)
         );
 
         if (rootIndex === -1) {
             // Root note not found in the array, use default voicing
-            return standardizedNotes.map(note => `${note}4`);
+            return noteArray.map(note => `${note}4`);
         }
 
-        // Reorder notes to start with the root
-        const reordered = [
-            ...standardizedNotes.slice(rootIndex),
-            ...standardizedNotes.slice(0, rootIndex)
+        // Calculate intervals and determine note functions
+        const notePositions = {
+            'C': 0, 'C#': 1, 'Db': 1, 'D': 2, 'D#': 3, 'Eb': 3,
+            'E': 4, 'F': 5, 'F#': 6, 'Gb': 6, 'G': 7, 'G#': 8, 'Ab': 8,
+            'A': 9, 'A#': 10, 'Bb': 10, 'B': 11
+        };
+
+        const rootPosition = notePositions[standardizeNoteName(rootNote)];
+
+        // Determine the chord quality from the chord name
+        const hasSharp9 = chordName.includes('#9');
+        const hasFlat13 = chordName.includes('b13');
+
+        // Calculate intervals and assign functions for each note
+        for (let i = 0; i < noteMapping.length; i++) {
+            const item = noteMapping[i];
+            const notePosition = notePositions[item.standardized];
+
+            if (notePosition !== undefined) {
+                // Calculate interval from root
+                item.interval = (notePosition - rootPosition + 12) % 12;
+
+                // Assign function based on interval
+                if (item.interval === 0) item.function = 'root';
+                else if (item.interval === 3 || item.interval === 4){
+                    if (hasSharp9 && item.interval === 3) {
+                        item.function = 'sharp9';
+                    } else {
+                        item.function = 'third';
+                    }
+                } 
+                else if (item.interval === 7) item.function = 'fifth';
+                else if (item.interval === 10 || item.interval === 11) item.function = 'seventh';
+                else if (item.interval === 1 || item.interval === 2) {
+                    // Special case for #9 in B7#9b13
+                    if (hasSharp9 && item.interval === 2) {
+                        item.function = 'sharp9';
+                    } else {
+                        item.function = 'ninth';
+                    }
+                }
+                else if (item.interval === 5 || item.interval === 6) item.function = 'eleventh';
+                else if (item.interval === 8 || item.interval === 9) {
+                    // Special case for b13 in B7#9b13
+                    if (hasFlat13 && item.interval === 8) {
+                        item.function = 'flat13';
+                    } else {
+                        item.function = 'thirteenth';
+                    }
+                }
+            }
+        }
+
+        // Sort notes by their function in the chord
+        // This ensures extensions appear in the correct order
+        const functionOrder = [
+            'root', 'third', 'fifth', 'seventh',
+            'ninth', 'sharp9', 'eleventh', 'flat13', 'thirteenth'
         ];
 
-        // Apply voicing rules
-        return applyVoicingRules(reordered, rootNote);
+        noteMapping.sort((a, b) => {
+            return functionOrder.indexOf(a.function) - functionOrder.indexOf(b.function);
+        });
+
+        // Now assign octaves based on function
+        const voiced = [];
+
+        for (let i = 0; i < noteMapping.length; i++) {
+            const item = noteMapping[i];
+            let octave;
+
+            if (item.function === 'root' && i === 0) {
+                // The first root goes in octave 3
+                octave = 3;
+            } else if (item.function === 'root') {
+                // Any duplicate roots go in octave 4
+                octave = 4;
+            } else if (item.function === 'third' || item.function === 'fifth' || item.function === 'seventh') {
+                // Basic chord tones go in octave 4
+                octave = 4;
+            } else {
+                // All extensions go in octave 5
+                octave = 5;
+            }
+
+            // Use the original note name with the assigned octave
+            const originalNoteName = item.original.replace(/\d+$/, '');
+            voiced.push(`${originalNoteName}${octave}`);
+        }
+
+        return voiced;
     };
 
     // Helper function to standardize note names
@@ -142,109 +236,19 @@ const PianoChordDetail = () => {
         const enharmonics = {
             'B#': 'C', 'E#': 'F',
             'Cb': 'B', 'Fb': 'E',
-            // Add more as needed
+            'C##': 'D', 'D##': 'E',
+            'F##': 'G', 'G##': 'A',
+            'A##': 'B',
+            'Dbb': 'C', 'Ebb': 'D',
+            'Gbb': 'F', 'Abb': 'G',
+            'Bbb': 'A'
         };
 
         return enharmonics[noteName] || noteName;
     };
 
-    // Apply musical voicing rules to distribute notes across octaves
-    // Apply musical voicing rules to distribute notes across octaves
-    const applyVoicingRules = (notes, rootNote) => {
-        // Create a mapping of note positions in the chromatic scale
-        const notePositions = {
-            'C': 0, 'C#': 1, 'Db': 1, 'D': 2, 'D#': 3, 'Eb': 3,
-            'E': 4, 'F': 5, 'F#': 6, 'Gb': 6, 'G': 7, 'G#': 8, 'Ab': 8,
-            'A': 9, 'A#': 10, 'Bb': 10, 'B': 11
-        };
 
-        // Get the position of the root note
-        const rootPosition = notePositions[standardizeNoteName(rootNote)];
-        if (rootPosition === undefined) {
-            // If we can't determine the root position, use default voicing
-            return notes.map(note => `${note}4`);
-        }
 
-        // Parse the chord quality from the first note (which should include the chord name)
-        // This is a more robust way to identify chord extensions
-        const chordQuality = notes[0].includes('b13') || notes[0].includes('13') ? '13' :
-            notes[0].includes('11') ? '11' :
-                notes[0].includes('9') ? '9' :
-                    notes[0].includes('7') ? '7' :
-                        notes[0].includes('6') ? '6' :
-                            notes[0].includes('dim') ? 'dim' :
-                                notes[0].includes('aug') ? 'aug' :
-                                    notes[0].includes('m') || notes[0].includes('-') ? 'm' : '';
-
-        // Start with the root note in octave 3
-        const voiced = [`${rootNote}3`];
-
-        // For each note after the root, determine its octave based on musical principles
-        for (let i = 1; i < notes.length; i++) {
-            const note = notes[i];
-            const standardNote = standardizeNoteName(note);
-            const notePosition = notePositions[standardNote];
-
-            if (notePosition === undefined) {
-                // If we can't determine the position, default to octave 4
-                voiced.push(`${note}4`);
-                continue;
-            }
-
-            // Calculate the interval from the root (0-11)
-            let interval = (notePosition - rootPosition + 12) % 12;
-
-            // Determine the function of this note in the chord
-            let noteFunction = '';
-            if (interval === 0) noteFunction = 'root';
-            else if (interval === 3 || interval === 4) noteFunction = 'third';
-            else if (interval === 7) noteFunction = 'fifth';
-            else if (interval === 10 || interval === 11) noteFunction = 'seventh';
-            else if (interval === 1 || interval === 2) noteFunction = 'ninth';
-            else if (interval === 5 || interval === 6) noteFunction = 'eleventh';
-            else if (interval === 8 || interval === 9) noteFunction = 'thirteenth';
-
-            // Determine octave based on note function and chord quality
-            let octave;
-
-            // CRITICAL FIX: Explicitly handle the b13 case for B7b13
-            // Check if this is a b13 (minor sixth interval) in a dominant 7 chord
-            const isB13 = interval === 8 && chordQuality.includes('7') &&
-                (notes[0].includes('b13') || notes.length >= 4);
-
-            if (isB13) {
-                // Always place the b13 in octave 5 for proper separation
-                octave = 5;
-            }
-            // Handle other extensions
-            else if (noteFunction === 'ninth' || noteFunction === 'eleventh' || noteFunction === 'thirteenth') {
-                // Extensions always go to octave 5
-                octave = 5;
-            }
-            // Handle basic chord tones
-            else if (noteFunction === 'root') {
-                // Root duplicates go to octave 4
-                octave = 4;
-            }
-            else if (noteFunction === 'third' || noteFunction === 'fifth') {
-                // Basic chord tones go to octave 4
-                octave = 4;
-            }
-            else if (noteFunction === 'seventh') {
-                // Sevenths go to octave 4
-                octave = 4;
-            }
-            else {
-                // Default for other intervals
-                octave = 4;
-            }
-
-            // Add the note with its determined octave
-            voiced.push(`${standardNote}${octave}`);
-        }
-
-        return voiced;
-    };
 
 
     useEffect(() => {
