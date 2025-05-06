@@ -1,11 +1,10 @@
 """empty message
 
-Revision ID: aa20391d431d
+Revision ID: de4513e3633e
 Revises:
-Create Date: 2025-05-06 06:41:54.118275
+Create Date: 2025-05-06 10:15:35.852053
 
 """
-
 import os
 environment = os.environ.get("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
@@ -16,7 +15,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'aa20391d431d'
+revision = 'de4513e3633e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -147,7 +146,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['users_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('courses_id', 'users_id')
     )
-
     if environment == "production":
         op.execute(f"ALTER TABLE chords SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE courses SET SCHEMA {SCHEMA};")
@@ -157,11 +155,11 @@ def upgrade():
         op.execute(f"ALTER TABLE scales SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE songs SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE chord-images SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE song-chords SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE song-keys SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE song-progressions SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE user-courses SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE chord_images SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE song_chords SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE song_keys SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE song_progressions SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE user_courses SET SCHEMA {SCHEMA};")
     # ### end Alembic commands ###
 
 
