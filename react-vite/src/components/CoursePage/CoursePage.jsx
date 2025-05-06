@@ -81,12 +81,12 @@ const CoursePage = () => {
                             scale={scale}
                             triads={triads}
                             chords={chords}
-                            subDom={substituteDominants}
-                            secondaryDom={secondaryDominants}
-                            secondaryDomSuper={secondaryDominantSupertonics}
-                            secondaryDomMinorRel={secondaryDominantsMinorRelative}
-                            subDomSuper={substituteDominantSupertonics}
-                            subDomMinorRel={substituteDominantsMinorRelative}
+                            substituteDominants={substituteDominants}
+                            secondaryDominants={secondaryDominants}
+                            secondaryDominantSupertonics={secondaryDominantSupertonics}
+                            secondaryDominantsMinorRelative={secondaryDominantsMinorRelative}
+                            substituteDominantSupertonics={substituteDominantSupertonics}
+                            substituteDominantsMinorRelative={substituteDominantsMinorRelative}
                         />
                     </div>
                 );
