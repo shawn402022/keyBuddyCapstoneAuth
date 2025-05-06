@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 11d72bdabf25
+Revision ID: aa20391d431d
 Revises:
-Create Date: 2025-01-29 04:00:28.662051
+Create Date: 2025-05-06 06:41:54.118275
 
 """
 
@@ -10,12 +10,13 @@ import os
 environment = os.environ.get("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
+
 from alembic import op
 import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '11d72bdabf25'
+revision = 'aa20391d431d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -105,6 +106,19 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
+    op.create_table('chord_images',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('chord_id', sa.Integer(), nullable=False),
+    sa.Column('key', sa.String(length=10), nullable=False),
+    sa.Column('image_data', sa.Text(), nullable=False),
+    sa.Column('width', sa.Integer(), nullable=True),
+    sa.Column('height', sa.Integer(), nullable=True),
+    sa.Column('octave_range', sa.String(length=10), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
+    sa.ForeignKeyConstraint(['chord_id'], ['chords.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('song_chords',
     sa.Column('chord_id', sa.Integer(), nullable=False),
     sa.Column('song_id', sa.Integer(), nullable=False),
@@ -133,6 +147,7 @@ def upgrade():
     sa.ForeignKeyConstraint(['users_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('courses_id', 'users_id')
     )
+
     if environment == "production":
         op.execute(f"ALTER TABLE chords SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE courses SET SCHEMA {SCHEMA};")
@@ -142,10 +157,11 @@ def upgrade():
         op.execute(f"ALTER TABLE scales SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE songs SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE song_chords SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE song_keys SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE song_progressions SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE user_courses SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE chord-images SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE song-chords SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE song-keys SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE song-progressions SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE user-courses SET SCHEMA {SCHEMA};")
     # ### end Alembic commands ###
 
 
@@ -155,6 +171,7 @@ def downgrade():
     op.drop_table('song_progressions')
     op.drop_table('song_keys')
     op.drop_table('song_chords')
+    op.drop_table('chord_images')
     op.drop_table('users')
     op.drop_table('songs')
     op.drop_table('scales')

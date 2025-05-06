@@ -103,7 +103,10 @@ def run_migrations_online():
             if environment == "production":
                 connection.execute(f"CREATE SCHEMA IF NOT EXISTS {SCHEMA};")
                 context.execute(f"SET search_path TO {SCHEMA};")
+
             context.run_migrations()
+
+
 
 
 if context.is_offline_mode():
