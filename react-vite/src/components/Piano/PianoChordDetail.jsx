@@ -31,6 +31,7 @@ const PianoChordDetail = () => {
         setPianoImages({});
     }, [selectedKey]);
 
+    
     // Function to create piano, highlight notes, and rasterize
     const createPianoImage = (chordId, notes, chordName) => {
         // Skip if we already have an image for this chord
@@ -164,7 +165,7 @@ const PianoChordDetail = () => {
                     } else {
                         item.function = 'third';
                     }
-                } 
+                }
                 else if (item.interval === 7) item.function = 'fifth';
                 else if (item.interval === 10 || item.interval === 11) item.function = 'seventh';
                 else if (item.interval === 1 || item.interval === 2) {

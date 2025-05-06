@@ -15,21 +15,32 @@ from werkzeug.security import (
 )
 
 
-
 ##JOIN TABLES
 if environment == "production":
     user_courses = db.Table(
         "user_courses",
         db.Model.metadata,
-        db.Column("courses_id", db.Integer, db.ForeignKey(f"{SCHEMA}.courses.id"), primary_key=True),
-        db.Column("users_id", db.Integer, db.ForeignKey(f"{SCHEMA}.users.id"), primary_key=True),
-        schema=SCHEMA
+        db.Column(
+            "courses_id",
+            db.Integer,
+            db.ForeignKey(f"{SCHEMA}.courses.id"),
+            primary_key=True,
+        ),
+        db.Column(
+            "users_id",
+            db.Integer,
+            db.ForeignKey(f"{SCHEMA}.users.id"),
+            primary_key=True,
+        ),
+        schema=SCHEMA,
     )
 else:
     user_courses = db.Table(
         "user_courses",
         db.Model.metadata,
-        db.Column("courses_id", db.Integer, db.ForeignKey("courses.id"), primary_key=True),
+        db.Column(
+            "courses_id", db.Integer, db.ForeignKey("courses.id"), primary_key=True
+        ),
         db.Column("users_id", db.Integer, db.ForeignKey("users.id"), primary_key=True),
     )
 
@@ -38,9 +49,13 @@ if environment == "production":
     song_keys = db.Table(
         "song_keys",
         db.Model.metadata,
-        db.Column("key_id", db.Integer, db.ForeignKey(f"{SCHEMA}.keys.id"), primary_key=True),
-        db.Column("song_id", db.Integer, db.ForeignKey(f"{SCHEMA}.songs.id"), primary_key=True),
-        schema=SCHEMA
+        db.Column(
+            "key_id", db.Integer, db.ForeignKey(f"{SCHEMA}.keys.id"), primary_key=True
+        ),
+        db.Column(
+            "song_id", db.Integer, db.ForeignKey(f"{SCHEMA}.songs.id"), primary_key=True
+        ),
+        schema=SCHEMA,
     )
 else:
     song_keys = db.Table(
@@ -55,9 +70,16 @@ if environment == "production":
     song_chords = db.Table(
         "song_chords",
         db.Model.metadata,
-        db.Column("chord_id", db.Integer, db.ForeignKey(f"{SCHEMA}.chords.id"), primary_key=True),
-        db.Column("song_id", db.Integer, db.ForeignKey(f"{SCHEMA}.songs.id"), primary_key=True),
-        schema=SCHEMA
+        db.Column(
+            "chord_id",
+            db.Integer,
+            db.ForeignKey(f"{SCHEMA}.chords.id"),
+            primary_key=True,
+        ),
+        db.Column(
+            "song_id", db.Integer, db.ForeignKey(f"{SCHEMA}.songs.id"), primary_key=True
+        ),
+        schema=SCHEMA,
     )
 else:
     song_chords = db.Table(
@@ -72,17 +94,30 @@ if environment == "production":
     song_progressions = db.Table(
         "song_progressions",
         db.Model.metadata,
-        db.Column("progression_id", db.Integer, db.ForeignKey(f"{SCHEMA}.progressions.id"), primary_key=True),
-        db.Column("song_id", db.Integer, db.ForeignKey(f"{SCHEMA}.songs.id"), primary_key=True),
-        schema=SCHEMA
+        db.Column(
+            "progression_id",
+            db.Integer,
+            db.ForeignKey(f"{SCHEMA}.progressions.id"),
+            primary_key=True,
+        ),
+        db.Column(
+            "song_id", db.Integer, db.ForeignKey(f"{SCHEMA}.songs.id"), primary_key=True
+        ),
+        schema=SCHEMA,
     )
 else:
     song_progressions = db.Table(
         "song_progressions",
         db.Model.metadata,
-        db.Column("progression_id", db.Integer, db.ForeignKey("progressions.id"), primary_key=True),
+        db.Column(
+            "progression_id",
+            db.Integer,
+            db.ForeignKey("progressions.id"),
+            primary_key=True,
+        ),
         db.Column("song_id", db.Integer, db.ForeignKey("songs.id"), primary_key=True),
     )
+
 
 ##REGULAR TABLES
 # Course Model
@@ -173,7 +208,6 @@ class Review(db.Model):
 
     # relationships
 
-
     def to_dict(self):
         return {
             "id": self.id,
@@ -204,9 +238,6 @@ class Scale(db.Model):
     )
 
     # relationships
-
-
-
 
     def to_dict(self):
         return {
@@ -240,14 +271,56 @@ class Chord(db.Model):
     # relationships
     songs = db.relationship("Song", secondary=song_chords, back_populates="chords")
 
-
     def to_dict(self):
         return {
             "id": self.id,
             "chord_family": self.chord_family,
             "chord_name": self.chord_name,
-            "notes": self.notes
-            }
+            "notes": self.notes,
+        }
+
+
+class ChordImage(db.Model):
+    __tablename__ = "chord_images"
+
+    if environment == "production":
+        __table_args__ = {"schema": SCHEMA}
+
+    id = db.Column(db.Integer, primary_key=True)
+    chord_id = db.Column(
+        db.Integer, db.ForeignKey(add_prefix_for_prod("chords.id")), nullable=False
+    )
+    key = db.Column(
+        db.String(10), nullable=False
+    )  # Store which key this image is for (e.g., "C", "F#")
+    image_data = db.Column(db.Text, nullable=False)  # Store base64 image data
+    width = db.Column(db.Integer, default=250)  # Image width used for rendering
+    height = db.Column(db.Integer, default=90)  # Image height used for rendering
+    octave_range = db.Column(
+        db.String(10), default="3-6"
+    )  # Store the octave range used (e.g., "3-6")
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(
+        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
+    )
+
+    # Relationship with the Chord model
+    chord = db.relationship(
+        "Chord", backref=db.backref("images", cascade="all, delete-orphan")
+    )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "chord_id": self.chord_id,
+            "key": self.key,
+            "image_data": self.image_data,
+            "width": self.width,
+            "height": self.height,
+            "octave_range": self.octave_range,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+        }
 
 
 class Progression(db.Model):
@@ -303,7 +376,7 @@ class Key(db.Model):
             "id": self.id,
             "key_name": self.key_name,
             "key_description": self.key_description,
-}
+        }
 
 
 class Song(db.Model):
@@ -331,7 +404,6 @@ class Song(db.Model):
     )
     chords = db.relationship("Chord", secondary=song_chords, back_populates="songs")
 
-
     def to_dict(self):
         return {
             "id": self.id,
@@ -340,5 +412,5 @@ class Song(db.Model):
             "artist": self.artist,
             "chords_used": self.chords_used,
             "progression_used": self.progression_used,
-            "description": self.description
+            "description": self.description,
         }

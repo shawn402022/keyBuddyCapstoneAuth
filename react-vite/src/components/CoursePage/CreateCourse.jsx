@@ -3,6 +3,8 @@ import { createCoursesFetch } from "../../redux/course"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import PianoChordDetail from "../Piano/PianoChordDetail"
+import { Instrument } from "piano-chart"
+
 import "./CoursePage.css"
 
 
@@ -21,6 +23,10 @@ const CreateCourse = () => {
             navigate('/course');
         }
     }, [user, navigate]);
+
+    useEffect(() => {
+
+    })
 
     //create course on submit
     const handleSubmit = async(e) => {
