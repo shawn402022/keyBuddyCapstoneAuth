@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import { reformatData } from '../../utils/formatChordUtils';
 import { Instrument } from "piano-chart"
 import PianoChordDetailCard from './PianoChordDetailCard';
+import axios from 'axios';
 import './PianoChordDetail.css' // Add a CSS file for styling
 
 const PianoChordDetail = () => {
@@ -31,7 +32,7 @@ const PianoChordDetail = () => {
         setPianoImages({});
     }, [selectedKey]);
 
-    
+
     // Function to create piano, highlight notes, and rasterize
     const createPianoImage = (chordId, notes, chordName) => {
         // Skip if we already have an image for this chord
@@ -66,14 +67,26 @@ const PianoChordDetail = () => {
         const noteArray = notes.split(',').map(note => note.trim());
         const processedNotes = applyChordVoicing(noteArray, rootNote, chordName);
 
-        // Press all the keys
-        processedNotes.forEach(note => {
+
+
+        // Add a function to save the image to the database
+        const saveImageToDatabase = async (chordId, imageData, chordName, notes, key) => {
             try {
-                piano.keyDown(note);
+                const response = await axios.post('/api/save-chord-image', {
+                    chordId,
+                    imageData,
+                    chordName,
+                    notes,
+                    key: selectedKey
+                });
+
+                console.log('Image saved to database:', response.data);
+                return response.data.success;
             } catch (error) {
-                console.warn(`Failed to press key ${note}:`, error);
+                console.error('Failed to save image to database:', error);
+                return false;
             }
-        });
+        };
 
         // Rasterize after delay
         setTimeout(() => {
@@ -83,6 +96,9 @@ const PianoChordDetail = () => {
                         ...prev,
                         [chordId]: dataUrl
                     }));
+
+                    // Save to database
+                    saveImageToDatabase(chordId, dataUrl, chordName, notes, selectedKey);
                 }
 
                 // Release the keys after rasterization
@@ -95,6 +111,15 @@ const PianoChordDetail = () => {
                 });
             }, `${notes} - ${chordId}`);
         }, 200);
+
+        // Press all the keys
+        processedNotes.forEach(note => {
+            try {
+                piano.keyDown(note);
+            } catch (error) {
+                console.warn(`Failed to press key ${note}:`, error);
+            }
+        });
     };
 
     // Helper function to extract the root note from chord name
@@ -159,7 +184,7 @@ const PianoChordDetail = () => {
 
                 // Assign function based on interval
                 if (item.interval === 0) item.function = 'root';
-                else if (item.interval === 3 || item.interval === 4){
+                else if (item.interval === 3 || item.interval === 4) {
                     if (hasSharp9 && item.interval === 3) {
                         item.function = 'sharp9';
                     } else {
@@ -247,6 +272,56 @@ const PianoChordDetail = () => {
 
         return enharmonics[noteName] || noteName;
     };
+
+    // Add this effect to fetch images from database when component mounts
+    useEffect(() => {
+        const fetchImagesFromDatabase = async () => {
+            try {
+                const response = await axios.get(`/api/chord-images?key=${selectedKey}`);
+
+                if (response.data && response.data.images) {
+                    // Convert the images to a format compatible with your state
+                    const fetchedImages = {};
+                    response.data.images.forEach(img => {
+                        // Convert buffer back to data URL if needed
+                        fetchedImages[img.chordId] = `data:image/png;base64,${img.imageData}`;
+                    });
+
+                    setPianoImages(fetchedImages);
+                }
+            } catch (error) {
+                console.error('Failed to fetch images from database:', error);
+                // If fetching fails, we'll fall back to generating them
+            }
+        };
+
+        fetchImagesFromDatabase();
+    }, [selectedKey]);
+
+    // Modify the chord processing logic to only generate images not found in database
+    useEffect(() => {
+        const processChords = (startIdx, batchSize) => {
+            const endIdx = Math.min(startIdx + batchSize, chordData.length);
+
+            for (let i = startIdx; i < endIdx; i++) {
+                const chord = chordData[i];
+                // Only create piano image if we don't already have it
+                if (!pianoImages[chord.id]) {
+                    createPianoImage(chord.id, chord.notes, chord.name);
+                }
+            }
+
+            // If there are more chords to process, schedule the next batch
+            if (endIdx < chordData.length && isMounted.current) {
+                setTimeout(() => {
+                    processChords(endIdx, batchSize);
+                }, 100);
+            }
+        };
+
+        // Start processing chords in batches of 5
+        processChords(0, 5);
+    }, [chordData, pianoImages]); // Now depends on pianoImages too
 
 
 

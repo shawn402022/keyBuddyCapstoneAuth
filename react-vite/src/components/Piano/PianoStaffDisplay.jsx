@@ -2,7 +2,8 @@ import { useEffect, useRef } from 'react';
 import { usePianoContext } from '../../context/PianoContext';
 //import { useAccidentalContext } from '../../context/AccidentalContext';
 
-import Vex from 'vexflow'
+import { Renderer, Stave, StaveConnector, Formatter, Voice, StaveNote, Accidental } from 'vexflow';
+
 import AccidentalToggle from '../AccidentalToggle';
 
 
@@ -77,10 +78,10 @@ const PianoStaffDisplay = () => {
             // Clear any previous content
             staffContainerRef.current.innerHTML = '';
 
-            // Create the render directly with the DOM element
-            const renderer = new Vex.Flow.Renderer(
+            // Create the renderer with the updated API
+            const renderer = new Renderer(
                 staffContainerRef.current,
-                Vex.Flow.Renderer.Backends.SVG
+                Renderer.Backends.SVG
             );
 
             //Configure the renderer
@@ -89,29 +90,28 @@ const PianoStaffDisplay = () => {
             const context = renderer.getContext();
             context.setFont('Arial', 10);
 
-            // Draw the stave for treble cleff
-            const trebleStave = new Vex.Flow.Stave(50, 0, 150);
-            trebleStave.addClef('treble')
-            trebleStave.setContext(context).draw()
+            // Draw the stave for treble clef
+            const trebleStave = new Stave(50, 0, 150);
+            trebleStave.addClef('treble');
+            trebleStave.setContext(context).draw();
 
-            // Draw the stave for bass cleff
-            const bassStave = new Vex.Flow.Stave(50, 100, 150);
-            bassStave.addClef('bass')
-            bassStave.setContext(context).draw()
+            // Draw the stave for bass clef
+            const bassStave = new Stave(50, 100, 150);
+            bassStave.addClef('bass');
+            bassStave.setContext(context).draw();
 
-            // Optional: Connect the staves with a brace
-            const brace = new Vex.Flow.StaveConnector(trebleStave, bassStave).setType(3); // Type 3 is a brace
+            // Connect the staves with a brace
+            const brace = new StaveConnector(trebleStave, bassStave).setType(3);
             brace.setContext(context).draw();
 
-            // Optional: Connect the staves with a line at the beginning
-            const lineLeft = new Vex.Flow.StaveConnector(trebleStave, bassStave).setType(1); // Type 1 is a single line
+            // Connect the staves with a line at the beginning
+            const lineLeft = new StaveConnector(trebleStave, bassStave).setType(1);
             lineLeft.setContext(context).draw();
 
-            // Optional: Connect the staves with a line at the end
-            const lineRight = new Vex.Flow.StaveConnector(trebleStave, bassStave).setType(6); // Type 6 is a bold double line
+            // Connect the staves with a line at the end
+            const lineRight = new StaveConnector(trebleStave, bassStave).setType(6);
             lineRight.setContext(context).draw();
 
-            // Store context and staves for later use
             vexFlowRef.current = {
                 context,
                 trebleStave,
