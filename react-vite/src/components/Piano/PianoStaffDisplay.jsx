@@ -159,7 +159,7 @@ const PianoStaffDisplay = () => {
                     // Create the note - using try/catch to handle potential API differences
                     let vfNote;
                     try {
-                        vfNote = new Vex.Flow.StaveNote({
+                        vfNote = new StaveNote({
                             clef: 'treble',
                             keys: keys,
                             duration: 'q'
@@ -171,15 +171,15 @@ const PianoStaffDisplay = () => {
                                 if (key.includes('#')) {
                                     // Try different ways to add accidentals based on VexFlow version
                                     if (typeof vfNote.addAccidental === 'function') {
-                                        vfNote.addAccidental(i, new Vex.Flow.Accidental('#'));
+                                        vfNote.addAccidental(i, new Accidental('#'));
                                     } else if (typeof vfNote.addModifier === 'function') {
-                                        vfNote.addModifier(new Vex.Flow.Accidental('#'), i);
+                                        vfNote.addModifier(new Accidental('#'), i);
                                     }
                                 } else if (key.includes('b')) {
                                     if (typeof vfNote.addAccidental === 'function') {
-                                        vfNote.addAccidental(i, new Vex.Flow.Accidental('b'));
+                                        vfNote.addAccidental(i, new Accidental('b'));
                                     } else if (typeof vfNote.addModifier === 'function') {
-                                        vfNote.addModifier(new Vex.Flow.Accidental('b'), i);
+                                        vfNote.addModifier(new Accidental('b'), i);
                                     }
                                 }
                             } catch (accidentalError) {
@@ -201,7 +201,7 @@ const PianoStaffDisplay = () => {
                     // Create the note - using try/catch to handle potential API differences
                     let vfNote;
                     try {
-                        vfNote = new Vex.Flow.StaveNote({
+                        vfNote = new StaveNote({
                             clef: 'treble',
                             keys: [key],
                             duration: 'q'
@@ -212,15 +212,15 @@ const PianoStaffDisplay = () => {
                             if (key.includes('#')) {
                                 // Try different ways to add accidentals based on VexFlow version
                                 if (typeof vfNote.addAccidental === 'function') {
-                                    vfNote.addAccidental(0, new Vex.Flow.Accidental('#'));
+                                    vfNote.addAccidental(0, new Accidental('#'));
                                 } else if (typeof vfNote.addModifier === 'function') {
-                                    vfNote.addModifier(new Vex.Flow.Accidental('#'), 0);
+                                    vfNote.addModifier(new Accidental('#'), 0);
                                 }
                             } else if (key.includes('b')) {
                                 if (typeof vfNote.addAccidental === 'function') {
-                                    vfNote.addAccidental(0, new Vex.Flow.Accidental('b'));
+                                    vfNote.addAccidental(0, new Accidental('b'));
                                 } else if (typeof vfNote.addModifier === 'function') {
-                                    vfNote.addModifier(new Vex.Flow.Accidental('b'), 0);
+                                    vfNote.addModifier(new Accidental('b'), 0);
                                 }
                             }
                         } catch (accidentalError) {
@@ -237,16 +237,16 @@ const PianoStaffDisplay = () => {
                 }
 
                 // Create a voice for the treble clef
-                const trebleVoice = new Vex.Flow.Voice({
+                const trebleVoice = new Voice({
                     num_beats: 1,
                     beat_value: 4,
-                    resolution: Vex.Flow.RESOLUTION
+                    resolution: RESOLUTION
                 });
 
                 trebleVoice.addTickables(vfTrebleNotes);
 
                 // Format and draw
-                new Vex.Flow.Formatter().joinVoices([trebleVoice]).format([trebleVoice], 250);
+                new Formatter().joinVoices([trebleVoice]).format([trebleVoice], 250);
                 trebleVoice.draw(context, trebleStave);
             }
 
@@ -261,7 +261,7 @@ const PianoStaffDisplay = () => {
                     // Create the note - using try/catch to handle potential API differences
                     let vfNote;
                     try {
-                        vfNote = new Vex.Flow.StaveNote({
+                        vfNote = new StaveNote({
                             clef: 'bass',
                             keys: keys,
                             duration: 'q'
@@ -273,15 +273,15 @@ const PianoStaffDisplay = () => {
                                 if (key.includes('#')) {
                                     // Try different ways to add accidentals based on VexFlow version
                                     if (typeof vfNote.addAccidental === 'function') {
-                                        vfNote.addAccidental(i, new Vex.Flow.Accidental('#'));
+                                        vfNote.addAccidental(i, new Accidental('#'));
                                     } else if (typeof vfNote.addModifier === 'function') {
-                                        vfNote.addModifier(new Vex.Flow.Accidental('#'), i);
+                                        vfNote.addModifier(new Accidental('#'), i);
                                     }
                                 } else if (key.includes('b')) {
                                     if (typeof vfNote.addAccidental === 'function') {
-                                        vfNote.addAccidental(i, new Vex.Flow.Accidental('b'));
+                                        vfNote.addAccidental(i, new Accidental('b'));
                                     } else if (typeof vfNote.addModifier === 'function') {
-                                        vfNote.addModifier(new Vex.Flow.Accidental('b'), i);
+                                        vfNote.addModifier(new Accidental('b'), i);
                                     }
                                 }
                             } catch (accidentalError) {
@@ -303,7 +303,7 @@ const PianoStaffDisplay = () => {
                     // Create the note - using try/catch to handle potential API differences
                     let vfNote;
                     try {
-                        vfNote = new Vex.Flow.StaveNote({
+                        vfNote = new StaveNote({
                             clef: 'bass',
                             keys: [key],
                             duration: 'q'
@@ -314,15 +314,15 @@ const PianoStaffDisplay = () => {
                             if (key.includes('#')) {
                                 // Try different ways to add accidentals based on VexFlow version
                                 if (typeof vfNote.addAccidental === 'function') {
-                                    vfNote.addAccidental(0, new Vex.Flow.Accidental('#'));
+                                    vfNote.addAccidental(0, new Accidental('#'));
                                 } else if (typeof vfNote.addModifier === 'function') {
-                                    vfNote.addModifier(new Vex.Flow.Accidental('#'), 0);
+                                    vfNote.addModifier(new Accidental('#'), 0);
                                 }
                             } else if (key.includes('b')) {
                                 if (typeof vfNote.addAccidental === 'function') {
-                                    vfNote.addAccidental(0, new Vex.Flow.Accidental('b'));
+                                    vfNote.addAccidental(0, new Accidental('b'));
                                 } else if (typeof vfNote.addModifier === 'function') {
-                                    vfNote.addModifier(new Vex.Flow.Accidental('b'), 0);
+                                    vfNote.addModifier(new Accidental('b'), 0);
                                 }
                             }
                         } catch (accidentalError) {
@@ -339,16 +339,16 @@ const PianoStaffDisplay = () => {
                 }
 
                 // Create a voice for the bass clef
-                const bassVoice = new Vex.Flow.Voice({
+                const bassVoice = new Voice({
                     num_beats: 1,
                     beat_value: 4,
-                    resolution: Vex.Flow.RESOLUTION
+                    resolution: RESOLUTION
                 });
 
                 bassVoice.addTickables(vfBassNotes);
 
                 // Format and draw
-                new Vex.Flow.Formatter().joinVoices([bassVoice]).format([bassVoice], 250);
+                new Formatter().joinVoices([bassVoice]).format([bassVoice], 250);
                 bassVoice.draw(context, bassStave);
             }
         } catch (error) {

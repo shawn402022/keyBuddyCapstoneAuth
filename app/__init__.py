@@ -15,6 +15,7 @@ from .api.routes import (
     chord_routes,
     progression_routes,
     key_routes,
+    chord_image_routes
 )
 from .seeds import seed_commands
 from .config import Config
@@ -46,6 +47,9 @@ app.register_blueprint(course_routes, url_prefix="/api/course")
 app.register_blueprint(chord_routes, url_prefix="/api/chord")
 app.register_blueprint(progression_routes, url_prefix="/api/progression")
 app.register_blueprint(key_routes, url_prefix="/api/key")
+app.register_blueprint(chord_image_routes, url_prefix='/api/chord-image')
+
+
 
 db.init_app(app)
 Migrate(app, db)

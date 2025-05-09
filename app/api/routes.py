@@ -24,7 +24,6 @@ from app.models import (
 from app.forms import LoginForm, SignUpForm
 
 
-
 song_routes = Blueprint("song", __name__, url_prefix="/song")
 scale_routes = Blueprint("scale", __name__, url_prefix="/scale")
 review_routes = Blueprint("review", __name__, url_prefix="/review")
@@ -32,8 +31,7 @@ course_routes = Blueprint("course", __name__, url_prefix="/course")
 chord_routes = Blueprint("chord", __name__, url_prefix="/chord")
 progression_routes = Blueprint("progression", __name__, url_prefix="/progression")
 key_routes = Blueprint("key", __name__, url_prefix="/key")
-
-
+chord_image_routes = Blueprint("chord_image", __name__, url_prefix="/chord-image")
 
 
 ## SONG ENDPOINT_________________________________________________
@@ -81,14 +79,13 @@ def create_song():
     song_data = request.json
 
     new_song = Song(
-        song_key=song_data.get('song_key'),
-        song=song_data.get('song'),
-        artist=song_data.get('artist'),
-        chords_used=song_data.get('chords_used'),
-        progression_used=song_data.get('progression_used'),
-        description=song_data.get('description')
+        song_key=song_data.get("song_key"),
+        song=song_data.get("song"),
+        artist=song_data.get("artist"),
+        chords_used=song_data.get("chords_used"),
+        progression_used=song_data.get("progression_used"),
+        description=song_data.get("description"),
     )
-
 
     db.session.add(new_song)
     db.session.commit()
@@ -106,17 +103,18 @@ def update_song(song_id):
     data = request.json
 
     if song:
-        song.song_key = data.get('song_key', song.song_key)
-        song.song = data.get('song', song.song)
-        song.artist = data.get('artist', song.artist)
-        song.chords_used = data.get('chords_used', song.chords_used)
-        song.progression_used = data.get('progression_used', song.progression_used)
-        song.description = data.get('description', song.description)
+        song.song_key = data.get("song_key", song.song_key)
+        song.song = data.get("song", song.song)
+        song.artist = data.get("artist", song.artist)
+        song.chords_used = data.get("chords_used", song.chords_used)
+        song.progression_used = data.get("progression_used", song.progression_used)
+        song.description = data.get("description", song.description)
 
         db.session.commit()
         return jsonify(song.to_dict())
 
     return jsonify({"msg": "Song not found"}), 404
+
 
 # ADMIN delete a song
 @song_routes.route("/admin/<song_id>", methods=["DELETE"])
@@ -255,6 +253,7 @@ def get_all_courses():
 
     return jsonify(result_list)
 
+
 # ADMIN add a course to database
 @course_routes.route("/admin", methods=["POST"])
 @login_required
@@ -268,6 +267,7 @@ def add_course_to_database():
     db.session.add(new_course)
     db.session.commit()
     return jsonify(new_course.to_dict())
+
 
 # ADMIN edit a course from admin
 @course_routes.route("/admin/<course_id>", methods=["PUT"])
@@ -295,7 +295,6 @@ def edit_course_from_admin(course_id):
     return jsonify({"msg": "Course not found"}), 404
 
 
-
 # get user courses
 @course_routes.route("/<user_id>")
 @login_required
@@ -309,12 +308,12 @@ def get_user_courses(user_id):
 
     user = User.query.get(user_id)
     user_courses = user.courses
-    return jsonify({
-        "full_name": current_user.full_name,
-        "courses": [course.to_dict() for course in user_courses]
-    })
-
-
+    return jsonify(
+        {
+            "full_name": current_user.full_name,
+            "courses": [course.to_dict() for course in user_courses],
+        }
+    )
 
 
 # user add course to user
@@ -343,7 +342,6 @@ def add_course_to_user(user_id):
     return jsonify({"msg": "Course not found"}), 404
 
 
-
 # delete a course from user
 @course_routes.route("/<user_id>/<course_id>", methods=["DELETE"])
 @login_required
@@ -369,8 +367,6 @@ def delete_course_from_user(user_id, course_id):
     )
 
 
-
-
 ## SCALE ENDPOINT
 
 
@@ -384,7 +380,7 @@ def scales():
 
     for scale in all_scales:
         new_scale = scale.to_dict()
-        new_scale['notes'] = scale.notes
+        new_scale["notes"] = scale.notes
         result_list.append(new_scale)
 
     return jsonify(result_list)
@@ -398,7 +394,7 @@ def get_scale_by_signature(signature):
     scales = db.session.query(Scale).filter_by(signature=signature).all()
 
     if scales:
-        return jsonify([{ **scale.to_dict(), 'notes': scale.notes} for scale in scales])
+        return jsonify([{**scale.to_dict(), "notes": scale.notes} for scale in scales])
 
     return jsonify({"msg": "No scales found with that signature"}), 404
 
@@ -410,7 +406,7 @@ def get_scale_by_root(root):
     scales = db.session.query(Scale).filter_by(root=root).all()
 
     if scales:
-        return jsonify([{**scale.to_dict(), 'notes': scale.notes} for scale in scales])
+        return jsonify([{**scale.to_dict(), "notes": scale.notes} for scale in scales])
 
     return jsonify({"msg": "No scales found with that root"}), 404
 
@@ -422,25 +418,28 @@ def get_scale_by_type(type):
     scales = db.session.query(Scale).filter_by(type=type).all()
 
     if scales:
-        return jsonify([{**scale.to_dict(), 'notes': scale.notes} for scale in scales])
+        return jsonify([{**scale.to_dict(), "notes": scale.notes} for scale in scales])
 
     return jsonify({"msg": "No scales found with that type"}), 404
 
-#ADMIN add a scale to database
+
+# ADMIN add a scale to database
 @scale_routes.route("/admin", methods=["POST"])
 @login_required
 def add_scale_to_database():
-    if current_user.full_name!= " Admin User":
+    if current_user.full_name != " Admin User":
         return jsonify({"msg": "Unauthorized - Only admin can add scales"}), 403
 
     scale_data = request.json
-    new_scale = Scale(**scale_data,)
+    new_scale = Scale(
+        **scale_data,
+    )
     db.session.add(new_scale)
     db.session.commit()
-    return jsonify(new_scale.to_dict(), scale_data['notes'])
+    return jsonify(new_scale.to_dict(), scale_data["notes"])
 
 
-#ADMIN update a scale in database
+# ADMIN update a scale in database
 @scale_routes.route("/admin/<scale_id>", methods=["PUT"])
 @login_required
 def update_scale_in_database(scale_id):
@@ -474,7 +473,8 @@ def update_scale_in_database(scale_id):
         scale.notes = updated_scale_data["notes"]
 
     db.session.commit()
-    return jsonify({**scale.to_dict(), 'notes': scale.notes})
+    return jsonify({**scale.to_dict(), "notes": scale.notes})
+
 
 ## CHORD ENDPOINT
 # get all chords
@@ -512,14 +512,15 @@ def add_chord_to_database():
     new_chord = Chord(**chord_data)
     db.session.add(new_chord)
     db.session.commit()
-    print('new Chord added:', new_chord.chord_family)
+    print("new Chord added:", new_chord.chord_family)
     return jsonify(new_chord.to_dict())
+
 
 # ADMIN update a chord in database
 @chord_routes.route("/admin/<chord_id>", methods=["PUT"])
 @login_required
 def update_chord_in_database(chord_id):
-    if current_user.full_name!= " Admin User":
+    if current_user.full_name != " Admin User":
         return jsonify({"msg": "Unauthorized - Only admin can update chords"}), 403
 
     chord = Chord.query.get(chord_id)
@@ -532,17 +533,18 @@ def update_chord_in_database(chord_id):
         if "notes" in request.json:
             chord.notes = request.json["notes"]
 
-        print('Chord updated:', chord.chord_family)
+        print("Chord updated:", chord.chord_family)
         db.session.commit()
         return jsonify(chord.to_dict())
 
     return jsonify({"msg": "Chord not found"}), 404
 
+
 # ADMIN delete a chord from database
 @chord_routes.route("/admin/<chord_id>", methods=["DELETE"])
 @login_required
 def delete_chord_from_database(chord_id):
-    if current_user.full_name!= " Admin User":
+    if current_user.full_name != " Admin User":
         return jsonify({"msg": "Unauthorized - Only admin can delete chords"}), 403
 
     chord = Chord.query.get(chord_id)
@@ -555,7 +557,84 @@ def delete_chord_from_database(chord_id):
     return jsonify({"msg": "Chord not found"}), 404
 
 
+@chord_image_routes.route("/save", methods=["POST"])
+@login_required  # Optional: if you want to restrict this to logged-in users
+def save_chord_image():
+    """Save a chord image to the database"""
+    try:
+        # Get data from request
+        data = request.json
+        chord_id = data.get("chordId")
+        key = data.get("key")
+        image_data = data.get("imageData")
+
+        # Remove the data:image/png;base64, prefix if present
+        if image_data and "base64," in image_data:
+            image_data = image_data.split("base64,")[1]
+
+        # Check if an image for this chord and key already exists
+        existing_image = ChordImage.query.filter_by(chord_id=chord_id, key=key).first()
+
+        if existing_image:
+            # Update existing image
+            existing_image.image_data = image_data
+            existing_image.updated_at = datetime.utcnow()
+            db.session.commit()
+            return jsonify({"success": True, "message": "Image updated successfully"})
+        else:
+            # Create new image record
+            new_image = ChordImage(chord_id=chord_id, key=key, image_data=image_data)
+            db.session.add(new_image)
+            db.session.commit()
+            return jsonify({"success": True, "message": "Image saved successfully"})
+
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error saving chord image: {str(e)}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@chord_image_routes.route("", methods=["GET"])
+def get_chord_images():
+    """Get chord images filtered by key"""
+    try:
+        # Get key from query parameters
+        key = request.args.get("key")
+
+        if not key:
+            return (
+                jsonify({"success": False, "error": "Key parameter is required"}),
+                400,
+            )
+
+        # Query images for the specified key
+        images = ChordImage.query.filter_by(key=key).all()
+
+        # Format the response
+        result = {
+            "success": True,
+            "images": [
+                {
+                    "id": img.id,
+                    "chordId": img.chord_id,
+                    "key": img.key,
+                    "imageData": img.image_data,
+                    "width": img.width,
+                    "height": img.height,
+                }
+                for img in images
+            ],
+        }
+
+        return jsonify(result)
+
+    except Exception as e:
+        print(f"Error retrieving chord images: {str(e)}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
 ## PROGRESSION ENDPOINT
+
 
 # get all progressions
 @progression_routes.route("/")
@@ -569,14 +648,17 @@ def progressions():
 
     return jsonify(result_list)
 
-#get  progression by type
+
+# get  progression by type
 @progression_routes.route("/type/<type>")
 @login_required
 def get_progression_by_type(type):
-    print('BEFORE IF')
+    print("BEFORE IF")
     if type:
-        all_progressions = db.session.query(Progression).filter_by(progression_type=type).all()
-        print('AFTER IF')
+        all_progressions = (
+            db.session.query(Progression).filter_by(progression_type=type).all()
+        )
+        print("AFTER IF")
         result_list = []
 
         for progression in all_progressions:
@@ -586,12 +668,15 @@ def get_progression_by_type(type):
         return jsonify(result_list)
     return jsonify({"msg": "No progressions found with that type"}), 404
 
-#get  progression by style
+
+# get  progression by style
 @progression_routes.route("/style/<style>")
 @login_required
 def get_progression_by_style(style):
     if style:
-        all_progressions = db.session.query(Progression).filter_by(progression_style=style).all()
+        all_progressions = (
+            db.session.query(Progression).filter_by(progression_style=style).all()
+        )
 
         result_list = []
 
@@ -602,18 +687,19 @@ def get_progression_by_style(style):
         return jsonify(result_list)
     return jsonify({"msg": "No progressions found with that type"}), 404
 
-#ADMIN add a progression to database
+
+# ADMIN add a progression to database
 @progression_routes.route("/admin", methods=["POST"])
 @login_required
 def add_progression_to_database():
-    if current_user.full_name!= " Admin User":
+    if current_user.full_name != " Admin User":
         return jsonify({"msg": "Unauthorized - Only admin can add progressions"}), 403
 
     progression_data = request.json
     new_progression = Progression(**progression_data)
     db.session.add(new_progression)
     db.session.commit()
-    print('new Progression added:', new_progression.progression_type)
+    print("new Progression added:", new_progression.progression_type)
     return jsonify(new_progression.to_dict())
 
 
@@ -621,8 +707,11 @@ def add_progression_to_database():
 @progression_routes.route("/admin/<progression_id>", methods=["PUT"])
 @login_required
 def update_progression_in_database(progression_id):
-    if current_user.full_name!= " Admin User":
-        return jsonify({"msg": "Unauthorized - Only admin can update progressions"}), 403
+    if current_user.full_name != " Admin User":
+        return (
+            jsonify({"msg": "Unauthorized - Only admin can update progressions"}),
+            403,
+        )
 
     progression = Progression.query.get(progression_id)
 
@@ -632,12 +721,13 @@ def update_progression_in_database(progression_id):
         if "progression_name" in request.json:
             progression.progression_name = request.json["progression_name"]
 
-
-        print('Progression updated:', progression.progression_type)
+        print("Progression updated:", progression.progression_type)
         db.session.commit()
         return jsonify(progression.to_dict())
 
     return jsonify({"msg": "Progression not found"}), 404
+
+
 ## KEY ENDPOINT
 
 
@@ -654,11 +744,12 @@ def keys():
 
     return jsonify(result_list)
 
-#ADMIN update a key in database
+
+# ADMIN update a key in database
 @key_routes.route("/admin/<key_id>", methods=["PUT"])
 @login_required
 def update_key_in_database(key_id):
-    if current_user.full_name!= " Admin User":
+    if current_user.full_name != " Admin User":
         return jsonify({"msg": "Unauthorized - Only admin can update keys"}), 403
 
     key = Key.query.get(key_id)
@@ -669,7 +760,7 @@ def update_key_in_database(key_id):
         if "key_description" in request.json:
             key.key_description = request.json["key_description"]
 
-        print('Key updated:', key.key_name)
+        print("Key updated:", key.key_name)
         db.session.commit()
         return jsonify(key.to_dict())
 
