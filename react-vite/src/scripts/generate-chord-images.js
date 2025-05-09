@@ -11,32 +11,32 @@ global.document = dom.window.document;
 global.navigator = dom.window.navigator;
 
 // Mock the canvas functionality since we're in Node
-global.HTMLCanvasElement.prototype.getContext = function() {
-  return {
-    fillRect: function() {},
-    clearRect: function() {},
-    getImageData: function() {
-      return {
-        data: new Array(4)
-      };
-    },
-    putImageData: function() {},
-    createImageData: function() { return []; },
-    setTransform: function() {},
-    drawImage: function() {},
-    save: function() {},
-    restore: function() {},
-    beginPath: function() {},
-    moveTo: function() {},
-    lineTo: function() {},
-    closePath: function() {},
-    stroke: function() {},
-    translate: function() {},
-    scale: function() {},
-    rotate: function() {},
-    arc: function() {},
-    fill: function() {},
-  };
+global.HTMLCanvasElement.prototype.getContext = function () {
+    return {
+        fillRect: function () { },
+        clearRect: function () { },
+        getImageData: function () {
+            return {
+                data: new Array(4)
+            };
+        },
+        putImageData: function () { },
+        createImageData: function () { return []; },
+        setTransform: function () { },
+        drawImage: function () { },
+        save: function () { },
+        restore: function () { },
+        beginPath: function () { },
+        moveTo: function () { },
+        lineTo: function () { },
+        closePath: function () { },
+        stroke: function () { },
+        translate: function () { },
+        scale: function () { },
+        rotate: function () { },
+        arc: function () { },
+        fill: function () { },
+    };
 };
 
 // Import the piano-chart library after setting up the DOM environment
@@ -67,7 +67,7 @@ async function generateChordImages() {
     // Process each chord
     for (let i = 0; i < allChords.length; i++) {
         const chord = allChords[i];
-        console.log(`Processing chord ${i+1}/${allChords.length}: ${chord.name}`);
+        console.log(`Processing chord ${i + 1}/${allChords.length}: ${chord.name}`);
 
         try {
             // Create piano instance with consistent settings
@@ -77,7 +77,7 @@ async function generateChordImages() {
                 whiteKeyWidth: 40,
                 blackKeyWidth: 20,
                 blackKeyHeight: 100,
-                keyPressStyle:'vivid',
+                keyPressStyle: 'vivid',
 
             });
 
