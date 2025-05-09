@@ -5,7 +5,7 @@ import { usePianoContext } from '../../context/PianoContext';
 import { Renderer, Stave, StaveConnector, Formatter, Voice, StaveNote, Accidental } from 'vexflow';
 
 import AccidentalToggle from '../AccidentalToggle';
-
+const RESOLUTION = 4096; 
 
 import './PianoDisplays.css'
 
