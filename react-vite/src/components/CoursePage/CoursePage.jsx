@@ -37,7 +37,7 @@ const CoursePage = () => {
             {isAdmin && (
                 <p className="create-course-button-container">
                     <NavLink to="/createCourse" className="create-course-button">
-                        Create Course
+                        Create Test
                     </NavLink>
                 </p>
             )}

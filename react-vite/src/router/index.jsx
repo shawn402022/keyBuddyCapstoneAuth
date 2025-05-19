@@ -10,11 +10,7 @@ import CreateSongPage from '../components/CourseInfoPage/CreateSongPage';
 import ReviewsPage from '../components/ReviewsPage/ReviewsPage';
 import CreateReviewPage from '../components/ReviewsPage/CreateReviewPage';
 import DeleteCourse from '../components/CoursePage/DeleteCourse';
-
-
-
-
-
+import TestPage from '../components/TestPage';
 
 
 export const router = createBrowserRouter([
@@ -32,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: "createCourse",
         element: <CreateCourse />
+      },
+      {
+        path: "testPage",
+        element:<TestPage/>
       },
       {
         path: "course/admin/delete/:courseId",
@@ -53,7 +53,6 @@ export const router = createBrowserRouter([
         path: "/review/create",
         element: <CreateReviewPage />
       },
-
       {
         path: "login",
         element: <LoginFormPage />,

@@ -13,7 +13,7 @@ const CourseButton = () => {
                 onClick={handleCourseClick}
                 className="course-button"
             >
-            {<p className="allCourses-word">All Courses</p>}
+            {<p className="allCourses-word">All Tests</p>}
             </button>
         </div>
     );

@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { useState, useEffect, useCallback, useRef } from "react";
+import {  useEffect, useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import CourseButton from "./CourseButton";
@@ -13,14 +13,6 @@ function Navigation() {
   const sessionUser = useSelector(state => state.session.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-
-
-
-  
-
-
-
   const handleLogout = () => {
     dispatch(thunkLogout()).then(() => {
       navigate('/');

@@ -48,52 +48,52 @@ const CourseTile = ({
 
     return (
         <div className="course-tile">
-            <h1>{tonic}{type} Courses</h1>
+            <h1>{tonic}{type} Tests</h1>
             <div className="content-row scale">
                 <p className='test-name'>Scale: </p>
                 <p className="highlight-text">{safeJoin(scale)}</p>
-                <button className="add-button" onClick={() => handleAddClick('scale', scale)}>add</button>
+                <button className="add-button" onClick={() => handleAddClick('scale', scale)}>Start Test</button>
 
             </div>
             <div className="content-row triads">
                 <p className='test-name'>Triads: </p>
                 <p className="highlight-text">{safeJoin(triads)}</p>
-                <button className="add-button" onClick={() => handleAddClick('triads', triads)}>add</button>
+                <button className="add-button" onClick={() => handleAddClick('triads', triads)}>Start Test</button>
             </div>
             <div className="content-row chords">
                 <p className='test-name'>Chords:</p>
                 <p className="highlight-text">{safeJoin(chords)}</p>
-                <button className="add-button" onClick={() => handleAddClick('chords', chords)}>add</button>
+                <button className="add-button" onClick={() => handleAddClick('chords', chords)}>Start Test</button>
             </div>
             <div className="content-row secondary-dominants">
                 <p className='test-name'>SecondaryDom: </p>
                 <p className="highlight-text">{safeJoin(secondaryDominants)}</p>
-                <button className="add-button" onClick={() => handleAddClick('secondaryDominants', secondaryDominants)}>add</button>
+                <button className="add-button" onClick={() => handleAddClick('secondaryDominants', secondaryDominants)}>Start Test</button>
             </div>
             <div className="content-row secondary-dominants">
                 <p className='test-name'>SecondaryDomSupertonics: </p>
                 <p className="highlight-text">{safeJoin(secondaryDominantSupertonics)}</p>
-                <button className="add-button" onClick={() => handleAddClick('secondaryDominantSupertonics', secondaryDominantSupertonics)}>add</button>
+                <button className="add-button" onClick={() => handleAddClick('secondaryDominantSupertonics', secondaryDominantSupertonics)}>Start Test</button>
             </div>
             <div className="content-row secondary-dominants">
                 <p className='test-name'>SecondaryDomMinorRelative: </p>
                 <p className="highlight-text">{safeJoin(secondaryDominantsMinorRelative)}</p>
-                <button className="add-button" onClick={() => handleAddClick('secondaryDominantsMinorRelative', secondaryDominantsMinorRelative)}>add</button>
+                <button className="add-button" onClick={() => handleAddClick('secondaryDominantsMinorRelative', secondaryDominantsMinorRelative)}>Start Test</button>
             </div>
             <div className="content-row secondary-dominants">
                 <p className='test-name'>SubDomSupertonics:</p>
                 <p className="highlight-text">{safeJoin(substituteDominantSupertonics)}</p>
-                <button className="add-button" onClick={() => handleAddClick('substituteDominantSupertonics', substituteDominantSupertonics)}>add</button>
+                <button className="add-button" onClick={() => handleAddClick('substituteDominantSupertonics', substituteDominantSupertonics)}>Start Test</button>
             </div>
             <div className="content-row secondary-dominants">
                 <p className='test-name'>subDom: </p>
                 <p className="highlight-text">{safeJoin(substituteDominants)}</p>
-                <button className="add-button" onClick={() => handleAddClick('substituteDominants', substituteDominants)}>add</button>
+                <button className="add-button" onClick={() => handleAddClick('substituteDominants', substituteDominants)}>Start Test</button>
             </div>
             <div className="content-row secondary-dominants">
                 <p className='test-name'>subDomMinorRelative: </p>
                 <p className="highlight-text">{safeJoin(substituteDominantsMinorRelative)}</p>
-                <button className="add-button" onClick={() => handleAddClick('substituteDominantsMinorRelative', substituteDominantsMinorRelative)}>add</button>
+                <button className="add-button" onClick={() => handleAddClick('substituteDominantsMinorRelative', substituteDominantsMinorRelative)}>Start Test</button>
             </div>
 
             <button>Songs in {tonic} {type}</button>
