@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { addToUserCourses } from '../../redux/userCourses';
 import { useNavigate } from 'react-router-dom';
+import { thunkSetContentType } from '../../redux/test';
 
 const CourseTile = ({
     tonic = "",
@@ -15,33 +16,42 @@ const CourseTile = ({
     substituteDominantsMinorRelative = [],
     scale = []
 }) => {
-
+    const dispatch = useDispatch()
     const navigate = useNavigate();
 
     function startTest(contentType) {
+
+        console.log('Starting test for:', contentType);
+
         navigate('/mainPage')
 
 
-        if(contentType === 'triads') {
-            return console.log(triads)
+        if (contentType === 'triads') {
+            contentType = safeJoin(triads)
+            console.log('Starting test for:', contentType);
         } else if (contentType === 'chords') {
-            return console.log(chords)
+            contentType = safeJoin(chords)
         } else if (contentType === 'scale') {
-            return console.log(scale)
+            contentType = safeJoin(scale)
         } else if (contentType === 'secondaryDominants') {
-            return console.log(secondaryDominants)
+            contentType = safeJoin(secondaryDominants)
         } else if (contentType === 'secondaryDominantSupertonics') {
-            return console.log(secondaryDominantSupertonics)
+            contentType = safeJoin(secondaryDominantSupertonics)
+            console.log('TYPE',typeof(contentType))
         } else if (contentType === 'secondaryDominantMinorRelative') {
-            return console.log(secondaryDominantsMinorRelative)
+            contentType = secondaryDominantsMinorRelative
         } else if (contentType === 'substituteDominantSupertonics ') {
-            return console.log(substituteDominantSupertonics)
+            contentType = safeJoin(substituteDominantSupertonics)
         } else if (contentType === 'substituteDominants') {
-            return console.log(substituteDominants)
+            contentType = safeJoin(substituteDominants)
+            dispatch(thunkSetContentType(contentType))
         } else if (contentType === 'substituteDominantsMinorRelative') {
-            return console.log(substituteDominantsMinorRelative)
+            contentType = safeJoin(substituteDominantsMinorRelative)
         }
-        
+        dispatch(thunkSetContentType(contentType))
+
+        return console.log(contentType)
+
     }
 
 

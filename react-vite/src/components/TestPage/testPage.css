@@ -26,6 +26,6 @@
   margin: 3px;
 }
 
-#chord-note-container {
-  border: 5px solid blue;
+.chord-note-container {
+  border: 5px solid rgb(0, 0, 0);
 }

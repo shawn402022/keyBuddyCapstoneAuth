@@ -13,6 +13,7 @@ import chordsReducer from "./chord";
 import progressionsReducer from "./progression";
 import keysReducer from "./key";
 import songReducer from "./song";
+import testReducer from "./test";
 
 
 const rootReducer = combineReducers({
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   progression: progressionsReducer,
   key: keysReducer,
   song: songReducer,
+  test: testReducer
 });
 
 let enhancer;

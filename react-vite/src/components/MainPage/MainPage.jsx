@@ -5,6 +5,7 @@ import RunMidiUtil from "../../utils/runMidiUtil"
 import PianoStaffDisplay from "../Piano/PianoStaffDisplay"
 import PianoNotesDisplay from "../Piano/PianoNotesDisplay"
 import PianoChordsDisplay from "../Piano/PianoChordsDisplay"
+import Tester from "./Tester";
 
 
 import './mainPage.css'
@@ -12,7 +13,7 @@ import './mainPage.css'
 
 const MainPage = () => {
 
-  
+
 
   useEffect(() => {
     RunMidiUtil.setupMidi();
@@ -36,6 +37,7 @@ const MainPage = () => {
             <PianoNotesDisplay />
             <PianoChordsDisplay />
           </div>
+          <Tester/>
           <div>
 
           </div>
