@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { addToUserCourses } from '../../redux/userCourses';
+import { useNavigate } from 'react-router-dom';
 
 const CourseTile = ({
     tonic = "",
@@ -15,7 +16,33 @@ const CourseTile = ({
     scale = []
 }) => {
 
-    const dispatch = useDispatch()
+    const navigate = useNavigate();
+
+    function startTest(contentType) {
+        navigate('/mainPage')
+
+
+        if(contentType === 'triads') {
+            return console.log(triads)
+        } else if (contentType === 'chords') {
+            return console.log(chords)
+        } else if (contentType === 'scale') {
+            return console.log(scale)
+        } else if (contentType === 'secondaryDominants') {
+            return console.log(secondaryDominants)
+        } else if (contentType === 'secondaryDominantSupertonics') {
+            return console.log(secondaryDominantSupertonics)
+        } else if (contentType === 'secondaryDominantMinorRelative') {
+            return console.log(secondaryDominantsMinorRelative)
+        } else if (contentType === 'substituteDominantSupertonics ') {
+            return console.log(substituteDominantSupertonics)
+        } else if (contentType === 'substituteDominants') {
+            return console.log(substituteDominants)
+        } else if (contentType === 'substituteDominantsMinorRelative') {
+            return console.log(substituteDominantsMinorRelative)
+        }
+        
+    }
 
 
 
@@ -37,13 +64,11 @@ const CourseTile = ({
 
     const handleAddClick = (contentType, content) => {
         // Process the array before joining for the payload
-        const processedContent = replaceEmptyWithNA(content);
+        startTest(contentType)
 
-        const payload = {
-            course_name: `${tonic}${type}_${contentType}`,
-            details_of_course: processedContent.join(', ')
-        }
-        dispatch(addToUserCourses(payload));
+        //console.log(`CONTENTTYPES, ${contentType}`)
+
+
     }
 
     return (
