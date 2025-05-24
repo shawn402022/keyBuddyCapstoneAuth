@@ -1,7 +1,7 @@
 
 import "./LandingPage.css"
 import { useSelector } from "react-redux";
-import MainPage from "../MainPage/MainPage";
+import TestPage from "../TestPage";
 
 const LandingPage = () => {
     const sessionUser = useSelector(state => state.session.user);
@@ -10,7 +10,7 @@ const LandingPage = () => {
         return (
             <div className="authenticated-landing">
                 {/* Your logged-in user content here */}
-                    <MainPage />
+                    <TestPage />
                 {/* Add your authenticated user interface */}
             </div>
         );

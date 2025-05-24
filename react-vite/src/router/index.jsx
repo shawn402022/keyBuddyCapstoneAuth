@@ -11,6 +11,7 @@ import ReviewsPage from '../components/ReviewsPage/ReviewsPage';
 import CreateReviewPage from '../components/ReviewsPage/CreateReviewPage';
 import DeleteCourse from '../components/CoursePage/DeleteCourse';
 import TestPage from '../components/TestPage';
+import MainPage from '../components/MainPage/MainPage';
 
 
 export const router = createBrowserRouter([
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
       {
         path: "createCourse",
         element: <CreateCourse />
+      },
+      {
+        path:"mainPage",
+        element:<MainPage/>
       },
       {
         path: "testPage",
