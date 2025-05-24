@@ -5,18 +5,14 @@ import RunMidiUtil from "../../utils/runMidiUtil"
 import PianoStaffDisplay from "../Piano/PianoStaffDisplay"
 import PianoNotesDisplay from "../Piano/PianoNotesDisplay"
 import PianoChordsDisplay from "../Piano/PianoChordsDisplay"
-import CreateImages from "./CreateImages";
-import { reformatData } from "../../utils/formatChordUtils";
 
-import { Instrument } from "piano-chart"
-import NoteUtil from "../../utils/noteUtil"
 
 import './mainPage.css'
 
 
 const MainPage = () => {
 
-  console.log(NoteUtil.getEveryChord())
+  
 
   useEffect(() => {
     RunMidiUtil.setupMidi();

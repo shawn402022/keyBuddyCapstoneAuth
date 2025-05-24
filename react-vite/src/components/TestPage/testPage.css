@@ -1,0 +1,31 @@
+#main-page-container-main {
+  display: flex;
+  flex-direction: column;
+  border: 7px solid black;
+  border-radius: 5px;
+  height: 550px;
+  margin: 5px;
+}
+
+#piano-display-container-main {
+  border: 5px solid black;
+  border-radius: 5px;
+
+  justify-content: center;
+  align-items: center;
+  margin: 3px;
+}
+
+#feedback-display-container-main {
+  border: 5px solid black;
+  border-radius: 5px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  margin: 3px;
+}
+
+#chord-note-container {
+  border: 5px solid blue;
+}

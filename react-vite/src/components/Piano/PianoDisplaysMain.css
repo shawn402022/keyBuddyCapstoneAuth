@@ -1,0 +1,82 @@
+.piano-display {
+  margin: 2px;
+}
+.piano-notes-display {
+  margin: 2px;
+  border: 1.5px solid black;
+  border-radius: 3px;
+  height: 30%;
+}
+.piano-chords-display {
+  margin: 2px;
+  border: 1.5px solid black;
+  border-radius: 3px;
+  height: 70%;
+  justify-items: center;
+  align-content: center;
+  font-size: 30px;
+}
+
+.staff-display-container {
+  border: 2px solid black;
+  border-radius: 3px;
+  display: inline-flex;
+  margin: 3px;
+}
+
+.chord-note-container {
+  border: 2px solid black;
+  border-radius: 3px;
+  display: inline-flex;
+  width: 300px;
+  height: 256px;
+  flex-direction: column;
+  margin: 3px;
+}
+
+/* Container for the list of notes */
+.notes-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 10px;
+}
+
+/* Individual note tag styling */
+.note-tag {
+  display: inline-flex;
+  align-items: baseline;
+  background-color: #f0f0f0;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 1px 2px;
+  margin-right: 1px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Note name styling - bold and prominent */
+.note-name {
+  font-weight: bold;
+  color: #000;
+  font-size: 1em;
+}
+
+/* Octave styling - smaller and lighter */
+.note-octave {
+  font-size: 0.65em;
+  color: #666;
+  font-weight: normal;
+  margin-left: 1px;
+}
+
+
+
+.staff-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 0px;
+  width: 100%;
+  z-index: 10; /* Ensure controls are above the staff */
+}
+
+
