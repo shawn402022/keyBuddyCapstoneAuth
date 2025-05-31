@@ -1,11 +1,10 @@
 import './mainPage.css'
-import { useSelector } from 'react-redux'
 
 
-const Tester = () => {
+const Tester = ({chord}) => {
 
     // Get contentType from Redux store
-    const contentType = useSelector(state => state.test.contentType)
+
 
 
     return (
@@ -14,12 +13,12 @@ const Tester = () => {
             <div className="question-box">
 
                 {/* Display the contentType */}
-                {contentType && (
+                {chord && (
                     <div className='test-present' style={{ marginTop: '1px', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}>
-                        <strong>Play Chord:</strong> {contentType}
+                        <strong>Play Chord:</strong> {chord}
                     </div>
                 )}
-                {!contentType && (
+                {!chord && (
                     <div style={{ marginTop: '1px', padding: '1px', color: '#666' }}>
                         No test selected
                     </div>

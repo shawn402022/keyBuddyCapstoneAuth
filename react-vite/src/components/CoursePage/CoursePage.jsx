@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCourses, updateCourseThunk } from '../../redux/course';
 import { Navigate, NavLink } from 'react-router-dom';
 import CourseTile from './CourseTile';
-import keys from '../../data/chord-data-tonal';
+import keys from '../../data/chord-data-extracted';
 
 
 import './CoursePage.css';

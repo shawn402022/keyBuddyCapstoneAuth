@@ -2,7 +2,9 @@
 import { usePianoContext } from '../../context/PianoContext';
 import { Chord } from 'tonal';
 
-const PianoChordsDisplay = () => {
+
+const PianoChordsDisplay = ({ chordName }) => {
+
     const { activeNotes } = usePianoContext();
 
     // Determine if the active notes form a chord
@@ -18,7 +20,8 @@ const PianoChordsDisplay = () => {
         return detected.length > 0 ? detected[0] : null;
     };
 
-    const chordName = getChordName(activeNotes);
+    chordName = getChordName(activeNotes);
+
 
     return (
         <div className='piano-chords-display'>
