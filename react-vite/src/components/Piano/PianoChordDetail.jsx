@@ -1,8 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { reformatData } from '../../utils/formatChordUtils';
-import { Instrument } from "piano-chart"
 import PianoChordDetailCard from './PianoChordDetailCard';
-import axios from 'axios';
 import './PianoChordDetail.css' // Add a CSS file for styling
 
 const PianoChordDetail = () => {
@@ -63,7 +61,7 @@ const PianoChordDetail = () => {
                         name={chordInfo.name}
                         image={
                             <img
-                                src={`images/chordImages/${encodeURIComponent(chordInfo.name)}-ID${chordInfo.id}.png`}
+                                src={`images/chordImages/${encodeURIComponent(chordInfo.name)}.png`}
                                 alt={`Piano visualization for ${chordInfo.name}`}
                                 className="piano-image"
                                 // SOLUTION FOR ISSUE 2: Consistent image dimensions

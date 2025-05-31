@@ -19,6 +19,7 @@ const MainPage = () => {
   const [chords, setChords] = useState([])
   const [activeChord, setActiveChord] = useState(null)
 
+
   const contentType = useSelector(state => state.test.contentType)
 
 
@@ -36,9 +37,9 @@ const MainPage = () => {
         [splitChords[i], splitChords[j]] = [splitChords[j], splitChords[i]]
       }
       setActiveChord(splitChords.shift())
+
       setChords(splitChords)
     }
-
 
 
 
@@ -47,7 +48,7 @@ const MainPage = () => {
 
 
 
-  console.log('CHORDDDDSS', chords, activeChord, contentType)
+  console.log('CHORDDDDSS', chords, activeChord,)
   return (
     <>
       <div id='main-page-container'>
@@ -63,6 +64,8 @@ const MainPage = () => {
             <PianoChordsDisplay />
           </div>
           <Tester chord={activeChord} />
+
+
           <div>
 
           </div>

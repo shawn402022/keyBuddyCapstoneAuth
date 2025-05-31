@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import './mainPage.css'
 
 
-const Tester = ({chord}) => {
+
+const Tester = ({ chord }) => {
 
     // Get contentType from Redux store
 
@@ -9,10 +11,7 @@ const Tester = ({chord}) => {
 
     return (
         <div className="tester-wrapper">
-            <div className="picture-box">example</div>
             <div className="question-box">
-
-                {/* Display the contentType */}
                 {chord && (
                     <div className='test-present' style={{ marginTop: '1px', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}>
                         <strong>Play Chord:</strong> {chord}
@@ -23,6 +22,21 @@ const Tester = ({chord}) => {
                         No test selected
                     </div>
                 )}
+            </div>
+            <div className="picture-box">
+                <img
+                    src={`/images/chordImages/${chord}.png`}
+                    alt={`${chord} chord diagram`}
+                    style={{
+                        width: '300px',
+                        height: 'auto',
+                        maxWidth: '100%'
+                    }}
+                    onError={(e) => {
+                        e.target.src = '/images/chordImages/default.png';
+                        e.target.alt = 'Chord diagram not available';
+                    }}
+                />
             </div>
         </div>
     );
