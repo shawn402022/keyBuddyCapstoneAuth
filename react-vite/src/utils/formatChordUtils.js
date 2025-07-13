@@ -1,5 +1,6 @@
 import allChordsObj from "../data/chord-data";
 
+
 export const reformatData = () => {
     let reformattedData = []
     let idCounter = 1

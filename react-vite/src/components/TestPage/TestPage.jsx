@@ -2,6 +2,7 @@
 import PianoStaffDisplayMain from "../Piano/PianoStaffDisplayMain"
 import PianoChordsDisplay from "../Piano/PianoChordsDisplay"
 import PianoNotesDisplay from "../Piano/PianoNotesDisplay"
+import keys from "../../data/chord-data-tonal"
 import Piano from "../Piano/Piano"
 import './testPage.css'
 

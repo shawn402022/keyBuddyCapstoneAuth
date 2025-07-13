@@ -45,6 +45,23 @@ const MainPage = () => {
 
   }, [contentType])
 
+  useEffect(() => {
+    if (activeChord) {
+      setTimeout(() => {
+        console.log(`Playing note ${index + 1}: ${activeChord}`)
+
+        // Play the note
+        RunMidiUtil.handleNotePlay(`${activeChord}4`)
+
+        // Stop the note after 500ms (note duration)
+        setTimeout(() => {
+          RunMidiUtil.handleNoteOff(`${activeChord}4`)
+        }, 500)
+
+      }, delayTime)
+    }
+  })
+
 
 
 

@@ -1,7 +1,7 @@
 // Auto-generated chord data
 const keys = [
   {
-    "name": "CMajor",
+    "name": "Cmajor",
     "key": {
       "tonic": "C",
       "grades": [
@@ -32,11 +32,11 @@ const keys = [
         "B"
       ],
       "triads": [
-        "CM",
+        "Cmaj",
         "Dm",
         "Em",
-        "FM",
-        "GM",
+        "Fmaj",
+        "Gmaj",
         "Am",
         "Bdim"
       ],
@@ -47,7 +47,7 @@ const keys = [
         "Fmaj7",
         "G7",
         "Am7",
-        "Bm7b5"
+        "Bm7(b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -80,8 +80,8 @@ const keys = [
         "",
         "Em7",
         "F#m7",
-        "Gm7b5",
-        "Am7b5",
+        "Gm7(b5)",
+        "Am7(b5)",
         "Bm7",
         ""
       ],
@@ -98,8 +98,8 @@ const keys = [
         "",
         "Bbm7",
         "Cm7",
-        "Dbm7b5",
-        "Ebm7b5",
+        "Dbm7(b5)",
+        "Ebm7(b5)",
         "Fm7",
         ""
       ],
@@ -107,8 +107,8 @@ const keys = [
         "",
         "Em7",
         "F#m7",
-        "Gm7b5",
-        "Am7b5",
+        "Gm7(b5)",
+        "Am7(b5)",
         "Bm7",
         ""
       ],
@@ -116,8 +116,8 @@ const keys = [
         "",
         "Bbm7",
         "Cm7",
-        "Dbm7b5",
-        "Ebm7b5",
+        "Dbm7(b5)",
+        "Ebm7(b5)",
         "Fm7",
         ""
       ],
@@ -128,7 +128,7 @@ const keys = [
     }
   },
   {
-    "name": "CsMajor",
+    "name": "Csmajor",
     "key": {
       "tonic": "C#",
       "grades": [
@@ -159,11 +159,11 @@ const keys = [
         "B#"
       ],
       "triads": [
-        "C#M",
+        "C#maj",
         "D#m",
         "E#m",
-        "F#M",
-        "G#M",
+        "F#maj",
+        "G#maj",
         "A#m",
         "B#dim"
       ],
@@ -174,7 +174,7 @@ const keys = [
         "F#maj7",
         "G#7",
         "A#m7",
-        "B#m7b5"
+        "B#m7(b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -207,8 +207,8 @@ const keys = [
         "",
         "E#m7",
         "F##m7",
-        "G#m7b5",
-        "A#m7b5",
+        "G#m7(b5)",
+        "A#m7(b5)",
         "B#m7",
         ""
       ],
@@ -225,8 +225,8 @@ const keys = [
         "",
         "Bm7",
         "C#m7",
-        "Dm7b5",
-        "Em7b5",
+        "Dm7(b5)",
+        "Em7(b5)",
         "F#m7",
         ""
       ],
@@ -234,8 +234,8 @@ const keys = [
         "",
         "E#m7",
         "F##m7",
-        "G#m7b5",
-        "A#m7b5",
+        "G#m7(b5)",
+        "A#m7(b5)",
         "B#m7",
         ""
       ],
@@ -243,8 +243,8 @@ const keys = [
         "",
         "Bm7",
         "C#m7",
-        "Dm7b5",
-        "Em7b5",
+        "Dm7(b5)",
+        "Em7(b5)",
         "F#m7",
         ""
       ],
@@ -255,7 +255,7 @@ const keys = [
     }
   },
   {
-    "name": "DMajor",
+    "name": "Dmajor",
     "key": {
       "tonic": "D",
       "grades": [
@@ -286,11 +286,11 @@ const keys = [
         "C#"
       ],
       "triads": [
-        "DM",
+        "Dmaj",
         "Em",
         "F#m",
-        "GM",
-        "AM",
+        "Gmaj",
+        "Amaj",
         "Bm",
         "C#dim"
       ],
@@ -301,7 +301,7 @@ const keys = [
         "Gmaj7",
         "A7",
         "Bm7",
-        "C#m7b5"
+        "C#m7(b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -334,8 +334,8 @@ const keys = [
         "",
         "F#m7",
         "G#m7",
-        "Am7b5",
-        "Bm7b5",
+        "Am7(b5)",
+        "Bm7(b5)",
         "C#m7",
         ""
       ],
@@ -352,8 +352,8 @@ const keys = [
         "",
         "Cm7",
         "Dm7",
-        "Ebm7b5",
-        "Fm7b5",
+        "Ebm7(b5)",
+        "Fm7(b5)",
         "Gm7",
         ""
       ],
@@ -361,8 +361,8 @@ const keys = [
         "",
         "F#m7",
         "G#m7",
-        "Am7b5",
-        "Bm7b5",
+        "Am7(b5)",
+        "Bm7(b5)",
         "C#m7",
         ""
       ],
@@ -370,8 +370,8 @@ const keys = [
         "",
         "Cm7",
         "Dm7",
-        "Ebm7b5",
-        "Fm7b5",
+        "Ebm7(b5)",
+        "Fm7(b5)",
         "Gm7",
         ""
       ],
@@ -382,7 +382,7 @@ const keys = [
     }
   },
   {
-    "name": "DsMajor",
+    "name": "Dsmajor",
     "key": {
       "tonic": "D#",
       "grades": [
@@ -413,11 +413,11 @@ const keys = [
         "C##"
       ],
       "triads": [
-        "D#M",
+        "D#maj",
         "E#m",
         "F##m",
-        "G#M",
-        "A#M",
+        "G#maj",
+        "A#maj",
         "B#m",
         "C##dim"
       ],
@@ -428,7 +428,7 @@ const keys = [
         "G#maj7",
         "A#7",
         "B#m7",
-        "C##m7b5"
+        "C##m7(b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -461,8 +461,8 @@ const keys = [
         "",
         "F##m7",
         "G##m7",
-        "A#m7b5",
-        "B#m7b5",
+        "A#m7(b5)",
+        "B#m7(b5)",
         "C##m7",
         ""
       ],
@@ -479,8 +479,8 @@ const keys = [
         "",
         "C#m7",
         "D#m7",
-        "Em7b5",
-        "F#m7b5",
+        "Em7(b5)",
+        "F#m7(b5)",
         "G#m7",
         ""
       ],
@@ -488,8 +488,8 @@ const keys = [
         "",
         "F##m7",
         "G##m7",
-        "A#m7b5",
-        "B#m7b5",
+        "A#m7(b5)",
+        "B#m7(b5)",
         "C##m7",
         ""
       ],
@@ -497,8 +497,8 @@ const keys = [
         "",
         "C#m7",
         "D#m7",
-        "Em7b5",
-        "F#m7b5",
+        "Em7(b5)",
+        "F#m7(b5)",
         "G#m7",
         ""
       ],
@@ -509,7 +509,7 @@ const keys = [
     }
   },
   {
-    "name": "EMajor",
+    "name": "Emajor",
     "key": {
       "tonic": "E",
       "grades": [
@@ -540,11 +540,11 @@ const keys = [
         "D#"
       ],
       "triads": [
-        "EM",
+        "Emaj",
         "F#m",
         "G#m",
-        "AM",
-        "BM",
+        "Amaj",
+        "Bmaj",
         "C#m",
         "D#dim"
       ],
@@ -555,7 +555,7 @@ const keys = [
         "Amaj7",
         "B7",
         "C#m7",
-        "D#m7b5"
+        "D#m7(b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -588,8 +588,8 @@ const keys = [
         "",
         "G#m7",
         "A#m7",
-        "Bm7b5",
-        "C#m7b5",
+        "Bm7(b5)",
+        "C#m7(b5)",
         "D#m7",
         ""
       ],
@@ -606,8 +606,8 @@ const keys = [
         "",
         "Dm7",
         "Em7",
-        "Fm7b5",
-        "Gm7b5",
+        "Fm7(b5)",
+        "Gm7(b5)",
         "Am7",
         ""
       ],
@@ -615,8 +615,8 @@ const keys = [
         "",
         "G#m7",
         "A#m7",
-        "Bm7b5",
-        "C#m7b5",
+        "Bm7(b5)",
+        "C#m7(b5)",
         "D#m7",
         ""
       ],
@@ -624,8 +624,8 @@ const keys = [
         "",
         "Dm7",
         "Em7",
-        "Fm7b5",
-        "Gm7b5",
+        "Fm7(b5)",
+        "Gm7(b5)",
         "Am7",
         ""
       ],
@@ -636,7 +636,7 @@ const keys = [
     }
   },
   {
-    "name": "FMajor",
+    "name": "Fmajor",
     "key": {
       "tonic": "F",
       "grades": [
@@ -667,11 +667,11 @@ const keys = [
         "E"
       ],
       "triads": [
-        "FM",
+        "Fmaj",
         "Gm",
         "Am",
-        "Bb",
-        "CM",
+        "Bbmaj",
+        "Cmaj",
         "Dm",
         "Edim"
       ],
@@ -682,7 +682,7 @@ const keys = [
         "Bbmaj7",
         "C7",
         "Dm7",
-        "Em7b5"
+        "Em7(b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -715,8 +715,8 @@ const keys = [
         "",
         "Am7",
         "Bm7",
-        "Cm7b5",
-        "Dm7b5",
+        "Cm7(b5)",
+        "Dm7(b5)",
         "Em7",
         ""
       ],
@@ -733,8 +733,8 @@ const keys = [
         "",
         "Ebm7",
         "Fm7",
-        "Gbm7b5",
-        "Abm7b5",
+        "Gbm7(b5)",
+        "Abm7(b5)",
         "Bbm7",
         ""
       ],
@@ -742,8 +742,8 @@ const keys = [
         "",
         "Am7",
         "Bm7",
-        "Cm7b5",
-        "Dm7b5",
+        "Cm7(b5)",
+        "Dm7(b5)",
         "Em7",
         ""
       ],
@@ -751,8 +751,8 @@ const keys = [
         "",
         "Ebm7",
         "Fm7",
-        "Gbm7b5",
-        "Abm7b5",
+        "Gbm7(b5)",
+        "Abm7(b5)",
         "Bbm7",
         ""
       ],
@@ -763,7 +763,7 @@ const keys = [
     }
   },
   {
-    "name": "FsMajor",
+    "name": "Fsmajor",
     "key": {
       "tonic": "F#",
       "grades": [
@@ -794,11 +794,11 @@ const keys = [
         "E#"
       ],
       "triads": [
-        "F#M",
+        "F#maj",
         "G#m",
         "A#m",
-        "BM",
-        "C#M",
+        "Bmaj",
+        "C#maj",
         "D#m",
         "E#dim"
       ],
@@ -809,7 +809,7 @@ const keys = [
         "Bmaj7",
         "C#7",
         "D#m7",
-        "E#m7b5"
+        "E#m7(b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -842,8 +842,8 @@ const keys = [
         "",
         "A#m7",
         "B#m7",
-        "C#m7b5",
-        "D#m7b5",
+        "C#m7(b5)",
+        "D#m7(b5)",
         "E#m7",
         ""
       ],
@@ -860,8 +860,8 @@ const keys = [
         "",
         "Em7",
         "F#m7",
-        "Gm7b5",
-        "Am7b5",
+        "Gm7(b5)",
+        "Am7(b5)",
         "Bm7",
         ""
       ],
@@ -869,8 +869,8 @@ const keys = [
         "",
         "A#m7",
         "B#m7",
-        "C#m7b5",
-        "D#m7b5",
+        "C#m7(b5)",
+        "D#m7(b5)",
         "E#m7",
         ""
       ],
@@ -878,8 +878,8 @@ const keys = [
         "",
         "Em7",
         "F#m7",
-        "Gm7b5",
-        "Am7b5",
+        "Gm7(b5)",
+        "Am7(b5)",
         "Bm7",
         ""
       ],
@@ -890,7 +890,7 @@ const keys = [
     }
   },
   {
-    "name": "GMajor",
+    "name": "Gmajor",
     "key": {
       "tonic": "G",
       "grades": [
@@ -921,11 +921,11 @@ const keys = [
         "F#"
       ],
       "triads": [
-        "GM",
+        "Gmaj",
         "Am",
         "Bm",
-        "CM",
-        "DM",
+        "Cmaj",
+        "Dmaj",
         "Em",
         "F#dim"
       ],
@@ -936,7 +936,7 @@ const keys = [
         "Cmaj7",
         "D7",
         "Em7",
-        "F#m7b5"
+        "F#m7(b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -969,8 +969,8 @@ const keys = [
         "",
         "Bm7",
         "C#m7",
-        "Dm7b5",
-        "Em7b5",
+        "Dm7(b5)",
+        "Em7(b5)",
         "F#m7",
         ""
       ],
@@ -987,8 +987,8 @@ const keys = [
         "",
         "Fm7",
         "Gm7",
-        "Abm7b5",
-        "Bbm7b5",
+        "Abm7(b5)",
+        "Bbm7(b5)",
         "Cm7",
         ""
       ],
@@ -996,8 +996,8 @@ const keys = [
         "",
         "Bm7",
         "C#m7",
-        "Dm7b5",
-        "Em7b5",
+        "Dm7(b5)",
+        "Em7(b5)",
         "F#m7",
         ""
       ],
@@ -1005,8 +1005,8 @@ const keys = [
         "",
         "Fm7",
         "Gm7",
-        "Abm7b5",
-        "Bbm7b5",
+        "Abm7(b5)",
+        "Bbm7(b5)",
         "Cm7",
         ""
       ],
@@ -1017,7 +1017,7 @@ const keys = [
     }
   },
   {
-    "name": "GsMajor",
+    "name": "Gsmajor",
     "key": {
       "tonic": "G#",
       "grades": [
@@ -1048,11 +1048,11 @@ const keys = [
         "F##"
       ],
       "triads": [
-        "G#M",
+        "G#maj",
         "A#m",
         "B#m",
-        "C#M",
-        "D#M",
+        "C#maj",
+        "D#maj",
         "E#m",
         "F##dim"
       ],
@@ -1063,7 +1063,7 @@ const keys = [
         "C#maj7",
         "D#7",
         "E#m7",
-        "F##m7b5"
+        "F##m7b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -1096,8 +1096,8 @@ const keys = [
         "",
         "B#m7",
         "C##m7",
-        "D#m7b5",
-        "E#m7b5",
+        "D#m7(b5)",
+        "E#m7(b5)",
         "F##m7",
         ""
       ],
@@ -1114,8 +1114,8 @@ const keys = [
         "",
         "F#m7",
         "G#m7",
-        "Am7b5",
-        "Bm7b5",
+        "Am7(b5)",
+        "Bm7(b5)",
         "C#m7",
         ""
       ],
@@ -1123,8 +1123,8 @@ const keys = [
         "",
         "B#m7",
         "C##m7",
-        "D#m7b5",
-        "E#m7b5",
+        "D#m7(b5)",
+        "E#m7(b5)",
         "F##m7",
         ""
       ],
@@ -1132,8 +1132,8 @@ const keys = [
         "",
         "F#m7",
         "G#m7",
-        "Am7b5",
-        "Bm7b5",
+        "Am7(b5)",
+        "Bm7(b5)",
         "C#m7",
         ""
       ],
@@ -1144,7 +1144,7 @@ const keys = [
     }
   },
   {
-    "name": "AMajor",
+    "name": "Amajor",
     "key": {
       "tonic": "A",
       "grades": [
@@ -1175,11 +1175,11 @@ const keys = [
         "G#"
       ],
       "triads": [
-        "AM",
+        "Amaj",
         "Bm",
         "C#m",
-        "DM",
-        "EM",
+        "Dmaj",
+        "Emaj",
         "F#m",
         "G#dim"
       ],
@@ -1190,7 +1190,7 @@ const keys = [
         "Dmaj7",
         "E7",
         "F#m7",
-        "G#m7b5"
+        "G#m7(b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -1223,8 +1223,8 @@ const keys = [
         "",
         "C#m7",
         "D#m7",
-        "Em7b5",
-        "F#m7b5",
+        "Em7(b5)",
+        "F#m7(b5)",
         "G#m7",
         ""
       ],
@@ -1241,8 +1241,8 @@ const keys = [
         "",
         "Gm7",
         "Am7",
-        "Bbm7b5",
-        "Cm7b5",
+        "Bbm7(b5)",
+        "Cm7(b5)",
         "Dm7",
         ""
       ],
@@ -1250,8 +1250,8 @@ const keys = [
         "",
         "C#m7",
         "D#m7",
-        "Em7b5",
-        "F#m7b5",
+        "Em7(b5)",
+        "F#m7(b5)",
         "G#m7",
         ""
       ],
@@ -1259,8 +1259,8 @@ const keys = [
         "",
         "Gm7",
         "Am7",
-        "Bbm7b5",
-        "Cm7b5",
+        "Bbm7(b5)",
+        "Cm7(b5)",
         "Dm7",
         ""
       ],
@@ -1271,7 +1271,7 @@ const keys = [
     }
   },
   {
-    "name": "AsMajor",
+    "name": "Asmajor",
     "key": {
       "tonic": "A#",
       "grades": [
@@ -1302,11 +1302,11 @@ const keys = [
         "G##"
       ],
       "triads": [
-        "A#M",
+        "A#maj",
         "B#m",
         "C##m",
-        "D#M",
-        "E#M",
+        "D#maj",
+        "E#maj",
         "F##m",
         "G##dim"
       ],
@@ -1317,7 +1317,7 @@ const keys = [
         "D#maj7",
         "E#7",
         "F##m7",
-        "G##m7b5"
+        "G##(m7b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -1350,8 +1350,8 @@ const keys = [
         "",
         "C##m7",
         "D##m7",
-        "E#m7b5",
-        "F##m7b5",
+        "E#m7(b5)",
+        "F##(m7b5)",
         "G##m7",
         ""
       ],
@@ -1368,8 +1368,8 @@ const keys = [
         "",
         "G#m7",
         "A#m7",
-        "Bm7b5",
-        "C#m7b5",
+        "Bm7(b5)",
+        "C#m7(b5)",
         "D#m7",
         ""
       ],
@@ -1377,8 +1377,8 @@ const keys = [
         "",
         "C##m7",
         "D##m7",
-        "E#m7b5",
-        "F##m7b5",
+        "E#m7(b5)",
+        "F##(m7b5)",
         "G##m7",
         ""
       ],
@@ -1386,8 +1386,8 @@ const keys = [
         "",
         "G#m7",
         "A#m7",
-        "Bm7b5",
-        "C#m7b5",
+        "Bm7(b5)",
+        "C#m7(b5)",
         "D#m7",
         ""
       ],
@@ -1398,7 +1398,7 @@ const keys = [
     }
   },
   {
-    "name": "BMajor",
+    "name": "Bmajor",
     "key": {
       "tonic": "B",
       "grades": [
@@ -1429,11 +1429,11 @@ const keys = [
         "A#"
       ],
       "triads": [
-        "BM",
+        "Bmaj",
         "C#m",
         "D#m",
-        "EM",
-        "F#M",
+        "Emaj",
+        "F#maj",
         "G#m",
         "A#dim"
       ],
@@ -1444,7 +1444,7 @@ const keys = [
         "Emaj7",
         "F#7",
         "G#m7",
-        "A#m7b5"
+        "A#m7(b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -1477,8 +1477,8 @@ const keys = [
         "",
         "D#m7",
         "E#m7",
-        "F#m7b5",
-        "G#m7b5",
+        "F#m7(b5)",
+        "G#m7(b5)",
         "A#m7",
         ""
       ],
@@ -1495,8 +1495,8 @@ const keys = [
         "",
         "Am7",
         "Bm7",
-        "Cm7b5",
-        "Dm7b5",
+        "Cm7(b5)",
+        "Dm7(b5)",
         "Em7",
         ""
       ],
@@ -1504,8 +1504,8 @@ const keys = [
         "",
         "D#m7",
         "E#m7",
-        "F#m7b5",
-        "G#m7b5",
+        "F#m7(b5)",
+        "G#m7(b5)",
         "A#m7",
         ""
       ],
@@ -1513,8 +1513,8 @@ const keys = [
         "",
         "Am7",
         "Bm7",
-        "Cm7b5",
-        "Dm7b5",
+        "Cm7(b5)",
+        "Dm7(b5)",
         "Em7",
         ""
       ],
@@ -1525,7 +1525,7 @@ const keys = [
     }
   },
   {
-    "name": "CbMajor",
+    "name": "Cbmajor",
     "key": {
       "tonic": "Cb",
       "grades": [
@@ -1556,11 +1556,11 @@ const keys = [
         "Bb"
       ],
       "triads": [
-        "CMb",
+        "Cbmaj",
         "Dbm",
         "Ebm",
-        "FbM",
-        "GbM",
+        "Fbmaj",
+        "Gbmaj",
         "Abm",
         "Bbdim"
       ],
@@ -1571,7 +1571,7 @@ const keys = [
         "Fbmaj7",
         "Gb7",
         "Abm7",
-        "Bbm7b5"
+        "Bbm7(b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -1604,26 +1604,26 @@ const keys = [
         "",
         "Ebm7",
         "Fm7",
-        "Gbm7b5",
-        "Abm7b5",
+        " Gbm7(b5)",
+        "Abm7(b5)",
         "Bbm7",
         ""
       ],
       "substituteDominants": [
         "",
-        "Ebb7",
+        "Ebb(7)",
         "Fb7",
-        "Gbb7",
-        "Abb7",
-        "Bbb7",
+        "Gb(b7)",
+        "Abb(7)",
+        "Bbb(7)",
         ""
       ],
       "substituteDominantSupertonics": [
         "",
         "Bbbm7",
         "Cbm7",
-        "Dbbm7b5",
-        "Ebbm7b5",
+        "Dbb(m7b5)",
+        "Ebb(m7b5)",
         "Fbm7",
         ""
       ],
@@ -1631,8 +1631,8 @@ const keys = [
         "",
         "Ebm7",
         "Fm7",
-        "Gbm7b5",
-        "Abm7b5",
+        " Gbm7(b5)",
+        "Abm7(b5)",
         "Bbm7",
         ""
       ],
@@ -1640,8 +1640,8 @@ const keys = [
         "",
         "Bbbm7",
         "Cbm7",
-        "Dbbm7b5",
-        "Ebbm7b5",
+        "Dbb(m7b5)",
+        "Ebb(m7b5)",
         "Fbm7",
         ""
       ],
@@ -1652,7 +1652,7 @@ const keys = [
     }
   },
   {
-    "name": "DbMajor",
+    "name": "Dbmajor",
     "key": {
       "tonic": "Db",
       "grades": [
@@ -1683,22 +1683,22 @@ const keys = [
         "C"
       ],
       "triads": [
-        "DbM",
+        "Dbmaj",
         "Ebm",
         "Fm",
-        "GbM",
-        "AbM",
+        "Gbmaj",
+        "Abmaj",
         "Bbm",
         "Cdim"
       ],
       "chords": [
-        "Dbmaj7",
+        "Db(maj7)",
         "Ebm7",
         "Fm7",
-        "Gbmaj7",
+        "Gb(maj7)",
         "Ab7",
         "Bbm7",
-        "Cm7b5"
+        "Cm7(b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -1731,8 +1731,8 @@ const keys = [
         "",
         "Fm7",
         "Gm7",
-        "Abm7b5",
-        "Bbm7b5",
+        "Abm7(b5)",
+        "Bbm7(b5)",
         "Cm7",
         ""
       ],
@@ -1740,8 +1740,8 @@ const keys = [
         "",
         "Fb7",
         "Gb7",
-        "Abb7",
-        "Bbb7",
+        "Abb(7)",
+        "Bbb(7)",
         "Cb7",
         ""
       ],
@@ -1749,8 +1749,8 @@ const keys = [
         "",
         "Cbm7",
         "Dbm7",
-        "Ebbm7b5",
-        "Fbm7b5",
+        "Ebb(m7b5)",
+        "Fbm7(b5)",
         "Gbm7",
         ""
       ],
@@ -1758,8 +1758,8 @@ const keys = [
         "",
         "Fm7",
         "Gm7",
-        "Abm7b5",
-        "Bbm7b5",
+        "Abm7(b5)",
+        "Bbm7(b5)",
         "Cm7",
         ""
       ],
@@ -1767,8 +1767,8 @@ const keys = [
         "",
         "Cbm7",
         "Dbm7",
-        "Ebbm7b5",
-        "Fbm7b5",
+        "Ebb(m7b5)",
+        "Fbm7(b5)",
         "Gbm7",
         ""
       ],
@@ -1779,7 +1779,7 @@ const keys = [
     }
   },
   {
-    "name": "EbMajor",
+    "name": "Ebmajor",
     "key": {
       "tonic": "Eb",
       "grades": [
@@ -1810,11 +1810,11 @@ const keys = [
         "D"
       ],
       "triads": [
-        "EbM",
+        "Ebmaj",
         "Fm",
         "Gm",
-        "AbM",
-        "BbM",
+        "Abmaj",
+        "Bbmaj",
         "Cm",
         "Ddim"
       ],
@@ -1825,7 +1825,7 @@ const keys = [
         "Abmaj7",
         "Bb7",
         "Cm7",
-        "Dm7b5"
+        "Dm7(b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -1858,8 +1858,8 @@ const keys = [
         "",
         "Gm7",
         "Am7",
-        "Bbm7b5",
-        "Cm7b5",
+        "Bbm7(b5)",
+        "Cm7(b5)",
         "Dm7",
         ""
       ],
@@ -1867,7 +1867,7 @@ const keys = [
         "",
         "Gb7",
         "Ab7",
-        "Bbb7",
+        "Bbb(7)",
         "Cb7",
         "Db7",
         ""
@@ -1876,8 +1876,8 @@ const keys = [
         "",
         "Dbm7",
         "Ebm7",
-        "Fbm7b5",
-        "Gbm7b5",
+        "Fbm7(b5)",
+        " Gbm7(b5)",
         "Abm7",
         ""
       ],
@@ -1885,8 +1885,8 @@ const keys = [
         "",
         "Gm7",
         "Am7",
-        "Bbm7b5",
-        "Cm7b5",
+        "Bbm7(b5)",
+        "Cm7(b5)",
         "Dm7",
         ""
       ],
@@ -1894,8 +1894,8 @@ const keys = [
         "",
         "Dbm7",
         "Ebm7",
-        "Fbm7b5",
-        "Gbm7b5",
+        "Fbm7(b5)",
+        " Gbm7(b5)",
         "Abm7",
         ""
       ],
@@ -1906,7 +1906,7 @@ const keys = [
     }
   },
   {
-    "name": "FbMajor",
+    "name": "Fbmajor",
     "key": {
       "tonic": "Fb",
       "grades": [
@@ -1937,11 +1937,11 @@ const keys = [
         "Eb"
       ],
       "triads": [
-        "FbM",
+        "Fbmaj",
         "Gbm",
         "Abm",
-        "Bbb",
-        "CbM",
+        "Bbbmaj",
+        "Cbmaj",
         "Dbm",
         "Ebdim"
       ],
@@ -1952,7 +1952,7 @@ const keys = [
         "Bbbmaj7",
         "Cb7",
         "Dbm7",
-        "Ebm7b5"
+        "Ebm7(b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -1985,26 +1985,26 @@ const keys = [
         "",
         "Abm7",
         "Bbm7",
-        "Cbm7b5",
-        "Dbm7b5",
+        "Cbm7(b5)",
+        "Dbm7(b5)",
         "Ebm7",
         ""
       ],
       "substituteDominants": [
         "",
-        "Abb7",
-        "Bbb7",
-        "Cbb7",
-        "Dbb7",
-        "Ebb7",
+        "Abb(7)",
+        "Bbb(7)",
+        "Cb(b7)",
+        "Dbb(7)",
+        "Ebb(7)",
         ""
       ],
       "substituteDominantSupertonics": [
         "",
         "Ebbm7",
         "Fbm7",
-        "Gbbm7b5",
-        "Abbm7b5",
+        "Gbb(m7b5)",
+        "Abb(m7b5)",
         "Bbbm7",
         ""
       ],
@@ -2012,8 +2012,8 @@ const keys = [
         "",
         "Abm7",
         "Bbm7",
-        "Cbm7b5",
-        "Dbm7b5",
+        "Cbm7(b5)",
+        "Dbm7(b5)",
         "Ebm7",
         ""
       ],
@@ -2021,8 +2021,8 @@ const keys = [
         "",
         "Ebbm7",
         "Fbm7",
-        "Gbbm7b5",
-        "Abbm7b5",
+        "Gbb(m7b5)",
+        "Abb(m7b5)",
         "Bbbm7",
         ""
       ],
@@ -2033,7 +2033,7 @@ const keys = [
     }
   },
   {
-    "name": "GbMajor",
+    "name": "Gbmajor",
     "key": {
       "tonic": "Gb",
       "grades": [
@@ -2064,22 +2064,22 @@ const keys = [
         "F"
       ],
       "triads": [
-        "GbM",
+        "Gbmaj",
         "Abm",
         "Bbm",
-        "CbM",
-        "DbM",
+        "Cbmaj",
+        "Dbmaj",
         "Ebm",
         "Fdim"
       ],
       "chords": [
-        "Gbmaj7",
+        "Gb(maj7)",
         "Abm7",
         "Bbm7",
         "Cbmaj7",
         "Db7",
         "Ebm7",
-        "Fm7b5"
+        "Fm7(b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -2112,17 +2112,17 @@ const keys = [
         "",
         "Bbm7",
         "Cm7",
-        "Dbm7b5",
-        "Ebm7b5",
+        "Dbm7(b5)",
+        "Ebm7(b5)",
         "Fm7",
         ""
       ],
       "substituteDominants": [
         "",
-        "Bbb7",
+        "Bbb(7)",
         "Cb7",
-        "Dbb7",
-        "Ebb7",
+        "Dbb(7)",
+        "Ebb(7)",
         "Fb7",
         ""
       ],
@@ -2130,8 +2130,8 @@ const keys = [
         "",
         "Fbm7",
         "Gbm7",
-        "Abbm7b5",
-        "Bbbm7b5",
+        "Abb(m7b5)",
+        "Bbb(m7b5)",
         "Cbm7",
         ""
       ],
@@ -2139,8 +2139,8 @@ const keys = [
         "",
         "Bbm7",
         "Cm7",
-        "Dbm7b5",
-        "Ebm7b5",
+        "Dbm7(b5)",
+        "Ebm7(b5)",
         "Fm7",
         ""
       ],
@@ -2148,8 +2148,8 @@ const keys = [
         "",
         "Fbm7",
         "Gbm7",
-        "Abbm7b5",
-        "Bbbm7b5",
+        "Abb(m7b5)",
+        "Bbb(m7b5)",
         "Cbm7",
         ""
       ],
@@ -2160,7 +2160,7 @@ const keys = [
     }
   },
   {
-    "name": "AbMajor",
+    "name": "Abmajor",
     "key": {
       "tonic": "Ab",
       "grades": [
@@ -2191,11 +2191,11 @@ const keys = [
         "G"
       ],
       "triads": [
-        "AbM",
+        "Abmaj",
         "Bbm",
         "Cm",
-        "DbM",
-        "EbM",
+        "Dbmaj",
+        "Ebmaj",
         "Fm",
         "Gdim"
       ],
@@ -2203,10 +2203,10 @@ const keys = [
         "Abmaj7",
         "Bbm7",
         "Cm7",
-        "Dbmaj7",
+        "Db(maj7)",
         "Eb7",
         "Fm7",
-        "Gm7b5"
+        "Gm7(b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -2239,8 +2239,8 @@ const keys = [
         "",
         "Cm7",
         "Dm7",
-        "Ebm7b5",
-        "Fm7b5",
+        "Ebm7(b5)",
+        "Fm7(b5)",
         "Gm7",
         ""
       ],
@@ -2248,7 +2248,7 @@ const keys = [
         "",
         "Cb7",
         "Db7",
-        "Ebb7",
+        "Ebb(7)",
         "Fb7",
         "Gb7",
         ""
@@ -2257,8 +2257,8 @@ const keys = [
         "",
         "Gbm7",
         "Abm7",
-        "Bbbm7b5",
-        "Cbm7b5",
+        "Bbb(m7b5)",
+        "Cbm7(b5)",
         "Dbm7",
         ""
       ],
@@ -2266,8 +2266,8 @@ const keys = [
         "",
         "Cm7",
         "Dm7",
-        "Ebm7b5",
-        "Fm7b5",
+        "Ebm7(b5)",
+        "Fm7(b5)",
         "Gm7",
         ""
       ],
@@ -2275,8 +2275,8 @@ const keys = [
         "",
         "Gbm7",
         "Abm7",
-        "Bbbm7b5",
-        "Cbm7b5",
+        "Bbb(m7b5)",
+        "Cbm7(b5)",
         "Dbm7",
         ""
       ],
@@ -2287,7 +2287,7 @@ const keys = [
     }
   },
   {
-    "name": "BbMajor",
+    "name": "Bbmajor",
     "key": {
       "tonic": "Bb",
       "grades": [
@@ -2318,11 +2318,11 @@ const keys = [
         "A"
       ],
       "triads": [
-        "BbM",
+        "Bbmaj",
         "Cm",
         "Dm",
-        "EbM",
-        "FM",
+        "Ebmaj",
+        "Fmaj",
         "Gm",
         "Adim"
       ],
@@ -2333,7 +2333,7 @@ const keys = [
         "Ebmaj7",
         "F7",
         "Gm7",
-        "Am7b5"
+        "Am7(b5)"
       ],
       "chordsHarmonicFunction": [
         "T",
@@ -2366,8 +2366,8 @@ const keys = [
         "",
         "Dm7",
         "Em7",
-        "Fm7b5",
-        "Gm7b5",
+        "Fm7(b5)",
+        "Gm7(b5)",
         "Am7",
         ""
       ],
@@ -2384,8 +2384,8 @@ const keys = [
         "",
         "Abm7",
         "Bbm7",
-        "Cbm7b5",
-        "Dbm7b5",
+        "Cbm7(b5)",
+        "Dbm7(b5)",
         "Ebm7",
         ""
       ],
@@ -2393,8 +2393,8 @@ const keys = [
         "",
         "Dm7",
         "Em7",
-        "Fm7b5",
-        "Gm7b5",
+        "Fm7(b5)",
+        "Gm7(b5)",
         "Am7",
         ""
       ],
@@ -2402,8 +2402,8 @@ const keys = [
         "",
         "Abm7",
         "Bbm7",
-        "Cbm7b5",
-        "Dbm7b5",
+        "Cbm7(b5)",
+        "Dbm7(b5)",
         "Ebm7",
         ""
       ],
@@ -2418,7 +2418,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "C",
-      "relativeMajor": "Eb",
+      "relativemajor": "Eb",
       "alteration": -3,
       "keySignature": "bbb",
       "natural": {
@@ -2453,15 +2453,15 @@ const keys = [
         "triads": [
           "Cm",
           "Ddim",
-          "EbM",
+          "Ebmaj",
           "Fm",
           "Gm",
-          "AbM",
-          "BbM"
+          "Abmaj",
+          "Bbmaj"
         ],
         "chords": [
           "Cm7",
-          "Dm7b5",
+          "Dm7(b5)",
           "Ebmaj7",
           "Fm7",
           "Gm7",
@@ -2501,8 +2501,8 @@ const keys = [
           "",
           "Gm7",
           "Am7",
-          "Bbm7b5",
-          "Cm7b5"
+          "Bbm7(b5)",
+          "Cm7(b5)"
         ],
         "substituteDominants": [
           "Db7",
@@ -2510,7 +2510,7 @@ const keys = [
           "",
           "Gb7",
           "Ab7",
-          "Bbb7",
+          "Bbb(7)",
           "Cb7"
         ],
         "substituteDominantSupertonics": [
@@ -2519,8 +2519,8 @@ const keys = [
           "",
           "Dbm7",
           "Ebm7",
-          "Fbm7b5",
-          "Gbm7b5"
+          "Fbm7(b5)",
+          " Gbm7(b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "Dm7",
@@ -2528,8 +2528,8 @@ const keys = [
           "",
           "Gm7",
           "Am7",
-          "Bbm7b5",
-          "Cm7b5"
+          "Bbm7(b5)",
+          "Cm7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Abm7",
@@ -2537,8 +2537,8 @@ const keys = [
           "",
           "Dbm7",
           "Ebm7",
-          "Fbm7b5",
-          "Gbm7b5"
+          "Fbm7(b5)",
+          " Gbm7(b5)"
         ]
       },
       "harmonic": {
@@ -2575,13 +2575,13 @@ const keys = [
           "Ddim",
           "Ebaug",
           "Fm",
-          "G",
-          "Ab",
+          "Gmaj",
+          "Abmaj",
           "Bdim"
         ],
         "chords": [
-          "CmMaj7",
-          "Dm7b5",
+          "Cmmaj7",
+          "Dm7(b5)",
           "Eb+maj7",
           "Fm7",
           "G7",
@@ -2620,8 +2620,8 @@ const keys = [
           "",
           "",
           "Gm7",
-          "Am7b5",
-          "Bbm7b5",
+          "Am7(b5)",
+          "Bbm7(b5)",
           ""
         ],
         "substituteDominants": [
@@ -2630,7 +2630,7 @@ const keys = [
           "",
           "Gb7",
           "Ab7",
-          "Bbb7",
+          "Bbb(7)",
           ""
         ],
         "substituteDominantSupertonics": [
@@ -2638,8 +2638,8 @@ const keys = [
           "",
           "",
           "Dbm7",
-          "Ebm7b5",
-          "Fbm7b5",
+          "Ebm7(b5)",
+          "Fbm7(b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -2647,8 +2647,8 @@ const keys = [
           "",
           "",
           "Gm7",
-          "Am7b5",
-          "Bbm7b5",
+          "Am7(b5)",
+          "Bbm7(b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -2656,8 +2656,8 @@ const keys = [
           "",
           "",
           "Dbm7",
-          "Ebm7b5",
-          "Fbm7b5",
+          "Ebm7(b5)",
+          "Fbm7(b5)",
           ""
         ]
       },
@@ -2694,8 +2694,8 @@ const keys = [
           "Cm",
           "Dm",
           "Ebaug",
-          "F",
-          "G",
+          "Fmaj",
+          "Gmaj",
           "Adim",
           "Bdim"
         ],
@@ -2705,8 +2705,8 @@ const keys = [
           "Eb+maj7",
           "F7",
           "G7",
-          "Am7b5",
-          "Bm7b5"
+          "Am7(b5)",
+          "Bm7(b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -2739,8 +2739,8 @@ const keys = [
           "",
           "Em7",
           "",
-          "Gm7b5",
-          "Am7b5",
+          "Gm7(b5)",
+          "Am7(b5)",
           "",
           ""
         ],
@@ -2757,8 +2757,8 @@ const keys = [
           "",
           "Bbm7",
           "",
-          "Dbm7b5",
-          "Ebm7b5",
+          "Dbm7(b5)",
+          "Ebm7(b5)",
           "",
           ""
         ],
@@ -2766,8 +2766,8 @@ const keys = [
           "",
           "Em7",
           "",
-          "Gm7b5",
-          "Am7b5",
+          "Gm7(b5)",
+          "Am7(b5)",
           "",
           ""
         ],
@@ -2775,8 +2775,8 @@ const keys = [
           "",
           "Bbm7",
           "",
-          "Dbm7b5",
-          "Ebm7b5",
+          "Dbm7(b5)",
+          "Ebm7(b5)",
           "",
           ""
         ]
@@ -2788,7 +2788,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "C#",
-      "relativeMajor": "E",
+      "relativemajor": "E",
       "alteration": 4,
       "keySignature": "####",
       "natural": {
@@ -2823,15 +2823,15 @@ const keys = [
         "triads": [
           "C#m",
           "D#dim",
-          "EM",
+          "Emaj",
           "F#m",
           "G#m",
-          "AM",
-          "BM"
+          "Amaj",
+          "Bmaj"
         ],
         "chords": [
           "C#m7",
-          "D#m7b5",
+          "D#m7(b5)",
           "Emaj7",
           "F#m7",
           "G#m7",
@@ -2871,8 +2871,8 @@ const keys = [
           "",
           "G#m7",
           "A#m7",
-          "Bm7b5",
-          "C#m7b5"
+          "Bm7(b5)",
+          "C#m7(b5)"
         ],
         "substituteDominants": [
           "D7",
@@ -2889,8 +2889,8 @@ const keys = [
           "",
           "Dm7",
           "Em7",
-          "Fm7b5",
-          "Gm7b5"
+          "Fm7(b5)",
+          "Gm7(b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "D#m7",
@@ -2898,8 +2898,8 @@ const keys = [
           "",
           "G#m7",
           "A#m7",
-          "Bm7b5",
-          "C#m7b5"
+          "Bm7(b5)",
+          "C#m7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Am7",
@@ -2907,8 +2907,8 @@ const keys = [
           "",
           "Dm7",
           "Em7",
-          "Fm7b5",
-          "Gm7b5"
+          "Fm7(b5)",
+          "Gm7(b5)"
         ]
       },
       "harmonic": {
@@ -2945,13 +2945,13 @@ const keys = [
           "D#dim",
           "Eaug",
           "F#m",
-          "G#",
-          "A",
+          "G#maj",
+          "Amaj",
           "B#dim"
         ],
         "chords": [
-          "C#mMaj7",
-          "D#m7b5",
+          "C#mmaj7",
+          "D#m7(b5)",
           "E+maj7",
           "F#m7",
           "G#7",
@@ -2990,8 +2990,8 @@ const keys = [
           "",
           "",
           "G#m7",
-          "A#m7b5",
-          "Bm7b5",
+          "A#m7(b5)",
+          "Bm7(b5)",
           ""
         ],
         "substituteDominants": [
@@ -3008,8 +3008,8 @@ const keys = [
           "",
           "",
           "Dm7",
-          "Em7b5",
-          "Fm7b5",
+          "Em7(b5)",
+          "Fm7(b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -3017,8 +3017,8 @@ const keys = [
           "",
           "",
           "G#m7",
-          "A#m7b5",
-          "Bm7b5",
+          "A#m7(b5)",
+          "Bm7(b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -3026,8 +3026,8 @@ const keys = [
           "",
           "",
           "Dm7",
-          "Em7b5",
-          "Fm7b5",
+          "Em7(b5)",
+          "Fm7(b5)",
           ""
         ]
       },
@@ -3064,8 +3064,8 @@ const keys = [
           "C#m",
           "D#m",
           "Eaug",
-          "F#",
-          "G#",
+          "F#maj",
+          "G#maj",
           "A#dim",
           "B#dim"
         ],
@@ -3075,8 +3075,8 @@ const keys = [
           "E+maj7",
           "F#7",
           "G#7",
-          "A#m7b5",
-          "B#m7b5"
+          "A#m7(b5)",
+          "B#m7(b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -3109,8 +3109,8 @@ const keys = [
           "",
           "E#m7",
           "",
-          "G#m7b5",
-          "A#m7b5",
+          "G#m7(b5)",
+          "A#m7(b5)",
           "",
           ""
         ],
@@ -3127,8 +3127,8 @@ const keys = [
           "",
           "Bm7",
           "",
-          "Dm7b5",
-          "Em7b5",
+          "Dm7(b5)",
+          "Em7(b5)",
           "",
           ""
         ],
@@ -3136,8 +3136,8 @@ const keys = [
           "",
           "E#m7",
           "",
-          "G#m7b5",
-          "A#m7b5",
+          "G#m7(b5)",
+          "A#m7(b5)",
           "",
           ""
         ],
@@ -3145,8 +3145,8 @@ const keys = [
           "",
           "Bm7",
           "",
-          "Dm7b5",
-          "Em7b5",
+          "Dm7(b5)",
+          "Em7(b5)",
           "",
           ""
         ]
@@ -3158,7 +3158,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "D",
-      "relativeMajor": "F",
+      "relativemajor": "F",
       "alteration": -1,
       "keySignature": "b",
       "natural": {
@@ -3193,15 +3193,15 @@ const keys = [
         "triads": [
           "Dm",
           "Edim",
-          "FM",
+          "Fmaj",
           "Gm",
           "Am",
-          "Bb",
-          "CM"
+          "Bbmaj",
+          "Cmaj"
         ],
         "chords": [
           "Dm7",
-          "Em7b5",
+          "Em7(b5)",
           "Fmaj7",
           "Gm7",
           "Am7",
@@ -3241,8 +3241,8 @@ const keys = [
           "",
           "Am7",
           "Bm7",
-          "Cm7b5",
-          "Dm7b5"
+          "Cm7(b5)",
+          "Dm7(b5)"
         ],
         "substituteDominants": [
           "Eb7",
@@ -3259,8 +3259,8 @@ const keys = [
           "",
           "Ebm7",
           "Fm7",
-          "Gbm7b5",
-          "Abm7b5"
+          " Gbm7(b5)",
+          "Abm7(b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "Em7",
@@ -3268,8 +3268,8 @@ const keys = [
           "",
           "Am7",
           "Bm7",
-          "Cm7b5",
-          "Dm7b5"
+          "Cm7(b5)",
+          "Dm7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Bbm7",
@@ -3277,8 +3277,8 @@ const keys = [
           "",
           "Ebm7",
           "Fm7",
-          "Gbm7b5",
-          "Abm7b5"
+          " Gbm7(b5)",
+          "Abm7(b5)"
         ]
       },
       "harmonic": {
@@ -3315,13 +3315,13 @@ const keys = [
           "Edim",
           "Faug",
           "Gm",
-          "A",
-          "Bb",
+          "Amaj",
+          "Bbmaj",
           "C#dim"
         ],
         "chords": [
-          "DmMaj7",
-          "Em7b5",
+          "Dmmaj7",
+          "Em7(b5)",
           "F+maj7",
           "Gm7",
           "A7",
@@ -3360,8 +3360,8 @@ const keys = [
           "",
           "",
           "Am7",
-          "Bm7b5",
-          "Cm7b5",
+          "Bm7(b5)",
+          "Cm7(b5)",
           ""
         ],
         "substituteDominants": [
@@ -3378,8 +3378,8 @@ const keys = [
           "",
           "",
           "Ebm7",
-          "Fm7b5",
-          "Gbm7b5",
+          "Fm7(b5)",
+          " Gbm7(b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -3387,8 +3387,8 @@ const keys = [
           "",
           "",
           "Am7",
-          "Bm7b5",
-          "Cm7b5",
+          "Bm7(b5)",
+          "Cm7(b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -3396,8 +3396,8 @@ const keys = [
           "",
           "",
           "Ebm7",
-          "Fm7b5",
-          "Gbm7b5",
+          "Fm7(b5)",
+          " Gbm7(b5)",
           ""
         ]
       },
@@ -3434,8 +3434,8 @@ const keys = [
           "Dm",
           "Em",
           "Faug",
-          "G",
-          "A",
+          "Gmaj",
+          "Amaj",
           "Bdim",
           "C#dim"
         ],
@@ -3445,8 +3445,8 @@ const keys = [
           "F+maj7",
           "G7",
           "A7",
-          "Bm7b5",
-          "C#m7b5"
+          "Bm7(b5)",
+          "C#m7(b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -3479,8 +3479,8 @@ const keys = [
           "",
           "F#m7",
           "",
-          "Am7b5",
-          "Bm7b5",
+          "Am7(b5)",
+          "Bm7(b5)",
           "",
           ""
         ],
@@ -3497,8 +3497,8 @@ const keys = [
           "",
           "Cm7",
           "",
-          "Ebm7b5",
-          "Fm7b5",
+          "Ebm7(b5)",
+          "Fm7(b5)",
           "",
           ""
         ],
@@ -3506,8 +3506,8 @@ const keys = [
           "",
           "F#m7",
           "",
-          "Am7b5",
-          "Bm7b5",
+          "Am7(b5)",
+          "Bm7(b5)",
           "",
           ""
         ],
@@ -3515,8 +3515,8 @@ const keys = [
           "",
           "Cm7",
           "",
-          "Ebm7b5",
-          "Fm7b5",
+          "Ebm7(b5)",
+          "Fm7(b5)",
           "",
           ""
         ]
@@ -3528,7 +3528,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "D#",
-      "relativeMajor": "F#",
+      "relativemajor": "F#",
       "alteration": 6,
       "keySignature": "######",
       "natural": {
@@ -3563,15 +3563,15 @@ const keys = [
         "triads": [
           "D#m",
           "E#dim",
-          "F#M",
+          "F#maj",
           "G#m",
           "A#m",
-          "BM",
-          "C#M"
+          "Bmaj",
+          "C#maj"
         ],
         "chords": [
           "D#m7",
-          "E#m7b5",
+          "E#m7(b5)",
           "F#maj7",
           "G#m7",
           "A#m7",
@@ -3611,8 +3611,8 @@ const keys = [
           "",
           "A#m7",
           "B#m7",
-          "C#m7b5",
-          "D#m7b5"
+          "C#m7(b5)",
+          "D#m7(b5)"
         ],
         "substituteDominants": [
           "E7",
@@ -3629,8 +3629,8 @@ const keys = [
           "",
           "Em7",
           "F#m7",
-          "Gm7b5",
-          "Am7b5"
+          "Gm7(b5)",
+          "Am7(b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "E#m7",
@@ -3638,8 +3638,8 @@ const keys = [
           "",
           "A#m7",
           "B#m7",
-          "C#m7b5",
-          "D#m7b5"
+          "C#m7(b5)",
+          "D#m7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Bm7",
@@ -3647,8 +3647,8 @@ const keys = [
           "",
           "Em7",
           "F#m7",
-          "Gm7b5",
-          "Am7b5"
+          "Gm7(b5)",
+          "Am7(b5)"
         ]
       },
       "harmonic": {
@@ -3685,13 +3685,13 @@ const keys = [
           "E#dim",
           "F#aug",
           "G#m",
-          "A#",
-          "B",
+          "A#maj",
+          "Bmaj",
           "C##dim"
         ],
         "chords": [
-          "D#mMaj7",
-          "E#m7b5",
+          "D#mmaj7",
+          "E#m7(b5)",
           "F#+maj7",
           "G#m7",
           "A#7",
@@ -3730,8 +3730,8 @@ const keys = [
           "",
           "",
           "A#m7",
-          "B#m7b5",
-          "C#m7b5",
+          "B#m7(b5)",
+          "C#m7(b5)",
           ""
         ],
         "substituteDominants": [
@@ -3748,8 +3748,8 @@ const keys = [
           "",
           "",
           "Em7",
-          "F#m7b5",
-          "Gm7b5",
+          "F#m7(b5)",
+          "Gm7(b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -3757,8 +3757,8 @@ const keys = [
           "",
           "",
           "A#m7",
-          "B#m7b5",
-          "C#m7b5",
+          "B#m7(b5)",
+          "C#m7(b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -3766,8 +3766,8 @@ const keys = [
           "",
           "",
           "Em7",
-          "F#m7b5",
-          "Gm7b5",
+          "F#m7(b5)",
+          "Gm7(b5)",
           ""
         ]
       },
@@ -3804,8 +3804,8 @@ const keys = [
           "D#m",
           "E#m",
           "F#aug",
-          "G#",
-          "A#",
+          "G#maj",
+          "A#maj",
           "B#dim",
           "C##dim"
         ],
@@ -3815,8 +3815,8 @@ const keys = [
           "F#+maj7",
           "G#7",
           "A#7",
-          "B#m7b5",
-          "C##m7b5"
+          "B#m7(b5)",
+          "C##m7(b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -3849,8 +3849,8 @@ const keys = [
           "",
           "F##m7",
           "",
-          "A#m7b5",
-          "B#m7b5",
+          "A#m7(b5)",
+          "B#m7(b5)",
           "",
           ""
         ],
@@ -3867,8 +3867,8 @@ const keys = [
           "",
           "C#m7",
           "",
-          "Em7b5",
-          "F#m7b5",
+          "Em7(b5)",
+          "F#m7(b5)",
           "",
           ""
         ],
@@ -3876,8 +3876,8 @@ const keys = [
           "",
           "F##m7",
           "",
-          "A#m7b5",
-          "B#m7b5",
+          "A#m7(b5)",
+          "B#m7(b5)",
           "",
           ""
         ],
@@ -3885,8 +3885,8 @@ const keys = [
           "",
           "C#m7",
           "",
-          "Em7b5",
-          "F#m7b5",
+          "Em7(b5)",
+          "F#m7(b5)",
           "",
           ""
         ]
@@ -3898,7 +3898,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "E",
-      "relativeMajor": "G",
+      "relativemajor": "G",
       "alteration": 1,
       "keySignature": "#",
       "natural": {
@@ -3933,15 +3933,15 @@ const keys = [
         "triads": [
           "Em",
           "F#dim",
-          "GM",
+          "Gmaj",
           "Am",
           "Bm",
-          "CM",
-          "DM"
+          "Cmaj",
+          "Dmaj"
         ],
         "chords": [
           "Em7",
-          "F#m7b5",
+          "F#m7(b5)",
           "Gmaj7",
           "Am7",
           "Bm7",
@@ -3981,8 +3981,8 @@ const keys = [
           "",
           "Bm7",
           "C#m7",
-          "Dm7b5",
-          "Em7b5"
+          "Dm7(b5)",
+          "Em7(b5)"
         ],
         "substituteDominants": [
           "F7",
@@ -3999,8 +3999,8 @@ const keys = [
           "",
           "Fm7",
           "Gm7",
-          "Abm7b5",
-          "Bbm7b5"
+          "Abm7(b5)",
+          "Bbm7(b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "F#m7",
@@ -4008,8 +4008,8 @@ const keys = [
           "",
           "Bm7",
           "C#m7",
-          "Dm7b5",
-          "Em7b5"
+          "Dm7(b5)",
+          "Em7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Cm7",
@@ -4017,8 +4017,8 @@ const keys = [
           "",
           "Fm7",
           "Gm7",
-          "Abm7b5",
-          "Bbm7b5"
+          "Abm7(b5)",
+          "Bbm7(b5)"
         ]
       },
       "harmonic": {
@@ -4055,13 +4055,13 @@ const keys = [
           "F#dim",
           "Gaug",
           "Am",
-          "B",
-          "C",
+          "Bmaj",
+          "Cmaj",
           "D#dim"
         ],
         "chords": [
-          "EmMaj7",
-          "F#m7b5",
+          "Em(maj7)",
+          "F#m7(b5)",
           "G+maj7",
           "Am7",
           "B7",
@@ -4100,8 +4100,8 @@ const keys = [
           "",
           "",
           "Bm7",
-          "C#m7b5",
-          "Dm7b5",
+          "C#m7(b5)",
+          "Dm7(b5)",
           ""
         ],
         "substituteDominants": [
@@ -4118,8 +4118,8 @@ const keys = [
           "",
           "",
           "Fm7",
-          "Gm7b5",
-          "Abm7b5",
+          "Gm7(b5)",
+          "Abm7(b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -4127,8 +4127,8 @@ const keys = [
           "",
           "",
           "Bm7",
-          "C#m7b5",
-          "Dm7b5",
+          "C#m7(b5)",
+          "Dm7(b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -4136,8 +4136,8 @@ const keys = [
           "",
           "",
           "Fm7",
-          "Gm7b5",
-          "Abm7b5",
+          "Gm7(b5)",
+          "Abm7(b5)",
           ""
         ]
       },
@@ -4174,8 +4174,8 @@ const keys = [
           "Em",
           "F#m",
           "Gaug",
-          "A",
-          "B",
+          "Amaj",
+          "Bmaj",
           "C#dim",
           "D#dim"
         ],
@@ -4185,8 +4185,8 @@ const keys = [
           "G+maj7",
           "A7",
           "B7",
-          "C#m7b5",
-          "D#m7b5"
+          "C#m7(b5)",
+          "D#m7(b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -4219,8 +4219,8 @@ const keys = [
           "",
           "G#m7",
           "",
-          "Bm7b5",
-          "C#m7b5",
+          "Bm7(b5)",
+          "C#m7(b5)",
           "",
           ""
         ],
@@ -4237,8 +4237,8 @@ const keys = [
           "",
           "Dm7",
           "",
-          "Fm7b5",
-          "Gm7b5",
+          "Fm7(b5)",
+          "Gm7(b5)",
           "",
           ""
         ],
@@ -4246,8 +4246,8 @@ const keys = [
           "",
           "G#m7",
           "",
-          "Bm7b5",
-          "C#m7b5",
+          "Bm7(b5)",
+          "C#m7(b5)",
           "",
           ""
         ],
@@ -4255,8 +4255,8 @@ const keys = [
           "",
           "Dm7",
           "",
-          "Fm7b5",
-          "Gm7b5",
+          "Fm7(b5)",
+          "Gm7(b5)",
           "",
           ""
         ]
@@ -4268,7 +4268,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "F",
-      "relativeMajor": "Ab",
+      "relativemajor": "Ab",
       "alteration": -4,
       "keySignature": "bbbb",
       "natural": {
@@ -4303,19 +4303,19 @@ const keys = [
         "triads": [
           "Fm",
           "Gdim",
-          "AbM",
+          "Abmaj",
           "Bbm",
           "Cm",
-          "DbM",
-          "EbM"
+          "Dbmaj",
+          "Ebmaj"
         ],
         "chords": [
           "Fm7",
-          "Gm7b5",
+          "Gm7(b5)",
           "Abmaj7",
           "Bbm7",
           "Cm7",
-          "Dbmaj7",
+          "Db(maj7)",
           "Eb7"
         ],
         "chordsHarmonicFunction": [
@@ -4351,8 +4351,8 @@ const keys = [
           "",
           "Cm7",
           "Dm7",
-          "Ebm7b5",
-          "Fm7b5"
+          "Ebm7(b5)",
+          "Fm7(b5)"
         ],
         "substituteDominants": [
           "Gb7",
@@ -4360,7 +4360,7 @@ const keys = [
           "",
           "Cb7",
           "Db7",
-          "Ebb7",
+          "Ebb(7)",
           "Fb7"
         ],
         "substituteDominantSupertonics": [
@@ -4369,8 +4369,8 @@ const keys = [
           "",
           "Gbm7",
           "Abm7",
-          "Bbbm7b5",
-          "Cbm7b5"
+          "Bbb(m7b5)",
+          "Cbm7(b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "Gm7",
@@ -4378,8 +4378,8 @@ const keys = [
           "",
           "Cm7",
           "Dm7",
-          "Ebm7b5",
-          "Fm7b5"
+          "Ebm7(b5)",
+          "Fm7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Dbm7",
@@ -4387,8 +4387,8 @@ const keys = [
           "",
           "Gbm7",
           "Abm7",
-          "Bbbm7b5",
-          "Cbm7b5"
+          "Bbb(m7b5)",
+          "Cbm7(b5)"
         ]
       },
       "harmonic": {
@@ -4425,17 +4425,17 @@ const keys = [
           "Gdim",
           "Abaug",
           "Bbm",
-          "C",
-          "Db",
+          "Cmaj",
+          "Dbmaj",
           "Edim"
         ],
         "chords": [
-          "FmMaj7",
-          "Gm7b5",
+          "Fmmaj7",
+          "Gm7(b5)",
           "Ab+maj7",
           "Bbm7",
           "C7",
-          "Dbmaj7",
+          "Db(maj7)",
           "Eo7"
         ],
         "chordsHarmonicFunction": [
@@ -4470,8 +4470,8 @@ const keys = [
           "",
           "",
           "Cm7",
-          "Dm7b5",
-          "Ebm7b5",
+          "Dm7(b5)",
+          "Ebm7(b5)",
           ""
         ],
         "substituteDominants": [
@@ -4480,7 +4480,7 @@ const keys = [
           "",
           "Cb7",
           "Db7",
-          "Ebb7",
+          "Ebb(7)",
           ""
         ],
         "substituteDominantSupertonics": [
@@ -4488,8 +4488,8 @@ const keys = [
           "",
           "",
           "Gbm7",
-          "Abm7b5",
-          "Bbbm7b5",
+          "Abm7(b5)",
+          "Bbb(m7b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -4497,8 +4497,8 @@ const keys = [
           "",
           "",
           "Cm7",
-          "Dm7b5",
-          "Ebm7b5",
+          "Dm7(b5)",
+          "Ebm7(b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -4506,8 +4506,8 @@ const keys = [
           "",
           "",
           "Gbm7",
-          "Abm7b5",
-          "Bbbm7b5",
+          "Abm7(b5)",
+          "Bbb(m7b5)",
           ""
         ]
       },
@@ -4544,8 +4544,8 @@ const keys = [
           "Fm",
           "Gm",
           "Abaug",
-          "Bb",
-          "C",
+          "Bbmaj",
+          "Cmaj",
           "Ddim",
           "Edim"
         ],
@@ -4555,8 +4555,8 @@ const keys = [
           "Ab+maj7",
           "Bb7",
           "C7",
-          "Dm7b5",
-          "Em7b5"
+          "Dm7(b5)",
+          "Em7(b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -4589,8 +4589,8 @@ const keys = [
           "",
           "Am7",
           "",
-          "Cm7b5",
-          "Dm7b5",
+          "Cm7(b5)",
+          "Dm7(b5)",
           "",
           ""
         ],
@@ -4607,8 +4607,8 @@ const keys = [
           "",
           "Ebm7",
           "",
-          "Gbm7b5",
-          "Abm7b5",
+          " Gbm7(b5)",
+          "Abm7(b5)",
           "",
           ""
         ],
@@ -4616,8 +4616,8 @@ const keys = [
           "",
           "Am7",
           "",
-          "Cm7b5",
-          "Dm7b5",
+          "Cm7(b5)",
+          "Dm7(b5)",
           "",
           ""
         ],
@@ -4625,8 +4625,8 @@ const keys = [
           "",
           "Ebm7",
           "",
-          "Gbm7b5",
-          "Abm7b5",
+          "Gbm7(b5)",
+          "Abm7(b5)",
           "",
           ""
         ]
@@ -4638,7 +4638,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "F#",
-      "relativeMajor": "A",
+      "relativemajor": "A",
       "alteration": 3,
       "keySignature": "###",
       "natural": {
@@ -4673,15 +4673,15 @@ const keys = [
         "triads": [
           "F#m",
           "G#dim",
-          "AM",
+          "Amaj",
           "Bm",
           "C#m",
-          "DM",
-          "EM"
+          "Dmaj",
+          "Emaj"
         ],
         "chords": [
           "F#m7",
-          "G#m7b5",
+          "G#m7(b5)",
           "Amaj7",
           "Bm7",
           "C#m7",
@@ -4721,8 +4721,8 @@ const keys = [
           "",
           "C#m7",
           "D#m7",
-          "Em7b5",
-          "F#m7b5"
+          "Em7(b5)",
+          "F#m7(b5)"
         ],
         "substituteDominants": [
           "G7",
@@ -4739,8 +4739,8 @@ const keys = [
           "",
           "Gm7",
           "Am7",
-          "Bbm7b5",
-          "Cm7b5"
+          "Bbm7(b5)",
+          "Cm7(b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "G#m7",
@@ -4748,8 +4748,8 @@ const keys = [
           "",
           "C#m7",
           "D#m7",
-          "Em7b5",
-          "F#m7b5"
+          "Em7(b5)",
+          "F#m7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Dm7",
@@ -4757,8 +4757,8 @@ const keys = [
           "",
           "Gm7",
           "Am7",
-          "Bbm7b5",
-          "Cm7b5"
+          "Bbm7(b5)",
+          "Cm7(b5)"
         ]
       },
       "harmonic": {
@@ -4795,13 +4795,13 @@ const keys = [
           "G#dim",
           "Aaug",
           "Bm",
-          "C#",
-          "D",
+          "C#maj",
+          "Dmaj",
           "E#dim"
         ],
         "chords": [
-          "F#mMaj7",
-          "G#m7b5",
+          "F#mmaj7",
+          "G#m7(b5)",
           "A+maj7",
           "Bm7",
           "C#7",
@@ -4840,8 +4840,8 @@ const keys = [
           "",
           "",
           "C#m7",
-          "D#m7b5",
-          "Em7b5",
+          "D#m7(b5)",
+          "Em7(b5)",
           ""
         ],
         "substituteDominants": [
@@ -4858,8 +4858,8 @@ const keys = [
           "",
           "",
           "Gm7",
-          "Am7b5",
-          "Bbm7b5",
+          "Am7(b5)",
+          "Bbm7(b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -4867,8 +4867,8 @@ const keys = [
           "",
           "",
           "C#m7",
-          "D#m7b5",
-          "Em7b5",
+          "D#m7(b5)",
+          "Em7(b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -4876,8 +4876,8 @@ const keys = [
           "",
           "",
           "Gm7",
-          "Am7b5",
-          "Bbm7b5",
+          "Am7(b5)",
+          "Bbm7(b5)",
           ""
         ]
       },
@@ -4914,8 +4914,8 @@ const keys = [
           "F#m",
           "G#m",
           "Aaug",
-          "B",
-          "C#",
+          "Bmaj",
+          "C#maj",
           "D#dim",
           "E#dim"
         ],
@@ -4925,8 +4925,8 @@ const keys = [
           "A+maj7",
           "B7",
           "C#7",
-          "D#m7b5",
-          "E#m7b5"
+          "D#m7(b5)",
+          "E#m7(b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -4959,8 +4959,8 @@ const keys = [
           "",
           "A#m7",
           "",
-          "C#m7b5",
-          "D#m7b5",
+          "C#m7(b5)",
+          "D#m7(b5)",
           "",
           ""
         ],
@@ -4977,8 +4977,8 @@ const keys = [
           "",
           "Em7",
           "",
-          "Gm7b5",
-          "Am7b5",
+          "Gm7(b5)",
+          "Am7(b5)",
           "",
           ""
         ],
@@ -4986,8 +4986,8 @@ const keys = [
           "",
           "A#m7",
           "",
-          "C#m7b5",
-          "D#m7b5",
+          "C#m7(b5)",
+          "D#m7(b5)",
           "",
           ""
         ],
@@ -4995,8 +4995,8 @@ const keys = [
           "",
           "Em7",
           "",
-          "Gm7b5",
-          "Am7b5",
+          "Gm7(b5)",
+          "Am7(b5)",
           "",
           ""
         ]
@@ -5008,7 +5008,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "G",
-      "relativeMajor": "Bb",
+      "relativemajor": "Bb",
       "alteration": -2,
       "keySignature": "bb",
       "natural": {
@@ -5043,15 +5043,15 @@ const keys = [
         "triads": [
           "Gm",
           "Adim",
-          "BbM",
+          "Bbmaj",
           "Cm",
           "Dm",
-          "EbM",
-          "FM"
+          "Ebmaj",
+          "Fmaj"
         ],
         "chords": [
           "Gm7",
-          "Am7b5",
+          "Am7(b5)",
           "Bbmaj7",
           "Cm7",
           "Dm7",
@@ -5091,8 +5091,8 @@ const keys = [
           "",
           "Dm7",
           "Em7",
-          "Fm7b5",
-          "Gm7b5"
+          "Fm7(b5)",
+          "Gm7(b5)"
         ],
         "substituteDominants": [
           "Ab7",
@@ -5109,8 +5109,8 @@ const keys = [
           "",
           "Abm7",
           "Bbm7",
-          "Cbm7b5",
-          "Dbm7b5"
+          "Cbm7(b5)",
+          "Dbm7(b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "Am7",
@@ -5118,8 +5118,8 @@ const keys = [
           "",
           "Dm7",
           "Em7",
-          "Fm7b5",
-          "Gm7b5"
+          "Fm7(b5)",
+          "Gm7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Ebm7",
@@ -5127,8 +5127,8 @@ const keys = [
           "",
           "Abm7",
           "Bbm7",
-          "Cbm7b5",
-          "Dbm7b5"
+          "Cbm7(b5)",
+          "Dbm7(b5)"
         ]
       },
       "harmonic": {
@@ -5165,13 +5165,13 @@ const keys = [
           "Adim",
           "Bbaug",
           "Cm",
-          "D",
-          "Eb",
+          "Dmaj",
+          "Ebmaj",
           "F#dim"
         ],
         "chords": [
-          "GmMaj7",
-          "Am7b5",
+          "Gmmaj7",
+          "Am7(b5)",
           "Bb+maj7",
           "Cm7",
           "D7",
@@ -5210,8 +5210,8 @@ const keys = [
           "",
           "",
           "Dm7",
-          "Em7b5",
-          "Fm7b5",
+          "Em7(b5)",
+          "Fm7(b5)",
           ""
         ],
         "substituteDominants": [
@@ -5228,8 +5228,8 @@ const keys = [
           "",
           "",
           "Abm7",
-          "Bbm7b5",
-          "Cbm7b5",
+          "Bbm7(b5)",
+          "Cbm7(b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -5237,8 +5237,8 @@ const keys = [
           "",
           "",
           "Dm7",
-          "Em7b5",
-          "Fm7b5",
+          "Em7(b5)",
+          "Fm7(b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -5246,8 +5246,8 @@ const keys = [
           "",
           "",
           "Abm7",
-          "Bbm7b5",
-          "Cbm7b5",
+          "Bbm7(b5)",
+          "Cbm7(b5)",
           ""
         ]
       },
@@ -5284,8 +5284,8 @@ const keys = [
           "Gm",
           "Am",
           "Bbaug",
-          "C",
-          "D",
+          "Cmaj",
+          "Dmaj",
           "Edim",
           "F#dim"
         ],
@@ -5295,8 +5295,8 @@ const keys = [
           "Bb+maj7",
           "C7",
           "D7",
-          "Em7b5",
-          "F#m7b5"
+          "Em7(b5)",
+          "F#m7(b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -5329,8 +5329,8 @@ const keys = [
           "",
           "Bm7",
           "",
-          "Dm7b5",
-          "Em7b5",
+          "Dm7(b5)",
+          "Em7(b5)",
           "",
           ""
         ],
@@ -5347,8 +5347,8 @@ const keys = [
           "",
           "Fm7",
           "",
-          "Abm7b5",
-          "Bbm7b5",
+          "Abm7(b5)",
+          "Bbm7(b5)",
           "",
           ""
         ],
@@ -5356,8 +5356,8 @@ const keys = [
           "",
           "Bm7",
           "",
-          "Dm7b5",
-          "Em7b5",
+          "Dm7(b5)",
+          "Em7(b5)",
           "",
           ""
         ],
@@ -5365,8 +5365,8 @@ const keys = [
           "",
           "Fm7",
           "",
-          "Abm7b5",
-          "Bbm7b5",
+          "Abm7(b5)",
+          "Bbm7(b5)",
           "",
           ""
         ]
@@ -5378,7 +5378,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "G#",
-      "relativeMajor": "B",
+      "relativemajor": "B",
       "alteration": 5,
       "keySignature": "#####",
       "natural": {
@@ -5413,15 +5413,15 @@ const keys = [
         "triads": [
           "G#m",
           "A#dim",
-          "BM",
+          "Bmaj",
           "C#m",
           "D#m",
-          "EM",
-          "F#M"
+          "Emaj",
+          "F#maj"
         ],
         "chords": [
           "G#m7",
-          "A#m7b5",
+          "A#m7(b5)",
           "Bmaj7",
           "C#m7",
           "D#m7",
@@ -5461,8 +5461,8 @@ const keys = [
           "",
           "D#m7",
           "E#m7",
-          "F#m7b5",
-          "G#m7b5"
+          "F#m7(b5)",
+          "G#m7(b5)"
         ],
         "substituteDominants": [
           "A7",
@@ -5479,8 +5479,8 @@ const keys = [
           "",
           "Am7",
           "Bm7",
-          "Cm7b5",
-          "Dm7b5"
+          "Cm7(b5)",
+          "Dm7(b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "A#m7",
@@ -5488,8 +5488,8 @@ const keys = [
           "",
           "D#m7",
           "E#m7",
-          "F#m7b5",
-          "G#m7b5"
+          "F#m7(b5)",
+          "G#m7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Em7",
@@ -5497,8 +5497,8 @@ const keys = [
           "",
           "Am7",
           "Bm7",
-          "Cm7b5",
-          "Dm7b5"
+          "Cm7(b5)",
+          "Dm7(b5)"
         ]
       },
       "harmonic": {
@@ -5535,13 +5535,13 @@ const keys = [
           "A#dim",
           "Baug",
           "C#m",
-          "D#",
-          "E",
+          "D#maj",
+          "Emaj",
           "F##dim"
         ],
         "chords": [
-          "G#mMaj7",
-          "A#m7b5",
+          "G#mmaj7",
+          "A#m7(b5)",
           "B+maj7",
           "C#m7",
           "D#7",
@@ -5580,8 +5580,8 @@ const keys = [
           "",
           "",
           "D#m7",
-          "E#m7b5",
-          "F#m7b5",
+          "E#m7(b5)",
+          "F#m7(b5)",
           ""
         ],
         "substituteDominants": [
@@ -5598,8 +5598,8 @@ const keys = [
           "",
           "",
           "Am7",
-          "Bm7b5",
-          "Cm7b5",
+          "Bm7(b5)",
+          "Cm7(b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -5607,8 +5607,8 @@ const keys = [
           "",
           "",
           "D#m7",
-          "E#m7b5",
-          "F#m7b5",
+          "E#m7(b5)",
+          "F#m7(b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -5616,8 +5616,8 @@ const keys = [
           "",
           "",
           "Am7",
-          "Bm7b5",
-          "Cm7b5",
+          "Bm7(b5)",
+          "Cm7(b5)",
           ""
         ]
       },
@@ -5654,8 +5654,8 @@ const keys = [
           "G#m",
           "A#m",
           "Baug",
-          "C#",
-          "D#",
+          "C#maj",
+          "D#maj",
           "E#dim",
           "F##dim"
         ],
@@ -5665,8 +5665,8 @@ const keys = [
           "B+maj7",
           "C#7",
           "D#7",
-          "E#m7b5",
-          "F##m7b5"
+          "E#m7(b5)",
+          "F##(m7b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -5699,8 +5699,8 @@ const keys = [
           "",
           "B#m7",
           "",
-          "D#m7b5",
-          "E#m7b5",
+          "D#m7(b5)",
+          "E#m7(b5)",
           "",
           ""
         ],
@@ -5717,8 +5717,8 @@ const keys = [
           "",
           "F#m7",
           "",
-          "Am7b5",
-          "Bm7b5",
+          "Am7(b5)",
+          "Bm7(b5)",
           "",
           ""
         ],
@@ -5726,8 +5726,8 @@ const keys = [
           "",
           "B#m7",
           "",
-          "D#m7b5",
-          "E#m7b5",
+          "D#m7(b5)",
+          "E#m7(b5)",
           "",
           ""
         ],
@@ -5735,8 +5735,8 @@ const keys = [
           "",
           "F#m7",
           "",
-          "Am7b5",
-          "Bm7b5",
+          "Am7(b5)",
+          "Bm7(b5)",
           "",
           ""
         ]
@@ -5748,7 +5748,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "A",
-      "relativeMajor": "C",
+      "relativemajor": "C",
       "alteration": 0,
       "keySignature": "",
       "natural": {
@@ -5783,15 +5783,15 @@ const keys = [
         "triads": [
           "Am",
           "Bdim",
-          "CM",
+          "Cmaj",
           "Dm",
           "Em",
-          "FM",
-          "GM"
+          "Fmaj",
+          "Gmaj"
         ],
         "chords": [
           "Am7",
-          "Bm7b5",
+          "Bm7(b5)",
           "Cmaj7",
           "Dm7",
           "Em7",
@@ -5831,8 +5831,8 @@ const keys = [
           "",
           "Em7",
           "F#m7",
-          "Gm7b5",
-          "Am7b5"
+          "Gm7(b5)",
+          "Am7(b5)"
         ],
         "substituteDominants": [
           "Bb7",
@@ -5849,8 +5849,8 @@ const keys = [
           "",
           "Bbm7",
           "Cm7",
-          "Dbm7b5",
-          "Ebm7b5"
+          "Dbm7(b5)",
+          "Ebm7(b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "Bm7",
@@ -5858,8 +5858,8 @@ const keys = [
           "",
           "Em7",
           "F#m7",
-          "Gm7b5",
-          "Am7b5"
+          "Gm7(b5)",
+          "Am7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Fm7",
@@ -5867,8 +5867,8 @@ const keys = [
           "",
           "Bbm7",
           "Cm7",
-          "Dbm7b5",
-          "Ebm7b5"
+          "Dbm7(b5)",
+          "Ebm7(b5)"
         ]
       },
       "harmonic": {
@@ -5905,13 +5905,13 @@ const keys = [
           "Bdim",
           "Caug",
           "Dm",
-          "E",
-          "F",
+          "Emaj",
+          "Fmaj",
           "G#dim"
         ],
         "chords": [
-          "AmMaj7",
-          "Bm7b5",
+          "Ammaj7",
+          "Bm7(b5)",
           "C+maj7",
           "Dm7",
           "E7",
@@ -5950,8 +5950,8 @@ const keys = [
           "",
           "",
           "Em7",
-          "F#m7b5",
-          "Gm7b5",
+          "F#m7(b5)",
+          "Gm7(b5)",
           ""
         ],
         "substituteDominants": [
@@ -5968,8 +5968,8 @@ const keys = [
           "",
           "",
           "Bbm7",
-          "Cm7b5",
-          "Dbm7b5",
+          "Cm7(b5)",
+          "Dbm7(b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -5977,8 +5977,8 @@ const keys = [
           "",
           "",
           "Em7",
-          "F#m7b5",
-          "Gm7b5",
+          "F#m7(b5)",
+          "Gm7(b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -5986,8 +5986,8 @@ const keys = [
           "",
           "",
           "Bbm7",
-          "Cm7b5",
-          "Dbm7b5",
+          "Cm7(b5)",
+          "Dbm7(b5)",
           ""
         ]
       },
@@ -6024,8 +6024,8 @@ const keys = [
           "Am",
           "Bm",
           "Caug",
-          "D",
-          "E",
+          "Dmaj",
+          "Emaj",
           "F#dim",
           "G#dim"
         ],
@@ -6035,8 +6035,8 @@ const keys = [
           "C+maj7",
           "D7",
           "E7",
-          "F#m7b5",
-          "G#m7b5"
+          "F#m7(b5)",
+          "G#m7(b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -6069,8 +6069,8 @@ const keys = [
           "",
           "C#m7",
           "",
-          "Em7b5",
-          "F#m7b5",
+          "Em7(b5)",
+          "F#m7(b5)",
           "",
           ""
         ],
@@ -6087,8 +6087,8 @@ const keys = [
           "",
           "Gm7",
           "",
-          "Bbm7b5",
-          "Cm7b5",
+          "Bbm7(b5)",
+          "Cm7(b5)",
           "",
           ""
         ],
@@ -6096,8 +6096,8 @@ const keys = [
           "",
           "C#m7",
           "",
-          "Em7b5",
-          "F#m7b5",
+          "Em7(b5)",
+          "F#m7(b5)",
           "",
           ""
         ],
@@ -6105,8 +6105,8 @@ const keys = [
           "",
           "Gm7",
           "",
-          "Bbm7b5",
-          "Cm7b5",
+          "Bbm7(b5)",
+          "Cm7(b5)",
           "",
           ""
         ]
@@ -6118,7 +6118,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "A#",
-      "relativeMajor": "C#",
+      "relativemajor": "C#",
       "alteration": 7,
       "keySignature": "#######",
       "natural": {
@@ -6153,15 +6153,15 @@ const keys = [
         "triads": [
           "A#m",
           "B#dim",
-          "C#M",
+          "C#maj",
           "D#m",
           "E#m",
-          "F#M",
-          "G#M"
+          "F#maj",
+          "G#maj"
         ],
         "chords": [
           "A#m7",
-          "B#m7b5",
+          "B#m7(b5)",
           "C#maj7",
           "D#m7",
           "E#m7",
@@ -6201,8 +6201,8 @@ const keys = [
           "",
           "E#m7",
           "F##m7",
-          "G#m7b5",
-          "A#m7b5"
+          "G#m7(b5)",
+          "A#m7(b5)"
         ],
         "substituteDominants": [
           "B7",
@@ -6219,8 +6219,8 @@ const keys = [
           "",
           "Bm7",
           "C#m7",
-          "Dm7b5",
-          "Em7b5"
+          "Dm7(b5)",
+          "Em7(b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "B#m7",
@@ -6228,8 +6228,8 @@ const keys = [
           "",
           "E#m7",
           "F##m7",
-          "G#m7b5",
-          "A#m7b5"
+          "G#m7(b5)",
+          "A#m7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "F#m7",
@@ -6237,8 +6237,8 @@ const keys = [
           "",
           "Bm7",
           "C#m7",
-          "Dm7b5",
-          "Em7b5"
+          "Dm7(b5)",
+          "Em7(b5)"
         ]
       },
       "harmonic": {
@@ -6275,13 +6275,13 @@ const keys = [
           "B#dim",
           "C#aug",
           "D#m",
-          "E#",
-          "F#",
+          "E#maj",
+          "F#maj",
           "G##dim"
         ],
         "chords": [
-          "A#mMaj7",
-          "B#m7b5",
+          "A#mmaj7",
+          "B#m7(b5)",
           "C#+maj7",
           "D#m7",
           "E#7",
@@ -6320,8 +6320,8 @@ const keys = [
           "",
           "",
           "E#m7",
-          "F##m7b5",
-          "G#m7b5",
+          "F##(m7b5)",
+          "G#m7(b5)",
           ""
         ],
         "substituteDominants": [
@@ -6338,8 +6338,8 @@ const keys = [
           "",
           "",
           "Bm7",
-          "C#m7b5",
-          "Dm7b5",
+          "C#m7(b5)",
+          "Dm7(b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -6347,8 +6347,8 @@ const keys = [
           "",
           "",
           "E#m7",
-          "F##m7b5",
-          "G#m7b5",
+          "F##(m7b5)",
+          "G#m7(b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -6356,8 +6356,8 @@ const keys = [
           "",
           "",
           "Bm7",
-          "C#m7b5",
-          "Dm7b5",
+          "C#m7(b5)",
+          "Dm7(b5)",
           ""
         ]
       },
@@ -6394,8 +6394,8 @@ const keys = [
           "A#m",
           "B#m",
           "C#aug",
-          "D#",
-          "E#",
+          "D#maj",
+          "E#maj",
           "F##dim",
           "G##dim"
         ],
@@ -6405,8 +6405,8 @@ const keys = [
           "C#+maj7",
           "D#7",
           "E#7",
-          "F##m7b5",
-          "G##m7b5"
+          "F##(m7b5)",
+          "G##(m7b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -6439,8 +6439,8 @@ const keys = [
           "",
           "C##m7",
           "",
-          "E#m7b5",
-          "F##m7b5",
+          "E#m7(b5)",
+          "F##(m7b5)",
           "",
           ""
         ],
@@ -6457,8 +6457,8 @@ const keys = [
           "",
           "G#m7",
           "",
-          "Bm7b5",
-          "C#m7b5",
+          "Bm7(b5)",
+          "C#m7(b5)",
           "",
           ""
         ],
@@ -6466,8 +6466,8 @@ const keys = [
           "",
           "C##m7",
           "",
-          "E#m7b5",
-          "F##m7b5",
+          "E#m7(b5)",
+          "F##(m7b5)",
           "",
           ""
         ],
@@ -6475,8 +6475,8 @@ const keys = [
           "",
           "G#m7",
           "",
-          "Bm7b5",
-          "C#m7b5",
+          "Bm7(b5)",
+          "C#m7(b5)",
           "",
           ""
         ]
@@ -6488,7 +6488,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "B",
-      "relativeMajor": "D",
+      "relativemajor": "D",
       "alteration": 2,
       "keySignature": "##",
       "natural": {
@@ -6523,15 +6523,15 @@ const keys = [
         "triads": [
           "Bm",
           "C#dim",
-          "DM",
+          "Dmaj",
           "Em",
           "F#m",
-          "GM",
-          "AM"
+          "Gmaj",
+          "Amaj"
         ],
         "chords": [
           "Bm7",
-          "C#m7b5",
+          "C#m7(b5)",
           "Dmaj7",
           "Em7",
           "F#m7",
@@ -6571,8 +6571,8 @@ const keys = [
           "",
           "F#m7",
           "G#m7",
-          "Am7b5",
-          "Bm7b5"
+          "Am7(b5)",
+          "Bm7(b5)"
         ],
         "substituteDominants": [
           "C7",
@@ -6589,8 +6589,8 @@ const keys = [
           "",
           "Cm7",
           "Dm7",
-          "Ebm7b5",
-          "Fm7b5"
+          "Ebm7(b5)",
+          "Fm7(b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "C#m7",
@@ -6598,8 +6598,8 @@ const keys = [
           "",
           "F#m7",
           "G#m7",
-          "Am7b5",
-          "Bm7b5"
+          "Am7(b5)",
+          "Bm7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Gm7",
@@ -6607,8 +6607,8 @@ const keys = [
           "",
           "Cm7",
           "Dm7",
-          "Ebm7b5",
-          "Fm7b5"
+          "Ebm7(b5)",
+          "Fm7(b5)"
         ]
       },
       "harmonic": {
@@ -6645,13 +6645,13 @@ const keys = [
           "C#dim",
           "Daug",
           "Em",
-          "F#",
-          "G",
+          "F#maj",
+          "Gmaj",
           "A#dim"
         ],
         "chords": [
-          "BmMaj7",
-          "C#m7b5",
+          "Bmmaj7",
+          "C#m7(b5)",
           "D+maj7",
           "Em7",
           "F#7",
@@ -6690,8 +6690,8 @@ const keys = [
           "",
           "",
           "F#m7",
-          "G#m7b5",
-          "Am7b5",
+          "G#m7(b5)",
+          "Am7(b5)",
           ""
         ],
         "substituteDominants": [
@@ -6708,8 +6708,8 @@ const keys = [
           "",
           "",
           "Cm7",
-          "Dm7b5",
-          "Ebm7b5",
+          "Dm7(b5)",
+          "Ebm7(b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -6717,8 +6717,8 @@ const keys = [
           "",
           "",
           "F#m7",
-          "G#m7b5",
-          "Am7b5",
+          "G#m7(b5)",
+          "Am7(b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -6726,8 +6726,8 @@ const keys = [
           "",
           "",
           "Cm7",
-          "Dm7b5",
-          "Ebm7b5",
+          "Dm7(b5)",
+          "Ebm7(b5)",
           ""
         ]
       },
@@ -6764,8 +6764,8 @@ const keys = [
           "Bm",
           "C#m",
           "Daug",
-          "E",
-          "F#",
+          "Emaj",
+          "F#maj",
           "G#dim",
           "A#dim"
         ],
@@ -6775,8 +6775,8 @@ const keys = [
           "D+maj7",
           "E7",
           "F#7",
-          "G#m7b5",
-          "A#m7b5"
+          "G#m7(b5)",
+          "A#m7(b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -6809,8 +6809,8 @@ const keys = [
           "",
           "D#m7",
           "",
-          "F#m7b5",
-          "G#m7b5",
+          "F#m7(b5)",
+          "G#m7(b5)",
           "",
           ""
         ],
@@ -6827,8 +6827,8 @@ const keys = [
           "",
           "Am7",
           "",
-          "Cm7b5",
-          "Dm7b5",
+          "Cm7(b5)",
+          "Dm7(b5)",
           "",
           ""
         ],
@@ -6836,8 +6836,8 @@ const keys = [
           "",
           "D#m7",
           "",
-          "F#m7b5",
-          "G#m7b5",
+          "F#m7(b5)",
+          "G#m7(b5)",
           "",
           ""
         ],
@@ -6845,8 +6845,8 @@ const keys = [
           "",
           "Am7",
           "",
-          "Cm7b5",
-          "Dm7b5",
+          "Cm7(b5)",
+          "Dm7(b5)",
           "",
           ""
         ]
@@ -6858,7 +6858,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "Cb",
-      "relativeMajor": "Ebb",
+      "relativemajor": "Ebb",
       "alteration": -10,
       "keySignature": "bbbbbbbbbb",
       "natural": {
@@ -6893,20 +6893,20 @@ const keys = [
         "triads": [
           "Cbm",
           "Dbdim",
-          "Ebb",
+          "Ebbmaj",
           "Fbm",
           "Gbm",
-          "Abb",
-          "Bbb"
+          "Abbmaj",
+          "Bbbmaj"
         ],
         "chords": [
           "Cbm7",
-          "Dbm7b5",
+          "Dbm7(b5)",
           "Ebbmaj7",
           "Fbm7",
           "Gbm7",
           "Abbmaj7",
-          "Bbb7"
+          "Bbb(7)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -6932,7 +6932,7 @@ const keys = [
           "",
           "Cb7",
           "Db7",
-          "Ebb7",
+          "Ebb(7)",
           "Fb7"
         ],
         "secondaryDominantSupertonics": [
@@ -6941,17 +6941,17 @@ const keys = [
           "",
           "Gbm7",
           "Abm7",
-          "Bbbm7b5",
-          "Cbm7b5"
+          "Bbb(m7b5)",
+          "Cbm7(b5)"
         ],
         "substituteDominants": [
-          "Dbb7",
+          "Dbb(7)",
           "",
           "",
-          "Gbb7",
-          "Abb7",
-          "Bbbb7",
-          "Cbb7"
+          "Gb(b7)",
+          "Abb(7)",
+          "Bbb(b7)",
+          "Cb(b7)"
         ],
         "substituteDominantSupertonics": [
           "Abbm7",
@@ -6959,8 +6959,8 @@ const keys = [
           "",
           "Dbbm7",
           "Ebbm7",
-          "Fbbm7b5",
-          "Gbbm7b5"
+          "Fbb(m7b5)",
+          "Gbb(m7b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "Dbm7",
@@ -6968,8 +6968,8 @@ const keys = [
           "",
           "Gbm7",
           "Abm7",
-          "Bbbm7b5",
-          "Cbm7b5"
+          "Bbb(m7b5)",
+          "Cbm7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Abbm7",
@@ -6977,8 +6977,8 @@ const keys = [
           "",
           "Dbbm7",
           "Ebbm7",
-          "Fbbm7b5",
-          "Gbbm7b5"
+          "Fbb(m7b5)",
+          "Gbb(m7b5)"
         ]
       },
       "harmonic": {
@@ -7015,13 +7015,13 @@ const keys = [
           "Dbdim",
           "Ebbaug",
           "Fbm",
-          "Gb",
-          "Abb",
+          "Gbmaj",
+          "Abbmaj",
           "Bbdim"
         ],
         "chords": [
-          "CbmMaj7",
-          "Dbm7b5",
+          "Cbm(maj7)",
+          "Dbm7(b5)",
           "Ebb+maj7",
           "Fbm7",
           "Gb7",
@@ -7052,7 +7052,7 @@ const keys = [
           "",
           "Cb7",
           "Db7",
-          "Ebb7",
+          "Ebb(7)",
           ""
         ],
         "secondaryDominantSupertonics": [
@@ -7060,17 +7060,17 @@ const keys = [
           "",
           "",
           "Gbm7",
-          "Abm7b5",
-          "Bbbm7b5",
+          "Abm7(b5)",
+          "Bbb(m7b5)",
           ""
         ],
         "substituteDominants": [
           "",
           "",
           "",
-          "Gbb7",
-          "Abb7",
-          "Bbbb7",
+          "Gb(b7)",
+          "Abb(7)",
+          "Bbb(b7)",
           ""
         ],
         "substituteDominantSupertonics": [
@@ -7078,8 +7078,8 @@ const keys = [
           "",
           "",
           "Dbbm7",
-          "Ebbm7b5",
-          "Fbbm7b5",
+          "Ebb(m7b5)",
+          "Fbb(m7b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -7087,8 +7087,8 @@ const keys = [
           "",
           "",
           "Gbm7",
-          "Abm7b5",
-          "Bbbm7b5",
+          "Abm7(b5)",
+          "Bbb(m7b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -7096,8 +7096,8 @@ const keys = [
           "",
           "",
           "Dbbm7",
-          "Ebbm7b5",
-          "Fbbm7b5",
+          "Ebb(m7b5)",
+          "Fbb(m7b5)",
           ""
         ]
       },
@@ -7134,8 +7134,8 @@ const keys = [
           "Cbm",
           "Dbm",
           "Ebbaug",
-          "Fb",
-          "Gb",
+          "Fbmaj",
+          "Gbmaj",
           "Abdim",
           "Bbdim"
         ],
@@ -7145,8 +7145,8 @@ const keys = [
           "Ebb+maj7",
           "Fb7",
           "Gb7",
-          "Abm7b5",
-          "Bbm7b5"
+          "Abm7(b5)",
+          "Bbm7(b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -7179,17 +7179,17 @@ const keys = [
           "",
           "Ebm7",
           "",
-          "Gbm7b5",
-          "Abm7b5",
+          " Gbm7(b5)",
+          "Abm7(b5)",
           "",
           ""
         ],
         "substituteDominants": [
           "",
-          "Ebb7",
+          "Ebb(7)",
           "",
-          "Gbb7",
-          "Abb7",
+          "Gb(b7)",
+          "Abb(7)",
           "",
           ""
         ],
@@ -7197,8 +7197,8 @@ const keys = [
           "",
           "Bbbm7",
           "",
-          "Dbbm7b5",
-          "Ebbm7b5",
+          "Dbb(m7b5)",
+          "Ebb(m7b5)",
           "",
           ""
         ],
@@ -7206,8 +7206,8 @@ const keys = [
           "",
           "Ebm7",
           "",
-          "Gbm7b5",
-          "Abm7b5",
+          " Gbm7(b5)",
+          "Abm7(b5)",
           "",
           ""
         ],
@@ -7215,8 +7215,8 @@ const keys = [
           "",
           "Bbbm7",
           "",
-          "Dbbm7b5",
-          "Ebbm7b5",
+          "Dbb(m7b5)",
+          "Ebb(m7b5)",
           "",
           ""
         ]
@@ -7228,7 +7228,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "Db",
-      "relativeMajor": "Fb",
+      "relativemajor": "Fb",
       "alteration": -8,
       "keySignature": "bbbbbbbb",
       "natural": {
@@ -7263,15 +7263,15 @@ const keys = [
         "triads": [
           "Dbm",
           "Ebdim",
-          "FbM",
+          "Fbmaj",
           "Gbm",
           "Abm",
-          "Bbb",
-          "CbM"
+          "Bbbmaj",
+          "Cbmaj"
         ],
         "chords": [
           "Dbm7",
-          "Ebm7b5",
+          "Ebm7(b5)",
           "Fbmaj7",
           "Gbm7",
           "Abm7",
@@ -7311,17 +7311,17 @@ const keys = [
           "",
           "Abm7",
           "Bbm7",
-          "Cbm7b5",
-          "Dbm7b5"
+          "Cbm7(b5)",
+          "Dbm7(b5)"
         ],
         "substituteDominants": [
-          "Ebb7",
+          "Ebb(7)",
           "",
           "",
-          "Abb7",
-          "Bbb7",
-          "Cbb7",
-          "Dbb7"
+          "Abb(7)",
+          "Bbb(7)",
+          "Cb(b7)",
+          "Dbb(7)"
         ],
         "substituteDominantSupertonics": [
           "Bbbm7",
@@ -7329,8 +7329,8 @@ const keys = [
           "",
           "Ebbm7",
           "Fbm7",
-          "Gbbm7b5",
-          "Abbm7b5"
+          "Gbb(m7b5)",
+          "Abb(m7b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "Ebm7",
@@ -7338,8 +7338,8 @@ const keys = [
           "",
           "Abm7",
           "Bbm7",
-          "Cbm7b5",
-          "Dbm7b5"
+          "Cbm7(b5)",
+          "Dbm7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Bbbm7",
@@ -7347,8 +7347,8 @@ const keys = [
           "",
           "Ebbm7",
           "Fbm7",
-          "Gbbm7b5",
-          "Abbm7b5"
+          "Gbb(m7b5)",
+          "Abb(m7b5)"
         ]
       },
       "harmonic": {
@@ -7385,13 +7385,13 @@ const keys = [
           "Ebdim",
           "Fbaug",
           "Gbm",
-          "Ab",
-          "Bbb",
+          "Abmaj",
+          "Bbbmaj",
           "Cdim"
         ],
         "chords": [
-          "DbmMaj7",
-          "Ebm7b5",
+          "Dbmmaj7",
+          "Ebm7(b5)",
           "Fb+maj7",
           "Gbm7",
           "Ab7",
@@ -7430,17 +7430,17 @@ const keys = [
           "",
           "",
           "Abm7",
-          "Bbm7b5",
-          "Cbm7b5",
+          "Bbm7(b5)",
+          "Cbm7(b5)",
           ""
         ],
         "substituteDominants": [
           "",
           "",
           "",
-          "Abb7",
-          "Bbb7",
-          "Cbb7",
+          "Abb(7)",
+          "Bbb(7)",
+          "Cb(b7)",
           ""
         ],
         "substituteDominantSupertonics": [
@@ -7448,8 +7448,8 @@ const keys = [
           "",
           "",
           "Ebbm7",
-          "Fbm7b5",
-          "Gbbm7b5",
+          "Fbm7(b5)",
+          "Gbb(m7b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -7457,8 +7457,8 @@ const keys = [
           "",
           "",
           "Abm7",
-          "Bbm7b5",
-          "Cbm7b5",
+          "Bbm7(b5)",
+          "Cbm7(b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -7466,8 +7466,8 @@ const keys = [
           "",
           "",
           "Ebbm7",
-          "Fbm7b5",
-          "Gbbm7b5",
+          "Fbm7(b5)",
+          "Gbb(m7b5)",
           ""
         ]
       },
@@ -7504,8 +7504,8 @@ const keys = [
           "Dbm",
           "Ebm",
           "Fbaug",
-          "Gb",
-          "Ab",
+          "Gbmaj",
+          "Abmaj",
           "Bbdim",
           "Cdim"
         ],
@@ -7515,8 +7515,8 @@ const keys = [
           "Fb+maj7",
           "Gb7",
           "Ab7",
-          "Bbm7b5",
-          "Cm7b5"
+          "Bbm7(b5)",
+          "Cm7(b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -7549,8 +7549,8 @@ const keys = [
           "",
           "Fm7",
           "",
-          "Abm7b5",
-          "Bbm7b5",
+          "Abm7(b5)",
+          "Bbm7(b5)",
           "",
           ""
         ],
@@ -7558,8 +7558,8 @@ const keys = [
           "",
           "Fb7",
           "",
-          "Abb7",
-          "Bbb7",
+          "Abb(7)",
+          "Bbb(7)",
           "",
           ""
         ],
@@ -7567,8 +7567,8 @@ const keys = [
           "",
           "Cbm7",
           "",
-          "Ebbm7b5",
-          "Fbm7b5",
+          "Ebb(m7b5)",
+          "Fbm7(b5)",
           "",
           ""
         ],
@@ -7576,8 +7576,8 @@ const keys = [
           "",
           "Fm7",
           "",
-          "Abm7b5",
-          "Bbm7b5",
+          "Abm7(b5)",
+          "Bbm7(b5)",
           "",
           ""
         ],
@@ -7585,8 +7585,8 @@ const keys = [
           "",
           "Cbm7",
           "",
-          "Ebbm7b5",
-          "Fbm7b5",
+          "Ebb(m7b5)",
+          "Fbm7(b5)",
           "",
           ""
         ]
@@ -7598,7 +7598,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "Eb",
-      "relativeMajor": "Gb",
+      "relativemajor": "Gb",
       "alteration": -6,
       "keySignature": "bbbbbb",
       "natural": {
@@ -7633,16 +7633,16 @@ const keys = [
         "triads": [
           "Ebm",
           "Fdim",
-          "GbM",
+          "Gbmaj",
           "Abm",
           "Bbm",
-          "CbM",
-          "DbM"
+          "Cbmaj",
+          "Dbmaj"
         ],
         "chords": [
           "Ebm7",
-          "Fm7b5",
-          "Gbmaj7",
+          "Fm7(b5)",
+          "Gb(maj7)",
           "Abm7",
           "Bbm7",
           "Cbmaj7",
@@ -7681,17 +7681,17 @@ const keys = [
           "",
           "Bbm7",
           "Cm7",
-          "Dbm7b5",
-          "Ebm7b5"
+          "Dbm7(b5)",
+          "Ebm7(b5)"
         ],
         "substituteDominants": [
           "Fb7",
           "",
           "",
-          "Bbb7",
+          "Bbb(7)",
           "Cb7",
-          "Dbb7",
-          "Ebb7"
+          "Dbb(7)",
+          "Ebb(7)"
         ],
         "substituteDominantSupertonics": [
           "Cbm7",
@@ -7699,8 +7699,8 @@ const keys = [
           "",
           "Fbm7",
           "Gbm7",
-          "Abbm7b5",
-          "Bbbm7b5"
+          "Abb(m7b5)",
+          "Bbb(m7b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "Fm7",
@@ -7708,8 +7708,8 @@ const keys = [
           "",
           "Bbm7",
           "Cm7",
-          "Dbm7b5",
-          "Ebm7b5"
+          "Dbm7(b5)",
+          "Ebm7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Cbm7",
@@ -7717,8 +7717,8 @@ const keys = [
           "",
           "Fbm7",
           "Gbm7",
-          "Abbm7b5",
-          "Bbbm7b5"
+          "Abb(m7b5)",
+          "Bbb(m7b5)"
         ]
       },
       "harmonic": {
@@ -7755,13 +7755,13 @@ const keys = [
           "Fdim",
           "Gbaug",
           "Abm",
-          "Bb",
-          "Cb",
+          "Bbmaj",
+          "Cbmaj",
           "Ddim"
         ],
         "chords": [
-          "EbmMaj7",
-          "Fm7b5",
+          "Ebmmaj7",
+          "Fm7(b5)",
           "Gb+maj7",
           "Abm7",
           "Bb7",
@@ -7800,17 +7800,17 @@ const keys = [
           "",
           "",
           "Bbm7",
-          "Cm7b5",
-          "Dbm7b5",
+          "Cm7(b5)",
+          "Dbm7(b5)",
           ""
         ],
         "substituteDominants": [
           "",
           "",
           "",
-          "Bbb7",
+          "Bbb(7)",
           "Cb7",
-          "Dbb7",
+          "Dbb(7)",
           ""
         ],
         "substituteDominantSupertonics": [
@@ -7818,8 +7818,8 @@ const keys = [
           "",
           "",
           "Fbm7",
-          "Gbm7b5",
-          "Abbm7b5",
+          " Gbm7(b5)",
+          "Abb(m7b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -7827,8 +7827,8 @@ const keys = [
           "",
           "",
           "Bbm7",
-          "Cm7b5",
-          "Dbm7b5",
+          "Cm7(b5)",
+          "Dbm7(b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -7836,8 +7836,8 @@ const keys = [
           "",
           "",
           "Fbm7",
-          "Gbm7b5",
-          "Abbm7b5",
+          " Gbm7(b5)",
+          "Abb(m7b5)",
           ""
         ]
       },
@@ -7874,8 +7874,8 @@ const keys = [
           "Ebm",
           "Fm",
           "Gbaug",
-          "Ab",
-          "Bb",
+          "Amaj",
+          "Bmaj",
           "Cdim",
           "Ddim"
         ],
@@ -7885,8 +7885,8 @@ const keys = [
           "Gb+maj7",
           "Ab7",
           "Bb7",
-          "Cm7b5",
-          "Dm7b5"
+          "Cm7(b5)",
+          "Dm7(b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -7919,8 +7919,8 @@ const keys = [
           "",
           "Gm7",
           "",
-          "Bbm7b5",
-          "Cm7b5",
+          "Bbm7(b5)",
+          "Cm7(b5)",
           "",
           ""
         ],
@@ -7928,7 +7928,7 @@ const keys = [
           "",
           "Gb7",
           "",
-          "Bbb7",
+          "Bbb(7)",
           "Cb7",
           "",
           ""
@@ -7937,8 +7937,8 @@ const keys = [
           "",
           "Dbm7",
           "",
-          "Fbm7b5",
-          "Gbm7b5",
+          "Fbm7(b5)",
+          " Gbm7(b5)",
           "",
           ""
         ],
@@ -7946,8 +7946,8 @@ const keys = [
           "",
           "Gm7",
           "",
-          "Bbm7b5",
-          "Cm7b5",
+          "Bbm7(b5)",
+          "Cm7(b5)",
           "",
           ""
         ],
@@ -7955,8 +7955,8 @@ const keys = [
           "",
           "Dbm7",
           "",
-          "Fbm7b5",
-          "Gbm7b5",
+          "Fbm7(b5)",
+          " Gbm7(b5)",
           "",
           ""
         ]
@@ -7968,7 +7968,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "Fb",
-      "relativeMajor": "Abb",
+      "relativemajor": "Abb",
       "alteration": -11,
       "keySignature": "bbbbbbbbbbb",
       "natural": {
@@ -8003,20 +8003,20 @@ const keys = [
         "triads": [
           "Fbm",
           "Gbdim",
-          "Abb",
+          "Abbmaj",
           "Bbbm",
           "Cbm",
-          "Dbb",
-          "Ebb"
+          "Dbbmaj",
+          "Ebbmaj"
         ],
         "chords": [
           "Fbm7",
-          "Gbm7b5",
+          " Gbm7(b5)",
           "Abbmaj7",
           "Bbbm7",
           "Cbm7",
           "Dbbmaj7",
-          "Ebb7"
+          "Ebb(7)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -8042,8 +8042,8 @@ const keys = [
           "",
           "Fb7",
           "Gb7",
-          "Abb7",
-          "Bbb7"
+          "Abb(7)",
+          "Bbb(7)"
         ],
         "secondaryDominantSupertonics": [
           "Gbm7",
@@ -8051,17 +8051,17 @@ const keys = [
           "",
           "Cbm7",
           "Dbm7",
-          "Ebbm7b5",
-          "Fbm7b5"
+          "Ebb(m7b5)",
+          "Fbm7(b5)"
         ],
         "substituteDominants": [
-          "Gbb7",
+          "Gb(b7)",
           "",
           "",
-          "Cbb7",
-          "Dbb7",
-          "Ebbb7",
-          "Fbb7"
+          "Cb(b7)",
+          "Dbb(7)",
+          "Ebb(b7)",
+          "Fbb(7)"
         ],
         "substituteDominantSupertonics": [
           "Dbbm7",
@@ -8070,7 +8070,7 @@ const keys = [
           "Gbbm7",
           "Abbm7",
           "Bbbbm7b5",
-          "Cbbm7b5"
+          "Cbb(m7b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "Gbm7",
@@ -8078,8 +8078,8 @@ const keys = [
           "",
           "Cbm7",
           "Dbm7",
-          "Ebbm7b5",
-          "Fbm7b5"
+          "Ebb(m7b5)",
+          "Fbm7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Dbbm7",
@@ -8088,7 +8088,7 @@ const keys = [
           "Gbbm7",
           "Abbm7",
           "Bbbbm7b5",
-          "Cbbm7b5"
+          "Cbb(m7b5)"
         ]
       },
       "harmonic": {
@@ -8125,13 +8125,13 @@ const keys = [
           "Gbdim",
           "Abbaug",
           "Bbbm",
-          "Cb",
-          "Dbb",
+          "Cbmaj",
+          "Dbbmaj",
           "Ebdim"
         ],
         "chords": [
-          "FbmMaj7",
-          "Gbm7b5",
+          "Fbmmaj7",
+          " Gbm7(b5)",
           "Abb+maj7",
           "Bbbm7",
           "Cb7",
@@ -8162,7 +8162,7 @@ const keys = [
           "",
           "Fb7",
           "Gb7",
-          "Abb7",
+          "Abb(7)",
           ""
         ],
         "secondaryDominantSupertonics": [
@@ -8170,17 +8170,17 @@ const keys = [
           "",
           "",
           "Cbm7",
-          "Dbm7b5",
-          "Ebbm7b5",
+          "Dbm7(b5)",
+          "Ebb(m7b5)",
           ""
         ],
         "substituteDominants": [
           "",
           "",
           "",
-          "Cbb7",
-          "Dbb7",
-          "Ebbb7",
+          "Cb(b7)",
+          "Dbb(7)",
+          "Ebb(b7)",
           ""
         ],
         "substituteDominantSupertonics": [
@@ -8188,7 +8188,7 @@ const keys = [
           "",
           "",
           "Gbbm7",
-          "Abbm7b5",
+          "Abb(m7b5)",
           "Bbbbm7b5",
           ""
         ],
@@ -8197,8 +8197,8 @@ const keys = [
           "",
           "",
           "Cbm7",
-          "Dbm7b5",
-          "Ebbm7b5",
+          "Dbm7(b5)",
+          "Ebb(m7b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -8206,7 +8206,7 @@ const keys = [
           "",
           "",
           "Gbbm7",
-          "Abbm7b5",
+          "Abb(m7b5)",
           "Bbbbm7b5",
           ""
         ]
@@ -8244,8 +8244,8 @@ const keys = [
           "Fbm",
           "Gbm",
           "Abbaug",
-          "Bbb",
-          "Cb",
+          "Bbbmaj",
+          "Cbmaj",
           "Dbdim",
           "Ebdim"
         ],
@@ -8253,10 +8253,10 @@ const keys = [
           "Fbm6",
           "Gbm7",
           "Abb+maj7",
-          "Bbb7",
+          "Bbb(7)",
           "Cb7",
-          "Dbm7b5",
-          "Ebm7b5"
+          "Dbm7(b5)",
+          "Ebm7(b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -8289,17 +8289,17 @@ const keys = [
           "",
           "Abm7",
           "",
-          "Cbm7b5",
-          "Dbm7b5",
+          "Cbm7(b5)",
+          "Dbm7(b5)",
           "",
           ""
         ],
         "substituteDominants": [
           "",
-          "Abb7",
+          "Abb(7)",
           "",
-          "Cbb7",
-          "Dbb7",
+          "Cb(b7)",
+          "Dbb(7)",
           "",
           ""
         ],
@@ -8307,8 +8307,8 @@ const keys = [
           "",
           "Ebbm7",
           "",
-          "Gbbm7b5",
-          "Abbm7b5",
+          "Gbb(m7b5)",
+          "Abb(m7b5)",
           "",
           ""
         ],
@@ -8316,8 +8316,8 @@ const keys = [
           "",
           "Abm7",
           "",
-          "Cbm7b5",
-          "Dbm7b5",
+          "Cbm7(b5)",
+          "Dbm7(b5)",
           "",
           ""
         ],
@@ -8325,8 +8325,8 @@ const keys = [
           "",
           "Ebbm7",
           "",
-          "Gbbm7b5",
-          "Abbm7b5",
+          "Gbb(m7b5)",
+          "Abb(m7b5)",
           "",
           ""
         ]
@@ -8338,7 +8338,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "Gb",
-      "relativeMajor": "Bbb",
+      "relativemajor": "Bbb",
       "alteration": -9,
       "keySignature": "bbbbbbbbb",
       "natural": {
@@ -8373,15 +8373,15 @@ const keys = [
         "triads": [
           "Gbm",
           "Abdim",
-          "Bbb",
+          "Bbbmaj",
           "Cbm",
           "Dbm",
-          "Ebb",
-          "FbM"
+          "Ebbmaj",
+          "Fbmaj"
         ],
         "chords": [
           "Gbm7",
-          "Abm7b5",
+          "Abm7(b5)",
           "Bbbmaj7",
           "Cbm7",
           "Dbm7",
@@ -8412,7 +8412,7 @@ const keys = [
           "",
           "Gb7",
           "Ab7",
-          "Bbb7",
+          "Bbb(7)",
           "Cb7"
         ],
         "secondaryDominantSupertonics": [
@@ -8421,17 +8421,17 @@ const keys = [
           "",
           "Dbm7",
           "Ebm7",
-          "Fbm7b5",
-          "Gbm7b5"
+          "Fbm7(b5)",
+          " Gbm7(b5)"
         ],
         "substituteDominants": [
-          "Abb7",
+          "Abb(7)",
           "",
           "",
-          "Dbb7",
-          "Ebb7",
-          "Fbb7",
-          "Gbb7"
+          "Dbb(7)",
+          "Ebb(7)",
+          "Fbb(7)",
+          "Gb(b7)"
         ],
         "substituteDominantSupertonics": [
           "Ebbm7",
@@ -8439,8 +8439,8 @@ const keys = [
           "",
           "Abbm7",
           "Bbbm7",
-          "Cbbm7b5",
-          "Dbbm7b5"
+          "Cbb(m7b5)",
+          "Dbb(m7b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "Abm7",
@@ -8448,8 +8448,8 @@ const keys = [
           "",
           "Dbm7",
           "Ebm7",
-          "Fbm7b5",
-          "Gbm7b5"
+          "Fbm7(b5)",
+          "Gbm7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Ebbm7",
@@ -8457,8 +8457,8 @@ const keys = [
           "",
           "Abbm7",
           "Bbbm7",
-          "Cbbm7b5",
-          "Dbbm7b5"
+          "Cbb(m7b5)",
+          "Dbb(m7b5)"
         ]
       },
       "harmonic": {
@@ -8495,14 +8495,14 @@ const keys = [
           "Abdim",
           "Bbbaug",
           "Cbm",
-          "Db",
-          "Ebb",
+          "Dbmaj",
+          "Ebbmaj",
           "Fdim"
         ],
         "chords": [
-          "GbmMaj7",
-          "Abm7b5",
-          "Bbb+maj7",
+          "Gbmmaj7",
+          "Abm7(b5)",
+          "Bbb(maj7)",
           "Cbm7",
           "Db7",
           "Ebbmaj7",
@@ -8532,7 +8532,7 @@ const keys = [
           "",
           "Gb7",
           "Ab7",
-          "Bbb7",
+          "Bbb(7)",
           ""
         ],
         "secondaryDominantSupertonics": [
@@ -8540,17 +8540,17 @@ const keys = [
           "",
           "",
           "Dbm7",
-          "Ebm7b5",
-          "Fbm7b5",
+          "Ebm7(b5)",
+          "Fbm7(b5)",
           ""
         ],
         "substituteDominants": [
           "",
           "",
           "",
-          "Dbb7",
-          "Ebb7",
-          "Fbb7",
+          "Dbb(7)",
+          "Ebb(7)",
+          "Fbb(7)",
           ""
         ],
         "substituteDominantSupertonics": [
@@ -8558,8 +8558,8 @@ const keys = [
           "",
           "",
           "Abbm7",
-          "Bbbm7b5",
-          "Cbbm7b5",
+          "Bbb(m7b5)",
+          "Cbb(m7b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -8567,8 +8567,8 @@ const keys = [
           "",
           "",
           "Dbm7",
-          "Ebm7b5",
-          "Fbm7b5",
+          "Ebm7(b5)",
+          "Fbm7(b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -8576,8 +8576,8 @@ const keys = [
           "",
           "",
           "Abbm7",
-          "Bbbm7b5",
-          "Cbbm7b5",
+          "Bbb(m7b5)",
+          "Cbb(m7b5)",
           ""
         ]
       },
@@ -8614,19 +8614,19 @@ const keys = [
           "Gbm",
           "Abm",
           "Bbbaug",
-          "Cb",
-          "Db",
+          "Cbmaj",
+          "Dbmaj",
           "Ebdim",
           "Fdim"
         ],
         "chords": [
           "Gbm6",
           "Abm7",
-          "Bbb+maj7",
+          "Bbb(maj7)",
           "Cb7",
           "Db7",
-          "Ebm7b5",
-          "Fm7b5"
+          "Ebm7(b5)",
+          "Fm7(b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -8659,17 +8659,17 @@ const keys = [
           "",
           "Bbm7",
           "",
-          "Dbm7b5",
-          "Ebm7b5",
+          "Dbm7(b5)",
+          "Ebm7(b5)",
           "",
           ""
         ],
         "substituteDominants": [
           "",
-          "Bbb7",
+          "Bbb(7)",
           "",
-          "Dbb7",
-          "Ebb7",
+          "Dbb(7)",
+          "Ebb(7)",
           "",
           ""
         ],
@@ -8677,8 +8677,8 @@ const keys = [
           "",
           "Fbm7",
           "",
-          "Abbm7b5",
-          "Bbbm7b5",
+          "Abb(m7b5)",
+          "Bbb(m7b5)",
           "",
           ""
         ],
@@ -8686,8 +8686,8 @@ const keys = [
           "",
           "Bbm7",
           "",
-          "Dbm7b5",
-          "Ebm7b5",
+          "Dbm7(b5)",
+          "Ebm7(b5)",
           "",
           ""
         ],
@@ -8695,8 +8695,8 @@ const keys = [
           "",
           "Fbm7",
           "",
-          "Abbm7b5",
-          "Bbbm7b5",
+          "Abb(m7b5)",
+          "Bbb(m7b5)",
           "",
           ""
         ]
@@ -8708,7 +8708,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "Ab",
-      "relativeMajor": "Cb",
+      "relativemajor": "Cb",
       "alteration": -7,
       "keySignature": "bbbbbbb",
       "natural": {
@@ -8743,15 +8743,15 @@ const keys = [
         "triads": [
           "Abm",
           "Bbdim",
-          "CbM",
+          "Cbmaj",
           "Dbm",
           "Ebm",
-          "FbM",
-          "GbM"
+          "Fbmaj",
+          "Gbmaj"
         ],
         "chords": [
           "Abm7",
-          "Bbm7b5",
+          "Bbm7(b5)",
           "Cbmaj7",
           "Dbm7",
           "Ebm7",
@@ -8791,17 +8791,17 @@ const keys = [
           "",
           "Ebm7",
           "Fm7",
-          "Gbm7b5",
-          "Abm7b5"
+          " Gbm7(b5)",
+          "Abm7(b5)"
         ],
         "substituteDominants": [
-          "Bbb7",
+          "Bbb(7)",
           "",
           "",
-          "Ebb7",
+          "Ebb(7)",
           "Fb7",
-          "Gbb7",
-          "Abb7"
+          "Gb(b7)",
+          "Abb(7)"
         ],
         "substituteDominantSupertonics": [
           "Fbm7",
@@ -8809,8 +8809,8 @@ const keys = [
           "",
           "Bbbm7",
           "Cbm7",
-          "Dbbm7b5",
-          "Ebbm7b5"
+          "Dbb(m7b5)",
+          "Ebb(m7b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "Bbm7",
@@ -8818,8 +8818,8 @@ const keys = [
           "",
           "Ebm7",
           "Fm7",
-          "Gbm7b5",
-          "Abm7b5"
+          " Gbm7(b5)",
+          "Abm7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Fbm7",
@@ -8827,8 +8827,8 @@ const keys = [
           "",
           "Bbbm7",
           "Cbm7",
-          "Dbbm7b5",
-          "Ebbm7b5"
+          "Dbb(m7b5)",
+          "Ebb(m7b5)"
         ]
       },
       "harmonic": {
@@ -8865,13 +8865,13 @@ const keys = [
           "Bbdim",
           "Cbaug",
           "Dbm",
-          "Eb",
-          "Fb",
+          "Ebmaj",
+          "Fbmaj",
           "Gdim"
         ],
         "chords": [
-          "AbmMaj7",
-          "Bbm7b5",
+          "Abm(maj7)",
+          "Bbm7(b5)",
           "Cb+maj7",
           "Dbm7",
           "Eb7",
@@ -8910,17 +8910,17 @@ const keys = [
           "",
           "",
           "Ebm7",
-          "Fm7b5",
-          "Gbm7b5",
+          "Fm7(b5)",
+          " Gbm7(b5)",
           ""
         ],
         "substituteDominants": [
           "",
           "",
           "",
-          "Ebb7",
+          "Ebb(7)",
           "Fb7",
-          "Gbb7",
+          "Gb(b7)",
           ""
         ],
         "substituteDominantSupertonics": [
@@ -8928,8 +8928,8 @@ const keys = [
           "",
           "",
           "Bbbm7",
-          "Cbm7b5",
-          "Dbbm7b5",
+          "Cbm7(b5)",
+          "Dbb(m7b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -8937,8 +8937,8 @@ const keys = [
           "",
           "",
           "Ebm7",
-          "Fm7b5",
-          "Gbm7b5",
+          "Fm7(b5)",
+          " Gbm7(b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -8946,8 +8946,8 @@ const keys = [
           "",
           "",
           "Bbbm7",
-          "Cbm7b5",
-          "Dbbm7b5",
+          "Cbm7(b5)",
+          "Dbb(m7b5)",
           ""
         ]
       },
@@ -8984,8 +8984,8 @@ const keys = [
           "Abm",
           "Bbm",
           "Cbaug",
-          "Db",
-          "Eb",
+          "Dbmaj",
+          "Ebmaj",
           "Fdim",
           "Gdim"
         ],
@@ -8995,8 +8995,8 @@ const keys = [
           "Cb+maj7",
           "Db7",
           "Eb7",
-          "Fm7b5",
-          "Gm7b5"
+          "Fm7(b5)",
+          "Gm7(b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -9029,8 +9029,8 @@ const keys = [
           "",
           "Cm7",
           "",
-          "Ebm7b5",
-          "Fm7b5",
+          "Ebm7(b5)",
+          "Fm7(b5)",
           "",
           ""
         ],
@@ -9038,7 +9038,7 @@ const keys = [
           "",
           "Cb7",
           "",
-          "Ebb7",
+          "Ebb(7)",
           "Fb7",
           "",
           ""
@@ -9047,8 +9047,8 @@ const keys = [
           "",
           "Gbm7",
           "",
-          "Bbbm7b5",
-          "Cbm7b5",
+          "Bbb(m7b5)",
+          "Cbm7(b5)",
           "",
           ""
         ],
@@ -9056,8 +9056,8 @@ const keys = [
           "",
           "Cm7",
           "",
-          "Ebm7b5",
-          "Fm7b5",
+          "Ebm7(b5)",
+          "Fm7(b5)",
           "",
           ""
         ],
@@ -9065,8 +9065,8 @@ const keys = [
           "",
           "Gbm7",
           "",
-          "Bbbm7b5",
-          "Cbm7b5",
+          "Bbb(m7b5)",
+          "Cbm7(b5)",
           "",
           ""
         ]
@@ -9078,7 +9078,7 @@ const keys = [
     "key": {
       "type": "minor",
       "tonic": "Bb",
-      "relativeMajor": "Db",
+      "relativemajor": "Db",
       "alteration": -5,
       "keySignature": "bbbbb",
       "natural": {
@@ -9113,19 +9113,19 @@ const keys = [
         "triads": [
           "Bbm",
           "Cdim",
-          "DbM",
+          "Dbmaj",
           "Ebm",
           "Fm",
-          "GbM",
-          "AbM"
+          "Gbmaj",
+          "Abmaj"
         ],
         "chords": [
           "Bbm7",
-          "Cm7b5",
-          "Dbmaj7",
+          "Cm7(b5)",
+          "Db(maj7)",
           "Ebm7",
           "Fm7",
-          "Gbmaj7",
+          "Gb(maj7)",
           "Ab7"
         ],
         "chordsHarmonicFunction": [
@@ -9161,8 +9161,8 @@ const keys = [
           "",
           "Fm7",
           "Gm7",
-          "Abm7b5",
-          "Bbm7b5"
+          "Abm7(b5)",
+          "Bbm7(b5)"
         ],
         "substituteDominants": [
           "Cb7",
@@ -9170,8 +9170,8 @@ const keys = [
           "",
           "Fb7",
           "Gb7",
-          "Abb7",
-          "Bbb7"
+          "Abb(7)",
+          "Bbb(7)"
         ],
         "substituteDominantSupertonics": [
           "Gbm7",
@@ -9179,8 +9179,8 @@ const keys = [
           "",
           "Cbm7",
           "Dbm7",
-          "Ebbm7b5",
-          "Fbm7b5"
+          "Ebb(m7b5)",
+          "Fbm7(b5)"
         ],
         "secondaryDominantsMinorRelative": [
           "Cm7",
@@ -9188,8 +9188,8 @@ const keys = [
           "",
           "Fm7",
           "Gm7",
-          "Abm7b5",
-          "Bbm7b5"
+          "Abm7(b5)",
+          "Bbm7(b5)"
         ],
         "substituteDominantsMinorRelative": [
           "Gbm7",
@@ -9197,8 +9197,8 @@ const keys = [
           "",
           "Cbm7",
           "Dbm7",
-          "Ebbm7b5",
-          "Fbm7b5"
+          "Ebb(m7b5)",
+          "Fbm7(b5)"
         ]
       },
       "harmonic": {
@@ -9235,17 +9235,17 @@ const keys = [
           "Cdim",
           "Dbaug",
           "Ebm",
-          "F",
-          "Gb",
+          "Fmaj",
+          "Gbmaj",
           "Adim"
         ],
         "chords": [
-          "BbmMaj7",
-          "Cm7b5",
-          "Db+maj7",
+          "Bbm(maj7)",
+          "Cm7(b5)",
+          "Db(maj7)",
           "Ebm7",
           "F7",
-          "Gbmaj7",
+          "Gb(maj7)",
           "Ao7"
         ],
         "chordsHarmonicFunction": [
@@ -9280,8 +9280,8 @@ const keys = [
           "",
           "",
           "Fm7",
-          "Gm7b5",
-          "Abm7b5",
+          "Gm7(b5)",
+          "Abm7(b5)",
           ""
         ],
         "substituteDominants": [
@@ -9290,7 +9290,7 @@ const keys = [
           "",
           "Fb7",
           "Gb7",
-          "Abb7",
+          "Abb(7)",
           ""
         ],
         "substituteDominantSupertonics": [
@@ -9298,8 +9298,8 @@ const keys = [
           "",
           "",
           "Cbm7",
-          "Dbm7b5",
-          "Ebbm7b5",
+          "Dbm7(b5)",
+          "Ebb(m7b5)",
           ""
         ],
         "secondaryDominantsMinorRelative": [
@@ -9307,8 +9307,8 @@ const keys = [
           "",
           "",
           "Fm7",
-          "Gm7b5",
-          "Abm7b5",
+          "Gm7(b5)",
+          "Abm7(b5)",
           ""
         ],
         "substituteDominantsMinorRelative": [
@@ -9316,8 +9316,8 @@ const keys = [
           "",
           "",
           "Cbm7",
-          "Dbm7b5",
-          "Ebbm7b5",
+          "Dbm7(b5)",
+          "Ebb(m7b5)",
           ""
         ]
       },
@@ -9354,19 +9354,19 @@ const keys = [
           "Bbm",
           "Cm",
           "Dbaug",
-          "Eb",
-          "F",
+          "Ebmaj",
+          "Fmaj",
           "Gdim",
           "Adim"
         ],
         "chords": [
           "Bbm6",
           "Cm7",
-          "Db+maj7",
+          "Db(maj7)",
           "Eb7",
           "F7",
-          "Gm7b5",
-          "Am7b5"
+          "Gm7(b5)",
+          "Am7(b5)"
         ],
         "chordsHarmonicFunction": [
           "T",
@@ -9399,8 +9399,8 @@ const keys = [
           "",
           "Dm7",
           "",
-          "Fm7b5",
-          "Gm7b5",
+          "Fm7(b5)",
+          "Gm7(b5)",
           "",
           ""
         ],
@@ -9417,8 +9417,8 @@ const keys = [
           "",
           "Abm7",
           "",
-          "Cbm7b5",
-          "Dbm7b5",
+          "Cbm7(b5)",
+          "Dbm7(b5)",
           "",
           ""
         ],
@@ -9426,8 +9426,8 @@ const keys = [
           "",
           "Dm7",
           "",
-          "Fm7b5",
-          "Gm7b5",
+          "Fm7(b5)",
+          "Gm7(b5)",
           "",
           ""
         ],
@@ -9435,8 +9435,8 @@ const keys = [
           "",
           "Abm7",
           "",
-          "Cbm7b5",
-          "Dbm7b5",
+          "Cbm7(b5)",
+          "Dbm7(b5)",
           "",
           ""
         ]
